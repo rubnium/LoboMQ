@@ -1,23 +1,25 @@
 #include <Arduino.h>
 #include <esp_now.h>
 #include <WiFi.h>
-#include <DHT.h> //library installed
+#include <DHT.h> //librería instalada
+#include <math.h>
 
 #define DHTPIN 2 //pin sensor DHT
 #define DHTTYPE DHT11
 
 DHT dht(DHTPIN, DHTTYPE);
 
-uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC DE LA PLACA DESTINO
+uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //mac placa destino
 
 String success;
 int nMessage;
+float lastHumidity; float actualHumidity;
+float lastTemperature; float actualTemperature;
 
 typedef struct struct_message {
-    //String origBoardAddr;
     char msg[50];
-    //float humidity;
-    //float temperature;
+    float humidity;
+    float temperature;
 } struct_message;
 
 // Callback when data is sent
@@ -42,6 +44,7 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("PLACA SENDER");
   WiFi.mode(WIFI_MODE_STA);
   if (esp_now_init() != ESP_OK) { //Inicializar ESP-NOW
     Serial.println("Error inicializando ESP-NOW");
@@ -64,26 +67,31 @@ void setup() {
     Serial.println("Error añadiendo el peer");
     return;
   }
-  nMessage = 0;
 
+  nMessage = 0;
+  lastHumidity = 0;
+  lastTemperature = 0;
 }
 
-void loop() {
-  struct_message message_to_send;
-  sprintf(message_to_send.msg, "Número mensaje = %d", nMessage);
-  Serial.println((String)message_to_send.msg);
-  //message_to_send.origBoardAddr = (String)WiFi.macAddress();
-  //message_to_send.origBoardAddr = "C0:49:EF:CA:2B:74";
+void loop() { //Cada segundo lee humedad y temperatura. Si son distintas a una lectura anterior, la envía junto a un mensaje numerado
+  actualHumidity = roundf(dht.readHumidity()*100)/100; //humedad leída y redondeada a 2 decimales
+  actualTemperature = roundf(dht.readTemperature(false)*100)/100; //lee temperatura en ºC, y redondeada a 2 decimales
 
-  //message_to_send.humidity = dht.readHumidity();
-  //message_to_send.temperature = dht.readTemperature(false); //lee temperatura en ºC
-  //añadir un control para no mandarlo si la temperatura/humedad no cambia
-
-  esp_err_t result = esp_now_send(destBoardAddr, (uint8_t *) &message_to_send, sizeof(message_to_send));
-  if (result == ESP_OK) { Serial.println("Enviado correctamente");
-  } else { Serial.println("Error enviando los datos");
+  //Si ninguno de los valores es nan, y además si alguno ha cambiado
+  if ((!isnan(actualHumidity) && !isnan(actualTemperature)) && (actualHumidity != lastHumidity || actualTemperature != lastTemperature)) {
+    //crea el mensaje, lo rellena y lo envía
+    struct_message message_to_send;
+    sprintf(message_to_send.msg, "Número mensaje = %d", nMessage);
+    message_to_send.humidity = actualHumidity;
+    message_to_send.temperature = actualTemperature;
+    esp_err_t result = esp_now_send(destBoardAddr, (uint8_t *) &message_to_send, sizeof(message_to_send));
+    if (result == ESP_OK) {
+      Serial.println("Enviado correctamente");
+      nMessage += 1;
+      lastHumidity = actualHumidity;
+      lastTemperature = actualTemperature;
+    } else { Serial.println("Error enviando los datos");
+    }
   }
-
-  nMessage += 1;
   delay(1000);
 }
