@@ -22,7 +22,7 @@ def on_message(client, userdata, message):
     print("topic: {}, msg: {}".format(
         message.topic, decoded))
 
-    print(decoded["value"])
+    print(decoded["valor"])
 
 
 def main():
