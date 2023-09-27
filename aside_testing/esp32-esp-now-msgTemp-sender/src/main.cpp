@@ -31,15 +31,10 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   }
 }
 
-// Callback when data is received
-void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
-  struct_message my_message;
-  memcpy(&my_message, incomingData, sizeof(my_message));
-  Serial.println((String)"Bytes recibidos: "+len);
-  //String incomingAddr = my_message.origBoardAddr;
-  String incomingMsg = my_message.msg;
-  Serial.println("Mensaje: "+incomingMsg+" de "+String((char *)mac));
-  //Serial.println((String)"Recibido de "+incomingAddr+" el mensaje: "+incomingMsg);
+//Callback cuando se reciben datos (en este caso, el único recibo es de ACKs)
+void OnDataSent(const uint8_t *mac, esp_now_send_status_t status) {
+  Serial.printf("ACK enviado a %02x:%02x:%02x:%02x:%02x:%02x\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "\tEntregado" : "\tFallo al entregar");
 }
 
 void setup() {
