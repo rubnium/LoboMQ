@@ -1,3 +1,5 @@
+// PLACA RECEPTOR
+
 #include <Arduino.h>
 #include <esp_now.h>
 #include <WiFi.h>
@@ -24,7 +26,11 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Serial.println("\t msg: "+(String)my_message.msg);
   Serial.printf("\t humidity: %f\n", my_message.humidity);
   Serial.printf("\t temperature: %f\n",my_message.temperature);
-  //TODO: falta mandar el ACK
+}
+
+//TODO: Sincroniza el RTC de la placa con el servidor NTP
+void setRTC() {
+  return NULL;
 }
 
 void setup() {
@@ -44,3 +50,4 @@ void setup() {
 
 void loop() {
 }
+
