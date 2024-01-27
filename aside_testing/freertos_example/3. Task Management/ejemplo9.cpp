@@ -1,5 +1,5 @@
 //Ejemplo 8 de FreeRTOS, borrar tareas
-//INCLUDE_vTaskDelete ydebe estar a 1 en FreeRTOSConfig.h
+//INCLUDE_vTaskDelete debe estar a 1 en FreeRTOSConfig.h
 /*Funcionamiento:
 - T1 se crea con prioridad 1
 - Se ejecuta T1, que crea T2 con prioridad 2, espera en el delay termina de ejecutarse
