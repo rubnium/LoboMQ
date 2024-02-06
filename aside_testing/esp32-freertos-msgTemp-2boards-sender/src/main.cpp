@@ -66,6 +66,7 @@ void SendDataTask(void *parameter){
 void setup() {
   Serial.begin(9600);
   dht.begin();
+  WiFi.mode(WIFI_MODE_STA);
   if (esp_now_init() != ESP_OK) { //Initialize ESP-NOW
     Serial.println("[SETUP] Error initializing ESP-NOW");
     exit(1);
@@ -90,5 +91,4 @@ void setup() {
 }
 
 void loop() {
-
 }

@@ -1,48 +1,50 @@
 #include <Arduino.h>
-#include <ESP32Time.h> //installed library
+#include <esp_now.h>
+#include <ESP32Time.h> //Installed library
 #include <math.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <esp_now.h>
 #include <WiFi.h>
 
-#include "struct_message.h" //created message structure
+#include "struct_message.h" //Created message structure
 
 static QueueHandle_t readingsQueue = NULL;
 
-//recieves data using ESPNOW
-void ReceiveDataTask(void *parameter) {
-  int *taskId = (int *)parameter;
-  float lastHumidity = 0; float lastTemperature = 0;
-  struct_message received_message;
-
-  for (;;) {
-    BaseType_t xStatus = xQueueReceive(readingsQueue,&received_message, pdMS_TO_TICKS(5000));
-    if (xStatus != pdPASS) {
-        printf("[ReceiveTask%d]: CAN'T READ, Couldn't read a message from the queue\n", taskId);
-    } else {
-      //if humidity and temperature readings are different from the previous, they are processed
-      if (received_message.humidity != lastHumidity || received_message.temperature != lastTemperature) {
-        printf("[ReceiveTask%d] RECEIVED MESSAGE: %s (%lu)\n", taskId, received_message.msg, received_message.xTimeStamp);
-        printf("\tHumidity: %f\n", received_message.humidity);
-        printf("\tTemperature: %fºC\n", (float)received_message.temperature);
-        //new values stored
-        lastHumidity = received_message.humidity;
-        lastTemperature = received_message.temperature;
-      }
-    }
-    
-    vTaskDelay(pdMS_TO_TICKS(1000));
-  }
+//Callback when data is received, is 
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  struct_message receivedMessage;
+  memcpy(&receivedMessage, incomingData, sizeof(receivedMessage));
+  //TODO: añadir el mensaje a la cola
 }
 
-//reads from the queue
+//Reads from the queue
 void ReadQueueTask(void *parameter) {
+  int *taskId = (int *)parameter;
+  struct_message queuedMessage;
 
+  for (;;) {
+    BaseType_t xStatus = xQueueReceive(readingsQueue,&queuedMessage, pdMS_TO_TICKS(2000));
+    if (xStatus == pdPASS) {
+      printf("[ReceiveTask%d] RECEIVED MESSAGE: %s (%lu)\n", taskId, receivedMessage.msg, receivedMessage.xTimeStamp);
+      printf("\tHumidity: %f\n", receivedMessage.humidity);
+      printf("\tTemperature: %fºC\n", (float)receivedMessage.temperature);
+    }
+  }
 }
 
 void setup() {
   Serial.begin(9600);
+
+  WiFi.mode(WIFI_STA);
+  if (esp_now_init() != ESP_OK) { //Initialize ESP-NOW
+    Serial.println("[SETUP] Error initializing ESP-NOW");
+    exit(1);
+  }
+  esp_now_register_recv_cb(OnDataRecv);
+
+  printf("RECEIVER BOARD\n",NULL);
+  printf("MAC Addr: %s\n", WiFi.macAddress());
 
   readingsQueue = xQueueCreate(10, sizeof(struct_message));
 
@@ -55,5 +57,4 @@ void setup() {
 }
 
 void loop() {
-
 }
