@@ -1,10 +1,5 @@
 ### Based on:
 - Mosquitto docker setup tutorial: https://github.com/sukesh-ak/setup-mosquitto-with-docker
-- ESP32 and MQTT broker tutorial: https://www.prometec.net/esp32-mqtt/
-
-### Contents:
-- Code for ESP32
-- Docker compose for Mosquitto
 
 ### Commands:
 - Run container: `docker-compose -p mqtt5 up -d`
