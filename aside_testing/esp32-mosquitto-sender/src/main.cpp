@@ -3,8 +3,8 @@
 #include <PubSubClient.h> //installed library
 
 //WiFi credentials
-const char* ssid = "rubnium Mi A2";
-const char* password = "rubniumHD13";	
+const char* ssid = "MiFibra-8696_EXT";
+const char* password = "7ahKvT57";	
 
 //MQTT configuration
 const char* mqttServer = "192.168.1.122";
@@ -43,4 +43,21 @@ void setup() {
 }
 
 void loop() {
+  client.loop(); //Keeps MQTT connection alive
+  
+  //Generates random number 
+  char str[230];
+  sprintf(str, "%u", random(100));
+
+  //Publishes message to MQTT server
+  //Returns true if was successfully published
+  //Additional parameter: bool retained: MQTT will retain last published message that will be sent to any new subscriber
+  if (client.publish("Fake/Random numbers", str)) {
+    Serial.println(str);
+  } else {
+    Serial.print("ERROR, lost message, could not be published - ");
+    Serial.println(str);
+  }
+
+  delay(1000);
 }
