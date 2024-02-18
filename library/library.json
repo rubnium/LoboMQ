@@ -1,0 +1,28 @@
+{
+  "name": "ESP32MQTTBroker",
+  "version": "0.0.0",
+  "description": "TO BE DONE",
+  "repository":
+  {
+    "type": "git",
+	"url": "https://github.com/rubnium/MQTT_for_ESP-NOW.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Rubén Gómez Villegas",
+      "email": ["Ruben.Gomez10@alu.uclm.es", "rubengomezvillegas@gmail.com"]
+      "url": "https://www.linkedin.com/in/ruben-gomez-villegas/"
+    }
+  ],
+  "_license": "MIT",
+  "homepage": "https://github.com/rubnium/MQTT_for_ESP-NOW",
+  "_dependencies": {
+    
+  },
+  "frameworks": "arduino",
+  "platforms": ["espressif32"],
+  "keywords": [
+    "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe"
+  ]
+}
