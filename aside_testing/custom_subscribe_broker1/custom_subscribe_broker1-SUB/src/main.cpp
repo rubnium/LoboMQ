@@ -4,7 +4,19 @@
 
 #include "struct_message.h"
 
+typedef struct {
+  int number;
+} PayloadStruct;
+
 uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destination address
+
+void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  Message recvMessage;
+  memcpy(&recvMessage, incomingData, sizeof(recvMessage));
+  PayloadStruct messagePayload;
+  memcpy(&messagePayload, recvMessage.payload.publish.content, sizeof(messagePayload));
+  printf("Recieved message: %s\n", messagePayload.number);
+}
 
 void subscribe(const char* topic){
   Message subMsg;
@@ -25,6 +37,7 @@ void setup() {
     Serial.println("[SETUP] Error initializing ESP-NOW");
     exit(1);
   }
+  esp_now_register_recv_cb(OnDataRecv);
   printf("SENDER BOARD\n",NULL);
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
@@ -40,9 +53,10 @@ void setup() {
     Serial.println("[SETUP] Error adding peer");
     exit(1);
   }
+
+  subscribe("topic1");
 }
 
 void loop() {
-  subscribe("topic1");
   sleep(2);
 }
