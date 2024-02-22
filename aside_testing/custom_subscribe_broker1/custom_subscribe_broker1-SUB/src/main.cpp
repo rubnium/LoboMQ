@@ -2,7 +2,7 @@
 #include <esp_now.h>
 #include <WiFi.h>
 
-#include "struct_message.h"
+#include <ESP32MQTTBroker.h>
 
 typedef struct {
   int number;
@@ -13,9 +13,21 @@ uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destinatio
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   Message recvMessage;
   memcpy(&recvMessage, incomingData, sizeof(recvMessage));
-  PayloadStruct messagePayload;
-  memcpy(&messagePayload, recvMessage.payload.publish.content, sizeof(messagePayload));
-  printf("Recieved message: %s\n", messagePayload.number);
+
+  if (recvMessage.msgType == MSGTYPE_PUBLISH) {
+    PublishContent pubMsg = recvMessage.payload.publish;
+    printf("Received message from broker: \n");
+    printf("\t- Topic: %s\n", pubMsg.topic);
+    printf("\t- Content (in bytes): \n");
+    for (int i = 0; i < sizeof(pubMsg.content); i++) {
+      printf("%02X ", pubMsg.content+i);
+    }
+    printf("\n");
+    //From here, everything breaks
+    PayloadStruct payloadContent;
+    memcpy(&payloadContent, pubMsg.content, sizeof(payloadContent));
+    printf("\t- Number: %d\n", payloadContent.number);
+  }
 }
 
 void subscribe(const char* topic){
@@ -38,7 +50,7 @@ void setup() {
     exit(1);
   }
   esp_now_register_recv_cb(OnDataRecv);
-  printf("SENDER BOARD\n",NULL);
+  printf("SUBSCRIBER BOARD\n",NULL);
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
   //Register peer

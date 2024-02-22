@@ -5,7 +5,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
-#include "struct_message.h"
+#include <ESP32MQTTBroker.h>
 
 typedef struct {
   int number;
@@ -52,8 +52,8 @@ void ProduceMessagesTask(void *parameter) {
     payload.number = random(101);
     Message sendMessage;
     sendMessage.msgType = MSGTYPE_PUBLISH;
-    strncpy(sendMessage.payload.subscribeAnnouncement.topic, "mock", sizeof(sendMessage.payload.subscribeAnnouncement.topic)-1);
-    memcpy(&sendMessage.payload.publish.content, &payload, sizeof(PayloadStruct));
+    strncpy(sendMessage.payload.publish.topic, "mock", sizeof(sendMessage.payload.publish.topic)-1);
+    memcpy(&sendMessage.payload.publish.content, &payload, sizeof(payload));
 
     xQueueSend(messagesQueue, &sendMessage, pdMS_TO_TICKS(1000)); //sends the message to the queue
     vTaskDelay(pdMS_TO_TICKS(1000));

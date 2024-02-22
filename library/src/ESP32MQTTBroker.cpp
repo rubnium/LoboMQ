@@ -1,2 +1,5 @@
 #include "ESP32MQTTBroker.h"
-#include "Arduino.h"
+
+void HelloWorld() {
+	Serial.println("Hello world");
+}
