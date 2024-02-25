@@ -15,9 +15,11 @@ typedef struct {
 } PayloadMessage;
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+  //Copies received data into message
   GenericMessage message;
   memcpy(&message, incomingData, sizeof(message));
 
+  //Extracts the payload (convert bytes to PayloadMessage)
   PayloadMessage payloadMessage;
   memcpy(&payloadMessage, &message.payload, message.payloadSize);
 

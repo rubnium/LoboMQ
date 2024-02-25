@@ -17,13 +17,16 @@ typedef struct {
 } PayloadMessage;
 
 GenericMessage createMessage() {
-  GenericMessage message;
+  GenericMessage message; //Message to be send
   message.id = 1;
 
+  //Fills payload
   PayloadMessage payloadMessage;
   payloadMessage.number = random(100);
   //TODO: check that the text to insert doesn't overflow
   strcpy(payloadMessage.text, "test msg");
+
+  //Defines payload size and inserts payload into message (convert PayloadMessage to bytes)
   message.payloadSize = sizeof(payloadMessage);
   memcpy(&message.payload, &payloadMessage, sizeof(payloadMessage));
 
