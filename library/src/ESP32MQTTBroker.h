@@ -18,7 +18,8 @@ typedef struct {
 
 typedef struct {
 	char topic[10];
-	void* content; //stores any type of content
+	size_t contentSize;
+	void* content[16]; //stores any type of content
 } PublishContent;
 
 typedef union {

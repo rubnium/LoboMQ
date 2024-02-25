@@ -30,11 +30,11 @@ bool isSubscribed(const uint8_t *mac) {
 
 void handleSubscribeMsg(const SubscribeAnnouncement subAnnounce, const uint8_t *mac){
   printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce.topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  if (!isSubscribed(mac)) {
+  if (!isSubscribed(mac))
     subscribers.push_back((uint8_t*)mac);
-  } else {
+  else
     printf("Already subscribed\n");
-  }
+  
   printf("Actual subscribers:\n");
   printSubscribers();
 }
@@ -50,9 +50,12 @@ void ProduceMessagesTask(void *parameter) {
   for (;;) {
     PayloadStruct payload;
     payload.number = random(101);
+
     Message sendMessage;
     sendMessage.msgType = MSGTYPE_PUBLISH;
-    strncpy(sendMessage.payload.publish.topic, "mock", sizeof(sendMessage.payload.publish.topic)-1);
+    strcpy(sendMessage.payload.publish.topic, "mock");
+
+    sendMessage.payload.publish.contentSize = sizeof(payload);
     memcpy(&sendMessage.payload.publish.content, &payload, sizeof(payload));
 
     xQueueSend(messagesQueue, &sendMessage, pdMS_TO_TICKS(1000)); //sends the message to the queue
@@ -67,7 +70,7 @@ void DispatchMessagesTask(void *parameter) {
   Message message;
   for (;;) {
     BaseType_t xStatus = xQueueReceive(messagesQueue, &message, pdMS_TO_TICKS(portMAX_DELAY));
-    if (xStatus == pdPASS) {
+    if (xStatus == pdPASS && subscribers.size() > 0) {
       for (const auto& subscriber : subscribers) {
         //Register peer
         esp_now_peer_info_t peerInfo;
@@ -76,15 +79,16 @@ void DispatchMessagesTask(void *parameter) {
         peerInfo.channel = 0;  
         peerInfo.encrypt = false;
         esp_now_add_peer(&peerInfo);
-        
+          
         bool sent = false;
         //while (!sent) { //tries indefinitely to send the message to the subscriber
           esp_err_t sendResult = esp_now_send(subscriber, (uint8_t *)&message, sizeof(message));
-          if (sendResult == ESP_OK) //if sent correctly, stops trying
+          if (sendResult == ESP_OK) //if sent correctly, stops trying. TODO: replace with checking ACK
             sent=true;
         //}      
+      
       }
-      printf("[DISPATCHER] Sent message to every subscriber\n");
+      printf("[DISPATCHER] Sent message to %d subscribers\n", subscribers.size());
     }
   }
 
@@ -102,7 +106,7 @@ void setup() {
   }
   esp_now_register_recv_cb(OnDataRecv);
 
-  printf("BROKER BOARD\n",NULL);
+  printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
   messagesQueue = xQueueCreate(10, sizeof(Message));
@@ -119,5 +123,4 @@ void setup() {
   }
 }
 
-void loop() {
-}
+void loop() { }

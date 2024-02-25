@@ -15,17 +15,20 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   memcpy(&recvMessage, incomingData, sizeof(recvMessage));
 
   if (recvMessage.msgType == MSGTYPE_PUBLISH) {
-    PublishContent pubMsg = recvMessage.payload.publish;
-    printf("Received message from broker: \n");
+    PublishContent pubMsg;
+    memcpy(&pubMsg, &recvMessage.payload.publish, sizeof(pubMsg));
+
+    printf("Received message from broker: (General message: %d bytes, Publish message: %d bytes)\n", sizeof(recvMessage), sizeof(recvMessage.payload.publish));
     printf("\t- Topic: %s\n", pubMsg.topic);
+    /*
     printf("\t- Content (in bytes): \n");
     for (int i = 0; i < sizeof(pubMsg.content); i++) {
       printf("%02X ", pubMsg.content+i);
     }
-    printf("\n");
-    //From here, everything breaks
+    printf("\n");*/
+
     PayloadStruct payloadContent;
-    memcpy(&payloadContent, pubMsg.content, sizeof(payloadContent));
+    memcpy(&payloadContent, &pubMsg.content, pubMsg.contentSize);
     printf("\t- Number: %d\n", payloadContent.number);
   }
 }
@@ -50,7 +53,7 @@ void setup() {
     exit(1);
   }
   esp_now_register_recv_cb(OnDataRecv);
-  printf("SUBSCRIBER BOARD\n",NULL);
+  printf("\nSUBSCRIBER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
   //Register peer
