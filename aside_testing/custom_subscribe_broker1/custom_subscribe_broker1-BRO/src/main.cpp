@@ -39,11 +39,25 @@ void handleSubscribeMsg(const SubscribeAnnouncement subAnnounce, const uint8_t *
   printSubscribers();
 }
 
-void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
+void handlePublishMsg(const Message message, const uint8_t *mac){
+  PublishContent pubContent = message.payload.publish;
+  PayloadStruct payloadContent;
+  memcpy(&pubContent.content, &payloadContent, pubContent.contentSize);
+
+  printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  printf("\t- Topic: %s\n", pubContent.topic);
+  printf("\t- Number: %d\n", payloadContent.number);
+
+  xQueueSend(messagesQueue, &message, pdMS_TO_TICKS(1000));
+}
+
+void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   Message recvMessage;
   memcpy(&recvMessage, incomingData, sizeof(recvMessage));
   if (recvMessage.msgType == MSGTYPE_SUBSCRIBE)
     handleSubscribeMsg(recvMessage.payload.subscribeAnnouncement, mac);
+  else if (recvMessage.msgType == MSGTYPE_PUBLISH)
+    handlePublishMsg(recvMessage, mac);
 }
 
 void ProduceMessagesTask(void *parameter) {

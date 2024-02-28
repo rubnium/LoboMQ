@@ -35,7 +35,7 @@ void setup() {
     Serial.println("[SETUP] Error initializing ESP-NOW");
     exit(1);
   }
-  printf("\PUBLISHER BOARD\n");
+  printf("\nPUBLISHER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
   //Register peer
