@@ -23,6 +23,10 @@
   "frameworks": "arduino",
   "platforms": ["espressif32"],
   "keywords": [
-    "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe"
+    "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe", "broker"
+  ],
+  "exclude": [
+    "platformio.ini",
+    "README.md"
   ]
 }
