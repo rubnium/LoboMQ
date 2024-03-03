@@ -4,9 +4,11 @@
 #include <Arduino.h>
 #include <stdint.h>
 
-#define MSGTYPE_SUBSCRIBE 1
-#define MSGTYPE_UNSUBSCRIBE 2
-#define MSGTYPE_PUBLISH 3
+typedef enum {
+	MSGTYPE_SUBSCRIBE = 0x00,
+	MSGTYPE_UNSUBSCRIBE,
+	MSGTYPE_PUBLISH
+} MessageType;
 
 typedef struct {
 	char topic[10];
