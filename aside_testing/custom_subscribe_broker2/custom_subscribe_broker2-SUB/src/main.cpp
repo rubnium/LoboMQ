@@ -11,15 +11,14 @@ typedef struct {
 uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destination address
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
-  Message recvMessage;
-  memcpy(&recvMessage, incomingData, sizeof(recvMessage));
+  MessageType msgType = ((MessageBase*)incomingData)->type;
 
-  if (recvMessage.msgType == MSGTYPE_PUBLISH) {
-    PublishContent pubMsg;
-    memcpy(&pubMsg, &recvMessage.payload.publish, sizeof(pubMsg));
+  if (msgType == MSGTYPE_PUBLISH) {
+    PublishContent *pubMsg;
+    memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
 
-    printf("Received message from broker: (General message: %d bytes, Publish message: %d bytes)\n", sizeof(recvMessage), sizeof(recvMessage.payload.publish));
-    printf("\t- Topic: %s\n", pubMsg.topic);
+    printf("Received message from broker: (%d bytes)\n", sizeof(pubMsg));
+    printf("\t- Topic: %s\n", pubMsg->topic);
     /*
     printf("\t- Content (in bytes): \n");
     for (int i = 0; i < sizeof(pubMsg.content); i++) {
@@ -28,19 +27,19 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     printf("\n");*/
 
     PayloadStruct payloadContent;
-    memcpy(&payloadContent, &pubMsg.content, pubMsg.contentSize);
+    memcpy(&payloadContent, &pubMsg->content, pubMsg->contentSize);
     printf("\t- Number: %d\n", payloadContent.number);
   }
 }
 
 void subscribe(const char* topic){
-  Message subMsg;
-  subMsg.msgType = MSGTYPE_SUBSCRIBE;
-  strncpy(subMsg.payload.subscribeAnnouncement.topic, topic, sizeof(subMsg.payload.subscribeAnnouncement.topic)-1);
+  SubscribeAnnouncement subMsg;
+  subMsg.type = MSGTYPE_SUBSCRIBE;
+  strcpy(subMsg.topic, topic);
   esp_err_t result = esp_now_send(destBoardAddr, (uint8_t *) &subMsg, sizeof(subMsg));
   if (result == ESP_OK) {
     printf("Message sent successfully\n");
-    printf("Subscribed to: %s\n",subMsg.payload.subscribeAnnouncement.topic);
+    printf("Subscribed to: %s\n",subMsg.topic);
   }
 }
 

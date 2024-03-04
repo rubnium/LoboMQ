@@ -14,12 +14,12 @@ void generateAndPublish(const char* topic) {
   PayloadStruct payload;
   payload.number = random(101);
 
-  Message sendMessage;
-  sendMessage.msgType = MSGTYPE_PUBLISH;
-  strcpy(sendMessage.payload.publish.topic, "mock");
+  PublishContent sendMessage;
+  sendMessage.type = MSGTYPE_PUBLISH;
+  strcpy(sendMessage.topic, "mock");
 
-  sendMessage.payload.publish.contentSize = sizeof(payload);
-  memcpy(&sendMessage.payload.publish.content, &payload, sizeof(payload));
+  sendMessage.contentSize = sizeof(payload);
+  memcpy(&sendMessage.content, &payload, sizeof(payload));
 
   esp_err_t sendResult = esp_now_send(destBoardAddr, (uint8_t *)&sendMessage, sizeof(sendMessage));
   if (sendResult == ESP_OK)

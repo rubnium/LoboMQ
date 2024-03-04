@@ -28,8 +28,9 @@ bool isSubscribed(const uint8_t *mac) {
   return false; //not subscribed
 }
 
-void handleSubscribeMsg(const SubscribeAnnouncement subAnnounce, const uint8_t *mac){
-  printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce.topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+void handleSubscribeMsg(const SubscribeAnnouncement *subAnnounce, const uint8_t *mac) {
+  Serial.println(subAnnounce->topic);
+  printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
   if (!isSubscribed(mac))
     subscribers.push_back((uint8_t*)mac);
   else
@@ -39,26 +40,35 @@ void handleSubscribeMsg(const SubscribeAnnouncement subAnnounce, const uint8_t *
   printSubscribers();
 }
 
-void handlePublishMsg(const Message message, const uint8_t *mac){
-  PublishContent pubMsg = message.payload.publish;
-
+void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
   PayloadStruct payloadContent;
-  memcpy(&payloadContent, &pubMsg.content, pubMsg.contentSize);
+  memcpy(&payloadContent, &pubContent->content, pubContent->contentSize);
 
   printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  printf("\t- Topic: %s\n", pubMsg.topic);
+  printf("\t- Topic: %s\n", pubContent->topic);
   printf("\t- Number: %d\n", payloadContent.number);
 
-  xQueueSend(messagesQueue, &message, pdMS_TO_TICKS(1000));
+  xQueueSend(messagesQueue, &pubContent, pdMS_TO_TICKS(1000));
 }
 
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
-  Message recvMessage;
-  memcpy(&recvMessage, incomingData, sizeof(recvMessage));
-  if (recvMessage.msgType == MSGTYPE_SUBSCRIBE)
-    handleSubscribeMsg(recvMessage.payload.subscribeAnnouncement, mac);
-  else if (recvMessage.msgType == MSGTYPE_PUBLISH)
-    handlePublishMsg(recvMessage, mac);
+  MessageType msgType = ((MessageBase*)incomingData)->type;
+  switch (msgType) {
+    case MSGTYPE_SUBSCRIBE: {
+      SubscribeAnnouncement* subAnnounce;
+      memcpy(&subAnnounce, &incomingData, sizeof(subAnnounce));
+      handleSubscribeMsg(subAnnounce, mac);
+    } break;
+    case MSGTYPE_PUBLISH: {
+      PublishContent* pubContent;
+      memcpy(&pubContent, &incomingData, sizeof(pubContent));
+      handlePublishMsg(pubContent, mac);
+    } break;
+    
+    default: {
+      Serial.println("Invalid message type received!");
+    } break;
+  }
 }
 
 void ProduceMessagesTask(void *parameter) {
@@ -66,12 +76,12 @@ void ProduceMessagesTask(void *parameter) {
     PayloadStruct payload;
     payload.number = random(101);
 
-    Message sendMessage;
-    sendMessage.msgType = MSGTYPE_PUBLISH;
-    strcpy(sendMessage.payload.publish.topic, "mock");
+    PublishContent sendMessage;
+    sendMessage.type = MSGTYPE_PUBLISH;
+    strcpy(sendMessage.topic, "mock");
 
-    sendMessage.payload.publish.contentSize = sizeof(payload);
-    memcpy(&sendMessage.payload.publish.content, &payload, sizeof(payload));
+    sendMessage.contentSize = sizeof(payload);
+    memcpy(&sendMessage.content, &payload, sizeof(payload));
 
     xQueueSend(messagesQueue, &sendMessage, pdMS_TO_TICKS(1000)); //sends the message to the queue
     vTaskDelay(pdMS_TO_TICKS(1000));
@@ -82,7 +92,7 @@ void ProduceMessagesTask(void *parameter) {
 
 void DispatchMessagesTask(void *parameter) {
   int *taskId = (int *)parameter;
-  Message message;
+  PublishContent message;
   for (;;) {
     BaseType_t xStatus = xQueueReceive(messagesQueue, &message, pdMS_TO_TICKS(portMAX_DELAY));
     if (xStatus == pdPASS && subscribers.size() > 0) {
@@ -124,7 +134,7 @@ void setup() {
   printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
-  messagesQueue = xQueueCreate(10, sizeof(Message));
+  messagesQueue = xQueueCreate(10, sizeof(PublishContent));
   if (messagesQueue == NULL) {
     Serial.println("[SETUP] ERROR, Couldn't create the queue\n");
     exit(1);
