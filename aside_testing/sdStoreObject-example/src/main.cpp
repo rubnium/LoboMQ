@@ -13,6 +13,8 @@ GND - GND
 #include "SD.h"
 #include "SPI.h"
 
+#include "CustomObject.h"
+
 #define SDPIN 5
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels, String prefix="", String ogPrefix="\t") {
@@ -121,24 +123,28 @@ void setup() {
     return;
   }
 
-  Serial.print("SD Card Type: ");
-  if (cardType == CARD_MMC)
-    Serial.println("MMC");
-  else if(cardType == CARD_SD)
-    Serial.println("SDSC");
-  else if(cardType == CARD_SDHC)
-    Serial.println("SDHC");
-  else 
-    Serial.println("UNKNOWN");
-  
-  Serial.printf("SD Card Size: %lluMB\n", SD.totalBytes() / (1024 * 1024));
-  Serial.printf("Used space: %lluMB\n", SD.usedBytes() / (1024 * 1024));
+  CustomObject myObject;
 
-  char* filepath = "/hello.txt";
-  if (!readFile(SD, filepath))
-    writeFile(SD, filepath, "Hello World!\n");
-  else
-    appendFile(SD, filepath, "Hello again!\n");
+  char* filepath = "/myObject.txt";
+  if (!readFile(SD, filepath)) {
+    myObject = CustomObject(1, "HelloWorld!");
+    writeFile(SD, filepath, myObject.serialize().c_str());
+  } else {
+    Serial.println("Reading file content");
+    String fileContent;
+    File file = SD.open(filepath);
+    if (file) {
+      while (file.available()) {
+        fileContent += (char)file.read();
+      }
+      file.close();
+
+      // Deserialize the object using the file content
+      myObject.deserialize(fileContent.c_str());
+    } else {
+      Serial.println("Error opening file for reading");
+    }
+  }
 }
 
 void loop() { }
