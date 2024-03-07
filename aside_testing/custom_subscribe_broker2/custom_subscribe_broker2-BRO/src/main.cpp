@@ -14,12 +14,14 @@ typedef struct {
 
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
+uint8_t testDestBoard[] = {0xC0, 0x49, 0xEF, 0xCB, 0x99, 0x10}; //DEBUG: MAC of the board to send messages to
+
 void handleSubscribeMsg(const SubscribeAnnouncement *subAnnounce, const uint8_t *mac) {
   Serial.println(subAnnounce->topic);
   printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
   
   bool subscribed = false;
-  for (const auto& topicObject : topicsVector) {
+  for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
     if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
       if (!topicObject.isSubscribed(mac)) {
         topicObject.subscribe(mac);
@@ -27,11 +29,11 @@ void handleSubscribeMsg(const SubscribeAnnouncement *subAnnounce, const uint8_t 
       } else {
         printf("Already subscribed to %s\n", topicObject.getTopic());
       }
-      subscribed = true; //checks if the topic was found in the vector
+      subscribed = true; //if the topic was found in the vector
     }
   }
 
-  if (!subscribed) {
+  if (!subscribed) { //if it's a topic not existing in the vector
     printf("Topic %s not found, creating a new topic\n");
     BrokerTopic newTopic(subAnnounce->topic);
     newTopic.subscribe(mac);
@@ -47,14 +49,17 @@ void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
   printf("\t- Topic: %s\n", pubContent->topic);
   printf("\t- Number: %d\n", payloadContent.number);
 
+  //esp_now_send(testDestBoard, (uint8_t *)pubContent, sizeof(payloadContent));
+
   bool sent = false;
-  for (const auto& topicObject : topicsVector) {
-    if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) {
+  for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
+    if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
       topicObject.sendToQueue(pubContent);
+      sent = true; //the topic was found in the vector
     }
   }
 
-  if (!sent) {
+  if (!sent) { //if it's a topic not existing in the vector
     printf("Topic %s not found, creating a new topic\n");
     BrokerTopic newTopic(pubContent->topic);
     newTopic.sendToQueue(pubContent);
@@ -95,16 +100,15 @@ void ProduceMessagesTask(void *parameter) {
     sendMessage.contentSize = sizeof(payload);
     memcpy(&sendMessage.content, &payload, sizeof(payload));
 
-    
-    bool queued = false;
-    for (const auto& topicObject : topicsVector) {
-      if (strcmp(sendMessage.topic, topicObject.getTopic()) == 0) {
+    bool queued = false; 
+    for (const auto& topicObject : topicsVector) { //checks every topicObject to insert the message to the proper ones
+      if (strcmp(sendMessage.topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
         topicObject.sendToQueue(&sendMessage);
-        queued = true;
+        queued = true; //the topic was found in the vector
       }
     }
 
-    if (!queued) {
+    if (!queued) { //if it's a topic not existing in the vector
       printf("Topic %s not found, creating a new topic\n", sendMessage.topic);
       BrokerTopic newTopic(sendMessage.topic);
       newTopic.sendToQueue(&sendMessage);
@@ -122,11 +126,10 @@ void ProduceMessagesTask(void *parameter) {
 
 void DispatchMessagesTask(void *parameter) {
   int *taskId = (int *)parameter;
-  esp_now_peer_info_t peerInfo;
 
   for (;;) {
-    for (const auto& topicObject : topicsVector) {
-      topicObject.dispatchMessages(peerInfo);
+    for (const auto& topicObject : topicsVector) { //goes through every topic
+      topicObject.dispatchMessages(); //and dispatches its messages
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -146,12 +149,20 @@ void setup() {
   }
   esp_now_register_recv_cb(OnDataRecv);
 
+/*
+  //Register peer
+  esp_now_peer_info_t peerInfo;
+  memcpy(peerInfo.peer_addr, testDestBoard, 6);
+  peerInfo.channel = 0;  
+  peerInfo.encrypt = false;
+  esp_now_add_peer(&peerInfo);*/
+
   printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
   
   BaseType_t dispatcherTaskStatus = xTaskCreate(DispatchMessagesTask, "DispatchMessagesTask", 10000, (void *)1, 1, NULL);
   BaseType_t producerTaskStatus = xTaskCreate(ProduceMessagesTask, "ProduceMessagesTask", 10000, (void *)1, 2, NULL);
-  if (dispatcherTaskStatus != pdPASS /*|| producerTaskStatus != pdPASS*/) {
+  if (dispatcherTaskStatus != pdPASS || producerTaskStatus != pdPASS) {
     Serial.println("[SETUP] ERROR, Couldn't create the tasks");
     exit(1);
   }

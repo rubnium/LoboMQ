@@ -27,7 +27,7 @@ class BrokerTopic {
     bool isSubscribed(const uint8_t *mac) const;
     std::string getSubscribersString() const;
     bool sendToQueue(const PublishContent *pubContent) const;
-    void dispatchMessages(esp_now_peer_info_t peerInfo) const;
+    void dispatchMessages() const;
 
     std::string toString() const;
 };

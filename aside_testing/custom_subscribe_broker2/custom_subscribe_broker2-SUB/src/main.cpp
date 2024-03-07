@@ -12,7 +12,7 @@ uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destinatio
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   MessageType msgType = ((MessageBase*)incomingData)->type;
-  
+  Serial.println("DATA RECEIVED");
   if (msgType == MSGTYPE_PUBLISH) {
     PublishContent *pubMsg;
     memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
@@ -34,10 +34,11 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   }
 }
 
-void subscribe(const char* topic){
+void subscribe(const char* topic) {
   SubscribeAnnouncement subMsg;
   subMsg.type = MSGTYPE_SUBSCRIBE;
   strcpy(subMsg.topic, topic);
+  
   esp_err_t result = esp_now_send(destBoardAddr, (uint8_t *) &subMsg, sizeof(subMsg));
   if (result == ESP_OK) {
     printf("Message sent successfully\n");
