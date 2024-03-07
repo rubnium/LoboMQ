@@ -12,7 +12,7 @@ uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destinatio
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   MessageType msgType = ((MessageBase*)incomingData)->type;
-
+  
   if (msgType == MSGTYPE_PUBLISH) {
     PublishContent *pubMsg;
     memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
@@ -29,6 +29,8 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
     PayloadStruct payloadContent;
     memcpy(&payloadContent, &pubMsg->content, pubMsg->contentSize);
     printf("\t- Number: %d\n", payloadContent.number);
+  } else {
+    Serial.println("Invalid message type received!");
   }
 }
 
@@ -68,7 +70,7 @@ void setup() {
     exit(1);
   }
 
-  subscribe("topic1");
+  subscribe("mock");
 }
 
 void loop() {

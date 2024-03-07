@@ -6,38 +6,37 @@
 #include <freertos/task.h>
 
 #include <ESP32MQTTBroker.h>
+#include "BrokerTopic.h"
 
 typedef struct {
   int number;
 } PayloadStruct;
 
-std::vector<uint8_t*> subscribers; //stores each mac
-static QueueHandle_t messagesQueue = NULL;
-
-void printSubscribers() {
-  for (const auto& mac : subscribers)
-    printf("%02X:%02X:%02X:%02X:%02X:%02X\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  Serial.println();
-}
-
-bool isSubscribed(const uint8_t *mac) {
-  for (const auto& subscriber : subscribers) {
-    if (memcmp(mac, subscriber, 6) == 0)
-      return true; //already subscribed
-  }
-  return false; //not subscribed
-}
+std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
 void handleSubscribeMsg(const SubscribeAnnouncement *subAnnounce, const uint8_t *mac) {
   Serial.println(subAnnounce->topic);
   printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  if (!isSubscribed(mac))
-    subscribers.push_back((uint8_t*)mac);
-  else
-    printf("Already subscribed\n");
   
-  printf("Actual subscribers:\n");
-  printSubscribers();
+  bool subscribed = false;
+  for (const auto& topicObject : topicsVector) {
+    if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
+      if (!topicObject.isSubscribed(mac)) {
+        topicObject.subscribe(mac);
+        printf("Subscribed to %s\n", topicObject.getTopic());
+      } else {
+        printf("Already subscribed to %s\n", topicObject.getTopic());
+      }
+      subscribed = true; //checks if the topic was found in the vector
+    }
+  }
+
+  if (!subscribed) {
+    printf("Topic %s not found, creating a new topic\n");
+    BrokerTopic newTopic(subAnnounce->topic);
+    newTopic.subscribe(mac);
+    topicsVector.push_back(newTopic);
+  }
 }
 
 void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
@@ -48,7 +47,19 @@ void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
   printf("\t- Topic: %s\n", pubContent->topic);
   printf("\t- Number: %d\n", payloadContent.number);
 
-  xQueueSend(messagesQueue, &pubContent, pdMS_TO_TICKS(1000));
+  bool sent = false;
+  for (const auto& topicObject : topicsVector) {
+    if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) {
+      topicObject.sendToQueue(pubContent);
+    }
+  }
+
+  if (!sent) {
+    printf("Topic %s not found, creating a new topic\n");
+    BrokerTopic newTopic(pubContent->topic);
+    newTopic.sendToQueue(pubContent);
+    topicsVector.push_back(newTopic);
+  }
 }
 
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
@@ -78,47 +89,51 @@ void ProduceMessagesTask(void *parameter) {
 
     PublishContent sendMessage;
     sendMessage.type = MSGTYPE_PUBLISH;
+
     strcpy(sendMessage.topic, "mock");
 
     sendMessage.contentSize = sizeof(payload);
     memcpy(&sendMessage.content, &payload, sizeof(payload));
 
-    xQueueSend(messagesQueue, &sendMessage, pdMS_TO_TICKS(1000)); //sends the message to the queue
+    
+    bool queued = false;
+    for (const auto& topicObject : topicsVector) {
+      if (strcmp(sendMessage.topic, topicObject.getTopic()) == 0) {
+        topicObject.sendToQueue(&sendMessage);
+        queued = true;
+      }
+    }
+
+    if (!queued) {
+      printf("Topic %s not found, creating a new topic\n", sendMessage.topic);
+      BrokerTopic newTopic(sendMessage.topic);
+      newTopic.sendToQueue(&sendMessage);
+      topicsVector.push_back(newTopic);
+    }
+
+    Serial.println("[PRODUCE MESSAGE] Message sent correctly");
+  
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
 
   vTaskDelete(NULL);
 }
 
+
 void DispatchMessagesTask(void *parameter) {
   int *taskId = (int *)parameter;
-  PublishContent message;
+  esp_now_peer_info_t peerInfo;
+
   for (;;) {
-    BaseType_t xStatus = xQueueReceive(messagesQueue, &message, pdMS_TO_TICKS(portMAX_DELAY));
-    if (xStatus == pdPASS && subscribers.size() > 0) {
-      for (const auto& subscriber : subscribers) {
-        //Register peer
-        esp_now_peer_info_t peerInfo;
-        memset(&peerInfo, 0, sizeof(peerInfo));
-        memcpy(peerInfo.peer_addr, subscriber, 6);
-        peerInfo.channel = 0;  
-        peerInfo.encrypt = false;
-        esp_now_add_peer(&peerInfo);
-          
-        bool sent = false;
-        //while (!sent) { //tries indefinitely to send the message to the subscriber
-          esp_err_t sendResult = esp_now_send(subscriber, (uint8_t *)&message, sizeof(message));
-          if (sendResult == ESP_OK) //if sent correctly, stops trying. TODO: replace with checking ACK
-            sent=true;
-        //}      
-      
-      }
-      printf("[DISPATCHER] Sent message to %d subscribers\n", subscribers.size());
+    for (const auto& topicObject : topicsVector) {
+      topicObject.dispatchMessages(peerInfo);
     }
+    vTaskDelay(pdMS_TO_TICKS(1000));
   }
 
   vTaskDelete(NULL);
 }
+
 
 void setup() {
   Serial.begin(9600);
@@ -133,16 +148,10 @@ void setup() {
 
   printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
-
-  messagesQueue = xQueueCreate(10, sizeof(PublishContent));
-  if (messagesQueue == NULL) {
-    Serial.println("[SETUP] ERROR, Couldn't create the queue\n");
-    exit(1);
-  }
-
+  
   BaseType_t dispatcherTaskStatus = xTaskCreate(DispatchMessagesTask, "DispatchMessagesTask", 10000, (void *)1, 1, NULL);
   BaseType_t producerTaskStatus = xTaskCreate(ProduceMessagesTask, "ProduceMessagesTask", 10000, (void *)1, 2, NULL);
-  if (dispatcherTaskStatus != pdPASS || producerTaskStatus != pdPASS) {
+  if (dispatcherTaskStatus != pdPASS /*|| producerTaskStatus != pdPASS*/) {
     Serial.println("[SETUP] ERROR, Couldn't create the tasks");
     exit(1);
   }
