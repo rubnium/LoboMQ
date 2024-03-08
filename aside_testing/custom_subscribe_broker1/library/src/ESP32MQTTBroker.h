@@ -11,23 +11,28 @@ typedef enum {
 } MessageType;
 
 typedef struct {
-	MessageType type;
-} MessageBase;
-
-typedef struct : public MessageBase {
 	char topic[10];
 } SubscribeAnnouncement;
 
-typedef struct : public MessageBase{
+typedef struct {
 	char topic[10];
 } UnsubscribeAnnouncement;
 
-typedef struct : public MessageBase {
+typedef struct {
 	char topic[10];
 	size_t contentSize;
 	void* content[16]; //stores any type of content
 } PublishContent;
-	
-void HelloWorld();
 
+typedef union {
+	SubscribeAnnouncement subscribeAnnouncement;
+	UnsubscribeAnnouncement unsubscribeAnnouncement;
+	PublishContent publish;
+} PayloadUnion;
+
+typedef struct {
+	uint8_t msgType;
+	PayloadUnion payload;
+} Message;
+	
 #endif
