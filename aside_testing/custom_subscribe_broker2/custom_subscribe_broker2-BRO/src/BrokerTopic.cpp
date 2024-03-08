@@ -69,7 +69,7 @@ std::string BrokerTopic::getSubscribersString() const {
 
 bool BrokerTopic::sendToQueue(const PublishContent *pubContent) const {
   //TODO: duplicate pubContent and make pubContent.topic = topic
-  if (xQueueSend(messagesQueue, &pubContent, pdMS_TO_TICKS(1000)) == pdTRUE)
+  if (xQueueSend(messagesQueue, pubContent, pdMS_TO_TICKS(1000)) == pdTRUE)
     return true;
   else
     return false;
@@ -78,7 +78,6 @@ bool BrokerTopic::sendToQueue(const PublishContent *pubContent) const {
 void BrokerTopic::dispatchMessages() const {
   PublishContent message;
   if (xQueueReceive(messagesQueue, &message, pdMS_TO_TICKS(1000)) == pdPASS) { //gets the message from the queue
-    Serial.println(getSubscribersString().c_str());
     for (const auto& subscriber : subscribers) { //goes through every subscriber
       esp_now_peer_info_t peerInfo;
       memcpy(peerInfo.peer_addr, subscriber.data(), 6);

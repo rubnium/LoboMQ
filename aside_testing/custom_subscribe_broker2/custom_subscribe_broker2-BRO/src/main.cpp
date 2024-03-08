@@ -14,8 +14,6 @@ typedef struct {
 
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
-uint8_t testDestBoard[] = {0xC0, 0x49, 0xEF, 0xCB, 0x99, 0x10}; //DEBUG: MAC of the board to send messages to
-
 void handleSubscribeMsg(const SubscribeAnnouncement *subAnnounce, const uint8_t *mac) {
   Serial.println(subAnnounce->topic);
   printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
@@ -48,8 +46,6 @@ void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
   printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
   printf("\t- Topic: %s\n", pubContent->topic);
   printf("\t- Number: %d\n", payloadContent.number);
-
-  //esp_now_send(testDestBoard, (uint8_t *)pubContent, sizeof(payloadContent));
 
   bool sent = false;
   for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
@@ -99,7 +95,7 @@ void ProduceMessagesTask(void *parameter) {
 
     sendMessage.contentSize = sizeof(payload);
     memcpy(&sendMessage.content, &payload, sizeof(payload));
-
+    
     bool queued = false; 
     for (const auto& topicObject : topicsVector) { //checks every topicObject to insert the message to the proper ones
       if (strcmp(sendMessage.topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
@@ -148,14 +144,6 @@ void setup() {
     exit(1);
   }
   esp_now_register_recv_cb(OnDataRecv);
-
-/*
-  //Register peer
-  esp_now_peer_info_t peerInfo;
-  memcpy(peerInfo.peer_addr, testDestBoard, 6);
-  peerInfo.channel = 0;  
-  peerInfo.encrypt = false;
-  esp_now_add_peer(&peerInfo);*/
 
   printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());

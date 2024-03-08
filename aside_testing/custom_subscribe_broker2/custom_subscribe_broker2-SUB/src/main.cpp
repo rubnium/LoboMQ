@@ -12,7 +12,6 @@ uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destinatio
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
   MessageType msgType = ((MessageBase*)incomingData)->type;
-  Serial.println("DATA RECEIVED");
   if (msgType == MSGTYPE_PUBLISH) {
     PublishContent *pubMsg;
     memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
