@@ -1,6 +1,12 @@
 #include "ESP32MQTTBroker.h"
 
 bool configureESPNOW(uint8_t *mac) {
+  WiFi.mode(WIFI_STA);
+  if (esp_now_init() != ESP_OK) { //Initialize ESP-NOW
+    Serial.println("[SETUP] Error initializing ESP-NOW");
+    return false;
+  }
+
   //Setup ESPNOW and peer
 	//TODO: check if peer was already registered
 	esp_now_peer_info_t peerInfo;
@@ -20,7 +26,7 @@ bool configureESPNOW(uint8_t *mac) {
 bool publish(uint8_t *mac, char *topic, void *payload) {
 	configureESPNOW(mac);
 
-	//Create and fill message
+	//Create and fill publish message
 	PublishContent pubMsg;
 	pubMsg.type = MSGTYPE_PUBLISH;
 	strcpy(pubMsg.topic, topic);
