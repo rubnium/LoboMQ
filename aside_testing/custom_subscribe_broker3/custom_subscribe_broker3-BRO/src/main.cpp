@@ -12,32 +12,18 @@ typedef struct {
   int number;
 } PayloadStruct;
 
+typedef struct {
+  SubscribeAnnouncement *subAnnounce;
+  uint8_t *mac;
+} SubscribeTaskParams;
+
+typedef struct {
+  PublishContent *pubContent;
+  uint8_t *mac;
+} PublishTaskParams;
+
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
-void handleSubscribeMsg(const SubscribeAnnouncement *subAnnounce, const uint8_t *mac) {
-  Serial.println(subAnnounce->topic);
-  printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  
-  bool subscribed = false;
-  for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
-    if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
-      if (!topicObject.isSubscribed(mac)) {
-        topicObject.subscribe(mac);
-        printf("Subscribed to %s\n", topicObject.getTopic());
-      } else {
-        printf("Already subscribed to %s\n", topicObject.getTopic());
-      }
-      subscribed = true; //if the topic was found in the vector
-    }
-  }
-
-  if (!subscribed) { //if it's a topic not existing in the vector
-    printf("Topic %s not found, creating a new topic\n");
-    BrokerTopic newTopic(subAnnounce->topic);
-    newTopic.subscribe(mac);
-    topicsVector.push_back(newTopic);
-  }
-}
 
 void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
   PayloadStruct payloadContent;
@@ -67,20 +53,88 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   MessageType msgType = ((MessageBase*)incomingData)->type;
   switch (msgType) {
     case MSGTYPE_SUBSCRIBE: {
-      SubscribeAnnouncement* subAnnounce;
-      memcpy(&subAnnounce, &incomingData, sizeof(subAnnounce));
-      handleSubscribeMsg(subAnnounce, mac);
+      SubscribeTaskParams subTaskParams;
+      memcpy(&subTaskParams.subAnnounce, &incomingData, sizeof(SubscribeAnnouncement));
+      memcpy(&subTaskParams.mac, &mac, sizeof(mac));
+      if (xTaskCreate(SubscribeTask, "SubscribeTask", 10000, &subTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
+        Serial.println("[OnDataRecv] ERROR, Couldn't create the subscribe task");
+        return;
+      }
     } break;
     case MSGTYPE_PUBLISH: {
-      PublishContent* pubContent;
-      memcpy(&pubContent, &incomingData, sizeof(pubContent));
-      handlePublishMsg(pubContent, mac);
+      PublishTaskParams pubTaskParams;
+      memcpy(&pubTaskParams.pubContent, &incomingData, sizeof(PublishContent));
+      memcpy(&pubTaskParams.mac, &mac, sizeof(mac));
+      if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
+        Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
+        return;
+      }
     } break;
     
     default: {
       Serial.println("Invalid message type received!");
     } break;
   }
+}
+
+
+void SubscribeTask(void *parameter) {
+  SubscribeTaskParams *params = (SubscribeTaskParams *)parameter;
+  SubscribeAnnouncement *subAnnounce = params->subAnnounce;
+  uint8_t *mac = params->mac;
+
+  Serial.println(subAnnounce->topic);
+  printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  
+  bool subscribed = false;
+  for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
+    if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
+      if (!topicObject.isSubscribed(mac)) {
+        topicObject.subscribe(mac);
+        printf("Subscribed to %s\n", topicObject.getTopic());
+      } else {
+        printf("Already subscribed to %s\n", topicObject.getTopic());
+      }
+      subscribed = true; //if the topic was found in the vector
+    }
+  }
+
+  if (!subscribed) { //if it's a topic not existing in the vector
+    printf("Topic %s not found, creating a new topic\n");
+    BrokerTopic newTopic(subAnnounce->topic);
+    newTopic.subscribe(mac);
+    topicsVector.push_back(newTopic);
+  }
+
+  vTaskDelete(NULL);
+}
+
+void UnsubscribeTask(void *parameter) {
+
+  vTaskDelete(NULL);
+}
+
+void PublishTask(void *parameter) {
+  PublishTaskParams *params = (PublishTaskParams *)parameter;
+  PublishContent *pubContent = params->pubContent;
+  uint8_t *mac = params->mac;
+
+  bool sent = false;
+  for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
+    if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
+      topicObject.sendToQueue(pubContent);
+      sent = true; //the topic was found in the vector
+    }
+  }
+
+  if (!sent) { //if it's a topic not existing in the vector
+    printf("Topic %s not found, creating a new topic\n");
+    BrokerTopic newTopic(pubContent->topic);
+    newTopic.sendToQueue(pubContent);
+    topicsVector.push_back(newTopic);
+  }
+
+  vTaskDelete(NULL);
 }
 
 void ProduceMessagesTask(void *parameter) {

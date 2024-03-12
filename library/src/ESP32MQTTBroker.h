@@ -71,7 +71,12 @@ typedef struct {
 	void* content[16];
 	size_t contentSize;
 } ContentProperties;
-
+/**
+ * @brief Checks if the data received is a MQTT message.
+ * TODO: full description
+ * @param incomingData
+ * @return ContentProperties if correctly
+ */
 ContentProperties getMQTTContent(const uint8_t *incomingData);
 
 #endif
