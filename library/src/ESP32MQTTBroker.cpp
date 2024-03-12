@@ -2,25 +2,28 @@
 
 bool configureESPNOW(uint8_t *mac) {
   WiFi.mode(WIFI_STA);
-  if (esp_now_init() != ESP_OK) { //Initialize ESP-NOW
+  if (esp_now_init() != ESP_OK) { //initialize ESP-NOW
     Serial.println("[SETUP] Error initializing ESP-NOW");
     return false;
   }
 
   //Setup ESPNOW and peer
-	//TODO: check if peer was already registered
-	esp_now_peer_info_t peerInfo;
-	memset(&peerInfo, 0, sizeof(peerInfo));
-	memcpy(peerInfo.peer_addr, mac, 6);
-	peerInfo.channel = 0;
-	peerInfo.encrypt = false;
+	if(esp_now_is_peer_exist(mac)) {
+    return true; //peer already registered
+  } else {
+		esp_now_peer_info_t peerInfo;
+		memset(&peerInfo, 0, sizeof(peerInfo));
+		memcpy(peerInfo.peer_addr, mac, 6);
+		peerInfo.channel = 0;
+		peerInfo.encrypt = false;
 
-  esp_err_t result = esp_now_add_peer(&peerInfo);
-  if (result != ESP_OK) {
-    printf("Error registering peer: %d\n", result);
-    return false;
-  }
-  return true;
+		esp_err_t result = esp_now_add_peer(&peerInfo);
+		if (result != ESP_OK) {
+			printf("Error registering peer: %d\n", result);
+			return false;
+		}
+		return true;
+	}
 } 
 
 bool publish(uint8_t *mac, char *topic, void *payload) {
@@ -43,8 +46,6 @@ bool publish(uint8_t *mac, char *topic, void *payload) {
 	//TODO: implement ack
 	return true;
 }
-
-
 
 bool subscribe(uint8_t *mac, char *topic) {
 	configureESPNOW(mac);

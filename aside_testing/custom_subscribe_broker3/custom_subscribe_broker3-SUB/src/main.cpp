@@ -25,11 +25,12 @@ void setup() {
   Serial.begin(9600);
 
   WiFi.mode(WIFI_STA);
-  if (esp_now_init() != ESP_OK) { //Initialize ESP-NOW
+  //Initialize ESP-NOW and set up receive callback
+  if (esp_now_init() != ESP_OK || esp_now_register_recv_cb(OnDataRecv) != ESP_OK) {
     Serial.println("[SETUP] Error initializing ESP-NOW");
     exit(1);
   }
-  esp_now_register_recv_cb(OnDataRecv);
+  
   printf("\nSUBSCRIBER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 

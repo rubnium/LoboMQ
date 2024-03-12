@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <esp_now.h>
-#include <WiFi.h>
-#include <vector>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <vector>
+#include <WiFi.h>
 
 #include <ESP32MQTTBroker.h>
 #include "BrokerTopic.h"
@@ -14,39 +14,102 @@ typedef struct {
 
 typedef struct {
   SubscribeAnnouncement *subAnnounce;
-  uint8_t *mac;
+  const uint8_t *mac;
 } SubscribeTaskParams;
 
 typedef struct {
   PublishContent *pubContent;
-  uint8_t *mac;
+  const uint8_t *mac;
 } PublishTaskParams;
 
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
+void SubscribeTask(void *parameter) {
+  SubscribeTaskParams *params = (SubscribeTaskParams *)parameter;
+  SubscribeAnnouncement *subAnnounce = params->subAnnounce;
+  const uint8_t *mac = params->mac;
 
-void handlePublishMsg(const PublishContent *pubContent, const uint8_t *mac) {
-  PayloadStruct payloadContent;
-  memcpy(&payloadContent, &pubContent->content, pubContent->contentSize);
+  Serial.println(subAnnounce->topic);
+  printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  
+  bool subscribed = false;
+  for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
+    if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
+      if (!topicObject.isSubscribed(mac)) {
+        topicObject.subscribe(mac);
+      } else {
+        printf("Already subscribed to %s\n", topicObject.getTopic());
+      }
+      subscribed = true; //if the topic was found in the vector
+    }
+  }
 
-  printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  printf("\t- Topic: %s\n", pubContent->topic);
-  printf("\t- Number: %d\n", payloadContent.number);
+  if (!subscribed) { //if it's a topic not existing in the vector
+    printf("Topic %s not found, creating a new topic\n", subAnnounce->topic);
+    BrokerTopic newTopic(subAnnounce->topic);
+    newTopic.subscribe(mac);
+    topicsVector.push_back(newTopic);
+  }
 
+  vTaskDelete(NULL);
+}
+
+void UnsubscribeTask(void *parameter) {
+  //TODO: implement
+  vTaskDelete(NULL);
+}
+
+void PublishTask(void *parameter) {
+  PublishTaskParams *params = (PublishTaskParams *)parameter;
+  PublishContent *pubContent = params->pubContent;
+  const uint8_t *mac = params->mac;
   bool sent = false;
   for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
     if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
-      topicObject.sendToQueue(pubContent);
+      topicObject.publish(*pubContent);
       sent = true; //the topic was found in the vector
     }
   }
 
   if (!sent) { //if it's a topic not existing in the vector
-    printf("Topic %s not found, creating a new topic\n");
+    printf("Topic %s not found, creating a new topic\n", pubContent->topic);
     BrokerTopic newTopic(pubContent->topic);
-    newTopic.sendToQueue(pubContent);
+    newTopic.publish(*pubContent);
     topicsVector.push_back(newTopic);
   }
+
+  printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  printf("\t- Topic: %s\n", pubContent->topic);
+
+  vTaskDelete(NULL);
+}
+
+void ProduceMessagesTask(void *parameter) {
+  for (;;) {
+    PayloadStruct payload;
+    payload.number = random(101);
+
+    PublishContent sendMessage;
+    sendMessage.type = MSGTYPE_PUBLISH;
+
+    strcpy(sendMessage.topic, "mock");
+
+    sendMessage.contentSize = sizeof(payload);
+    memcpy(&sendMessage.content, &payload, sizeof(payload));
+
+    PublishTaskParams pubTaskParams;
+    pubTaskParams.pubContent = &sendMessage;
+    pubTaskParams.mac = (uint8_t*)WiFi.macAddress().c_str();
+    if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
+      Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
+      return;
+    }
+
+    Serial.println("[PRODUCE MESSAGE] Message sent correctly");
+  
+    vTaskDelay(pdMS_TO_TICKS(1000));
+  }
+  vTaskDelete(NULL);
 }
 
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
@@ -54,8 +117,8 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   switch (msgType) {
     case MSGTYPE_SUBSCRIBE: {
       SubscribeTaskParams subTaskParams;
-      memcpy(&subTaskParams.subAnnounce, &incomingData, sizeof(SubscribeAnnouncement));
-      memcpy(&subTaskParams.mac, &mac, sizeof(mac));
+      subTaskParams.subAnnounce = (SubscribeAnnouncement*)incomingData;
+      subTaskParams.mac = mac;
       if (xTaskCreate(SubscribeTask, "SubscribeTask", 10000, &subTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
         Serial.println("[OnDataRecv] ERROR, Couldn't create the subscribe task");
         return;
@@ -63,8 +126,8 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
     } break;
     case MSGTYPE_PUBLISH: {
       PublishTaskParams pubTaskParams;
-      memcpy(&pubTaskParams.pubContent, &incomingData, sizeof(PublishContent));
-      memcpy(&pubTaskParams.mac, &mac, sizeof(mac));
+      pubTaskParams.pubContent = (PublishContent*)incomingData;
+      pubTaskParams.mac = mac;
       if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
         Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
         return;
@@ -78,111 +141,22 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
 }
 
 
-void SubscribeTask(void *parameter) {
-  SubscribeTaskParams *params = (SubscribeTaskParams *)parameter;
-  SubscribeAnnouncement *subAnnounce = params->subAnnounce;
-  uint8_t *mac = params->mac;
-
-  Serial.println(subAnnounce->topic);
-  printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-  
-  bool subscribed = false;
-  for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
-    if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
-      if (!topicObject.isSubscribed(mac)) {
-        topicObject.subscribe(mac);
-        printf("Subscribed to %s\n", topicObject.getTopic());
-      } else {
-        printf("Already subscribed to %s\n", topicObject.getTopic());
-      }
-      subscribed = true; //if the topic was found in the vector
-    }
-  }
-
-  if (!subscribed) { //if it's a topic not existing in the vector
-    printf("Topic %s not found, creating a new topic\n");
-    BrokerTopic newTopic(subAnnounce->topic);
-    newTopic.subscribe(mac);
-    topicsVector.push_back(newTopic);
-  }
-
-  vTaskDelete(NULL);
-}
-
-void UnsubscribeTask(void *parameter) {
-
-  vTaskDelete(NULL);
-}
-
-void PublishTask(void *parameter) {
-  PublishTaskParams *params = (PublishTaskParams *)parameter;
-  PublishContent *pubContent = params->pubContent;
-  uint8_t *mac = params->mac;
-
-  bool sent = false;
-  for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
-    if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
-      topicObject.sendToQueue(pubContent);
-      sent = true; //the topic was found in the vector
-    }
-  }
-
-  if (!sent) { //if it's a topic not existing in the vector
-    printf("Topic %s not found, creating a new topic\n");
-    BrokerTopic newTopic(pubContent->topic);
-    newTopic.sendToQueue(pubContent);
-    topicsVector.push_back(newTopic);
-  }
-
-  vTaskDelete(NULL);
-}
-
-void ProduceMessagesTask(void *parameter) {
-  for (;;) {
-    PayloadStruct payload;
-    payload.number = random(101);
-    publish((uint8_t*)WiFi.macAddress().c_str(), "mock", &payload); //TODO: test this
-
-    Serial.println("[PRODUCE MESSAGE] Message sent correctly");
-  
-    vTaskDelay(pdMS_TO_TICKS(1000));
-  }
-
-  vTaskDelete(NULL);
-}
-
-
-void DispatchMessagesTask(void *parameter) {
-  int *taskId = (int *)parameter;
-
-  for (;;) {
-    for (const auto& topicObject : topicsVector) { //goes through every topic
-      topicObject.dispatchMessages(); //and dispatches its messages
-    }
-    vTaskDelay(pdMS_TO_TICKS(1000));
-  }
-
-  vTaskDelete(NULL);
-}
-
-
 void setup() {
   Serial.begin(9600);
   randomSeed(analogRead(0)); //to generate random numbers
 
   WiFi.mode(WIFI_STA);
-  if (esp_now_init() != ESP_OK) { //Initialize ESP-NOW
+  //Initialize ESP-NOW and set up receive callback
+  if (esp_now_init() != ESP_OK || esp_now_register_recv_cb(OnDataRecv) != ESP_OK) { 
     Serial.println("[SETUP] Error initializing ESP-NOW");
     exit(1);
   }
-  esp_now_register_recv_cb(OnDataRecv);
 
   printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
   
-  BaseType_t dispatcherTaskStatus = xTaskCreate(DispatchMessagesTask, "DispatchMessagesTask", 10000, (void *)1, 1, NULL);
   BaseType_t producerTaskStatus = xTaskCreate(ProduceMessagesTask, "ProduceMessagesTask", 10000, (void *)1, 2, NULL);
-  if (dispatcherTaskStatus != pdPASS || producerTaskStatus != pdPASS) {
+  if (producerTaskStatus != pdPASS) {
     Serial.println("[SETUP] ERROR, Couldn't create the tasks");
     exit(1);
   }

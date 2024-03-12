@@ -27,15 +27,34 @@ const std::vector<std::array<uint8_t, 6>>& BrokerTopic::getSubscribers() const {
   return subscribers;
 }
 
-bool BrokerTopic::subscribe(const uint8_t *mac) const {
-  if (!isSubscribed(mac)) {
+bool addPeer(const uint8_t *mac) {
+  //TODO: add return false if error
+  if(!esp_now_is_peer_exist(mac)) { //if peer not registered
     //Register peer
     esp_now_peer_info_t peerInfo;
+    memset(&peerInfo, 0, sizeof(peerInfo));
     memcpy(peerInfo.peer_addr, mac, 6);
     peerInfo.channel = 0;  
     peerInfo.encrypt = false;
     esp_now_add_peer(&peerInfo);
+  }
+  return true;
+}
 
+bool removePeer(const uint8_t *mac) {
+  //Check if peer exists
+  if (esp_now_is_peer_exist(mac)) {
+    if (esp_now_del_peer(mac) != ESP_OK)
+      return false;
+    
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool BrokerTopic::subscribe(const uint8_t *mac) const {
+  if (!isSubscribed(mac)) {
     const_cast<BrokerTopic*>(this)->subscribers.push_back(*reinterpret_cast<const std::array<uint8_t, 6>*>(mac));
   }
   return true;
@@ -79,15 +98,20 @@ void BrokerTopic::dispatchMessages() const {
   PublishContent message;
   if (xQueueReceive(messagesQueue, &message, pdMS_TO_TICKS(1000)) == pdPASS) { //gets the message from the queue
     for (const auto& subscriber : subscribers) { //goes through every subscriber
-      esp_now_peer_info_t peerInfo;
-      memcpy(peerInfo.peer_addr, subscriber.data(), 6);
-      peerInfo.channel = 0;  
-      peerInfo.encrypt = false;
-      esp_now_add_peer(&peerInfo);
+      addPeer(subscriber.data());
       esp_now_send(subscriber.data(), (uint8_t *)&message, sizeof(message));
     }
     printf("[DISPATCHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
   }
+}
+
+void BrokerTopic::publish(PublishContent pubContent) const {
+  //TODO: duplicate pubContent and make pubContent.topic = topic
+  for (const auto& subscriber : subscribers) { //goes through every subscriber
+    addPeer(subscriber.data());
+    esp_now_send(subscriber.data(), (uint8_t *)&pubContent, sizeof(PublishContent));
+  }
+  printf("[PUBLISHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
 }
 
 std::string BrokerTopic::toString() const {
