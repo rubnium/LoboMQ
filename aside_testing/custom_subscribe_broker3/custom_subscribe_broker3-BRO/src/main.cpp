@@ -99,7 +99,9 @@ void ProduceMessagesTask(void *parameter) {
 
     PublishTaskParams pubTaskParams;
     pubTaskParams.pubContent = &sendMessage;
-    pubTaskParams.mac = (uint8_t*)WiFi.macAddress().c_str();
+    uint8_t mac[6];
+    WiFi.macAddress(mac);  
+    pubTaskParams.mac = mac;
     if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
       Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
       return;
