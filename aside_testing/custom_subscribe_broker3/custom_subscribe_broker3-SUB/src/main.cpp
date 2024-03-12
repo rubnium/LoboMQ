@@ -8,25 +8,13 @@ typedef struct {
   int number;
 } PayloadStruct;
 
-uint8_t destBoardAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destination address
+uint8_t brokerAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destination address
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
-  MessageType msgType = ((MessageBase*)incomingData)->type;
-  if (msgType == MSGTYPE_PUBLISH) {
-    PublishContent *pubMsg;
-    memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
-
-    printf("Received message from broker: (%d bytes)\n", sizeof(pubMsg));
-    printf("\t- Topic: %s\n", pubMsg->topic);
-    /*
-    printf("\t- Content (in bytes): \n");
-    for (int i = 0; i < sizeof(pubMsg.content); i++) {
-      printf("%02X ", pubMsg.content+i);
-    }
-    printf("\n");*/
-
+  if (isMQTTMessage(incomingData)) {
+    ContentProperties content = getMQTTContent(incomingData);
     PayloadStruct payloadContent;
-    memcpy(&payloadContent, &pubMsg->content, pubMsg->contentSize);
+    memcpy(&payloadContent, &content.content, content.contentSize);
     printf("\t- Number: %d\n", payloadContent.number);
   } else {
     Serial.println("Invalid message type received!");
@@ -45,24 +33,7 @@ void setup() {
   printf("\nSUBSCRIBER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
-  /**
-  //Register peer
-  esp_now_peer_info_t peerInfo;
-  memset(&peerInfo, 0, sizeof(peerInfo));
-  memcpy(peerInfo.peer_addr, destBoardAddr, 6);
-  peerInfo.channel = 0;  
-  peerInfo.encrypt = false;
-
-  //Add peer        
-  if (esp_now_add_peer(&peerInfo) != ESP_OK){
-    Serial.println("[SETUP] Error adding peer");
-    exit(1);
-  }
-  **/
-
-  subscribe(destBoardAddr, "mock");
+  subscribe(brokerAddr, "mock");
 }
 
-void loop() {
-  sleep(2);
-}
+void loop() { }

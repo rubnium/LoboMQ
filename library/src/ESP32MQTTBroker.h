@@ -10,6 +10,7 @@
 #include <Arduino.h>
 #include <esp_now.h>
 #include <stdint.h>
+#include <WiFi.h>
 
 typedef enum {
 	MSGTYPE_SUBSCRIBE = 0x00,
@@ -46,7 +47,6 @@ typedef struct : public MessageBase {
  */
 bool publish(uint8_t *mac, char *topic, void *payload);
 
-
 /**
  * @brief Subscribe brief description.
  * Subscribe full description
@@ -56,5 +56,22 @@ bool publish(uint8_t *mac, char *topic, void *payload);
  * @return false if wrong
  */
 bool subscribe(uint8_t *mac, char *topic);
+
+/**
+ * @brief Checks if the data received is a MQTT message.
+ * TODO: full description
+ * @param incomingData
+ * @return true if correctly
+ * @return false if wrong
+ */
+bool isMQTTMessage(const uint8_t *incomingData);
+
+
+typedef struct {
+	void* content[16];
+	size_t contentSize;
+} ContentProperties;
+
+ContentProperties getMQTTContent(const uint8_t *incomingData);
 
 #endif
