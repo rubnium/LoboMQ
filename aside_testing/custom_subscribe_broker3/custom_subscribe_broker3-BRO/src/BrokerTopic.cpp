@@ -1,12 +1,15 @@
 #include "BrokerTopic.h"
 #include <Arduino.h>
 
-BrokerTopic::BrokerTopic(): topic(""){}
+BrokerTopic::BrokerTopic(): topic(""), hasWildcards(false) {}
 
-BrokerTopic::BrokerTopic(const char topic[]) {
+BrokerTopic::BrokerTopic(const char topic[], const bool hasWildcards) {
   //inserts topic to the attribute
   strncpy(this->topic, topic, sizeof(this->topic) - 1);
   this->topic[sizeof(this->topic) - 1] = '\0';
+
+  this->hasWildcards = hasWildcards;
+
   //initializes the queue
   messagesQueue = xQueueCreate(10, sizeof(PublishContent));
   if (messagesQueue == NULL) {
@@ -113,6 +116,43 @@ void BrokerTopic::publish(PublishContent pubContent) const {
   }
   printf("[PUBLISHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
 }
+
+bool BrokerTopic::isPublishable(const char *publishTopic) const {
+  //compares publishTopic with topic
+  if (strcmp(publishTopic, topic) == 0) //if both topics are the same
+    return true;
+  else if (!hasWildcards)
+    return false;
+  else {
+    int publishLen = strlen(publishTopic);
+    int subscribeLen = strlen(topic);
+
+    int i = 0, j = 0;
+
+    while (i < publishLen && j < subscribeLen) { //runs through every character in the topics
+      char pubChar = publishTopic[i];
+      char subChar = topic[j];
+      //if current chars are different and not wildcards, incompatibles
+      if (pubChar != subChar && subChar != '+' && subChar != '#')  
+        return false;
+      if (subChar == '+') { //'+' only accepts 1 level, goes to the next topic separator '/'
+        while (publishTopic[i] != '/' && i < publishLen)
+          i++;
+        j++;
+      } else if (subChar == '#') { //'#' will accept any topic level, compatibles
+        return true;
+      } else {
+        i++; j++;
+      }
+    }
+    //if only one of the topics has been traversed, incompatibles
+    if (i < publishLen || j < subscribeLen)
+      return false;
+    else 
+      return true;
+  }
+}
+
 
 std::string BrokerTopic::toString() const {
   std::string result = "Topic: " + std::string(topic) + "\n";

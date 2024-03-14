@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include <WiFi.h>
 
+#define MAXTOPICLENGTH 10
+
 typedef enum {
 	MSGTYPE_SUBSCRIBE = 0x00,
 	MSGTYPE_UNSUBSCRIBE,
@@ -23,18 +25,23 @@ typedef struct {
 } MessageBase;
 
 typedef struct : public MessageBase {
-	char topic[10];
+	char topic[MAXTOPICLENGTH];
 } SubscribeAnnouncement;
 
 typedef struct : public MessageBase{
-	char topic[10];
+	char topic[MAXTOPICLENGTH];
 } UnsubscribeAnnouncement;
 
 typedef struct : public MessageBase {
-	char topic[10];
+	char topic[MAXTOPICLENGTH];
 	size_t contentSize;
 	void* content[16]; //stores any type of content
 } PublishContent;
+
+typedef enum {
+	MQTT_ERR_SUCCESS = 0x00,
+	MQTT_ERR_INVAL_TOPIC
+} ErrorType;
 
 /**
  * @brief Publish brief description.

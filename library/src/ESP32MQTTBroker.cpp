@@ -24,10 +24,76 @@ bool configureESPNOW(uint8_t *mac) {
 		}
 		return true;
 	}
-} 
+}
+
+int fixTopicAndCheckLength(char *topic) {
+  if (topic == NULL) //if no topic was given
+    return MQTT_ERR_INVAL_TOPIC;
+
+  size_t len = strlen(topic);
+  if (len == 0 || len > MAXTOPICLENGTH) //if is empty or has many characters
+    return MQTT_ERR_INVAL_TOPIC;
+
+  if (topic[0] == '/') { //if leading '/', remove
+    memmove(topic, topic + 1, len); //move characters one position to the left
+    len--;
+    if (len == 0)
+      return MQTT_ERR_INVAL_TOPIC;
+  }
+
+  if (topic[len-1] == '/') { //if trailing '/', remove
+    topic[len-1] = '\0'; //null-terminate the string to remove the trailing '/'
+    len--;
+    if (len == 0)
+      return MQTT_ERR_INVAL_TOPIC;
+  }
+
+  return MQTT_ERR_SUCCESS;
+}
+
+bool isASCII(char c) {
+  return c >= 0 && c <= 127;
+}
+
+int pubTopicCheck(char *topic) {
+  if (fixTopicAndCheckLength(topic) == MQTT_ERR_INVAL_TOPIC) //removes initial or final '/' and checks its length
+    return MQTT_ERR_INVAL_TOPIC;
+
+  for (size_t i = 0; i < strlen(topic); i++) { 
+    if (topic[i] == '+' || topic[i] == '#') //if there's '+' or '#' inside
+      return MQTT_ERR_INVAL_TOPIC;
+  }
+  return MQTT_ERR_SUCCESS;
+}
+
+int subTopicCheck(char *topic) {
+  if (fixTopicAndCheckLength(topic) == MQTT_ERR_INVAL_TOPIC) //removes initial or final '/' and checks its length
+    return MQTT_ERR_INVAL_TOPIC;
+
+  char prev = '\0';
+  for (int i = 0; i < strlen(topic); i++) { //runs through every character
+    char c = topic[i];
+    if (!isASCII(c))
+      return MQTT_ERR_INVAL_TOPIC;
+
+    if (c == '+') { //if '+' was found
+      if ((prev != '\0' && prev != '/') || (topic[i+1] != '\0' && topic[i+1] != '/')) //(not first char && not after '/') || (not last char && not followed by '/')
+        return MQTT_ERR_INVAL_TOPIC;
+    } else if (c == '#') { //if '#' was found
+      if ((prev != '\0' && prev != '/') || topic[i+1] != '\0') //(not first char && not after '/') || not last char
+        return MQTT_ERR_INVAL_TOPIC;
+    }
+    prev = c;
+  }
+  return MQTT_ERR_SUCCESS;
+}
 
 bool publish(uint8_t *mac, char *topic, void *payload) {
 	configureESPNOW(mac);
+	if (pubTopicCheck(topic) == MQTT_ERR_INVAL_TOPIC) {
+		printf("Invalid topic\n");
+		return false;
+  }
 
 	//Create and fill publish message
 	PublishContent pubMsg;
@@ -49,6 +115,10 @@ bool publish(uint8_t *mac, char *topic, void *payload) {
 
 bool subscribe(uint8_t *mac, char *topic) {
 	configureESPNOW(mac);
+  if (subTopicCheck(topic) == MQTT_ERR_INVAL_TOPIC) {
+		printf("Invalid topic\n");
+		return false;
+  }
 
 	//Create subscribe message
 	SubscribeAnnouncement subMsg;

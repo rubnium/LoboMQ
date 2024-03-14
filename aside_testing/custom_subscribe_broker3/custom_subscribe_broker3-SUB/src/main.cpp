@@ -34,7 +34,7 @@ void setup() {
   printf("\nSUBSCRIBER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
-  subscribe(brokerAddr, "mock");
+  subscribe(brokerAddr, "#");
 }
 
 void loop() { }

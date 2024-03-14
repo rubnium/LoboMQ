@@ -14,10 +14,11 @@ class BrokerTopic {
     char topic[10];
     std::vector<std::array<uint8_t, 6>> subscribers;
     QueueHandle_t messagesQueue;
+    bool hasWildcards; //TODO: put it in the constructor
 
   public:
     BrokerTopic();
-    BrokerTopic(const char topic[]);
+    BrokerTopic(const char topic[], const bool hasWildcards);
 
     const char* getTopic() const;
     int getSubscribersAmount() const;
@@ -29,6 +30,7 @@ class BrokerTopic {
     bool sendToQueue(const PublishContent *pubContent) const;
     void dispatchMessages() const;
     void publish(PublishContent pubContent) const;
+    bool isPublishable(const char *publishTopic) const;
 
     std::string toString() const;
 };

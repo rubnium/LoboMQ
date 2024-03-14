@@ -24,6 +24,14 @@ typedef struct {
 
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
+bool hasWildcard(const char topic[]) {
+  for (int i = 0; i < sizeof(topic); i++) {
+    if (topic[i] == '+' || topic[i] == '#')
+      return true;
+  }
+  return false;
+}
+
 void SubscribeTask(void *parameter) {
   SubscribeTaskParams *params = (SubscribeTaskParams *)parameter;
   SubscribeAnnouncement *subAnnounce = params->subAnnounce;
@@ -34,7 +42,7 @@ void SubscribeTask(void *parameter) {
   
   bool subscribed = false;
   for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
-    if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
+    if (topicObject.isPublishable(subAnnounce->topic)) { //if the topic in message is the same as the topicObject
       if (!topicObject.isSubscribed(mac)) {
         topicObject.subscribe(mac);
       } else {
@@ -46,7 +54,8 @@ void SubscribeTask(void *parameter) {
 
   if (!subscribed) { //if it's a topic not existing in the vector
     printf("Topic %s not found, creating a new topic\n", subAnnounce->topic);
-    BrokerTopic newTopic(subAnnounce->topic);
+
+    BrokerTopic newTopic(subAnnounce->topic, hasWildcard(subAnnounce->topic));
     newTopic.subscribe(mac);
     topicsVector.push_back(newTopic);
   }
@@ -65,17 +74,14 @@ void PublishTask(void *parameter) {
   const uint8_t *mac = params->mac;
   bool sent = false;
   for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
-    if (strcmp(pubContent->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
+    if (topicObject.isPublishable(pubContent->topic)) { //if the topic in message is the same as the topicObject
       topicObject.publish(*pubContent);
       sent = true; //the topic was found in the vector
     }
   }
 
   if (!sent) { //if it's a topic not existing in the vector
-    printf("Topic %s not found, creating a new topic\n", pubContent->topic);
-    BrokerTopic newTopic(pubContent->topic);
-    newTopic.publish(*pubContent);
-    topicsVector.push_back(newTopic);
+    printf("Topic %s not found (has no subscribers, so it isn't published)\n", pubContent->topic);
   }
 
   printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
@@ -92,7 +98,7 @@ void ProduceMessagesTask(void *parameter) {
     PublishContent sendMessage;
     sendMessage.type = MSGTYPE_PUBLISH;
 
-    strcpy(sendMessage.topic, "mock");
+    strcpy(sendMessage.topic, "s/mock");
 
     sendMessage.contentSize = sizeof(payload);
     memcpy(&sendMessage.content, &payload, sizeof(payload));
