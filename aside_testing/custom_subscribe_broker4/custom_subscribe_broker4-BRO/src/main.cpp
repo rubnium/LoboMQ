@@ -8,6 +8,10 @@
 #include <ESP32MQTTBroker.h>
 #include "BrokerTopic.h"
 
+#define SUBSCRIBETASKS 1
+#define UNSUBSCRIBETASKS 1
+#define PUBLISHTASKS 1
+
 typedef struct {
   int number;
 } PayloadStruct;
@@ -23,6 +27,11 @@ typedef struct {
 } PublishTaskParams;
 
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
+
+//Message queues
+QueueHandle_t subMsgQueue;
+QueueHandle_t unsubMsgQueue;
+QueueHandle_t pubMsgQueue;
 
 bool hasWildcard(const char topic[]) {
   for (int i = 0; i < sizeof(topic); i++) {
@@ -42,7 +51,7 @@ void SubscribeTask(void *parameter) {
   
   bool subscribed = false;
   for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
-    if (topicObject.isPublishable(subAnnounce->topic)) { //if the topic in message is the same as the topicObject
+    if (topicObject.isPublishable(subAnnounce->topic)) { //if the topic in message is the same as the topicObject //TODO: fix, not publishable
       if (!topicObject.isSubscribed(mac)) {
         topicObject.subscribe(mac);
       } else {
@@ -73,13 +82,6 @@ void PublishTask(void *parameter) {
   PublishContent *pubContent = params->pubContent;
   const uint8_t *mac = params->mac;
   bool sent = false;
-
-  //Uncomment to bully broker:
-  /*int counter = 0;
-  for (int i = 0; i < INT_MAX; i++) {
-    counter++;
-  }*/
-
   for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
     if (topicObject.isPublishable(pubContent->topic)) { //if the topic in message is the same as the topicObject
       topicObject.publish(*pubContent);
@@ -115,7 +117,7 @@ void ProduceMessagesTask(void *parameter) {
     uint8_t mac[6];
     WiFi.macAddress(mac);  
     pubTaskParams.mac = mac;
-    if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
+    if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: change to add to queue
       Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
       return;
     }
@@ -134,8 +136,17 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
       SubscribeTaskParams subTaskParams;
       subTaskParams.subAnnounce = (SubscribeAnnouncement*)incomingData;
       subTaskParams.mac = mac;
-      if (xTaskCreate(SubscribeTask, "SubscribeTask", 10000, &subTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
-        Serial.println("[OnDataRecv] ERROR, Couldn't create the subscribe task");
+      if (xQueueSend(subMsgQueue, &subTaskParams, pdMS_TO_TICKS(1000)) != pdTRUE) {
+        Serial.println("[OnDataRecv] ERROR, Couldn't send the subscribe message to the queue");
+        return;
+      }
+    } break;
+    case MSGTYPE_UNSUBSCRIBE: {
+      UnsubscribeTaskParams unsubTaskParams;
+      unsubTaskParams.unsubAnnounce = (UnsubscribeAnnouncement*)incomingData;
+      unsubTaskParams.mac = mac;
+      if (xQueueSend(unsubMsgQueue, &unsubTaskParams, pdMS_TO_TICKS(1000)) != pdTRUE) {
+        Serial.println("[OnDataRecv] ERROR, Couldn't send the unsubscribe message to the queue");
         return;
       }
     } break;
@@ -143,8 +154,8 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
       PublishTaskParams pubTaskParams;
       pubTaskParams.pubContent = (PublishContent*)incomingData;
       pubTaskParams.mac = mac;
-      if (xTaskCreate(PublishTask, "PublishTask", 10000, &pubTaskParams, 1, NULL) != pdPASS) { //TODO: review this id
-        Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
+      if (xQueueSend(pubMsgQueue, &pubTaskParams, pdMS_TO_TICKS(1000)) != pdTRUE) {
+        Serial.println("[OnDataRecv] ERROR, Couldn't send the publish message to the queue");
         return;
       }
     } break;
@@ -169,11 +180,55 @@ void setup() {
 
   printf("\nBROKER BOARD\n");
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
+
+  subMsgQueue = xQueueCreate(10, sizeof(SubscribeTaskParams));
+  if (subMsgQueue == NULL) {
+    Serial.println("[SETUP] ERROR, Couldn't create the subscribe message queue");
+    exit(1);
+  }
+
+  unsubMsgQueue = xQueueCreate(10, sizeof(UnsubscribeTaskParams));
+  if (unsubMsgQueue == NULL) {
+    Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe message queue");
+    exit(1);
+  }
+
+  pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
+  if (pubMsgQueue == NULL) {
+    Serial.println("[SETUP] ERROR, Couldn't create the publish message queue");
+    exit(1);
+  }
   
   BaseType_t producerTaskStatus = xTaskCreate(ProduceMessagesTask, "ProduceMessagesTask", 10000, (void *)1, 2, NULL);
   if (producerTaskStatus != pdPASS) {
     Serial.println("[SETUP] ERROR, Couldn't create the tasks");
     exit(1);
+  }
+
+  char taskName[20];
+  
+  for (int i = 0; i < SUBSCRIBETASKS; i++) {
+    snprintf(taskName, sizeof(taskName), "SubscribeTask%d", i+1);
+    if (xTaskCreate(SubscribeTask, taskName, 10000, NULL, 1, NULL) != pdPASS) {
+      Serial.println("[SETUP] ERROR, Couldn't create the subscribe task");
+      exit(1);
+    }
+  }
+
+  for (int i = 0; i < UNSUBSCRIBETASKS; i++) {
+    snprintf(taskName, sizeof(taskName), "UnsubscribeTask%d", i+1);
+    if (xTaskCreate(UnsubscribeTask, taskName, 10000, NULL, 1, NULL) != pdPASS) {
+      Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe task");
+      exit(1);
+    }
+  }
+
+  for (int i = 0; i < PUBLISHTASKS; i++) {
+    snprintf(taskName, sizeof(taskName), "PublishTask%d", i+1);    
+    if (xTaskCreate(PublishTask, taskName, 10000, NULL, 1, NULL) != pdPASS) {
+      Serial.println("[SETUP] ERROR, Couldn't create the publish task");
+      exit(1);
+    }
   }
 }
 
