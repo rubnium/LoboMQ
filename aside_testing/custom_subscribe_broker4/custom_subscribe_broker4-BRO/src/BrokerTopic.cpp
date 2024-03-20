@@ -64,11 +64,18 @@ bool BrokerTopic::subscribe(const uint8_t *mac) const {
 }   
 
 bool BrokerTopic::unsubscribe(const uint8_t *mac) {
-  //TODO: not implemented yet!
-  //Remove from subscribers
+  //Find the subscriber in the vector
+  auto it = std::find_if(subscribers.begin(), subscribers.end(), [&](const std::array<uint8_t, 6>& subscriber) {
+    return memcmp(subscriber.data(), mac, 6) == 0;
+  });
 
-  //esp_now_del_peer(mac);
-  return true;
+  if (it != subscribers.end()) { //if found
+    subscribers.erase(it);
+    removePeer(mac);
+    return true;
+  }
+
+  return false; //Subscriber not found
 }
 
 bool BrokerTopic::isSubscribed(const uint8_t *mac) const {

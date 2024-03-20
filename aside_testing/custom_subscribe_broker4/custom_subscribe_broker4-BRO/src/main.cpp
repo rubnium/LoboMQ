@@ -22,6 +22,11 @@ typedef struct {
 } SubscribeTaskParams;
 
 typedef struct {
+  UnsubscribeAnnouncement *unsubAnnounce;
+  const uint8_t *mac;
+} UnsubscribeTaskParams;
+
+typedef struct {
   PublishContent *pubContent;
   const uint8_t *mac;
 } PublishTaskParams;
@@ -54,13 +59,14 @@ void SubscribeTask(void *parameter) {
       
       bool subscribed = false;
       for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
-        if (topicObject.isPublishable(subAnnounce->topic)) { //if the topic in message is the same as the topicObject //TODO: fix, not publishable
+        if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
           if (!topicObject.isSubscribed(mac)) {
             topicObject.subscribe(mac);
           } else {
             printf("Already subscribed to %s\n", topicObject.getTopic());
           }
           subscribed = true; //if the topic was found in the vector
+          break; //exit loop, no need to keep searching topics
         }
       }
 
@@ -79,7 +85,36 @@ void SubscribeTask(void *parameter) {
 }
 
 void UnsubscribeTask(void *parameter) {
-  //TODO: implement
+  UnsubscribeTaskParams params;
+
+  for (;;) {
+    if (xQueueReceive(unsubMsgQueue, &params, pdMS_TO_TICKS(1000)) == pdPASS) { //gets the message from the queue
+      UnsubscribeAnnouncement *unsubAnnounce = params.unsubAnnounce;
+      const uint8_t *mac = params.mac;
+
+      Serial.println(unsubAnnounce->topic);
+      printf("Unsubscribed from %s by %02X:%02X:%02X:%02X:%02X:%02X\n", unsubAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+      
+      bool unsubscribed = false;
+      for (auto it = topicsVector.begin(); it != topicsVector.end(); ++it) { //checks every topicObject
+        if (strcmp(unsubAnnounce->topic, it->getTopic()) == 0) { //if the topic in message is the same as the topicObject
+          if (it->isSubscribed(mac)) {
+            it->unsubscribe(mac);
+            if (it->getSubscribersAmount() == 0) { //if topicObject has no subscribers, 
+              printf("Topic %s has no subscribers, is being deleted\n", it->getTopic());
+              topicsVector.erase(it); //delete topicObject from topicsVector
+            }
+            break; //exit loop, no need to keep searching topics
+          }
+        }
+      }
+
+      if (!unsubscribed) { //if it's a topic not existing in the vector
+        printf("Topic %s not found, it was not subscribed\n", unsubAnnounce->topic);
+      }
+    }
+    vTaskDelay(pdMS_TO_TICKS(1000));
+  }
   vTaskDelete(NULL);
 }
 
@@ -92,7 +127,7 @@ void PublishTask(void *parameter) {
       const uint8_t *mac = params.mac;
       bool sent = false;
       for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
-        if (topicObject.isPublishable(pubContent->topic)) { //if the topic in message is the same as the topicObject
+        if (topicObject.isPublishable(pubContent->topic)) { //if the topic in message is compatible with the topicObject
           topicObject.publish(*pubContent);
           sent = true; //the topic was found in the vector
         }
@@ -155,7 +190,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
         return;
       }
     } break;
-    /*case MSGTYPE_UNSUBSCRIBE: {
+    case MSGTYPE_UNSUBSCRIBE: {
       UnsubscribeTaskParams unsubTaskParams;
       unsubTaskParams.unsubAnnounce = (UnsubscribeAnnouncement*)incomingData;
       unsubTaskParams.mac = mac;
@@ -163,7 +198,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
         Serial.println("[OnDataRecv] ERROR, Couldn't send the unsubscribe message to the queue");
         return;
       }
-    } break;*/
+    } break;
     case MSGTYPE_PUBLISH: {
       PublishTaskParams pubTaskParams;
       pubTaskParams.pubContent = (PublishContent*)incomingData;
@@ -201,11 +236,11 @@ void setup() {
     exit(1);
   }
 
-  /*unsubMsgQueue = xQueueCreate(10, sizeof(UnsubscribeTaskParams));
+  unsubMsgQueue = xQueueCreate(10, sizeof(UnsubscribeTaskParams));
   if (unsubMsgQueue == NULL) {
     Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe message queue");
     exit(1);
-  }*/
+  }
 
   pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
   if (pubMsgQueue == NULL) {
@@ -221,7 +256,7 @@ void setup() {
 
   char taskName[20];
   
-  /*for (int i = 0; i < SUBSCRIBETASKS; i++) {
+  for (int i = 0; i < SUBSCRIBETASKS; i++) {
     snprintf(taskName, sizeof(taskName), "SubscribeTask%d", 0+1);
     if (xTaskCreate(SubscribeTask, taskName, 10000, (void *) i, 2, NULL) != pdPASS) {
       Serial.println("[SETUP] ERROR, Couldn't create the subscribe task");
@@ -235,7 +270,7 @@ void setup() {
       Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe task");
       exit(1);
     }
-  }*/
+  }
 
   for (int i = 0; i < PUBLISHTASKS; i++) {
     snprintf(taskName, sizeof(taskName), "PublishTask%d", i+1);    
