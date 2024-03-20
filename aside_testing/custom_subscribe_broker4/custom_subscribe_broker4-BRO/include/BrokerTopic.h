@@ -29,7 +29,7 @@ class BrokerTopic {
     std::string getSubscribersString() const;
     bool sendToQueue(const PublishContent *pubContent) const;
     void dispatchMessages() const;
-    void publish(PublishContent pubContent) const;
+    void publish(PublishContent pubContent, std::vector<std::array<uint8_t, 6>>& alreadySentMacs) const;
     bool isPublishable(const char *publishTopic) const;
 
     std::string toString() const;

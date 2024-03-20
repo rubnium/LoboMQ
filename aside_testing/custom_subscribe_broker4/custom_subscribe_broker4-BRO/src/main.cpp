@@ -47,15 +47,13 @@ bool hasWildcard(const char topic[]) {
 }
 
 void SubscribeTask(void *parameter) {
-  SubscribeTaskParams params;
-
   for (;;) {
+    SubscribeTaskParams params;
     if (xQueueReceive(subMsgQueue, &params, pdMS_TO_TICKS(1000)) == pdPASS) { //gets the message from the queue
       SubscribeAnnouncement *subAnnounce = params.subAnnounce;
       const uint8_t *mac = params.mac;
 
-      Serial.println(subAnnounce->topic);
-      printf("Subscribed to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+      printf("Subscribing to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
       
       bool subscribed = false;
       for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
@@ -126,19 +124,21 @@ void PublishTask(void *parameter) {
       PublishContent *pubContent = params.pubContent;
       const uint8_t *mac = params.mac;
       bool sent = false;
+      std::vector<std::array<uint8_t, 6>> alreadySentMacs;
       for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
         if (topicObject.isPublishable(pubContent->topic)) { //if the topic in message is compatible with the topicObject
-          topicObject.publish(*pubContent);
+          topicObject.publish(*pubContent, alreadySentMacs);
           sent = true; //the topic was found in the vector
         }
       }
 
-      if (!sent) { //if it's a topic not existing in the vector
-        printf("Topic %s not found (has no subscribers, so it isn't published)\n", pubContent->topic);
-      }
-
       printf("Received message by %02X:%02X:%02X:%02X:%02X:%02X:\n", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
       printf("\t- Topic: %s\n", pubContent->topic);
+      if (!sent) { //if it's a topic not existing in the vector
+        printf("\t- Topic %s not found (has no subscribers, so it isn't published)\n", pubContent->topic);
+      } else {
+        printf("\t- Sent to %d subscribers\n", alreadySentMacs.size());
+      }
     }
 
     vTaskDelay(pdMS_TO_TICKS(1000));
@@ -148,6 +148,8 @@ void PublishTask(void *parameter) {
 }
 
 void ProduceMessagesTask(void *parameter) {
+  char *topic = (char *)parameter;
+
   for (;;) {
     PayloadStruct payload;
     payload.number = random(101);
@@ -155,7 +157,7 @@ void ProduceMessagesTask(void *parameter) {
     PublishContent sendMessage;
     sendMessage.type = MSGTYPE_PUBLISH;
 
-    strcpy(sendMessage.topic, "s/mock");
+    strcpy(sendMessage.topic, topic);
 
     sendMessage.contentSize = sizeof(payload);
     memcpy(&sendMessage.content, &payload, sizeof(payload));
@@ -169,10 +171,7 @@ void ProduceMessagesTask(void *parameter) {
     if (xQueueSend(pubMsgQueue, &pubTaskParams, pdMS_TO_TICKS(1000)) != pdTRUE) {
       Serial.println("[OnDataRecv] ERROR, Couldn't create the publish task");
       return;
-    }
-
-    Serial.println("[PRODUCE MESSAGE] Message sent correctly");
-  
+    }  
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
   vTaskDelete(NULL);
@@ -185,6 +184,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
       SubscribeTaskParams subTaskParams;
       subTaskParams.subAnnounce = (SubscribeAnnouncement*)incomingData;
       subTaskParams.mac = mac;
+
       if (xQueueSend(subMsgQueue, &subTaskParams, pdMS_TO_TICKS(1000)) != pdTRUE) {
         Serial.println("[OnDataRecv] ERROR, Couldn't send the subscribe message to the queue");
         return;
@@ -240,25 +240,28 @@ void setup() {
   if (unsubMsgQueue == NULL) {
     Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe message queue");
     exit(1);
-  }*/
+  }
 
   pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
   if (pubMsgQueue == NULL) {
     Serial.println("[SETUP] ERROR, Couldn't create the publish message queue");
     exit(1);
   }
-  
-  BaseType_t producerTaskStatus = xTaskCreate(ProduceMessagesTask, "ProduceMessagesTask", 10000, (void *)1, 2, NULL);
+  /*
+  char *produceTopic = "s/mock";
+  BaseType_t producerTaskStatus = xTaskCreate(ProduceMessagesTask, "ProduceMessagesTask", 10000, produceTopic, 2, NULL);
   if (producerTaskStatus != pdPASS) {
     Serial.println("[SETUP] ERROR, Couldn't create the tasks");
     exit(1);
   }
+  printf("[SETUP] Message producer started correctly, will be sending to the topic \"\%s\"\n", produceTopic);*/
+
 
   char taskName[20];
   
   for (int i = 0; i < SUBSCRIBETASKS; i++) {
     snprintf(taskName, sizeof(taskName), "SubscribeTask%d", 0+1);
-    if (xTaskCreate(SubscribeTask, taskName, 10000, (void *) i, 2, NULL) != pdPASS) {
+    if (xTaskCreate(SubscribeTask, taskName, 7500, (void *) i, 2, NULL) != pdPASS) {
       Serial.println("[SETUP] ERROR, Couldn't create the subscribe task");
       exit(1);
     }
@@ -266,7 +269,7 @@ void setup() {
 
   for (int i = 0; i < UNSUBSCRIBETASKS; i++) {
     snprintf(taskName, sizeof(taskName), "UnsubscribeTask%d", i+1);
-    if (xTaskCreate(UnsubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
+    if (xTaskCreate(UnsubscribeTask, taskName, 7500, (void *) i, 1, NULL) != pdPASS) {
       Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe task");
       exit(1);
     }
@@ -279,6 +282,8 @@ void setup() {
       exit(1);
     }
   }
+
+  vTaskStartScheduler();
 }
 
 void loop() { }

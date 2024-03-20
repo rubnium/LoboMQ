@@ -96,32 +96,24 @@ std::string BrokerTopic::getSubscribersString() const {
   return result;
 }
 
-bool BrokerTopic::sendToQueue(const PublishContent *pubContent) const {
-  //TODO: duplicate pubContent and make pubContent.topic = topic
-  if (xQueueSend(messagesQueue, pubContent, pdMS_TO_TICKS(1000)) == pdTRUE)
-    return true;
-  else
-    return false;
-}
-
-void BrokerTopic::dispatchMessages() const {
-  PublishContent message;
-  if (xQueueReceive(messagesQueue, &message, pdMS_TO_TICKS(1000)) == pdPASS) { //gets the message from the queue
-    for (const auto& subscriber : subscribers) { //goes through every subscriber
-      addPeer(subscriber.data());
-      esp_now_send(subscriber.data(), (uint8_t *)&message, sizeof(message));
-    }
-    printf("[DISPATCHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
-  }
-}
-
-void BrokerTopic::publish(PublishContent pubContent) const {
+void BrokerTopic::publish(PublishContent pubContent, std::vector<std::array<uint8_t, 6>>& alreadySentMacs) const {
   //TODO: duplicate pubContent and make pubContent.topic = topic
   for (const auto& subscriber : subscribers) { //goes through every subscriber
-    addPeer(subscriber.data());
-    esp_now_send(subscriber.data(), (uint8_t *)&pubContent, sizeof(PublishContent));
+    //Checks if the message was already sent to this subscriber's MAC
+    bool alreadySent = false;
+    for (const auto& sentMac : alreadySentMacs) {
+      if (sentMac == subscriber) {
+        alreadySent = true;
+        break;
+      }
+    }
+    if (!alreadySent) {
+      addPeer(subscriber.data());
+      esp_now_send(subscriber.data(), (uint8_t *)&pubContent, sizeof(PublishContent));
+      alreadySentMacs.push_back(subscriber);
+    }
   }
-  printf("[PUBLISHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
+  printf("\t->[PUBLISHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
 }
 
 bool BrokerTopic::isPublishable(const char *publishTopic) const {
