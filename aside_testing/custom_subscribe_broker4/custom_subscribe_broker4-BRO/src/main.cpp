@@ -240,7 +240,7 @@ void setup() {
   if (unsubMsgQueue == NULL) {
     Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe message queue");
     exit(1);
-  }
+  }*/
 
   pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
   if (pubMsgQueue == NULL) {

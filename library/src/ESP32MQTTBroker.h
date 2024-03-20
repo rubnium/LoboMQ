@@ -65,6 +65,16 @@ bool publish(uint8_t *mac, char *topic, void *payload);
 bool subscribe(uint8_t *mac, char *topic);
 
 /**
+ * @brief Unsubscribe brief description.
+ * Unsubscribe full description
+ * @param mac 
+ * @param topic 
+ * @return true if correctly
+ * @return false if wrong
+ */
+bool unsubscribe(uint8_t *mac, char *topic);
+
+/**
  * @brief Checks if the data received is a MQTT message.
  * TODO: full description
  * @param incomingData

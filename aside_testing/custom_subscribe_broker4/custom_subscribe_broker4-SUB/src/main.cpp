@@ -35,6 +35,10 @@ void setup() {
   Serial.println((String)"MAC Addr: "+WiFi.macAddress());
 
   subscribe(brokerAddr, "#");
+
+  sleep(5);
+
+  unsubscribe(brokerAddr, "#");
 }
 
 void loop() { }

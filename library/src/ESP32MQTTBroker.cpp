@@ -130,7 +130,7 @@ bool subscribe(uint8_t *mac, char *topic) {
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &subMsg, sizeof(subMsg));
 	if (result == ESP_OK) {
     printf("Message sent successfully\n");
-    printf("Subscribed to: %s\n",subMsg.topic);
+    printf("Subscribed to: %s\n", subMsg.topic);
 		return true;
   } else {
     printf("Error sending message: %d\n", result);
@@ -138,6 +138,33 @@ bool subscribe(uint8_t *mac, char *topic) {
   }
 
 	//TODO: implement ack
+}
+
+bool unsubscribe(uint8_t *mac, char *topic) {
+	configureESPNOW(mac);
+  if (subTopicCheck(topic) == MQTT_ERR_INVAL_TOPIC) {
+		printf("Invalid topic\n");
+		return false;
+  }
+
+	//Create subscribe message
+	UnsubscribeAnnouncement unsubMsg;
+	unsubMsg.type = MSGTYPE_UNSUBSCRIBE;
+  strcpy(unsubMsg.topic, topic);
+
+	//Send message
+	//TODO: try sending message without registering peer
+	esp_err_t result = esp_now_send(mac, (uint8_t *) &unsubMsg, sizeof(unsubMsg));
+	if (result == ESP_OK) {
+    printf("Message sent successfully\n");
+    printf("Unsubscribed from: %s\n", unsubMsg.topic);
+		return true;
+  } else {
+    printf("Error sending message: %d\n", result);
+		return false;
+  }
+
+	//TODO:  implement ack
 }
 
 bool isMQTTMessage(const uint8_t *incomingData) {
