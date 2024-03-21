@@ -73,6 +73,13 @@ void PublishTask(void *parameter) {
   PublishContent *pubContent = params->pubContent;
   const uint8_t *mac = params->mac;
   bool sent = false;
+
+  //Uncomment to bully broker:
+  /*int counter = 0;
+  for (int i = 0; i < INT_MAX; i++) {
+    counter++;
+  }*/
+
   for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
     if (topicObject.isPublishable(pubContent->topic)) { //if the topic in message is the same as the topicObject
       topicObject.publish(*pubContent);
