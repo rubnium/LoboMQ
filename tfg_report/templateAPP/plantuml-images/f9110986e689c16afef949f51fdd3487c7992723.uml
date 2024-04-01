@@ -1,0 +1,31 @@
+@startmindmap
+skinparam dpi 300
+<style>
+mindmapDiagram {
+  node {
+    BackgroundColor white
+    FontColor #B30033
+  }
+  :depth(1) {
+    BackgroundColor white
+    FontColor #B30033
+  }
+  .uclm {
+    BackgroundColor white 
+    FontColor #B30033
+  }
+  .active {
+    BackgroundColor #B30033
+    FontColor white
+  }
+}
+</style>
+* Requisitos 
+** Requisitos de usuario <<active>>
+*** Requisitos de dominio <<active>>
+*** Requisitos de negocio <<active>>
+*** Requisitos de usuario final <<active>>
+** Requisitos de sistema 
+** Requisitos de SW/HW 
+
+@endmindmap

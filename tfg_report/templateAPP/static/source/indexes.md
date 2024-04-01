@@ -1,0 +1,7 @@
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+\lstlistoflistings

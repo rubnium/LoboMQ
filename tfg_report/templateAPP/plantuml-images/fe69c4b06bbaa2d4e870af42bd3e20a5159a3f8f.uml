@@ -1,0 +1,41 @@
+@startsalt
+skinparam dpi 300
+{
+{T
++ Elemento Plantilla | Modificable por el usuario
++ templateAPP/
+++ input/ | SI
++++ abstract.md
++++ acnowledgements.md
++++ acronyms.md
++++ appendices
+++++ 01_ap1.md
+++++ ...
++++ authorship.md
++++ chapters/
+++++ 01_intro.md
+++++ 02_objetivos.md
+++++ ...
++++ dedication.md
++++ resources/
+++++ bibliography/
++++++ bibliography.bib
+++++ csl/
++++++ acm-sig-proceedings.csl
++++++ iso690-author-date-cs.csl
++++++ ...
+++++ images/
++++++ image01.png
++++++ ...
+++++ resumen.md
+++ output/ | NO
++++ tfgii.pdf
+++ plantuml-images/ | NO
+++ static/ | NO
+++ LICENSE | NO
+++ config.yaml | SI
+++ makefile | NO
+++ run | NO
+}
+}
+@endsalt
