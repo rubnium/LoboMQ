@@ -24,7 +24,7 @@ QueueHandle_t subMsgQueue;
 void SubscribeTask(void *parameter) {
   SubscribeTaskParams *params;
   for (;;) {
-    if (xQueueReceive(subMsgQueue, &params, pdMS_TO_TICKS(1000)) == pdPASS) { //gets the message from the queue
+    if (xQueueReceive(subMsgQueue, &params, portMAX_DELAY) == pdPASS) { //gets the message from the queue
       SubscribeAnnouncement *subAnnounce = params->subAnnounce;
       const uint8_t *mac = params->mac;
 
@@ -44,10 +44,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   MessageType msgType = ((MessageBase*)incomingData)->type;
   switch (msgType) {
     case MSGTYPE_SUBSCRIBE: {
-      SubscribeAnnouncement *subAnnounce = (SubscribeAnnouncement*)incomingData;
-
-      // Creamos una estructura SubscribeTaskParams nueva y copiamos los datos
-      SubscribeTaskParams *subTaskParams = (SubscribeTaskParams *)malloc(sizeof(SubscribeTaskParams));
+      SubscribeTaskParams *subTaskParams = (SubscribeTaskParams*)malloc(sizeof(SubscribeTaskParams));
       if (subTaskParams == NULL) {
         Serial.println("[OnDataRecv] ERROR, Couldn't allocate memory for subscribe task params");
         return;
@@ -58,7 +55,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
         free(subTaskParams);
         return;
       }
-      memcpy(subTaskParams->subAnnounce, subAnnounce, sizeof(SubscribeAnnouncement));
+      memcpy(subTaskParams->subAnnounce, (SubscribeAnnouncement*)incomingData, sizeof(SubscribeAnnouncement));
       subTaskParams->mac = mac;
 
       printf("[OnDataRecv] RECEIVED SUBSCRIBE MESSAGE, with topic %s\n", subTaskParams->subAnnounce->topic);
@@ -76,9 +73,6 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
     } break;
   }
 }
-
-
-
 
 void setup() {
   Serial.begin(9600);
