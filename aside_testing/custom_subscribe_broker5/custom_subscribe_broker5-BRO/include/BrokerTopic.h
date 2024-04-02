@@ -14,7 +14,7 @@ class BrokerTopic {
     char topic[10];
     std::vector<std::array<uint8_t, 6>> subscribers;
     QueueHandle_t messagesQueue;
-    bool hasWildcards; //TODO: put it in the constructor
+    bool hasWildcards;
 
   public:
     BrokerTopic();

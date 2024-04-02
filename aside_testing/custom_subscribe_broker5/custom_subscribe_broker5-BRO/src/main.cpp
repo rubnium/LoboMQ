@@ -53,7 +53,8 @@ void SubscribeTask(void *parameter) {
       SubscribeAnnouncement *subAnnounce = params->subAnnounce;
       const uint8_t *mac = params->mac;
 
-      printf("Subscribing to %s by %02X:%02X:%02X:%02X:%02X:%02X\n", subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+      printf("Subscribing to %s by %02X:%02X:%02X:%02X:%02X:%02X\n",
+        subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
       
       bool subscribed = false;
       for (const auto& topicObject : topicsVector) { //checks every topicObject to subscribe to the proper ones
@@ -91,7 +92,8 @@ void UnsubscribeTask(void *parameter) {
       UnsubscribeAnnouncement *unsubAnnounce = params->unsubAnnounce;
       const uint8_t *mac = params->mac;
 
-      printf("Unsubscribed from %s by %02X:%02X:%02X:%02X:%02X:%02X\n", unsubAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+      printf("Unsubscribed from %s by %02X:%02X:%02X:%02X:%02X:%02X\n",
+        unsubAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
       
       bool unsubscribed = false;
       for (auto it = topicsVector.begin(); it != topicsVector.end(); ++it) { //checks every topicObject
