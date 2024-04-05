@@ -14,7 +14,7 @@
 
 typedef struct {
   int number;
-} PayloadStruct;
+} CustomPayloadStruct;
 
 typedef struct {
   SubscribeAnnouncement *subAnnounce;
@@ -48,10 +48,11 @@ bool hasWildcard(const char topic[]) {
 
 void SubscribeTask(void *parameter) {
   for (;;) {
-    SubscribeTaskParams *params;
-    if (xQueueReceive(subMsgQueue, &params, portMAX_DELAY) == pdPASS) { //gets the message from the queue
-      SubscribeAnnouncement *subAnnounce = params->subAnnounce;
-      const uint8_t *mac = params->mac;
+    SubscribeTaskParams *subParams;
+    if (xQueueReceive(subMsgQueue, &subParams, portMAX_DELAY) == pdPASS) { //gets the message from the queue
+			//Extracts fields from the subscription parameters
+      SubscribeAnnouncement *subAnnounce = subParams->subAnnounce;
+      const uint8_t *mac = subParams->mac;
 
       printf("Subscribing to %s by %02X:%02X:%02X:%02X:%02X:%02X\n",
         subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
@@ -76,7 +77,7 @@ void SubscribeTask(void *parameter) {
         newTopic.subscribe(mac);
         topicsVector.push_back(newTopic);
       }
-      free(params);
+      free(subParams);
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -85,12 +86,13 @@ void SubscribeTask(void *parameter) {
 }
 
 void UnsubscribeTask(void *parameter) {
-  UnsubscribeTaskParams *params;
+  UnsubscribeTaskParams *unsubParams;
 
   for (;;) {
-    if (xQueueReceive(unsubMsgQueue, &params, portMAX_DELAY) == pdPASS) { //gets the message from the queue
-      UnsubscribeAnnouncement *unsubAnnounce = params->unsubAnnounce;
-      const uint8_t *mac = params->mac;
+    if (xQueueReceive(unsubMsgQueue, &unsubParams, portMAX_DELAY) == pdPASS) { //gets the message from the queue
+      //Extracts fields from the unsubscription parameters
+			UnsubscribeAnnouncement *unsubAnnounce = unsubParams->unsubAnnounce;
+      const uint8_t *mac = unsubParams->mac;
 
       printf("Unsubscribed from %s by %02X:%02X:%02X:%02X:%02X:%02X\n",
         unsubAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
@@ -113,7 +115,7 @@ void UnsubscribeTask(void *parameter) {
       if (!unsubscribed) { //if it's a topic not existing in the vector
         printf("Topic %s not found, it was not subscribed\n", unsubAnnounce->topic);
       }
-      free(params);
+      free(unsubParams);
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -121,12 +123,13 @@ void UnsubscribeTask(void *parameter) {
 }
 
 void PublishTask(void *parameter) {
-  PublishTaskParams *params;
+  PublishTaskParams *pubParams;
   for (;;) {
-    if (xQueueReceive(pubMsgQueue, &params, portMAX_DELAY) == pdPASS) { //gets the message from the queue
+    if (xQueueReceive(pubMsgQueue, &pubParams, portMAX_DELAY) == pdPASS) { //gets the message from the queue
+			//Extracts fields from the publication parameters
+      PublishContent *pubContent = pubParams->pubContent;
+      const uint8_t *mac = pubParams->mac;
 
-      PublishContent *pubContent = params->pubContent;
-      const uint8_t *mac = params->mac;
       bool sent = false;
       std::vector<std::array<uint8_t, 6>> alreadySentMacs;
       for (const auto& topicObject : topicsVector) { //checks every topicObject to send the message to the proper ones
@@ -143,7 +146,7 @@ void PublishTask(void *parameter) {
       } else {
         printf("\t- Sent to %d subscribers\n", alreadySentMacs.size());
       }
-      free(params);
+      free(pubParams);
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -155,14 +158,12 @@ void ProduceMessagesTask(void *parameter) {
   char *topic = (char *)parameter;
 
   for (;;) {
-    PayloadStruct payload;
+    CustomPayloadStruct payload;
     payload.number = random(101);
 
     PublishContent sendMessage;
     sendMessage.type = MSGTYPE_PUBLISH;
-
     strcpy(sendMessage.topic, topic);
-
     sendMessage.contentSize = sizeof(payload);
     memcpy(&sendMessage.content, &payload, sizeof(payload));
 
@@ -301,7 +302,7 @@ void setup() {
   
   for (int i = 0; i < SUBSCRIBETASKS; i++) {
     snprintf(taskName, sizeof(taskName), "SubscribeTask%d", 0+1);
-    if (xTaskCreate(SubscribeTask, taskName, 7500, (void *) i, 2, NULL) != pdPASS) {
+    if (xTaskCreate(SubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       Serial.println("[SETUP] ERROR, Couldn't create the subscribe task");
       exit(1);
     }
@@ -309,7 +310,7 @@ void setup() {
 
   for (int i = 0; i < UNSUBSCRIBETASKS; i++) {
     snprintf(taskName, sizeof(taskName), "UnsubscribeTask%d", i+1);
-    if (xTaskCreate(UnsubscribeTask, taskName, 7500, (void *) i, 1, NULL) != pdPASS) {
+    if (xTaskCreate(UnsubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       Serial.println("[SETUP] ERROR, Couldn't create the unsubscribe task");
       exit(1);
     }

@@ -4,7 +4,7 @@
 
 typedef struct {
   int number;
-} PayloadStruct;
+} CustomPayloadStruct;
 
 uint8_t brokerAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destination address
 
@@ -17,7 +17,7 @@ void setup() {
 }
 
 void loop() {
-  PayloadStruct payload;
+  CustomPayloadStruct payload;
   payload.number = random(101);
 
   publish(brokerAddr, "topic1", &payload);

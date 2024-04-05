@@ -43,57 +43,94 @@ typedef enum {
 	MQTT_ERR_INVAL_TOPIC
 } ErrorType;
 
+
 /**
- * @brief Publish brief description.
- * Publish full description
- * @param mac 
- * @param topic 
- * @param payload 
- * @return true if correctly
- * @return false if wrong
+ * @brief Publishes a message to the broker.
+ * This function takes the payload and builds a message that will be published
+ * to the specified topic on the broker.
+ * @param mac The broker MAC address.
+ * @param topic The MQTT topic to publish the message to. It can't contain
+ * wildcard characters (`+`, `#`) nor non-UTF-8 characters. Invalid example: 
+ * `+/café`. Valid example: `kitchen/coffee`.
+ * @param payload Pointer to the message payload.
+ * @retval `true` if the message is successfully published.  
+ * @retval `false` if an error occurs during publishing.
  */
 bool publish(uint8_t *mac, char *topic, void *payload);
 
 /**
- * @brief Subscribe brief description.
- * Subscribe full description
- * @param mac 
- * @param topic 
- * @return true if correctly
- * @return false if wrong
+ * @brief Subscribes to a topic on the broker.
+ * This function sends a message to the broker announcing that the calling board
+ * is interested in receiving all the messages compatible with the specified
+ * topic.
+ * @param mac The broker MAC address.
+ * @param topic The MQTT topic the board subscribes to. Is compatible with
+ * wildcard characters (`+`, `#`) when used properly, and can't contain
+ * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
+ * `+/+/out/#`.
+ * @retval `true` if it's successfully subscribed.  
+ * @retval `false` if an error occurs during subscription.
  */
 bool subscribe(uint8_t *mac, char *topic);
 
 /**
- * @brief Unsubscribe brief description.
- * Unsubscribe full description
- * @param mac 
- * @param topic 
- * @return true if correctly
- * @return false if wrong
+ * @brief Unsubscribes from a topic on the broker.
+ * This function sends a message to the broker announcing that the calling board
+ * is no longer interested in receiving all the messages compatible with the
+ * specified topic.
+ * @param mac The broker MAC address.
+ * @param topic The MQTT topic the board unsubscribes from. Is compatible with
+ * wildcard characters (`+`, `#`) when used properly, and can't contain
+ * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
+ * `+/+/out/#`.
+ * @retval `true` if it's successfully unsubscribed.  
+ * @retval `false` if an error occurs during unsubscription.
  */
 bool unsubscribe(uint8_t *mac, char *topic);
 
 /**
  * @brief Checks if the data received is a MQTT message.
- * TODO: full description
- * @param incomingData
- * @return true if correctly
- * @return false if wrong
+ * This function checks if the received bytes represent a MQTT message from this
+ * library.
+ * @param incomingData The data received.
+ * @retval true if the data is a MQTT message.  
+ * @retval false if the data is not a MQTT message.  
+ * @note This function is recommended to be used at the subscriber side in the
+ * data receive callback alongside getMQTTContent(). Pseudocode example:  
+ * ```
+ * 	OnReceiveCallback(incomingData) {  
+ * 		if isMQTTMessage(incomingData)  
+ * 			payload = getMQTTContent(incomingData)  
+ * 	} 
+ * ```
  */
 bool isMQTTMessage(const uint8_t *incomingData);
 
-
-typedef struct {
-	void* content[16];
-	size_t contentSize;
-} ContentProperties;
 /**
- * @brief Checks if the data received is a MQTT message.
- * TODO: full description
- * @param incomingData
- * @return ContentProperties if correctly
+ * @brief Structure representing the content of a payload
+ * This structure holds properties of the content received inside a publication
+ * message.
  */
-ContentProperties getMQTTContent(const uint8_t *incomingData);
+typedef struct {
+	void* content[16]; /**< Array to hold content. */
+	size_t contentSize; /**< Size of the content. */
+} PayloadContent;
+
+/**
+ * @brief Gets the payload content inside a published message
+ * This function extracts the payload from the bytes of a received publication 
+ * message.
+ * @param incomingData The data received.
+ * @return A PayloadContent structure containing the extracted payload content.
+ * @note This function is recommended to be used at the subscriber side in the
+ * data receive callback alongside isMQTTMessage(). Pseudocode example:  
+ * ```
+ * 	OnReceiveCallback(incomingData) {  
+ * 		if isMQTTMessage(incomingData)  
+ * 			payload = getMQTTContent(incomingData)  
+ * 	} 
+ * ```
+ */
+PayloadContent getMQTTPayload(const uint8_t *incomingData);
 
 #endif

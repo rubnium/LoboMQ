@@ -31,7 +31,7 @@ int fixTopicAndCheckLength(char *topic) {
     return MQTT_ERR_INVAL_TOPIC;
 
   size_t len = strlen(topic);
-  if (len == 0 || len > MAXTOPICLENGTH) //if is empty or has many characters
+  if (len == 0 || len > MAXTOPICLENGTH) //if empty or has many characters
     return MQTT_ERR_INVAL_TOPIC;
 
   if (topic[0] == '/') { //if leading '/', remove
@@ -41,7 +41,7 @@ int fixTopicAndCheckLength(char *topic) {
       return MQTT_ERR_INVAL_TOPIC;
   }
 
-  if (topic[len-1] == '/') { //if trailing '/', remove
+  if (topic[len-1] == '/') { //if trailing '/'
     topic[len-1] = '\0'; //null-terminate the string to remove the trailing '/'
     len--;
     if (len == 0)
@@ -171,10 +171,10 @@ bool isMQTTMessage(const uint8_t *incomingData) {
 	return msgType == MSGTYPE_PUBLISH;
 }
 
-ContentProperties getMQTTContent(const uint8_t *incomingData) {
+PayloadContent getMQTTPayload(const uint8_t *incomingData) {
 	PublishContent *pubMsg;
 	memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
-	ContentProperties content;
+	PayloadContent content;
 	content.contentSize = pubMsg->contentSize;
 	memcpy(content.content, &pubMsg->content, content.contentSize);
 	return content;
