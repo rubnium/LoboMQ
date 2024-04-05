@@ -153,7 +153,6 @@ bool BrokerTopic::isPublishable(const char *publishTopic) const {
   }
 }
 
-
 std::string BrokerTopic::toString() const {
   std::string result = "Topic: " + std::string(topic) + "\n";
   result += "Subscribers:\n";

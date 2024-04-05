@@ -40,7 +40,7 @@ void setup() {
   //sleep(2);
   subscribe(brokerAddr, "s/mock");
 
-  sleep(20);
+  sleep(5);
 
   unsubscribe(brokerAddr, "#");
   unsubscribe(brokerAddr, "s/+");

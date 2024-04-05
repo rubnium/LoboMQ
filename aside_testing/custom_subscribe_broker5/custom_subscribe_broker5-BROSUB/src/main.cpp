@@ -22,18 +22,20 @@ typedef struct {
 QueueHandle_t subMsgQueue;
 
 void SubscribeTask(void *parameter) {
-  SubscribeTaskParams *params;
+  SubscribeTaskParams *subParams;
   for (;;) {
-    if (xQueueReceive(subMsgQueue, &params, portMAX_DELAY) == pdPASS) { //gets the message from the queue
-      SubscribeAnnouncement *subAnnounce = params->subAnnounce;
-      const uint8_t *mac = params->mac;
+    if (xQueueReceive(subMsgQueue, &subParams, portMAX_DELAY) == pdPASS) { //gets the message from the queue
+      SubscribeAnnouncement *subAnnounce = subParams->subAnnounce;
+      const uint8_t *mac = subParams->mac;
 
       printf("Subscribing to %s by %02X:%02X:%02X:%02X:%02X:%02X\n",
 				subAnnounce->topic, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
       
       //here goes subscribe logic
 
-      free(params); //free the memory after using it
+			//free the memory after using it
+			free(subParams->subAnnounce);
+      free(subParams); 
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -64,8 +66,8 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
       if (xQueueSend(subMsgQueue, &subTaskParams, pdMS_TO_TICKS(1000)) != pdTRUE) {
         Serial.println("[OnDataRecv] ERROR, Couldn't send the subscribe message to the queue");
         free(subTaskParams->subAnnounce);
-        free(subTaskParams);
-        return;
+      	free(subTaskParams);
+				return;
       }
     } break;
     

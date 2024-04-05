@@ -1,7 +1,7 @@
 ---
 csl: input/resources/csl/acm-sig-proceedings.csl
 nocite: |
-  @Gutwin2010GoneBut, @Rekimoto1997PickDrop
+  
 toc: false
 documentclass: book
 fontsize: 10.5pt

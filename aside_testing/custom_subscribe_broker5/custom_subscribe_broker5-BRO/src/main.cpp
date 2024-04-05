@@ -8,8 +8,8 @@
 #include <ESP32MQTTBroker.h>
 #include "BrokerTopic.h"
 
-#define SUBSCRIBETASKS 2
-#define UNSUBSCRIBETASKS 2
+#define SUBSCRIBETASKS 1
+#define UNSUBSCRIBETASKS 1
 #define PUBLISHTASKS 1
 
 typedef struct {
@@ -77,7 +77,8 @@ void SubscribeTask(void *parameter) {
         newTopic.subscribe(mac);
         topicsVector.push_back(newTopic);
       }
-      free(subParams);
+      free(subParams->subAnnounce);
+      free(subParams); 
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -115,7 +116,8 @@ void UnsubscribeTask(void *parameter) {
       if (!unsubscribed) { //if it's a topic not existing in the vector
         printf("Topic %s not found, it was not subscribed\n", unsubAnnounce->topic);
       }
-      free(unsubParams);
+      free(unsubParams->unsubAnnounce);
+      free(unsubParams); 
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
@@ -146,7 +148,8 @@ void PublishTask(void *parameter) {
       } else {
         printf("\t- Sent to %d subscribers\n", alreadySentMacs.size());
       }
-      free(pubParams);
+			free(pubParams->pubContent);
+      free(pubParams); 
     }
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
