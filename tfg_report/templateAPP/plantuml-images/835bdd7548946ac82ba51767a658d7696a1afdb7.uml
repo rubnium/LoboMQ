@@ -1,0 +1,14 @@
+@startsalt
+skinparam dpi 300
+{
+{T
++ template
+++ templateAPP
+++ util/
++++ fonts/
++++ sw/
+++ Dockerfile
+++ makefile
+}
+}
+@endsalt

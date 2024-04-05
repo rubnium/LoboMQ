@@ -31,7 +31,7 @@ int fixTopicAndCheckLength(char *topic) {
     return MQTT_ERR_INVAL_TOPIC;
 
   size_t len = strlen(topic);
-  if (len == 0 || len > MAXTOPICLENGTH) //if is empty or has many characters
+  if (len == 0 || len > MAXTOPICLENGTH) //if empty or has many characters
     return MQTT_ERR_INVAL_TOPIC;
 
   if (topic[0] == '/') { //if leading '/', remove
@@ -41,7 +41,7 @@ int fixTopicAndCheckLength(char *topic) {
       return MQTT_ERR_INVAL_TOPIC;
   }
 
-  if (topic[len-1] == '/') { //if trailing '/', remove
+  if (topic[len-1] == '/') { //if trailing '/'
     topic[len-1] = '\0'; //null-terminate the string to remove the trailing '/'
     len--;
     if (len == 0)
@@ -77,10 +77,12 @@ int subTopicCheck(char *topic) {
       return MQTT_ERR_INVAL_TOPIC;
 
     if (c == '+') { //if '+' was found
-      if ((prev != '\0' && prev != '/') || (topic[i+1] != '\0' && topic[i+1] != '/')) //(not first char && not after '/') || (not last char && not followed by '/')
+      if ((prev != '\0' && prev != '/') || (topic[i+1] != '\0' && topic[i+1] != '/'))
+			//(not first char && not after '/') || (not last char && not followed by '/')
         return MQTT_ERR_INVAL_TOPIC;
     } else if (c == '#') { //if '#' was found
-      if ((prev != '\0' && prev != '/') || topic[i+1] != '\0') //(not first char && not after '/') || not last char
+      if ((prev != '\0' && prev != '/') || topic[i+1] != '\0')
+			//(not first char && not after '/') || not last char
         return MQTT_ERR_INVAL_TOPIC;
     }
     prev = c;
@@ -103,7 +105,6 @@ bool publish(uint8_t *mac, char *topic, void *payload) {
 	memcpy(&pubMsg.content, payload, sizeof(payload));
 
 	//Send message
-	//TODO: try sending message without registering peer
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &pubMsg, sizeof(pubMsg));
 	if (result == ESP_OK) {
     printf("Message published successfully\n");
@@ -126,7 +127,6 @@ bool subscribe(uint8_t *mac, char *topic) {
   strcpy(subMsg.topic, topic);
 
 	//Send message
-	//TODO: try sending message without registering peer
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &subMsg, sizeof(subMsg));
 	if (result == ESP_OK) {
     printf("Message sent successfully\n");
@@ -153,7 +153,6 @@ bool unsubscribe(uint8_t *mac, char *topic) {
   strcpy(unsubMsg.topic, topic);
 
 	//Send message
-	//TODO: try sending message without registering peer
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &unsubMsg, sizeof(unsubMsg));
 	if (result == ESP_OK) {
     printf("Message sent successfully\n");
@@ -172,10 +171,10 @@ bool isMQTTMessage(const uint8_t *incomingData) {
 	return msgType == MSGTYPE_PUBLISH;
 }
 
-ContentProperties getMQTTContent(const uint8_t *incomingData) {
+PayloadContent getMQTTPayload(const uint8_t *incomingData) {
 	PublishContent *pubMsg;
 	memcpy(&pubMsg, &incomingData, sizeof(pubMsg));
-	ContentProperties content;
+	PayloadContent content;
 	content.contentSize = pubMsg->contentSize;
 	memcpy(content.content, &pubMsg->content, content.contentSize);
 	return content;

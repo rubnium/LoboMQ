@@ -1,0 +1,163 @@
+#!/bin/bash
+
+# This work has been created by felix.albertos@uclm.es and is licensed under 
+# Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+# https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+get_sources(){
+  path=$1
+  source=""
+
+  for s in $(find $path -type "f" -name "*.md" -printf "%f\n"|grep '^[0-9][0-9]'|sort)
+  do
+    source=$(echo "$source $path$s")
+  done
+  echo $source
+}
+
+
+process_dedication(){
+  dedica="input/dedication.md"
+  path="static/tmp/dedication.md"
+  echo "\begin{flushright}" > $path
+  echo "\textit" >> $path
+  sed -i -e '/./,$!d' -e :a -e '/^\n*$/{$d;N;ba' -e '}' $dedica
+  sed "s/$/\\\\\\\\/" $dedica >> $path
+  echo "\end{flushright}" >> $path
+}
+
+process_configuration(){
+  file_var_tmp="static/tmp/var.md"
+  touch $file_var_tmp
+
+  declare -A placeholder_frontPage
+  declare -A placeholder_firstPage_department
+  declare -A placeholder_firstPage_specialization
+  declare -A placeholder_firstPage_author
+  declare -A placeholder_firstPage_supervisor
+  declare -A placeholder_firstPage_cosupervisor
+  declare -A placeholder_prebiblio
+  declare -A placeholder_biblio
+  declare -A placeholder_authorship
+  declare -A placeholder_acknowledgements
+  declare -A placeholder_acronimos
+
+  placeholder_frontPage[spanish]="GRADO EN INGENIERÍA INFORMÁTICA"
+  placeholder_frontPage[english]="BACHELOR IN COMPUTER ENGINEERING"
+  placeholder_firstPage_department[spanish]="Departamento de "
+  placeholder_firstPage_department[english]="Department of "
+  placeholder_firstPage_specialization[spanish]="Tecnología Específica de "
+  placeholder_firstPage_specialization[english]="Specialization"
+  placeholder_firstPage_author[spanish]="Autor: "
+  placeholder_firstPage_author[english]="Author: "
+  placeholder_firstPage_supervisor[spanish]="Tutor Académico: "
+  placeholder_firstPage_supervisor[english]="Supervisor: "
+  placeholder_firstPage_cosupervisor[spanish]="Cotutor Académico: "
+  placeholder_firstPage_cosupervisor[english]="Co-supervisor: "
+  placeholder_prebiblio[spanish]="Anexo"
+  placeholder_prebiblio[english]="Appendix"
+  placeholder_biblio[spanish]="Bibliografía"
+  placeholder_biblio[english]="Bibliography"
+  placeholder_authorship[spanish]="Declaración de Autoría"
+  placeholder_authorship[english]="Statement of Authorship"
+  placeholder_acknowledgements[english]="Acknowledgements"
+  placeholder_acknowledgements[spanish]="Agradecimientos"
+  placeholder_acronimos[english]="Acronyms"
+  placeholder_acronimos[spanish]="Acrónimos"
+
+  cp static/source/header.md static/tmp/header.md
+  cp static/source/firstPage.md static/tmp/firstPage.md
+  cat config.yaml | while read line
+do
+  var=$(echo $line | cut -d ':' -f1)
+  value=$(echo $line | cut -d ':' -f2 | sed 's/^ //')
+  case $var in
+    Language)
+      echo "Detectado Language $value"
+      sed -i "s/<+placeholder_language+>/$value/" static/tmp/header.md 
+      sed "s/<+placeholder+>/${placeholder_frontPage[$value]}/" static/source/frontPage.md > static/tmp/frontPage.md
+      sed -i "s/<+placeholder_firstPage_department+>/${placeholder_firstPage_department[$value]}/" static/tmp/firstPage.md
+      sed -i "s/<+placeholder_firstPage_specialization+>/${placeholder_firstPage_specialization[$value]}/" static/tmp/firstPage.md
+      sed -i "s/<+placeholder_firstPage_author+>/${placeholder_firstPage_author[$value]}/" static/tmp/firstPage.md
+      sed -i "s/<+placeholder_firstPage_supervisor+>/${placeholder_firstPage_supervisor[$value]}/" static/tmp/firstPage.md
+      sed -i "s/<+placeholder_firstPage_cosupervisor+>/${placeholder_firstPage_cosupervisor[$value]}/" static/tmp/firstPage.md
+      sed "s/<+placeholder+>/${placeholder_prebiblio[$value]}/" static/source/preBiblio.md > static/tmp/preBiblio.md
+      sed "s/<+placeholder+>/${placeholder_biblio[$value]}/" static/source/bibliography.md > static/tmp/bibliography.md
+      sed "s/<+placeholder+>/${placeholder_authorship[$value]}/" static/source/preAuthorship.md > static/tmp/preAuthorship.md
+      sed "s/<+placeholder+>/${placeholder_acknowledgements[$value]}/" static/source/preAcknowledgements.md > static/tmp/preAcknowledgements.md
+      sed "s/<+placeholder+>/${placeholder_acronimos[$value]}/" static/source/preAcronyms.md > static/tmp/preAcronyms.md
+      ;;
+    Cite)
+      echo "Detectado Cite $value"
+      sed -i "1a nocite: |\n  $value" static/tmp/header.md
+      ;;
+    Csl)
+      echo "Detectado Csl $value"
+      sed -i "1a csl: $value" static/tmp/header.md
+      ;;
+    *)
+      echo "\def\\$var{$value}" >> $file_var_tmp
+      ;;
+  esac
+done
+
+if ! grep -q "^Cotutor" config.yaml; then
+  sed -i '/\\Cotutor/d' static/tmp/firstPage.md
+  sed -i '/\\Co-supervisor/d' static/tmp/firstPage.md
+fi
+}
+
+
+process_acronyms(){
+  file_var_acronyms="static/tmp/acronyms.md"
+  touch $file_var_acronyms
+  cat input/acronyms.md | while read line
+do
+  var=$(echo $line | cut -d ':' -f1)
+  value=$(echo $line | cut -d ':' -f2 | sed 's/^ //')
+  printf "<span id='$var'>$var</span>\n\n: $value\n\n" >> $file_var_acronyms
+done
+}
+
+echo -e "\
+\n\
+******************************************************************************\n\
+This work has been created by felix.albertos@uclm.es and is licensed under \n\
+Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)\n\
+https://creativecommons.org/licenses/by-nc-sa/4.0/\n\
+******************************************************************************\n\
+"
+
+rm -f static/tmp/*.*
+rm -rdf plantuml-images/
+
+process_configuration
+process_dedication
+process_acronyms
+
+pandoc --variable colorlinks=true --to="latex" --output="output/tfgii.pdf" --number-sections --resource-path="input/resources/:input/resources/images/" --pdf-engine="xelatex" --filter="pandoc-plantuml" --reference-links --listings --citeproc --bibliography="input/resources/bibliography/bibliography.bib"\
+  static/tmp/header.md\
+  static/tmp/var.md\
+  static/tmp/frontPage.md\
+  static/tmp/firstPage.md\
+  static/source/preDedication.md\
+  static/tmp/dedication.md\
+  static/source/postDedication.md\
+  static/source/beginFrontMatter.md\
+  static/tmp/preAuthorship.md\
+  input/authorship.md\
+  static/source/preResumen.md\
+  input/resumen.md\
+  static/source/preAbstract.md\
+  input/abstract.md\
+  static/tmp/preAcknowledgements.md\
+  input/acknowledgements.md\
+  static/source/indexes.md\
+  static/tmp/preAcronyms.md\
+  static/tmp/acronyms.md\
+  static/source/beginMainMatter.md\
+  $(get_sources "input/chapters/")\
+  static/tmp/preBiblio.md\
+  static/tmp/bibliography.md\
+  static/source/appendices.md\
+  $(get_sources "input/appendices/")\
