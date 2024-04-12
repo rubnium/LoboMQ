@@ -1,3 +1,13 @@
+/* PINOUT:
+CD/Chip Detect - 22 (not used)
+DO/MISO - 19
+SCK/CLK - 18
+DI/MOSI - 23
+CS - 5
+VCC - 3.3V
+GND - GND
+*/
+
 #include <Arduino.h>
 #include "esp_log.h"
 #include <SD.h>
