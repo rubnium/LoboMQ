@@ -35,6 +35,7 @@ int logToSD(const char *format, va_list args) {
 }
 
 void setup() {
+	esp_log_level_set("*", ESP_LOG_VERBOSE);
   Serial.begin(9600);
 
   if (LOG_TO_SD) {
