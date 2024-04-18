@@ -1,3 +1,4 @@
+//https://registry.platformio.org/libraries/x385832/Elog
 /* PINOUT:
 CD/Chip Detect - 22 (not used)
 DO/MISO - 19

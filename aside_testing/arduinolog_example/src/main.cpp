@@ -1,3 +1,4 @@
+//https://registry.platformio.org/libraries/thijse/ArduinoLog
 /* PINOUT:
 CD/Chip Detect - 22 (not used)
 DO/MISO - 19
@@ -7,6 +8,7 @@ CS - 5
 VCC - 3.3V
 GND - GND
 */
+
 #include <ArduinoLog.h>
 #include <SD.h>
 #include <SPI.h>

@@ -1,3 +1,14 @@
+//https://registry.platformio.org/libraries/hideakitai/DebugLog
+/* PINOUT:
+CD/Chip Detect - 22 (not used)
+DO/MISO - 19
+SCK/CLK - 18
+DI/MOSI - 23
+CS - 5
+VCC - 3.3V
+GND - GND
+*/
+
 //#define DEBUGLOG_DISABLE_LOG //uncommenting DEBUGLOG_DISABLE_LOG disables ASSERT and all log (Release Mode)
 
 //You can also set default log level by defining macro (default: INFO)
