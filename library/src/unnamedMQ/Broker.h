@@ -1,3 +1,9 @@
+/**
+ * @file Broker.h
+ * @author Rubén Gómez Villegas
+ * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ */
+
 #ifndef BROKER_H
 
 #define BROKER_H

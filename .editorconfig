@@ -9,7 +9,7 @@ tab_width = 2
 end_of_line = lf
 charset = utf-8
 insert_final_newline = true
-trim_trailing_whitespace = true
+trim_trailing_whitespace = false
 
 [*.{c,cpp,h,hpp}]
 max_line_length = 120

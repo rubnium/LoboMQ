@@ -13,8 +13,8 @@
 
 #define MAXTOPICLENGTH 10
 
-typedef enum {
-	MSGTYPE_SUBSCRIBE = 0x00,
+typedef enum __attribute__((packed)) {
+	MSGTYPE_SUBSCRIBE = (uint8_t)0x00,
 	MSGTYPE_UNSUBSCRIBE,
 	MSGTYPE_PUBLISH
 } MessageType;
