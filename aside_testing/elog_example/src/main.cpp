@@ -14,7 +14,7 @@ GND - GND
 #include <SD.h>
 #include <SPI.h>
 
-#define LOG_TO_SD false
+#define LOG_TO_SD true
 
 #define CS 5
 #define SCK 18

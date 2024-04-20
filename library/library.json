@@ -17,13 +17,13 @@
   ],
   "_license": "MIT",
   "homepage": "https://github.com/rubnium/MQTT_for_ESP-NOW",
-  "_dependencies": {
-    
+  "dependencies": {
+    "x385832/Elog": "^1.1.4"
   },
   "frameworks": "arduino",
   "platforms": ["espressif32"],
   "keywords": [
-    "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe", "broker"
+    "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe", "broker", "esp-now", "now"
   ],
   "exclude": [
     "platformio.ini",

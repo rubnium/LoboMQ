@@ -1,9 +1,9 @@
 #include "unnamedMQ/BrokerTopic.h"
-#include <Arduino.h>
 
-BrokerTopic::BrokerTopic(): topic(""), hasWildcards(false) {}
+BrokerTopic::BrokerTopic(): logger(disableLogger()), topic(""), hasWildcards(false) {}
 
-BrokerTopic::BrokerTopic(const char topic[], const bool hasWildcards) {
+BrokerTopic::BrokerTopic(Elog *_logger, const char topic[], const bool hasWildcards) {
+	logger = _logger;
   //inserts topic to the attribute
   strncpy(this->topic, topic, sizeof(this->topic) - 1);
   this->topic[sizeof(this->topic) - 1] = '\0';
@@ -13,9 +13,10 @@ BrokerTopic::BrokerTopic(const char topic[], const bool hasWildcards) {
   //initializes the queue
   messagesQueue = xQueueCreate(10, sizeof(PublishContent));
   if (messagesQueue == NULL) {
-    Serial.println("[BROKER TOPIC] ERROR, Couldn't create the queue");
+    logger->log(ERROR, "[BROKER TOPIC %s] Couldn't create the message queue", this->topic);
     return;
   }
+	logger->log(DEBUG, "[BROKER TOPIC %s] Created", this->topic);
 }
 
 const char* BrokerTopic::getTopic() const {
@@ -37,7 +38,7 @@ bool addPeer(const uint8_t *mac) {
     esp_now_peer_info_t peerInfo;
     memset(&peerInfo, 0, sizeof(peerInfo));
     memcpy(peerInfo.peer_addr, mac, 6);
-    peerInfo.channel = 0;  
+    peerInfo.channel = 0;
     peerInfo.encrypt = false;
     esp_now_add_peer(&peerInfo);
   }
@@ -49,7 +50,7 @@ bool removePeer(const uint8_t *mac) {
   if (esp_now_is_peer_exist(mac)) {
     if (esp_now_del_peer(mac) != ESP_OK)
       return false;
-    
+
     return true;
   } else {
     return false;
@@ -61,7 +62,7 @@ bool BrokerTopic::subscribe(const uint8_t *mac) const {
     const_cast<BrokerTopic*>(this)->subscribers.push_back(*reinterpret_cast<const std::array<uint8_t, 6>*>(mac));
   }
   return true;
-}   
+}
 
 bool BrokerTopic::unsubscribe(const uint8_t *mac) {
   //Find the subscriber in the vector
@@ -114,7 +115,7 @@ void BrokerTopic::publish(PublishContent pubContent, std::vector<std::array<uint
       alreadySentMacs.push_back(subscriber);
     }
   }
-  printf("\t->[PUBLISHER] Sent %s topic messages to %d subscribers\n", topic, subscribers.size());
+	logger->log(DEBUG, "[BROKER TOPIC %s] Sent message to %d subscribers", topic, subscribers.size());
 }
 
 bool BrokerTopic::isPublishable(const char *publishTopic) const {
@@ -133,7 +134,7 @@ bool BrokerTopic::isPublishable(const char *publishTopic) const {
       char pubChar = publishTopic[i];
       char subChar = topic[j];
       //if current chars are different and not wildcards, incompatibles
-      if (pubChar != subChar && subChar != '+' && subChar != '#')  
+      if (pubChar != subChar && subChar != '+' && subChar != '#')
         return false;
       if (subChar == '+') { //'+' only accepts 1 level, goes to the next topic separator '/'
         while (publishTopic[i] != '/' && i < publishLen)
@@ -148,7 +149,7 @@ bool BrokerTopic::isPublishable(const char *publishTopic) const {
     //if only one of the topics has been traversed, incompatibles
     if (i < publishLen || j < subscribeLen)
       return false;
-    else 
+    else
       return true;
   }
 }

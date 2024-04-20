@@ -2,13 +2,12 @@
 
 #define BROKERTOPIC_H
 
-#include <Arduino.h>
 #include <esp_now.h>
 #include <string>
 #include <vector>
 #include <array>
 
-#include "PubSub.h"
+#include <ESP32MQTTBroker.h>
 
 class BrokerTopic {
   private:
@@ -16,11 +15,10 @@ class BrokerTopic {
     std::vector<std::array<uint8_t, 6>> subscribers;
     QueueHandle_t messagesQueue;
     bool hasWildcards;
-	Elog *logger;
 
   public:
     BrokerTopic();
-    BrokerTopic(Elog *_logger, const char topic[], const bool hasWildcards);
+    BrokerTopic(const char topic[], const bool hasWildcards);
 
     const char* getTopic() const;
     int getSubscribersAmount() const;

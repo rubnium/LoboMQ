@@ -1,7 +1,12 @@
-#ifndef Broker_h
+#ifndef BROKER_H
 
-#define Broker_h
+#define BROKER_H
+
 #include "unnamedMQ/PubSub.h"
+#include "unnamedMQ/commons/Includes.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <vector>
 
 typedef struct {
   SubscribeAnnouncement *subAnnounce;
@@ -18,6 +23,6 @@ typedef struct {
   const uint8_t *mac;
 } PublishTaskParams;
 
-void setupBroker();
+void setupBroker(Elog *_logger = initializeSerialLogger(BROKER));
 
 #endif
