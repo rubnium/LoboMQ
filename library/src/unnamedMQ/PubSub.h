@@ -4,13 +4,12 @@
  * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
  */
 
-#ifndef PubSub_h
+#ifndef PUBSUB_H
 
-#define PubSub_h
-#include <Arduino.h>
-#include <esp_now.h>
+#define PUBSUB_H
+
+#include "unnamedMQ/commons/Includes.h"
 #include <stdint.h>
-#include <WiFi.h>
 
 #define MAXTOPICLENGTH 10
 

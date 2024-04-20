@@ -1,3 +1,4 @@
+//https://registry.platformio.org/libraries/x385832/Elog
 /* PINOUT:
 CD/Chip Detect - 22 (not used)
 DO/MISO - 19
@@ -13,7 +14,7 @@ GND - GND
 #include <SD.h>
 #include <SPI.h>
 
-#define LOG_TO_SD false
+#define LOG_TO_SD true
 
 #define CS 5
 #define SCK 18
