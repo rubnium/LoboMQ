@@ -1,3 +1,2 @@
-HTML: Lenguaje de marcas de hypertexto
-HCI: Human Computer Interaction
+IoT: Internet of Things, Internet de las Cosas
 TFG: Trabajo Final de Grado

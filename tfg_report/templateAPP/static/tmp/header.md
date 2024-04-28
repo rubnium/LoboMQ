@@ -7,7 +7,7 @@ documentclass: book
 fontsize: 10.5pt
 header-includes: |
   \usepackage{fontspec}
-  \setmainfont{Arial}
+  \setmainfont{Times New Roman}
   \usepackage[top=1in,bottom=1in,left=3.25cm,right=3.5cm]{geometry}
   \renewcommand{\baselinestretch}{1.5}
   \usepackage{lipsum}

@@ -13,8 +13,8 @@
 
 #define MAXTOPICLENGTH 10
 
-typedef enum {
-	MSGTYPE_SUBSCRIBE = 0x00,
+typedef enum __attribute__((packed)) {
+	MSGTYPE_SUBSCRIBE = (uint8_t)0x00,
 	MSGTYPE_UNSUBSCRIBE,
 	MSGTYPE_PUBLISH
 } MessageType;
@@ -38,8 +38,8 @@ typedef struct : public MessageBase {
 } PublishContent;
 
 typedef enum {
-	MQTT_ERR_SUCCESS = 0x00,
-	MQTT_ERR_INVAL_TOPIC
+	MQ_ERR_SUCCESS = 0x00,
+	MQ_ERR_INVAL_TOPIC
 } ErrorType;
 
 
@@ -55,7 +55,7 @@ typedef enum {
  * @retval `true` if the message is successfully published.  
  * @retval `false` if an error occurs during publishing.
  */
-bool publish(uint8_t *mac, char *topic, void *payload);
+bool publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
 
 /**
  * @brief Subscribes to a topic on the broker.
@@ -70,7 +70,7 @@ bool publish(uint8_t *mac, char *topic, void *payload);
  * @retval `true` if it's successfully subscribed.  
  * @retval `false` if an error occurs during subscription.
  */
-bool subscribe(uint8_t *mac, char *topic);
+bool subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
 /**
  * @brief Unsubscribes from a topic on the broker.
@@ -78,32 +78,32 @@ bool subscribe(uint8_t *mac, char *topic);
  * is no longer interested in receiving all the messages compatible with the
  * specified topic.
  * @param mac The broker MAC address.
- * @param topic The MQTT topic the board unsubscribes from. Is compatible with
+ * @param topic The MQ topic the board unsubscribes from. Is compatible with
  * wildcard characters (`+`, `#`) when used properly, and can't contain
  * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
  * `+/+/out/#`.
  * @retval `true` if it's successfully unsubscribed.  
  * @retval `false` if an error occurs during unsubscription.
  */
-bool unsubscribe(uint8_t *mac, char *topic);
+bool unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
 /**
- * @brief Checks if the data received is a MQTT message.
- * This function checks if the received bytes represent a MQTT message from this
+ * @brief Checks if the data received is a MQ message.
+ * This function checks if the received bytes represent a MQ message from this
  * library.
  * @param incomingData The data received.
- * @retval true if the data is a MQTT message.  
- * @retval false if the data is not a MQTT message.  
+ * @retval true if the data is a MQ message.  
+ * @retval false if the data is not a MQ message.  
  * @note This function is recommended to be used at the subscriber side in the
- * data receive callback alongside getMQTTContent(). Pseudocode example:  
+ * data receive callback alongside getMQContent(). Pseudocode example:  
  * ```
  * 	OnReceiveCallback(incomingData) {  
- * 		if isMQTTMessage(incomingData)  
- * 			payload = getMQTTContent(incomingData)  
+ * 		if isMQMessage(incomingData)  
+ * 			payload = getMQContent(incomingData)  
  * 	} 
  * ```
  */
-bool isMQTTMessage(const uint8_t *incomingData);
+bool isMQMessage(const uint8_t *incomingData);
 
 /**
  * @brief Structure representing the content of a payload
@@ -122,14 +122,14 @@ typedef struct {
  * @param incomingData The data received.
  * @return A PayloadContent structure containing the extracted payload content.
  * @note This function is recommended to be used at the subscriber side in the
- * data receive callback alongside isMQTTMessage(). Pseudocode example:  
+ * data receive callback alongside isMQMessage(). Pseudocode example:  
  * ```
  * 	OnReceiveCallback(incomingData) {  
- * 		if isMQTTMessage(incomingData)  
- * 			payload = getMQTTContent(incomingData)  
+ * 		if isMQMessage(incomingData)  
+ * 			payload = getMQContent(incomingData)  
  * 	} 
  * ```
  */
-PayloadContent getMQTTPayload(const uint8_t *incomingData);
+PayloadContent getMQPayload(const uint8_t *incomingData);
 
 #endif

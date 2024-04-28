@@ -1,3 +1,9 @@
+/**
+ * @file BrokerTopic.h
+ * @author Rubén Gómez Villegas
+ * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ */
+
 #ifndef BROKERTOPIC_H
 
 #define BROKERTOPIC_H
@@ -12,7 +18,7 @@
 
 class BrokerTopic {
   private:
-    char topic[10];
+    char topic[MAXTOPICLENGTH];
     std::vector<std::array<uint8_t, 6>> subscribers;
     QueueHandle_t messagesQueue;
     bool hasWildcards;

@@ -1,0 +1,17 @@
+{
+  "topic": "example",
+  "bolVal": false,
+  "contents": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f"
+  ],
+  "macsSubscribers": [
+    "12:34:56:78:9A:BC",
+    "AB:CD:EF:12:34:56",
+    "00:11:22:33:44:55"
+  ]
+}
