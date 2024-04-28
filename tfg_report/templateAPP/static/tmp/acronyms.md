@@ -1,10 +1,6 @@
-<span id='HTML'>HTML</span>
+<span id='IoT'>IoT</span>
 
-: Lenguaje de marcas de hypertexto
-
-<span id='HCI'>HCI</span>
-
-: Human Computer Interaction
+: Internet of Things, Internet de las Cosas
 
 <span id='TFG'>TFG</span>
 
