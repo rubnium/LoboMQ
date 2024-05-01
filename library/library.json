@@ -18,7 +18,8 @@
   "_license": "MIT",
   "homepage": "https://github.com/rubnium/MQTT_for_ESP-NOW",
   "dependencies": {
-    "x385832/Elog": "^1.1.4"
+    "x385832/Elog": "^1.1.4",
+		"bblanchon/ArduinoJson": "^7.0.4"
   },
   "frameworks": "arduino",
   "platforms": ["espressif32"],

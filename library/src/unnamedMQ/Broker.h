@@ -29,6 +29,6 @@ typedef struct {
   const uint8_t *mac;
 } PublishTaskParams;
 
-void setupBroker(Elog *_logger = initializeSerialLogger(BROKER));
+void setupBroker(Elog *_logger = initializeSerialLogger(BROKER), bool persistence = false, int csSdPin = -1);
 
 #endif

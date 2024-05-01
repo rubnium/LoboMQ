@@ -1,5 +1,6 @@
 #include "unnamedMQ/Broker.h"
 #include "unnamedMQ/BrokerTopic.h"
+#include "unnamedMQ/BrokerSDUtils.h"
 
 #define SUBSCRIBETASKS 1
 #define UNSUBSCRIBETASKS 1
@@ -14,6 +15,10 @@ QueueHandle_t unsubMsgQueue;
 QueueHandle_t pubMsgQueue;
 
 Elog *logger;
+bool gPersistence;
+int gCsSdPin;
+//Mutex semaphore
+SemaphoreHandle_t mutex;
 
 bool hasWildcard(const char topic[]) {
   for (int i = 0; i < strlen(topic); i++) {
@@ -215,11 +220,30 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   }
 }
 
-
-void setupBroker(Elog *_logger) {
+void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
 	logger = _logger;
   randomSeed(analogRead(0)); //to generate random numbers
 	logger->log(DEBUG, "Initializing broker...");
+
+	//Retrieve topics from SD card (if persistence is enabled)
+	gCsSdPin = csSdPin;
+	gPersistence = persistence;
+	if (gPersistence) {
+		mutex = xSemaphoreCreateBinary();
+		if(mutex == NULL) {
+			logger->log(ERROR, "Failed to create mutex, trying to continue without persistence");
+			gPersistence = false;
+		} else {
+			xSemaphoreGive(mutex);
+			if (!initializeSDCard(gCsSdPin, logger, &mutex, portMAX_DELAY)) {
+				logger->log(WARNING, "Couldn't initialize SD card for persistence, continuing without it");
+				gPersistence = false;
+			} else {
+				logger->log(INFO, "SD card initialized for persistence");
+			}
+		}
+	}
+
   WiFi.mode(WIFI_STA);
   //Initialize ESP-NOW and set up receive callback
   if (esp_now_init() != ESP_OK || esp_now_register_recv_cb(OnDataRecv) != ESP_OK) {
