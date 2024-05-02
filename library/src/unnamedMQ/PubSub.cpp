@@ -23,7 +23,7 @@ bool configureESPNOW(uint8_t *mac) {
 
 		esp_err_t result = esp_now_add_peer(&peerInfo);
 		if (result != ESP_OK) {
-			logger->log(ERROR, "Couldn't register peer: %d\n", result);
+			logger->log(ERROR, "Couldn't register peer: %d", result);
 			return false;
 		}
 		return true;

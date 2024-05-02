@@ -17,16 +17,7 @@ QueueHandle_t pubMsgQueue;
 Elog *logger;
 bool gPersistence;
 int gCsSdPin;
-//Mutex semaphore
 SemaphoreHandle_t mutex;
-
-bool hasWildcard(const char topic[]) {
-  for (int i = 0; i < strlen(topic); i++) {
-    if (topic[i] == '+' || topic[i] == '#')
-      return true;
-  }
-  return false;
-}
 
 void SubscribeTask(void *parameter) {
   for (;;) {
@@ -44,6 +35,8 @@ void SubscribeTask(void *parameter) {
         if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
           if (!topicObject.isSubscribed(mac)) {
             topicObject.subscribe(mac);
+						if (gPersistence)
+							writeBTToFile(const_cast<BrokerTopic*>(&topicObject), logger, &mutex, portMAX_DELAY);
           } else {
             logger->log(INFO, "\tAlready subscribed to '%s'", topicObject.getTopic());
           }
@@ -55,13 +48,18 @@ void SubscribeTask(void *parameter) {
       if (!subscribed) { //if it's a topic not existing in the vector
         logger->log(INFO, "Topic '%s' not found, creating a new topic", subAnnounce->topic);
 
-        BrokerTopic newTopic(logger, subAnnounce->topic, hasWildcard(subAnnounce->topic));
+        BrokerTopic newTopic(logger, subAnnounce->topic);
         newTopic.subscribe(mac);
-        topicsVector.push_back(newTopic);
+				if (gPersistence) {
+					newTopic.setFilename(replaceChars(subAnnounce->topic).c_str()); //translates the topic to have a compatible filename
+					printf("After setting filename, this is: %s\n", newTopic.getFilename());
+					writeBTToFile(&newTopic, logger, &mutex, portMAX_DELAY);
+				}
+				topicsVector.push_back(newTopic);
       }
       free(subParams->subAnnounce);
       free(subParams);
-    }
+    }		
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
 
@@ -87,8 +85,13 @@ void UnsubscribeTask(void *parameter) {
             it->unsubscribe(mac);
             if (it->getSubscribersAmount() == 0) { //if topicObject has no subscribers,
               logger->log(INFO, "Topic '%s' has no subscribers, is being deleted", it->getTopic());
+							if (gPersistence)
+								deleteBTFile(it->getFilename(), logger, &mutex, portMAX_DELAY);
               topicsVector.erase(it); //delete topicObject from topicsVector
-            }
+            } else {
+							if (gPersistence)
+								writeBTToFile(&(*it), logger, &mutex, portMAX_DELAY);
+						}
             unsubscribed = true;
             break; //exit loop, no need to keep searching topics
           }
@@ -214,7 +217,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
 
     default: {
 			//Log with "invalid message" and the sender's mac
-			logger->log(INFO, "Invalid message type received from %02X:%02X:%02X:%02X:%02X:%02X\n",
+			logger->log(INFO, "Invalid message type received from %02X:%02X:%02X:%02X:%02X:%02X",
 				mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     } break;
   }
@@ -242,7 +245,12 @@ void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
 				logger->log(INFO, "SD card initialized for persistence");
 			}
 		}
+
+		//Restore topics from SD card
+		restoreBTs(&topicsVector, gCsSdPin, logger, &mutex, portMAX_DELAY);
 	}
+
+
 
   WiFi.mode(WIFI_STA);
   //Initialize ESP-NOW and set up receive callback

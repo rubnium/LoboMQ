@@ -58,32 +58,12 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
 	return true;
 }
 
-void writeBTToFile(const char* filename, const char* topic, std::vector<std::array<uint8_t, 6>>* subscribers, Elog* logger) {
-	JsonDocument doc;
-	doc["topic"] = topic;
-	JsonArray subscribersArray = doc["subscribers"].to<JsonArray>();
-	for (const auto& mac : *subscribers) {
-		char macChar[18];
-		snprintf(macChar, sizeof(macChar), "%02X:%02X:%02X:%02X:%02X:%02X\n",
-			mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-		subscribersArray.add(macChar);
+void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickType_t delay) {
+	if (!xSemaphoreTake(*mutex, delay)) {
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for BTs restoration");
+		return;
 	}
 
-	String fullFilepath = (String(FILE_PATH)+"/"+filename+String(FILE_FORMAT));
-	//TODO: get mutex
-	File file = SD.open(fullFilepath, FILE_WRITE);
-	if (!file) {
-		logger->log(ERROR, "[BT SD] Couldn't open file for writing (%s)", fullFilepath);
-	} else {
-		serializeJsonPretty(doc, file);
-		logger->log(DEBUG, "[BT SD] Wrote topic '%s' to file successfully", topic);
-		file.close();
-	}
-	//TODO: release mutex
-}
-
-void readFiles(Elog *logger) {
-	//TODO: get mutex
 	File dir = SD.open(FILE_PATH);
 	//go through every file at folder FILE_PATH
 	if (!dir) {
@@ -93,34 +73,80 @@ void readFiles(Elog *logger) {
 			String filename = file.name();
 			if (!file.isDirectory() && filename.endsWith(FILE_FORMAT)) {
 				const char *topic;
-				std::vector<std::array<uint8_t, 6>> subscribers;
+				//std::vector<std::array<uint8_t, 6>> subscribers;
 
 				JsonDocument doc;
 				DeserializationError error = deserializeJson(doc, file);
 				if (error) {
 					Serial.printf("Error parsing JSON file %s\n", file.name());
-					return;
+					continue;
 				}
 
 				topic = doc["topic"];
-
 				JsonArray subscribersArray = doc["subscribers"];
+
+				if (subscribersArray.size() == 0) {
+					logger->log(WARNING, "[BT SD] No subscribers found in topic '%s' of the SD card, skipped", topic);
+					continue;
+				}
+
+				BrokerTopic newTopic(logger, topic);
+
 				for (const auto &mac : subscribersArray) {
 					std::array<uint8_t, 6> macArray;
 					sscanf(mac, "%02X:%02X:%02X:%02X:%02X:%02X\n",
 						&macArray[0], &macArray[1], &macArray[2], &macArray[3], &macArray[4], &macArray[5]);
-					subscribers.push_back(macArray);
+					//subscribers.push_back(macArray);
+					newTopic.subscribe(macArray);
 				}
+				String filename = file.name();
+				filename.replace(FILE_FORMAT, "");
+				newTopic.setFilename(filename.c_str());
+				topicsVector->push_back(newTopic);
+				logger->log(INFO, "[BT SD] Created topic '%s' found on SD card", topic);
 			}
 			file.close();
 		}
 		dir.close();
 	}
-	//TODO: release mutex
+	xSemaphoreGive(*mutex);
 }
 
-void deleteBTFile(const char* filename, Elog* logger) {
-	//TODO: get mutex
+void writeBTToFile(BrokerTopic* brokerTopic, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay) {
+	JsonDocument doc;
+	doc["topic"] = brokerTopic->getTopic();
+	JsonArray subscribersArray = doc["subscribers"].to<JsonArray>();
+	for (const auto& mac : brokerTopic->getSubscribers()) {
+		char macChar[18];
+		snprintf(macChar, sizeof(macChar), "%02X:%02X:%02X:%02X:%02X:%02X\n",
+			mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+		subscribersArray.add(macChar);
+	}
+
+	String fullFilepath = (String(FILE_PATH)+"/"+brokerTopic->getFilename()+String(FILE_FORMAT));
+	
+	if (!xSemaphoreTake(*mutex, delay)) {
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for BT file write");
+		return;
+	}
+
+	File file = SD.open(fullFilepath, FILE_WRITE);
+	if (!file) {
+		logger->log(ERROR, "[BT SD] Couldn't open file for writing (%s)", fullFilepath);
+	} else {
+		serializeJsonPretty(doc, file);
+		logger->log(DEBUG, "[BT SD] Wrote topic '%s' to file '%s' successfully", brokerTopic->getTopic(), (brokerTopic->getFilename()+String(FILE_FORMAT)));
+		file.close();
+	}
+	xSemaphoreGive(*mutex);
+}
+
+void deleteBTFile(const char* filename, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay) {
+	if (!xSemaphoreTake(*mutex, delay)) {
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for BT file deletion");
+		return;
+	}
+
 	String fullFilepath = (String(FILE_PATH)+"/"+filename+String(FILE_FORMAT));
 	File file = SD.open(fullFilepath, FILE_WRITE);
 	if (!file) {
@@ -131,8 +157,7 @@ void deleteBTFile(const char* filename, Elog* logger) {
 		} else {
 			logger->log(DEBUG, "[BT SD] Deleted file %s successfully", file.name());
 		}
-
 		file.close();
 	}
-	//TODO: release mutex
+	xSemaphoreGive(*mutex);
 }

@@ -1,14 +1,22 @@
 #include "unnamedMQ/BrokerTopic.h"
 
+bool hasWildcardCheck(const char topic[]) {
+  for (int i = 0; i < strlen(topic); i++) {
+    if (topic[i] == '+' || topic[i] == '#')
+      return true;
+  }
+  return false;
+} 
+
 BrokerTopic::BrokerTopic(): logger(disableLogger()), topic(""), hasWildcards(false) {}
 
-BrokerTopic::BrokerTopic(Elog *_logger, const char topic[], const bool hasWildcards) {
+BrokerTopic::BrokerTopic(Elog *_logger, const char topic[]) {
 	logger = _logger;
   //inserts topic to the attribute
   strncpy(this->topic, topic, sizeof(this->topic) - 1);
   this->topic[sizeof(this->topic) - 1] = '\0';
 
-  this->hasWildcards = hasWildcards;
+  this->hasWildcards = hasWildcardCheck(this->topic);
 
   //initializes the queue
   messagesQueue = xQueueCreate(10, sizeof(PublishContent));
@@ -29,6 +37,15 @@ int BrokerTopic::getSubscribersAmount() const {
 
 const std::vector<std::array<uint8_t, 6>>& BrokerTopic::getSubscribers() const {
   return subscribers;
+}
+
+const char* BrokerTopic::getFilename() const {
+	return filename;
+}
+
+void BrokerTopic::setFilename(const char* filename) {
+	strncpy(this->filename, filename, sizeof(this->filename) - 1);
+  this->filename[sizeof(this->filename)-1] = '\0';
 }
 
 bool addPeer(const uint8_t *mac) {
@@ -60,6 +77,13 @@ bool removePeer(const uint8_t *mac) {
 bool BrokerTopic::subscribe(const uint8_t *mac) const {
   if (!isSubscribed(mac)) {
     const_cast<BrokerTopic*>(this)->subscribers.push_back(*reinterpret_cast<const std::array<uint8_t, 6>*>(mac));
+  }
+  return true;
+}
+
+bool BrokerTopic::subscribe(const std::array<uint8_t, 6>& mac) const {
+  if (!isSubscribed(mac.data())) {
+    const_cast<BrokerTopic*>(this)->subscribers.push_back(mac);
   }
   return true;
 }
