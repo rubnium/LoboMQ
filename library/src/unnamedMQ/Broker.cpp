@@ -1,5 +1,6 @@
 #include "unnamedMQ/Broker.h"
 #include "unnamedMQ/BrokerTopic.h"
+#include "unnamedMQ/BrokerSDUtils.h"
 
 #define SUBSCRIBETASKS 1
 #define UNSUBSCRIBETASKS 1
@@ -14,14 +15,9 @@ QueueHandle_t unsubMsgQueue;
 QueueHandle_t pubMsgQueue;
 
 Elog *logger;
-
-bool hasWildcard(const char topic[]) {
-  for (int i = 0; i < strlen(topic); i++) {
-    if (topic[i] == '+' || topic[i] == '#')
-      return true;
-  }
-  return false;
-}
+bool gPersistence;
+int gCsSdPin;
+SemaphoreHandle_t mutex;
 
 void SubscribeTask(void *parameter) {
   for (;;) {
@@ -39,6 +35,8 @@ void SubscribeTask(void *parameter) {
         if (strcmp(subAnnounce->topic, topicObject.getTopic()) == 0) { //if the topic in message is the same as the topicObject
           if (!topicObject.isSubscribed(mac)) {
             topicObject.subscribe(mac);
+						if (gPersistence)
+							writeBTToFile(const_cast<BrokerTopic*>(&topicObject), logger, &mutex, portMAX_DELAY);
           } else {
             logger->log(INFO, "\tAlready subscribed to '%s'", topicObject.getTopic());
           }
@@ -50,13 +48,18 @@ void SubscribeTask(void *parameter) {
       if (!subscribed) { //if it's a topic not existing in the vector
         logger->log(INFO, "Topic '%s' not found, creating a new topic", subAnnounce->topic);
 
-        BrokerTopic newTopic(logger, subAnnounce->topic, hasWildcard(subAnnounce->topic));
+        BrokerTopic newTopic(logger, subAnnounce->topic);
         newTopic.subscribe(mac);
-        topicsVector.push_back(newTopic);
+				if (gPersistence) {
+					newTopic.setFilename(replaceChars(subAnnounce->topic).c_str()); //translates the topic to have a compatible filename
+					printf("After setting filename, this is: %s\n", newTopic.getFilename());
+					writeBTToFile(&newTopic, logger, &mutex, portMAX_DELAY);
+				}
+				topicsVector.push_back(newTopic);
       }
       free(subParams->subAnnounce);
       free(subParams);
-    }
+    }		
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
 
@@ -82,8 +85,13 @@ void UnsubscribeTask(void *parameter) {
             it->unsubscribe(mac);
             if (it->getSubscribersAmount() == 0) { //if topicObject has no subscribers,
               logger->log(INFO, "Topic '%s' has no subscribers, is being deleted", it->getTopic());
+							if (gPersistence)
+								deleteBTFile(it->getFilename(), logger, &mutex, portMAX_DELAY);
               topicsVector.erase(it); //delete topicObject from topicsVector
-            }
+            } else {
+							if (gPersistence)
+								writeBTToFile(&(*it), logger, &mutex, portMAX_DELAY);
+						}
             unsubscribed = true;
             break; //exit loop, no need to keep searching topics
           }
@@ -209,40 +217,64 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
 
     default: {
 			//Log with "invalid message" and the sender's mac
-			logger->log(INFO, "Invalid message type received from %02X:%02X:%02X:%02X:%02X:%02X\n",
+			logger->log(INFO, "Invalid message type received from %02X:%02X:%02X:%02X:%02X:%02X",
 				mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     } break;
   }
 }
 
-
-void setupBroker(Elog *_logger) {
+IMQErrType setupBroker(Elog *_logger, bool persistence, int csSdPin) {
 	logger = _logger;
   randomSeed(analogRead(0)); //to generate random numbers
 	logger->log(DEBUG, "Initializing broker...");
+
+	//Retrieve topics from SD card (if persistence is enabled)
+	gCsSdPin = csSdPin;
+	gPersistence = persistence;
+	if (gPersistence) {
+		mutex = xSemaphoreCreateBinary();
+		if(mutex == NULL) {
+			logger->log(ERROR, "Failed to create mutex, trying to continue without persistence");
+			gPersistence = false;
+		} else {
+			xSemaphoreGive(mutex);
+			if (!initializeSDCard(gCsSdPin, logger, &mutex, portMAX_DELAY)) {
+				logger->log(WARNING, "Couldn't initialize SD card for persistence, continuing without it");
+				gPersistence = false;
+			} else {
+				logger->log(INFO, "SD card initialized for persistence");
+			}
+		}
+
+		//Restore topics from SD card
+		restoreBTs(&topicsVector, gCsSdPin, logger, &mutex, portMAX_DELAY);
+	}
+
+
+
   WiFi.mode(WIFI_STA);
   //Initialize ESP-NOW and set up receive callback
   if (esp_now_init() != ESP_OK || esp_now_register_recv_cb(OnDataRecv) != ESP_OK) {
     logger->log(CRITICAL, "Couldn't initialize ESP-NOW, aborting!");
-    exit(1);
+    return MQ_ERR_BAD_ESP_CONFIG;
   }
 
   subMsgQueue = xQueueCreate(10, sizeof(SubscribeTaskParams));
   if (subMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the subscribe message queue, aborting!");
-    exit(1);
+    return MQ_ERR_XQUEUECREATE_FAIL;
   }
 
   unsubMsgQueue = xQueueCreate(10, sizeof(UnsubscribeTaskParams));
   if (unsubMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the unsubscribe message queue, aborting!");
-    exit(1);
+    return MQ_ERR_XQUEUECREATE_FAIL;
   }
 
   pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
   if (pubMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the publish message queue");
-    exit(1);
+    return MQ_ERR_XQUEUECREATE_FAIL;
   }
 
 
@@ -252,7 +284,7 @@ void setupBroker(Elog *_logger) {
     snprintf(taskName, sizeof(taskName), "SubscribeTask%d", 0+1);
     if (xTaskCreate(SubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the subscribe task");
-      exit(1);
+      return MQ_ERR_XTASKCREATE_FAIL;
     }
   }
 
@@ -260,7 +292,7 @@ void setupBroker(Elog *_logger) {
     snprintf(taskName, sizeof(taskName), "UnsubscribeTask%d", i+1);
     if (xTaskCreate(UnsubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the unsubscribe task");
-      exit(1);
+      return MQ_ERR_XTASKCREATE_FAIL;
     }
   }
 
@@ -268,8 +300,9 @@ void setupBroker(Elog *_logger) {
     snprintf(taskName, sizeof(taskName), "PublishTask%d", i+1);
     if (xTaskCreate(PublishTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the publish task");
-      exit(1);
+      return MQ_ERR_XTASKCREATE_FAIL;
     }
   }
 	logger->log(INFO, "Broker is running at %s!", WiFi.macAddress().c_str());
+	return MQ_ERR_SUCCESS;
 }
