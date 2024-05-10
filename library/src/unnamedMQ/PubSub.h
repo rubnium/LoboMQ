@@ -80,7 +80,7 @@ IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger())
  * @retval `true` if it's successfully unsubscribed.  
  * @retval `false` if an error occurs during unsubscription.
  */
-bool unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
+IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
 /**
  * @brief Checks if the data received is a MQ message.

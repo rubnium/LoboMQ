@@ -150,7 +150,7 @@ IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger) {
 	return MQ_ERR_SUCCESS;
 }
 
-bool unsubscribe(uint8_t *mac, char *topic, Elog *_logger) {
+IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger) {
 	logger = _logger;
 	if (!configureESPNOW(mac)) {
 		return MQ_ERR_BAD_ESP_CONFIG;
