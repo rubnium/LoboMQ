@@ -8,6 +8,8 @@ El siglo XX dio lugar al desarrollo de una cantidad de inventos que permitieron 
 
 *Internet de las Cosas* o *Internet of Things* es un término cuyo origen está disputado. El primer uso de este término data del discurso que realizó en septiembre de 1985 Peter T. Lewis, cofundador de la primera compañía de telefonía móvil de Estados Unidos, Cellular One. En tal discurso realizado en la Conferencia Legislativa Anual de la CBCF en Washington D.C., Lewis comentó de manera acertada "Predigo que no sólo los humanos, sino también las máquinas y otras cosas se comunicarán interactivamente a través de Internet." **(mencionar al podcast)**. Por otro lado, el mismo término fue acuñado en 1999 cuando Kevin Ashton, directivo de Procter & Gamble, tuvo la iniciativa de investigar el uso de etiquetas de identificación por radiofrecuencia (RFID) y otros sensores en los productos de la cadena de suministro, y para presentar el proyecto tuvo que idear un título llamativo para la presentación. Esta presentación le permitió encontrar financiación además de cofundar y dirigir el laboratorio Auto-ID Center del Instituto de Tecnología de Massachusetts, en el cuál construyó la base del Internet de las cosas.  
 
+/*TODO: Redefinir internet de las cosas, por la ITU que lo define, https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=11559&lang=es*/
+
 Es esencial tener una clara comprensión del significado del Internet de las Cosas, en mayor parte por la confusión inherente al término en sí y por las aplicaciones cotidianas de esta tecnología. A primera vista, "Internet de las Cosas" podría dar la impresión de ser un término moderno para referirse a "conectar a Internet algo para controlarlo", una definición bastante simple para alguien que por ejemplo simplemente controla las luces de su hogar desde su teléfono móvil. Es tanta la confusión que no existe una definición formal única, debido a que hay sistemas que implementan [IoT](#IoT) y no cumplen todas las definiciones, por lo tanto, no se ha llegado a un consenso para formalizar una definición única, y a la hora de intentar conocer su significado se encuentran una disparidad de definiciones. Sin embargo, por lo general, podemos entender que el Internet de las Cosas trata de dotar de capacidades de comunicación además de procesamiento, captura y/o análisis de datos a distintos tipos de entes, como dispositivos físicos, objetos, edificaciones, terrenos, sistemas, hardware, software, e incluso contextos y situaciones, ya sea añadiéndoles dispositivos o integrando las capacidades en los propios objetos. Estos entes pueden estar compuestos de sensores, que recopilan datos, o actuadores, que controlan otros objetos, y a través de redes, privadas o públicas, pueden intercambiar información con otros dispositivos, recopilar la información en un mismo dispositivo y transferir órdenes, además que existe la posibilidad de formar una agrupación de dispositivos para identificarlos como un único sistema que trata los datos. Estas redes de conexión de dispositivos [IoT](#IoT) pueden utilizar la información transferida para poder automatizar sus comportamientos, pero el nodo final de la conexión suelen ser las personas, ya que utilizan los objetos como fuentes de información, para a su vez utilizar los datos recibidos como descubrimiento de oportunidades de negocio y nuevos servicios, monitorización y evaluación del estado y el comportamiento de los objetos y el entorno, y la toma de decisiones sobre los propios objetos manipulándolos remotamente y programándolos.
 
 Un ejemplo concreto de la aplicación de Internet de las Cosas es un sistema de riego por aspersión inteligente.
@@ -93,7 +95,25 @@ Tras una década en funcionamiento y habiendo pasado por varias cámaras y cafet
 Aunque Internet de las Cosas se mencionase por primera vez a finales del siglo XX, no se comenzó a usar hasta bien entrados los 2010s
 *Incluir grafica: https://trends.google.com/trends/explore?date=all&q=%2Fm%2F02vnd10&hl=es* 
 
-Apuntes IoT Tema 1 UCLM Rubén Cantarero  
+https://www.nougir.com/index.php/blog-3/item/13-que-es-iot-o-internet-de-las-cosas-y-sus-aplicaciones
+https://informationmatters.net/internet-of-things-definitions/
+(DOCUMENTO) https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=11559&lang=es
+(LIBRO) https://www.taylorfrancis.com/chapters/oa-edit/10.1201/9781003337584-3/internet-things-cognitive-transformation-technology-research-trends-applications-ovidiu-vermesan-markus-eisenhauer-harald-sundmaeker-patrick-guillemin-martin-serrano-elias-tragos-javier-vali%C3%B1o-arthur-van-derwees-alex-gluhak-roy-bahr
+(LIBRO) https://books.google.es/books/about/La_Red_de_Todo.html?id=wUydnQAACAAJ&redir_esc=y
+(DOCUMENTO) https://cdn.ihs.com/www/pdf/IoT_ebook.pdf
+(DOCUMENTO) https://www.researchgate.net/publication/352541626_Analysis_of_IoT_Concept_Applications_Smart_Home_Perspective
+https://www.microsoft.com/insidetrack/blog/transforming-microsoft-buildings-with-iot-technology-and-indoor-mapping/
+(LIBRO) https://www.se.com/us/en/download/document/998-20233517/
+(DOCUMENTO) https://www.researchgate.net/publication/320135661_Efficient_IoT-based_Sensor_BIG_Data_Collection-Processing_and_Analysis_in_Smart_Buildings
+(DOCUMENTO) https://www2.deloitte.com/content/dam/Deloitte/nl/Documents/real-estate/deloitte-nl-fsi-real-estate-smart-buildings-how-iot-technology-aims-to-add-value-for-real-estate-companies.pdf
+https://innovayaccion.com/blog/aplicando-el-internet-de-las-cosas-a-las-empresas-2
+(DOCUMENTO) https://ieeexplore.ieee.org/document/7879243
+https://www.intel.com/content/www/us/en/internet-of-things/overview.html
+https://www.fundacionbankinter.org/ftf-informes/internet-de-las-cosas/
+https://www.statista.com/statistics/471264/iot-number-of-connected-devices-worldwide/
+(VIDEO) https://www.youtube.com/watch?v=RnasX1bFBh8
+(LIBRO) https://www.amazon.com/IoT-Fundamentals-Networking-Technologies-Protocols/dp/1587144565
+(LIBRO) https://www.ra-ma.es/libro/internet-de-las-cosas_93304/
 https://es.wikipedia.org/wiki/Internet_de_las_cosas  
 https://www.eexcellence.es/expertos/kevin-ashton-un-tecnologo-visionario  
 https://www.redhat.com/es/topics/internet-of-things/what-is-iot  
