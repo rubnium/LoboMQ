@@ -37,11 +37,6 @@ typedef struct : public MessageBase {
 	void* content[16]; //stores any type of content
 } PublishContent;
 
-typedef enum {
-	MQ_ERR_SUCCESS = 0x00,
-	MQ_ERR_INVAL_TOPIC
-} ErrorType;
-
 
 /**
  * @brief Publishes a message to the broker.
@@ -55,7 +50,7 @@ typedef enum {
  * @retval `true` if the message is successfully published.  
  * @retval `false` if an error occurs during publishing.
  */
-bool publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
+IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
 
 /**
  * @brief Subscribes to a topic on the broker.
@@ -70,7 +65,7 @@ bool publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLo
  * @retval `true` if it's successfully subscribed.  
  * @retval `false` if an error occurs during subscription.
  */
-bool subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
+IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
 /**
  * @brief Unsubscribes from a topic on the broker.

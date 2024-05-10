@@ -67,7 +67,7 @@ int pubTopicCheck(char *topic) {
     if (topic[i] == '+' || topic[i] == '#') //if there's '+' or '#' inside
       return MQ_ERR_INVAL_TOPIC;
   }
-  return MQ_ERR_SUCCESS;
+  return MQ_ERR_VALID_TOPIC;
 }
 
 int subTopicCheck(char *topic) {
@@ -91,15 +91,17 @@ int subTopicCheck(char *topic) {
     }
     prev = c;
   }
-  return MQ_ERR_SUCCESS;
+  return MQ_ERR_VALID_TOPIC;
 }
 
-bool publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
+IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
 	logger = _logger;
-	configureESPNOW(mac);
+	if (!configureESPNOW(mac)) {
+		return MQ_ERR_BAD_ESP_CONFIG;
+	}
 	if (pubTopicCheck(topic) == MQ_ERR_INVAL_TOPIC) {
 		logger->log(ERROR, "Invalid topic: '%s'", topic);
-		return false;
+		return MQ_ERR_INVAL_TOPIC;
   }
 
 	//Create and fill publish message
@@ -113,20 +115,22 @@ bool publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &pubMsg, sizeof(pubMsg));
 	if (result != ESP_OK) {
 		logger->log(ERROR, "Error sending message: %d", result);
-		return false;
+		return MQ_ERR_ESP_SEND_FAIL;
   }
 	logger->log(INFO, "Message of %dB published successfully to '%s'", sizeof(payload), topic);
 
 	//TODO: implement ack
-	return true;
+	return MQ_ERR_SUCCESS;
 }
 
-bool subscribe(uint8_t *mac, char *topic, Elog *_logger) {
+IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger) {
 	logger = _logger;
-	configureESPNOW(mac);
+	if (!configureESPNOW(mac)) {
+		return MQ_ERR_BAD_ESP_CONFIG;
+	}
   if (subTopicCheck(topic) == MQ_ERR_INVAL_TOPIC) {
 		logger->log(ERROR, "Invalid topic: '%s'", topic);
-		return false;
+		return MQ_ERR_INVAL_TOPIC;
   }
 
 	//Create subscribe message
@@ -138,20 +142,22 @@ bool subscribe(uint8_t *mac, char *topic, Elog *_logger) {
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &subMsg, sizeof(subMsg));
 	if (result != ESP_OK) {
 		logger->log(ERROR, "Error sending message: %d", result);
-		return false;
+		return MQ_ERR_ESP_SEND_FAIL;
   }
   logger->log(INFO, "Subscribed to '%s'", subMsg.topic);
-	return true;
-
+	
 	//TODO: implement ack
+	return MQ_ERR_SUCCESS;
 }
 
 bool unsubscribe(uint8_t *mac, char *topic, Elog *_logger) {
 	logger = _logger;
-	configureESPNOW(mac);
+	if (!configureESPNOW(mac)) {
+		return MQ_ERR_BAD_ESP_CONFIG;
+	}
   if (subTopicCheck(topic) == MQ_ERR_INVAL_TOPIC) {
 		logger->log(ERROR, "Invalid topic: '%s'", topic);
-		return false;
+		return MQ_ERR_INVAL_TOPIC;
   }
 
 	//Create subscribe message
@@ -163,12 +169,13 @@ bool unsubscribe(uint8_t *mac, char *topic, Elog *_logger) {
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &unsubMsg, sizeof(unsubMsg));
 	if (result != ESP_OK) {
 		logger->log(ERROR, "Error sending message: %d", result);
-		return false;
+		return MQ_ERR_ESP_SEND_FAIL;
   }
   logger->log(INFO, "Unsubscribed from '%s'", unsubMsg.topic);
-	return true;
+	return MQ_ERR_SUCCESS;
 
-	//TODO:  implement ack
+	//TODO: implement ack
+	return MQ_ERR_SUCCESS;
 }
 
 bool isMQMessage(const uint8_t *incomingData) {

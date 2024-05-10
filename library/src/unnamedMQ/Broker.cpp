@@ -223,7 +223,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   }
 }
 
-void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
+IMQErrType setupBroker(Elog *_logger, bool persistence, int csSdPin) {
 	logger = _logger;
   randomSeed(analogRead(0)); //to generate random numbers
 	logger->log(DEBUG, "Initializing broker...");
@@ -256,25 +256,25 @@ void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
   //Initialize ESP-NOW and set up receive callback
   if (esp_now_init() != ESP_OK || esp_now_register_recv_cb(OnDataRecv) != ESP_OK) {
     logger->log(CRITICAL, "Couldn't initialize ESP-NOW, aborting!");
-    exit(1);
+    return MQ_ERR_BAD_ESP_CONFIG;
   }
 
   subMsgQueue = xQueueCreate(10, sizeof(SubscribeTaskParams));
   if (subMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the subscribe message queue, aborting!");
-    exit(1);
+    return MQ_ERR_XQUEUECREATE_FAIL;
   }
 
   unsubMsgQueue = xQueueCreate(10, sizeof(UnsubscribeTaskParams));
   if (unsubMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the unsubscribe message queue, aborting!");
-    exit(1);
+    return MQ_ERR_XQUEUECREATE_FAIL;
   }
 
   pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
   if (pubMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the publish message queue");
-    exit(1);
+    return MQ_ERR_XQUEUECREATE_FAIL;
   }
 
 
@@ -284,7 +284,7 @@ void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
     snprintf(taskName, sizeof(taskName), "SubscribeTask%d", 0+1);
     if (xTaskCreate(SubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the subscribe task");
-      exit(1);
+      return MQ_ERR_XTASKCREATE_FAIL;
     }
   }
 
@@ -292,7 +292,7 @@ void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
     snprintf(taskName, sizeof(taskName), "UnsubscribeTask%d", i+1);
     if (xTaskCreate(UnsubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the unsubscribe task");
-      exit(1);
+      return MQ_ERR_XTASKCREATE_FAIL;
     }
   }
 
@@ -300,8 +300,9 @@ void setupBroker(Elog *_logger, bool persistence, int csSdPin) {
     snprintf(taskName, sizeof(taskName), "PublishTask%d", i+1);
     if (xTaskCreate(PublishTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the publish task");
-      exit(1);
+      return MQ_ERR_XTASKCREATE_FAIL;
     }
   }
 	logger->log(INFO, "Broker is running at %s!", WiFi.macAddress().c_str());
+	return MQ_ERR_SUCCESS;
 }
