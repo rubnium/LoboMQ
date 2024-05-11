@@ -19,6 +19,8 @@ bool gPersistence;
 int gCsSdPin;
 SemaphoreHandle_t mutex;
 
+MACAddrList *gWhitelist;
+
 void SubscribeTask(void *parameter) {
   for (;;) {
     SubscribeTaskParams *subParams;
@@ -223,7 +225,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   }
 }
 
-IMQErrType setupBroker(Elog *_logger, bool persistence, int csSdPin) {
+IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, int csSdPin) {
 	logger = _logger;
   randomSeed(analogRead(0)); //to generate random numbers
 	logger->log(DEBUG, "Initializing broker...");

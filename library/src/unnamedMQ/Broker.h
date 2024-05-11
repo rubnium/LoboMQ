@@ -9,6 +9,7 @@
 #define BROKER_H
 
 #include "unnamedMQ/PubSub.h"
+#include "unnamedMQ/MACAddrList.h"
 #include "unnamedMQ/commons/Includes.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -29,6 +30,6 @@ typedef struct {
   const uint8_t *mac;
 } PublishTaskParams;
 
-IMQErrType setupBroker(Elog *_logger = initializeSerialLogger(BROKER), bool persistence = false, int csSdPin = -1);
+IMQErrType initBroker(MACAddrList *whitelist = NULL, Elog *_logger = initializeSerialLogger(BROKER), bool persistence = false, int csSdPin = -1);
 
 #endif
