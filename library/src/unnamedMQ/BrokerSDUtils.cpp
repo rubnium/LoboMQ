@@ -25,12 +25,12 @@ String replaceChars(const char *str) {
 
 bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickType_t delay) {
 	if (!SD.begin(csPin)) {
-    logger->log(ERROR, "[BT SD] Couldn't initialize SD card for persistence");
+    logger->log(ERROR, "[BT SD] Couldn't initialize SD card for persistence.");
     return false;
   }
 
 	if (!xSemaphoreTake(*mutex, delay)) {
-		logger->log(ERROR, "[BT SD] Couldn't take mutex for initialization");
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for initialization.");
 		return false;
 	}
 
@@ -41,7 +41,7 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
     if (index>0) {
       String subpath = String(FILE_PATH).substring(0, index); //Gets subpath until next "/"
       if (!SD.exists(subpath) and !SD.mkdir(subpath)) { //If subpath does not exist, creates it
-			  logger->log(ERROR, "[BT SD] Couldn't create folder (%s)", subpath);
+			  logger->log(ERROR, "[BT SD] Couldn't create folder (%s).", subpath);
 				xSemaphoreGive(*mutex); //release mutex because of error
         return false;
       }
@@ -50,7 +50,7 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
 
   //Creates deepest folder
   if (!SD.exists(FILE_PATH) and !SD.mkdir(FILE_PATH)) {
-		logger->log(ERROR, "[BT SD] Couldn't create folder (%s)", String(FILE_PATH));
+		logger->log(ERROR, "[BT SD] Couldn't create folder (%s).", String(FILE_PATH));
 		xSemaphoreGive(*mutex); //release mutex because of error
     return false;
   }
@@ -58,16 +58,17 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
 	return true;
 }
 
-void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickType_t delay) {
+void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex,
+	TickType_t delay) {
 	if (!xSemaphoreTake(*mutex, delay)) {
-		logger->log(ERROR, "[BT SD] Couldn't take mutex for BTs restoration");
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for BTs restoration.");
 		return;
 	}
 
 	File dir = SD.open(FILE_PATH);
 	//go through every file at folder FILE_PATH
 	if (!dir) {
-    logger->log(ERROR, "[BT SD] Couldn't open main directory %s", FILE_PATH);
+    logger->log(ERROR, "[BT SD] Couldn't open main directory %s.", FILE_PATH);
   } else {
 		while (File file = dir.openNextFile()) {
 			String filename = file.name();
@@ -86,7 +87,7 @@ void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger,
 				JsonArray subscribersArray = doc["subscribers"];
 
 				if (subscribersArray.size() == 0) {
-					logger->log(WARNING, "[BT SD] No subscribers found in topic '%s' of the SD card, skipped", topic);
+					logger->log(WARNING, "[BT SD] No subscribers found in topic '%s' of the SD card, skipped.", topic);
 					continue;
 				}
 
@@ -103,7 +104,7 @@ void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger,
 				filename.replace(FILE_FORMAT, "");
 				newTopic.setFilename(filename.c_str());
 				topicsVector->push_back(newTopic);
-				logger->log(INFO, "[BT SD] Created topic '%s' found on SD card", topic);
+				logger->log(INFO, "[BT SD] Created topic '%s' found on SD card.", topic);
 			}
 			file.close();
 		}
@@ -126,16 +127,17 @@ void writeBTToFile(BrokerTopic* brokerTopic, Elog* logger, SemaphoreHandle_t *mu
 	String fullFilepath = (String(FILE_PATH)+"/"+brokerTopic->getFilename()+String(FILE_FORMAT));
 	
 	if (!xSemaphoreTake(*mutex, delay)) {
-		logger->log(ERROR, "[BT SD] Couldn't take mutex for BT file write");
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for BT file write.");
 		return;
 	}
 
 	File file = SD.open(fullFilepath, FILE_WRITE);
 	if (!file) {
-		logger->log(ERROR, "[BT SD] Couldn't open file for writing (%s)", fullFilepath);
+		logger->log(ERROR, "[BT SD] Couldn't open file for writing (%s).", fullFilepath);
 	} else {
 		serializeJsonPretty(doc, file);
-		logger->log(DEBUG, "[BT SD] Wrote topic '%s' to file '%s' successfully", brokerTopic->getTopic(), (brokerTopic->getFilename()+String(FILE_FORMAT)));
+		logger->log(DEBUG, "[BT SD] Wrote topic '%s' to file '%s' successfully.", brokerTopic->getTopic(),
+			(brokerTopic->getFilename()+String(FILE_FORMAT)));
 		file.close();
 	}
 	xSemaphoreGive(*mutex);
@@ -143,19 +145,19 @@ void writeBTToFile(BrokerTopic* brokerTopic, Elog* logger, SemaphoreHandle_t *mu
 
 void deleteBTFile(const char* filename, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay) {
 	if (!xSemaphoreTake(*mutex, delay)) {
-		logger->log(ERROR, "[BT SD] Couldn't take mutex for BT file deletion");
+		logger->log(ERROR, "[BT SD] Couldn't take mutex for BT file deletion.");
 		return;
 	}
 
 	String fullFilepath = (String(FILE_PATH)+"/"+filename+String(FILE_FORMAT));
 	File file = SD.open(fullFilepath, FILE_WRITE);
 	if (!file) {
-		logger->log(ERROR, "[BT SD] Couldn't open file for deletion (%s)", fullFilepath);
+		logger->log(ERROR, "[BT SD] Couldn't open file for deletion (%s).", fullFilepath);
   } else {
 		if (!SD.remove(file.path())) {
-			logger->log(ERROR, "[BT SD] Couldn't delete file (%s)", fullFilepath);
+			logger->log(ERROR, "[BT SD] Couldn't delete file (%s).", fullFilepath);
 		} else {
-			logger->log(DEBUG, "[BT SD] Deleted file %s successfully", file.name());
+			logger->log(DEBUG, "[BT SD] Deleted file %s successfully.", file.name());
 		}
 		file.close();
 	}

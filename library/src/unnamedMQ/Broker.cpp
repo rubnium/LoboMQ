@@ -6,7 +6,6 @@
 #define UNSUBSCRIBETASKS 1
 #define PUBLISHTASKS 1
 
-
 std::vector<BrokerTopic> topicsVector; //each topic has messages and subscribers
 
 //Message queues
@@ -128,7 +127,8 @@ void PublishTask(void *parameter) {
         }
       }
 
-    	logger->log(INFO, "Received a %dB message by %02X:%02X:%02X:%02X:%02X:%02X with topic '%s':", pubContent->contentSize, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], pubContent->topic);
+    	logger->log(INFO, "Received a %dB message by %02X:%02X:%02X:%02X:%02X:%02X with topic '%s':",
+				pubContent->contentSize, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], pubContent->topic);
       if (!sent) { //if it's a topic not existing in the vector
         logger->log(INFO, "\tTopic '%s' not found (has no subscribers, so it isn't published)", pubContent->topic);
       } else {
@@ -144,6 +144,12 @@ void PublishTask(void *parameter) {
 }
 
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
+	if (gWhitelist != NULL || !gWhitelist->isInList(mac)) {
+		logger->log(INFO, "Ignored message from %02X:%02X:%02X:%02X:%02X:%02X, it's not in the whitelist",
+			mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+		return;
+	}
+
   MessageType msgType = ((MessageBase*)incomingData)->type;
   switch (msgType) {
     case MSGTYPE_SUBSCRIBE: {
@@ -226,6 +232,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
 }
 
 IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, int csSdPin) {
+	gWhitelist = whitelist;
 	logger = _logger;
   randomSeed(analogRead(0)); //to generate random numbers
 	logger->log(DEBUG, "Initializing broker...");
@@ -251,7 +258,6 @@ IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
 		//Restore topics from SD card
 		restoreBTs(&topicsVector, gCsSdPin, logger, &mutex, portMAX_DELAY);
 	}
-
 
 
   WiFi.mode(WIFI_STA);

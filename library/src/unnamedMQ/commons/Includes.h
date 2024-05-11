@@ -14,7 +14,6 @@
 #include <SPI.h>
 #include <WiFi.h>
 
-//Installed libraries:
 #include <Elog.h>
 
 #include "unnamedMQ/commons/Logger.h"

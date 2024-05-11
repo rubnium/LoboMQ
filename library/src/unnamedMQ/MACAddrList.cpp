@@ -6,7 +6,7 @@ bool MACAddrList::isInList(const uint8_t *mac) const {
 		return address == *reinterpret_cast<const MACAddress*>(mac);
 	});
 
-	return it != this->end(); // if found, true; otherwise, false
+	return it != this->end(); //if found, true; otherwise, false
 }
 
 bool MACAddrList::isInList(const MACAddress &mac) const {
@@ -15,7 +15,7 @@ bool MACAddrList::isInList(const MACAddress &mac) const {
 		return address == mac;
 	});
 
-	return it != this->end(); // if found, true; otherwise, false
+	return it != this->end(); //if found, true; otherwise, false
 }
 
 void MACAddrList::addToList(const uint8_t *mac) {

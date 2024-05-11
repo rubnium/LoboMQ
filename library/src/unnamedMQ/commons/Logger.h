@@ -12,7 +12,6 @@
 #include <SD.h>
 #include <SPI.h>
 
-//Installed libraries:
 #include <Elog.h>
 
 #define DEFAULT_LOG_LEVEL Loglevel::INFO

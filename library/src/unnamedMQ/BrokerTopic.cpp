@@ -21,10 +21,10 @@ BrokerTopic::BrokerTopic(Elog *_logger, const char topic[]) {
   //initializes the queue
   messagesQueue = xQueueCreate(10, sizeof(PublishContent));
   if (messagesQueue == NULL) {
-    logger->log(ERROR, "[BROKER TOPIC %s] Couldn't create the message queue", this->topic);
+    logger->log(ERROR, "[BROKER TOPIC %s] Couldn't create the message queue.", this->topic);
     return;
   }
-	logger->log(DEBUG, "[BROKER TOPIC %s] Created", this->topic);
+	logger->log(DEBUG, "[BROKER TOPIC %s] Created.", this->topic);
 }
 
 const char* BrokerTopic::getTopic() const {
@@ -139,7 +139,7 @@ void BrokerTopic::publish(PublishContent pubContent, std::vector<std::array<uint
       alreadySentMacs.push_back(subscriber);
     }
   }
-	logger->log(DEBUG, "[BROKER TOPIC %s] Sent message to %d subscribers", topic, subscribers.size());
+	logger->log(DEBUG, "[BROKER TOPIC %s] Sent message to %d subscribers.", topic, subscribers.size());
 }
 
 bool BrokerTopic::isPublishable(const char *publishTopic) const {
