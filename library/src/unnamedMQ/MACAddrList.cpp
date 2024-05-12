@@ -30,12 +30,9 @@ void MACAddrList::addToList(const MACAddress &mac) {
 
 void MACAddrList::addToList(const String &macStr) {
 	MACAddress newAddress;
-  if (sscanf(macStr.c_str(), "%02X:%02X:%02X:%02X:%02X:%02X",
+  if (sscanf(macStr.c_str(), "%02hhX:%02hhX:%02hhX:%02hhX:%02hhX:%02hhX",
   	&newAddress[0], &newAddress[1], &newAddress[2], &newAddress[3], &newAddress[4], &newAddress[5]) == 6) {
     addToList(newAddress.data());
-  } else {
-		//TODO: handle string format error
-		return;
   }
 }
 

@@ -30,7 +30,12 @@ typedef struct {
   const uint8_t *mac;
 } PublishTaskParams;
 
-IMQErrType initBroker(MACAddrList *whitelist = NULL, Elog *_logger = initializeSerialLogger(BROKER),
-	bool persistence = false, int csSdPin = -1);
+#define BRO_DEFAULT_WHITELIST nullptr
+#define BRO_DEFAULT_LOGGER initializeSerialLogger(BROKER)
+#define BRO_DEFAULT_PERSISTENCE false
+#define BRO_DEFAULT_CS_SD_PIN -1
+
+IMQErrType initBroker(MACAddrList *whitelist = BRO_DEFAULT_WHITELIST, Elog *_logger = BRO_DEFAULT_LOGGER,
+	bool persistence = BRO_DEFAULT_PERSISTENCE, int csSdPin = BRO_DEFAULT_CS_SD_PIN);
 
 #endif
