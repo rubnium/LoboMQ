@@ -6,7 +6,7 @@ Dado que una de las principales motivaciones de este Trabajo de Fin de Grado es 
 
 El siglo XX dio lugar al desarrollo de una cantidad de inventos que permitieron una revolución y un avance ágil en la sociedad, inventos nacidos de ideas creativas de sus desarrolladores y que en la actualidad son indispensables debido al frecuente uso y la manera en la que facilita la vida humana. Entre estos inventos se encuentra una de las herramientas más importantes y que mejoró la comunicación, el Internet. Nacido en 1969, ha permitido enlazar a personas con personas y tener acceso a información, pero hoy en día, no solo las personas están conectadas a Internet, también millones de objetos cuyas funciones son dependientes de la red.  
 
-*Internet de las Cosas* o *Internet of Things* es un término cuyo origen está disputado. El primer uso de este término data del discurso que realizó en septiembre de 1985 Peter T. Lewis, cofundador de la primera compañía de telefonía móvil de Estados Unidos, Cellular One. En tal discurso realizado en la Conferencia Legislativa Anual de la CBCF en Washington D.C., Lewis comentó de manera acertada "Predigo que no sólo los humanos, sino también las máquinas y otras cosas se comunicarán interactivamente a través de Internet." **(mencionar al podcast)**. Por otro lado, el mismo término fue acuñado en 1999 cuando Kevin Ashton, directivo de Procter & Gamble, tuvo la iniciativa de investigar el uso de etiquetas de identificación por radiofrecuencia (RFID) y otros sensores en los productos de la cadena de suministro, y para presentar el proyecto tuvo que idear un título llamativo para la presentación. Esta presentación le permitió encontrar financiación además de cofundar y dirigir el laboratorio Auto-ID Center del Instituto de Tecnología de Massachusetts, en el cuál construyó la base del Internet de las cosas.  
+*Internet de las Cosas* o *Internet of Things* es un término cuyo origen está disputado. El primer uso de este término data del discurso que realizó en septiembre de 1985 Peter T. Lewis, cofundador de la primera compañía de telefonía móvil de Estados Unidos, Cellular One. En tal discurso realizado en la Conferencia Legislativa Anual de la [CBCF](#CBCF) en Washington D.C., Lewis comentó de manera acertada "Predigo que no sólo los humanos, sino también las máquinas y otras cosas se comunicarán interactivamente a través de Internet." **(mencionar al podcast)**. Por otro lado, el mismo término fue acuñado en 1999 cuando Kevin Ashton, directivo de Procter & Gamble, tuvo la iniciativa de investigar el uso de etiquetas de identificación por radiofrecuencia ([RFID](#RFID)) y otros sensores en los productos de la cadena de suministro, y para presentar el proyecto tuvo que idear un título llamativo para la presentación. Esta presentación le permitió encontrar financiación además de cofundar y dirigir el laboratorio Auto-ID Center del Instituto de Tecnología de Massachusetts, en el cuál construyó la base del Internet de las cosas.  
 
 /*TODO: Redefinir internet de las cosas, por la ITU que lo define, https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=11559&lang=es*/
 
@@ -23,7 +23,7 @@ Un ejemplo concreto de la aplicación de Internet de las Cosas es un sistema de 
 
 ### Primeros ejemplos de IoT
 
-El primer dispositivo [IoT](#IoT) que se conoce fue una máquina de Coca-Cola conectada a ARPANET a principios de la década de los 80 en la Universidad Carnegie Mellon de Pittsburgh, Pensilvania. Desde los años 70, el departamento de Ciencias de la Computación se encargaba de mantener la máquina de refrescos, que era cargada por alumnos en horarios erráticos y cuyos precios eran los más baratos (unos 10 centavos menos) no solo del campus sino también de la zona de Pittsburgh, lo que provocó una gran popularidad en ventas. A mediados de la misma década, debido a la expansión del departamento, se tuvieron que desplazar las oficinas lejos de la máquina que se encontraba en la tercera planta del edificio, lo que provocaba molestias a los programadores al ir en busca de su dosis de cafeína, ya que al bajar a la máquina y gastar el dinero que tanto les había costado conseguir, se encontraban con que o bien estaba vacía o que la Coca-Cola conseguida estaba recién cargada y, por lo tanto, desagradablemente caliente. Cansados de este problema, un grupo de personas se reunió para idear una solución. Instalaron microinterruptores en la máquina de Coca-Cola para poder detectar cuántas botellas había en cada una de las 6 columnas disponibles. Estos interruptores estaban conectados, a través de una interfaz de red instalada en la máquina, al ordenador principal del departamento, el PDP-10 (denominado CMUA). Para este ordenador, diseñaron un programa, que apoyándose en un servidor programado para registrar la hora de la última transacción de cada columna, mostraba uno de los siguientes datos por cada columna de la máquina de Coca-Cola:  
+El primer dispositivo [IoT](#IoT) que se conoce fue una máquina de Coca-Cola conectada a [ARPANET](#ARPANET) a principios de la década de los 80 en la Universidad Carnegie Mellon de Pittsburgh, Pensilvania. Desde los años 70, el departamento de Ciencias de la Computación se encargaba de mantener la máquina de refrescos, que era cargada por alumnos en horarios erráticos y cuyos precios eran los más baratos (unos 10 centavos menos) no solo del campus sino también de la zona de Pittsburgh, lo que provocó una gran popularidad en ventas. A mediados de la misma década, debido a la expansión del departamento, se tuvieron que desplazar las oficinas lejos de la máquina que se encontraba en la tercera planta del edificio, lo que provocaba molestias a los programadores al ir en busca de su dosis de cafeína, ya que al bajar a la máquina y gastar el dinero que tanto les había costado conseguir, se encontraban con que o bien estaba vacía o que la Coca-Cola conseguida estaba recién cargada y, por lo tanto, desagradablemente caliente. Cansados de este problema, un grupo de personas se reunió para idear una solución. Instalaron microinterruptores en la máquina de Coca-Cola para poder detectar cuántas botellas había en cada una de las 6 columnas disponibles. Estos interruptores estaban conectados, a través de una interfaz de red instalada en la máquina, al ordenador principal del departamento, el PDP-10 (denominado CMUA). Para este ordenador, diseñaron un programa, que apoyándose en un servidor programado para registrar la hora de la última transacción de cada columna, mostraba uno de los siguientes datos por cada columna de la máquina de Coca-Cola:  
 
 - "EMPTY", si la columna estaba vacía.
 
@@ -31,7 +31,7 @@ El primer dispositivo [IoT](#IoT) que se conoce fue una máquina de Coca-Cola co
 
 - "COLD", si la columna contenía una botella fría, es decir, que llevaba 3 horas cargada.  
 
-Para completar la idea, permitieron el acceso a esta información desde fuera del CMUA. Modificaron el servidor Finger ya existente en el CMUA, el cual era utilizado para obtener información sobre los usuarios conectados al sistema, para añadirle el usuario "coke", para que cada vez que se hiciese la petición a Finger con dicho usuario se ejecutase el programa de estado de la máquina de Coca-Cola. Debido a que las peticiones Finger formaban parte de los protocolos estándares de ARPANET, se podía descubrir el estado de la máquina de Coca-Cola tanto desde cualquier ordenador conectado en la Universidad Carnegie Mellon como desde cualquier parte del mundo conectada a la red, simplemente utilizando el comando `finger coke@cmua`.  
+Para completar la idea, permitieron el acceso a esta información desde fuera del CMUA. Modificaron el servidor Finger ya existente en el CMUA, el cual era utilizado para obtener información sobre los usuarios conectados al sistema, para añadirle el usuario "coke", para que cada vez que se hiciese la petición a Finger con dicho usuario se ejecutase el programa de estado de la máquina de Coca-Cola. Debido a que las peticiones Finger formaban parte de los protocolos estándares de [ARPANET](#ARPANET), se podía descubrir el estado de la máquina de Coca-Cola tanto desde cualquier ordenador conectado en la Universidad Carnegie Mellon como desde cualquier parte del mundo conectada a la red, simplemente utilizando el comando `finger coke@cmua`.  
 Esta innovación se mantuvo en pie durante más de una década, pasando por una reescritura del código cuando se tuvo que migrar del PDP-10 al más moderno Unix Vaxen a principios de los 80, hasta que Coca-Cola descontinuó las botellas antiguas y las nuevas no eran compatibles con la máquina de refrescos existente, lo que provocó que fuera sustituida por completo.  
 
 La máquina de Coca-Cola de los 80 inspiró a que en 1992 un estudiante y un miembro del departamento de Ciencias de la Computación de la misma universidad instalasen a la nueva maquina y la de M&M que se encontraba cercana aisladores ópticos caseros para identificar la presencia del producto, y las conectasen a Internet para poder consultar el estado ejecutando un programa llamado "jf" ("junk food", comida basura).  
@@ -43,12 +43,12 @@ Incluir imágenes:
 
 Posteriormente apareció otro notable objeto conectado a un Internet más similar al actual pero con menos personas (rondando las 3 millones), y fue una tostadora en 1990. El origen de este objeto ocurrió en la edición de 1989 de Interop, una conferencia anual que reunía a profesionales de las tecnologías de la información, ingenieros de redes, desarrolladores y proveedores de tecnología, en la que se podía poner a prueba la interoperabilidad de dispositivos informáticos, electrónicos y productos relacionados con Internet. En dicha edición, el organizador Dan Lynch retó a John Romkey a poner un dispositivo en línea y presentarlo en la siguiente edición. Romkey aceptó, ya que no desconocía la tecnología de la época que le permitiría conseguir dicho reto. John Romkey fue cocreador de la primera pila de protocolos de Internet TCP/IP, PC/IP del Instituto Tecnológico de Massachusetts (MIT) para MS-DOS en el IBM PC, además de proveer pilas TCP/IP a través de la empresa FTP Software, la cual fundó.  
 
-Por aquella época, Romkey trabajaba en el Protocolo Simple de Gestión de Redes (SNMP), junto a Karl Auerbach y David Bridgham, de Epilogue Technology, y Simon Hackett, de Internode. SNMP es un protocolo sencillo que permite a los usuarios leer y escribir variables en un agente remoto y que hasta ese momento se había utilizado únicamente para gestionar dispositivos como routers, para inspeccionar recuentos de paquetes y tablas de enrutamiento, borrar contadores y habilitar o deshabilitar interfaces de red. John Romkey quería aprovechar la oportunidad para demostrar que, dado que SNMP podía controlar dispositivos físicos, también podría ampliar su alcance para gestionar salas completas que albergaran equipos de red y ordenadores, y consideró que controlar una tostadora sería un buen punto de partida. La tostadora, al ser un electrodoméstico sencillo, si su implementación del protocolo funcionaba y podía demostrarlo, el público podría entender que la automatización es posible y se podría llevar a niveles industriales. También, la implementación de Internet en la tostadora podría plantear problemas de seguridad a tener en cuenta, ya que habría que gestionar quién puede tostar el pan y quién puede consultar los hábitos de uso del electrodoméstico, además de tener el factor ridículo de poner una tostadora en Internet.   
+Por aquella época, Romkey trabajaba en el Protocolo Simple de Gestión de Redes ([SNMP](#SNMP)), junto a Karl Auerbach y David Bridgham, de Epilogue Technology, y Simon Hackett, de Internode. [SNMP](#SNMP) es un protocolo sencillo que permite a los usuarios leer y escribir variables en un agente remoto y que hasta ese momento se había utilizado únicamente para gestionar dispositivos como routers, para inspeccionar recuentos de paquetes y tablas de enrutamiento, borrar contadores y habilitar o deshabilitar interfaces de red. John Romkey quería aprovechar la oportunidad para demostrar que, dado que [SNMP](#SNMP) podía controlar dispositivos físicos, también podría ampliar su alcance para gestionar salas completas que albergaran equipos de red y ordenadores, y consideró que controlar una tostadora sería un buen punto de partida. La tostadora, al ser un electrodoméstico sencillo, si su implementación del protocolo funcionaba y podía demostrarlo, el público podría entender que la automatización es posible y se podría llevar a niveles industriales. También, la implementación de Internet en la tostadora podría plantear problemas de seguridad a tener en cuenta, ya que habría que gestionar quién puede tostar el pan y quién puede consultar los hábitos de uso del electrodoméstico, además de tener el factor ridículo de poner una tostadora en Internet.  
 
 El primer paso que tomaron fue buscar una tostadora fácil de controlar físicamente, ya que la mayoría requería de bajar una palanca para también bajar el pan, algo fácil e intuitivo para el ser humano pero difícil de controlar por ordenadores sin hacer uso de la robótica. Con la ayuda de Two Guys and a Vax, una empresa amiga de Epilogue, descubrieron una tostadora Sunbeam Radiant Control, la cual no necesitaba ninguna palanca. Si la tostadora tiene energía y un pan insertado, el pan se baja automáticamente y se empieza a tostar, y finaliza cuando el pan se ha tostado hasta el punto deseado o se corta la corriente. Ese modelo era ideal para ser controlado por ordenador, ya que era más fácil de controlar la alimentación de energía que llegaba al dispositivo que una palanca mecánica de una tostadora.  
 Con la tostadora ideal elegida, el siguiente paso fue construir hardware capaz de controlar la energía. A principios de la década de los 90, la sociedad se encontraba en un entorno pre-web y no existían las placas de desarrollo actuales como Arduino, ni Wi-Fi, y mucho menos dispositivos conectables de manera inalámbrica a través de Wi-Fi, por lo que este paso era obligatorio. El primer intento de John Romkey fue crear un relé simple controlable a través del puerto paralelo de un ordenador portátil, el cual funcionó brevemente, pero terminó tostando el puerto del portátil debido a que el relé consumía más energía de la que el puerto podía suministrar. El segundo intento, mucho más exitoso y resultando en una manera fácil de controlar la tostadora mediante software, fue usar un interruptor de menor consumo conectado directamente al puerto paralelo del portátil para controlar un relé más grande que, a su vez, controlaba la alimentación de la tostadora.  
 
-El último paso fue la implementación del software para controlar la tostadora por Internet, es decir, programar la parte SNMP del proyecto que indicaba cómo de oscuro tostar el pan y el tipo de pan insertado. El lenguaje de SNMP permite especificar que controlar en un agente remoto, ya que cada dispositivo gestionado puede tener su propia base de información de gestión (MIB por sus siglas en inglés). Dentro del MIB se pueden especificar objetos, y por cada uno el tipo de objeto, el acceso permitido, el estado y la descripción, y en el caso de la tostadora, se habían especificado en el código como objetos el fabricante, modelo, los controles de la tostadora para subir y bajar la rebanada (o iniciar y terminar el tostado), cómo de hecha se deseaba la tostada y el tipo de pan. Como ejemplo, la siguiente porción de código controlaba el inicio del tostado:  
+El último paso fue la implementación del software para controlar la tostadora por Internet, es decir, programar la parte [SNMP](#SNMP) del proyecto que indicaba cómo de oscuro tostar el pan y el tipo de pan insertado. El lenguaje de [SNMP](#SNMP) permite especificar que controlar en un agente remoto, ya que cada dispositivo gestionado puede tener su propia base de información gestionada ([MIB](#MIB) por sus siglas en inglés). Dentro del [MIB](#MIB) se pueden especificar objetos, y por cada uno el tipo de objeto, el acceso permitido, el estado y la descripción, y en el caso de la tostadora, se habían especificado en el código como objetos el fabricante, modelo, los controles de la tostadora para subir y bajar la rebanada (o iniciar y terminar el tostado), cómo de hecha se deseaba la tostada y el tipo de pan. Como ejemplo, la siguiente porción de código controlaba el inicio del tostado:  
 
 ```
 toasterControl OBJECT-TYPE
@@ -66,7 +66,7 @@ toasterControl OBJECT-TYPE
 ```
 (codigo tomado del articulo)  
 
-Gracias a los objetos especificados, se podía identificar qué tostadora se estaba controlando, además de establecer el inicio, el tipo de pan y el nivel de tostado final del pan al modificar los objetos, todo a través del agente SNMP conectado al hardware que controlaba la alimentación de la tostadora, permitiendo un control remoto del electrodoméstico. Por ejemplo, si un usuario a través de SNMP modificaba la variable adecuada para indicar que quiere iniciar la tostadora, la tostadora recibía alimentación e iniciaba el proceso de tostado. La tostadora de Internet fue demostrada finalmente en el expositor de Epilogue en la convención de Interop 1990, mostrando un uso alternativo de SNMP, fuera de la gestión de routers, y aprovechando la ocasión para buscar licenciar su implementación SNMP. Como curiosidad, no se podía realizar la demostración de forma legal, ya que tostar pan se consideraba preparación de alimentos, algo permitido solo al sindicato, y para evitar este problema, Epilogue Technology negoció con el sindicato y acordaron tostar repetidamente la misma rebanada de pan para que el público no se la comiera. Además, en la posterior edición de 1991, el hardware de la tostadora evolucionó para añadir un pequeño brazo robótico de LEGO, también controlado por Internet, capaz de tomar una rebanada de pan e insertarla en la tostadora, consiguiendo automatizar el sistema por completo. En la actualidad, John Romkey aún posee esta tostadora de Internet, la cual sigue activa de vez en cuando en Portland, Oregón.  
+Gracias a los objetos especificados, se podía identificar qué tostadora se estaba controlando, además de establecer el inicio, el tipo de pan y el nivel de tostado final del pan al modificar los objetos, todo a través del agente [SNMP](#SNMP) conectado al hardware que controlaba la alimentación de la tostadora, permitiendo un control remoto del electrodoméstico. Por ejemplo, si un usuario a través de [SNMP](#SNMP) modificaba la variable adecuada para indicar que quiere iniciar la tostadora, la tostadora recibía alimentación e iniciaba el proceso de tostado. La tostadora de Internet fue demostrada finalmente en el expositor de Epilogue en la convención de Interop 1990, mostrando un uso alternativo de [SNMP](#SNMP), fuera de la gestión de routers, y aprovechando la ocasión para buscar licenciar su implementación [SNMP](#SNMP). Como curiosidad, no se podía realizar la demostración de forma legal, ya que tostar pan se consideraba preparación de alimentos, algo permitido solo al sindicato, y para evitar este problema, Epilogue Technology negoció con el sindicato y acordaron tostar repetidamente la misma rebanada de pan para que el público no se la comiera. Además, en la posterior edición de 1991, el hardware de la tostadora evolucionó para añadir un pequeño brazo robótico de LEGO, también controlado por Internet, capaz de tomar una rebanada de pan e insertarla en la tostadora, consiguiendo automatizar el sistema por completo. En la actualidad, John Romkey aún posee esta tostadora de Internet, la cual sigue activa de vez en cuando en Portland, Oregón.  
 
 - Incluir imágenes tostadora (sacarla de url)
 
@@ -75,9 +75,9 @@ Como último ejemplo, también de la misma época de Internet, está la cafetera
 
 En el laboratorio se disponía de cámaras de video económicas excedentes resultado de un proyecto, así como de varios racks de ordenadores simples utilizados para pruebas de redes. Así, en noviembre de 1991, en un lluvioso día, prepararon el sistema XCoffee. Primero fijaron una de las cámaras a un soporte de laboratorio, instalándola para que apuntara a la jarra de la cafetera ubicada en el pasillo. Los cables conectados a la cámara se extendieron por debajo del suelo hasta una tarjeta capturadora de fotogramas de vídeo, instalada en un ordenador Acorn Archimedes situado en el rack de la Sala Trojan. El software de este sistema constaba de dos partes: la parte servidor, escrita por Paul Jardetzky, que capturaba imágenes de la cafetera cada pocos segundos y en diversas resoluciones; y la parte cliente, escrita por Quentin Stafford-Fraser, ejecutable por cualquier usuario conectado a través de Ethernet en la misma red local que el servidor, y que mostraba una imagen obtenida del servidor del tamaño de un icono en una ventana en la esquina de la pantalla. Este sistema operaba utilizando el protocolo X Window System, donde XCoffee empleaba llamadas a procedimientos remotos en modo de transferencia asíncrona a través de Ethernet para obtener las imágenes de la cafetera que se mostraban al usuario, con una resolución de 768x576 píxeles y 8 bits de profundidad, en escala de grises y actualizada tres veces por minuto, una configuración no molesta ya que la jarra se llenaba despacio y para distinguir el tono del café bastaba con comprobar como de gris estaba la imagen.  
 
-Teniendo este sistema, los investigadores del departamento, desde la comodidad de sus oficinas, podían comprobar la cafetera, su luz de encendido, el nivel y la oscuridad del café, y si consideraban oportuno bajaban a por su dosis de cafeína, solucionando finalmente el esfuerzo físico de comprobar la cafetera y evitando la angustia emocional de llegar y encontrarla vacía. Esta solución solo ayudaba a quienes estaban conectados a la red informática interna del laboratorio de Cambridge, mientras que a los que no y no tenían la posibilidad de ejecutar el software de la cámara de la cafetera, como el Dr. Martyn Johnson, el problema les seguía afectando. Influenciado por esta limitación y por la evolución de las páginas web, que pasaron en marzo de 1993 de ser páginas simples de texto que solo se les podía cambiar los colores y la fuente, a adquirir la capacidad de incluir imágenes en el código HTML y mostrarlas, junto a Daniel Gordon, ambos crearon la primera webcam de la historia.
+Teniendo este sistema, los investigadores del departamento, desde la comodidad de sus oficinas, podían comprobar la cafetera, su luz de encendido, el nivel y la oscuridad del café, y si consideraban oportuno bajaban a por su dosis de cafeína, solucionando finalmente el esfuerzo físico de comprobar la cafetera y evitando la angustia emocional de llegar y encontrarla vacía. Esta solución solo ayudaba a quienes estaban conectados a la red informática interna del laboratorio de Cambridge, mientras que a los que no y no tenían la posibilidad de ejecutar el software de la cámara de la cafetera, como el Dr. Martyn Johnson, el problema les seguía afectando. Influenciado por esta limitación y por la evolución de las páginas web, que pasaron en marzo de 1993 de ser páginas simples de texto que solo se les podía cambiar los colores y la fuente, a adquirir la capacidad de incluir imágenes en el código [HTML](#HTML) y mostrarlas, junto a Daniel Gordon, ambos crearon la primera webcam de la historia.
 
-El 22 de noviembre de 1993, Gordon y Johnson, tras estudiar las capacidades de la web y analizar el código del servidor, y considerando que la tarea sería relativamente sencilla, tomaron el sistema de XCoffee y lo desplegaron a la World Wide Web. Johson desarrolló un script, cuya primera versión únicamente ocupaba unas 12 líneas de código, que, junto a algunas modificaciones del software original, hacía que, tras recibir una solicitud HTTP, el servidor web desplegado solicitase el fotograma más reciente capturado por la tarjeta capturadora, y generara y sirviese la página que mostraba esta imagen, en otras palabras, una página con una imagen distinta cada vez. Esta implementación sirvió como prueba para el desarrollo de páginas web dinámicas que, en lugar de contener imágenes estáticas, presentaran imágenes que cambiasen constantemente. Además, ampliaron el acceso para poder acceder no solo desde la red local, sino también desde Internet.  
+El 22 de noviembre de 1993, Gordon y Johnson, tras estudiar las capacidades de la web y analizar el código del servidor, y considerando que la tarea sería relativamente sencilla, tomaron el sistema de XCoffee y lo desplegaron a la World Wide Web. Johson desarrolló un script, cuya primera versión únicamente ocupaba unas 12 líneas de código, que, junto a algunas modificaciones del software original, hacía que, tras recibir una solicitud [HTTP](#HTTP), el servidor web desplegado solicitase el fotograma más reciente capturado por la tarjeta capturadora, y generara y sirviese la página que mostraba esta imagen, en otras palabras, una página con una imagen distinta cada vez. Esta implementación sirvió como prueba para el desarrollo de páginas web dinámicas que, en lugar de contener imágenes estáticas, presentaran imágenes que cambiasen constantemente. Además, ampliaron el acceso para poder acceder no solo desde la red local, sino también desde Internet.  
 
 La posibilidad de consultar la cámara directamente desde el navegador web, sin necesidad de ejecutar software ni utilizar protocolos de red especiales, tuvo como efecto secundario, que, aunque no fuese muy útil para personas a varios kilómetros de distancia de la Sala Trojan, todo el mundo podía ver el estado de la cafetera, así ocurrió que cientos de miles de personas han mirado la cafetera, ganando notoriedad internacional y convirtiéndola en la cafetera más famosa del mundo. Esta fama llevó a la instalación de una lámpara apuntando a la jarra para permitir consultar su estado incluso por la noche.  
 
@@ -146,12 +146,317 @@ https://owl.museum-digital.de/object/3761
 /*TODO: apartados restantes*/
 
 
+## Protocolos de mensajería usados en IoT
+
+El uso más común de [IoT](#IoT) es desplegar una arquitectura compuesta por varios dispositivos [IoT](#IoT). En mayor parte, estos dispositivos se designarán simplemente como dispositivos [IoT](#IoT), ya sean sensores o actuadores, mientras que habrá pocos dispositivos (al menos uno) con el rol de centro de mensajería. Dependiendo del uso que se le dé a la arquitectura, estos objetos se comunicarán, y dependiendo de quién sea el emisor y el receptor, dan lugar a estos escenarios:
+
+- Un mensaje ha llegado al centro de mensajería [IoT](#IoT). Este mensaje es procesado y se actúa en consecuencia, por ejemplo, enviando la información necesaria a ciertos dispositivos IoT o almacenándola a una base de datos.
+- Un dispositivo [IoT](#IoT) ha generado datos. Estos datos son procesados y luego enviados al centro de mensajería.
+- Un dispositivo [IoT](#IoT) ha recibido datos del centro de mensajería. Estos datos son procesados y se actúa en consecuencia.
+
+Estos dispositivos, por sí solos, no son capaces de intercambiar esos grandes volúmenes de datos que tratan. Por ello, tras escoger una tecnología para conectar los dispositivos entre sí, es esencial en el desarrollo de aplicaciones IoT disponer de un protocolo de mensajería.
+
+Un protocolo de comunicación permite que los dispositivos se comuniquen y transmitan mensajes entre los dispositivos [IoT](#IoT) y el centro de mensajería. Además, proporciona cierta fiabilidad a la comunicación, ya que permite que los mensajes lleguen y sus datos sean entendidos y procesados correctamente. Esta comunicación ocurre sobre [TCP](#TCP), o incluso sobre abstracciones de mayor nivel como [HTTPS](#HTTPS).
+
+La elección del protocolo se basa en cómo se adecua al escenario en el que se quiere implementar, considerando requisitos a tener en cuenta como la ubicación, las limitaciones físicas, el consumo, la batería y el coste. Por lo general, no cualquier protocolo de comunicación es apropiado. Los protocolos que se mencionan en este apartado se adecuan a la mayoría de escenarios IoT debido a su rapidez y su fácil implementación, y es posible escoger aquel que se adapte mejor a los requisitos.
+
+
+
+
+
+### MQTT
+- Protocolo de red ligero publicador/suscriptor para transportar mensajes con datos entre dispositivos IoT
+- Funciona sobre la capa TCP/IP para la transmisión de datos. Puede operar encima de otros protocolos de red, mientras sean conexiones ordenadas, sin perdidas y bidireccionales
+- Diseñado para ser ligero
+- Escenario ideal: dispositivos IoT con banda ancha limitada u otras restricciones que requieran dispositivos remotos con pocos/limitados recursos
+- Low power
+- Tamaño reducido de paquetes de datos
+- OASIS standard protocol
+- Modelo publicación-suscripción, lo que permite una red única para transmitir datos entre dispositivos y servidores. Permite controlar remotamente un gran número de dispositivos, lo que resulta ventajoso en situaciones de redes a gran escala con numerosos dispositivos pequeños
+	- Ejemplos de redes extensas: instalaciones submarinas, sensores de aparcamiento, redes electricas
+- Facilita control remoto de dispositivos a través de Internet
+- Tiene la capacidad de transmitir mensajes de forma asincrona, eliminando necesidad de respuestas inmediatas
+- Al ser sistema publicación-suscripción, los mensajes son encapsulados en paquetes de control
+
+Pros:
+- Flexibilidad para elegir la calidad de los servicios
+- Ligereza
+- Estandarizado por el OASIS Technical Commitee
+- Fácil de implementar
+
+Cons:
+- Alto consumo de energía al usar una conexión TCP
+
+!TODO: especificar partes del paquete MQTT
+
+En MQTT, se definen dos tipos de entidades en la red: un broker/intermediario de mensajes y una serie de clientes.
+Un broker MQTT es un servidor que recibe todos los mensajes de los clientes, y los dirige a los clientes de destino apropiados
+Un cliente MQTT es cualquier dispositivo conectado al broker MQTT a través de una red
+
+La información/mensajes se organizan en una jerarquía de temas/topics. Cuando un publicador tiene un nuevo dato que distribuir, envía un mensaje de control (tiene especificado el topic) con los datos al broker. El broker luego distribuye la información a los clientes que están suscritos a ese topic.
+El publicador no necesita conocer ni la cantidad ni las direcciones de los suscriptores
+Los suscriptores no necesita conocer al publicador
+
+Si un broker recibe un mensaje en un topic en el cual no hay nadie suscrito, el broker descarta el mensaje a menos de que se haya especificado que el mensaje deba retenerse
+Un mensaje retenido es un mensaje MQTT normal pero con la flag/campo "retener" a true.
+El broker almacena el ultimo mensaje retenido y su correspondiente quality of service (QoS) del topic seleccionado.
+
+Cada cliente que se suscribe a un topic pattern que coincide con el topic del mensaje retenido recibe el mensaje retenido inmediatamente tras suscribirse.
+El broker almacena solo un mensaje retenido por topic. Esto permite a los suscriptores recibir el valor más reciente, en vez de esperar a que se publique un mensaje
+
+Los clientes solo interactúan con el broker, pero un sistema puede contener varios broker que intercambien datos basado en los topics actuales de los subs
+
+Por defecto, MQTT envía credenciales de conexion en formato de texto plano y no incluye ninguna medida de seguridad o autenticación. Esto se puede lograr usando TLS para cifrar y proteger la info transferida contra intercepción, modificación o falsificación
+
+
+
+MQTT broker es un sw ejecutándose en un ordenador 
+Broker  actua como una oficina de correos. Los clientes MQTT con se conectan directamente al destinatario, pero usan el asunto "topic/tema" para enviar. Cualquiera que se suscribe recibe una copia de todos los mensajes del topic. Multiples clientes pueden suscribirse a un topic de un single broker (capacidad one to many), y un single client puede registrar suscripciones a topics con multiples brokers (many to one)
+Cada cliente puede producir y recibir datos al publicar y suscribirse respectivamente. Ej: los dispositivos pueden publicar datos de sensores y seguir siendo capaz de recibir la información de configuración o comandos de control (MQTT es un protocolo de comunicación bidireccional). Esto permite  compartir datos, controlar y gestionar dispositivos. Un cliente no puede broadcast los mismos datos a un rango de topics, y debe publicar multiples mensajes al broker, cada uno con un topic especificado
+
+En la arquitectura MQTT del broker, los dispositivos clientes y la aplicación servidor están desacoplados. De esta forma, los clientes desconocen la información de los demás. 
+MQTT puede configurarse para usar el cifrado TLS con conexiones protegidas por certificado, nombre de usuario y contraseña. Opcionalmente, la conexión puede requerir certificación, en forma de un archivo de certificado que el cliente proporciona y que debe coincidir con la copia del servidor.
+
+En caso de fallo, se puede establecer un backup broker que trate la redundancia y la copia de seguridad de los mensajes. Los backup brokers pueden configurarse también para compartir la carga de clientes entre varios servidores.
+
+El broker mantiene un registro de toda la información de la sesión a medida que el dispositivo se enciende y se apaga, en una función llamada "sesiones persistentes". En este estado, el broker almacena tanto la información de conexión de cada cliente, los temas a lso que cada cliente se ha suscrito y cualquier mensaje para un tema con una QoS de 1 o 2.
+
+Ventajas broker MQTT:
+- Eliminar conexiones vulnerables e inseguras, si se ha configurado
+- Se puede escalar facilmente de un dispositivo a miles
+- Gestiona y rastrea todos los estados de conexión del cliente, incluyendo credenciales de seguridad y certificados, si se ha configurado
+- Reduce la carga de red sin comprometer la seguridad, si se ha configurado
+
+Wildcards: + y #
+- Single-level wildcard, '+': Matches one complete topic level, must occupy an entire topic level, and can be used more than once in a topic subscription 
+- Multi-level wildcard, '#': Matches any number of levels within a topic; must be the last character of a topic subscription 
+
+Este desacoplamiento de emisor y receptor puede diferenciarse en tres dimensiones: 
+    Desacoplamiento de espacio: el publicador y el suscriptor no necesitan conocerse (por ejemplo, por dirección IP y puerto). 
+    Desacoplamiento de tiempo: el publicador y el suscriptor no necesitan estar conectados simultáneamente. 
+    Desacoplamiento de sincronización: las operaciones de ambos componentes no se detienen durante la publicación o recepción de mensajes. 
+
+
+- Ligero y eficiente: MQTT minimiza el consumo extra ocupado por el propio protocolo, y la cabecera mínima del mensaje sólo necesita 2 bytes. Puede funcionar de forma estable en entornos de red con limitaciones de ancho de banda. Al mismo tiempo, los clientes MQTT necesitan muy pocos recursos de hardware y pueden ejecutarse en una gran variedad de dispositivos con recursos limitados.
+
+Además de QoS, MQTT proporciona un mecanismo de Limpieza de Sesión. Para los clientes que deseen recibir mensajes que se perdieron durante el período sin conexión después de volver a conectarse, puede establecer la Limpieza de Sesión en falso en el momento de la conexión. En ese momento, el servidor almacenará la relación de suscripción y los mensajes offline para el cliente y se los enviará cuando el cliente vuelva a estar online.
+
+
+- Conectar dispositivos IoT a escala masiva: Desde su nacimiento, el protocolo MQTT ha tenido en cuenta la creciente masa de dispositivos IoT. Gracias a su excelente diseño, las aplicaciones y servicios IoT basados en MQTT pueden tener fácilmente las capacidades de alta concurrencia, alto rendimiento y alta escalabilidad.
+El soporte del broker MQTT es indispensable para la conexión de dispositivos IoT masivos. Como hitos notables, la implementación de EMQX logró 100 millones de conexiones y la de HiveMQ 200 millones, ambas alcanzado el pico de 1 millón de mensajes gestionados por segundo.
+
+- Comunicación bidireccional segura: Basándose en el modelo publicación-suscripción, MQTT permite la mensajería bidireccional entre dispositivos y la nube. La ventaja del modelo publicación-suscripción es que publicadores y suscriptores no necesitan establecer una conexión directa ni estar en línea al mismo tiempo. En su lugar, el servidor de mensajes se encarga de enrutar y distribuir todos los mensajes.
+La seguridad es la piedra angular de todas las aplicaciones IoT. MQTT admite la comunicación bidireccional segura a través de TLS/SSL, mientras que el ID de cliente, el nombre de usuario y la contraseña proporcionados en el protocolo MQTT permiten a los usuarios implementar la autenticación y la autorización en la capa de aplicación.
+
+- Sesiones Keep Alive y Stateful: Para hacer frente a la inestabilidad de la red, MQTT proporciona un mecanismo Keep Alive. En caso de un largo periodo sin interacción de mensajes entre el cliente y el servidor, Keep Alive evita que se desconecte la conexión. Si la conexión se desconecta, el cliente puede percibirlo al instante y volver a conectarse inmediatamente.
+Al mismo tiempo, MQTT está diseñado con Last Will, que permite al servidor ayudar al cliente a enviar un mensaje de testamento a un tema MQTT especificado si el cliente se encuentra desconectado de forma anormal.
+
+
+***
+MQTT dispone de 14 tipos de mensajes diferentes, de los cuales la mayoría se utilizan para mecanismos internos y flujos de mensajes, mientras que los siguientes son los más comunes empleados por los usuarios:
+- CONNECT: establece una conexión con el broker, y si está configurado, se debe proporcionar un usuario y contraseña.
+- DISCONNECT: finaliza una sesión MQTT enviando este mensaje para cerrar la conexión. Esta desconexión se denomina "graceful shutdown" o "apagado elegante", porque está la posibilidad de conectarse al broker con la misma sesión y reanudar el progreso.
+- PINGREQ/PINGRESP: una operación de ping utilizada para saber si está viva la conexión y para mantenerla.
+- PUBLISH: contiene un mensaje para publicarlo en un tema específico.
+- SUBSCRIBE: utilizado por los clientes para suscribirse a un tema específico para recibir las actualizaciones del mismo.
+- UNSUBSCRIBE: mensaje que utiliza un cliente para indicar la pérdida de interés y anular la suscripción a un tema específico
+- LWT: este mensaje "last will and testament" (última voluntad y testamento) se configura en un cliente para publicarse automáticamente si ocurre una desconexión inesperada. El broker mantiene un temporizador, y si comprueba que recientemente el cliente no ha publicado ni ha mandado un PINGREQ, se publica el mensaje LWT especificado notificando así a los suscriptores.
+***
+
+***
+El diseño de MQTT se basa en la simplicidad y en minimizar el ancho de banda, convirtiendo la manera de interpretar los mensajes en tarea del desarrollador. Los mensajes que se retransmiten a través de la red tienen la posibilidad de configurar el QoS o calidad de servicio por cada tema, asociados con distintas garantías de entrega y como se entregan los mensajes. Aunque MQTT depende de TCP, el cuál tiene su propia garantía de entrega, históricamente los niveles QoS eran necesarios para evitar la pérdida de datos en redes antiguas y poco fiables, y esta preocupación puede ser válida para las redes móviles de la actualidad. Estos son los siguientes tipos de QoS:
+- QoS 0, a lo sumo una vez: los mensajes se envían y no se tiene en cuenta si llegan o no. Está la posibilidad de la pérdida de mensajes y no se hacen retransmisiones.
+- QoS 1, al menos una vez: el receptor recibe el mensaje por lo menos una vez. El receptor debe enviar un acuse de recibo al emisor en cuanto reciba el mensaje, y si este ACK nunca llega (ya sea debido a que el mensaje nunca llegó o que el ACK se perdió), el emisor retransmitirá el mensaje, por lo que pueden producirse mensajes duplicados.
+- QoS 2, exactamente una vez: asegura que el mensaje llegue exactamente una vez. La manera de manejarlo es mediante la sobrecarga en la comunicación y el envío de una serie de acuses de recibo, y es la mejor opción cuando no se acepta ni la pérdida ni la duplicidad de mensajes.
+***
+
+
+
+### AMQP
+Protocolo de la capa de aplicación de estándar abierto para middleware orientado a mensajes
+Protocolo binario diseñado para soportar una amplia gama de aplicaciones de mensajería y patrones de comunicación
+No está diseñado específicamente para soluciones IoT, pero funciona muy bien para las comunicaciones de mensajes que incluyen muchos escenarios IoT
+Protocolo binario de capa de aplicación
+Puede utilizarse para mensajería punto a punto y pub-sub
+Amplia compatibilidad con escenarios de mensajería
+Admite el cifrado de mensajes extremo a extremo
+Mensajes enviados sobre TCP y UDP
+
+Cons: alto consumo de recursos (energía y memoria)
+Orientación de mensajes, colas, enrutamiento, fiabilidad y seguridad
+AMQP define como deben comportarse tanto el proveedor del servicio del mensajería como el cliente. Permite que implementaciones de diferentes vendedores puedan funcionar juntoas
+
+AMQP es un protocolo a nivel de cable, que describe el formato de los datos que se envían a través de la red como un flujo de bytes. Cualquier herramienta que pueda crear e interpretar mensajes que se ajusten a este formato de datos puede interoperar con cualquier otra herramienta que lo cumpla, independientemente del lenguaje de implementación
+
+Es un protocolo de mensajería avanzado
+Permite la comunicación entre servicios y aplicaciones
+Protocolo abierto que funciona a nivel de capa de aplicación
+Define la creación de mensajes, encolamiento, enrutamiento de los mensajes producidos y exactitud para entregar los mensajes a los consumidores
+
+Compuesto de un broker de mensajería. Este internamente posee exchanges, donde se conectan los productores de mensajes. También posee colas, vinculadas a exchanges a través de distintos criterios. Los consumidores de los datos se conectan a las colas para extraer los mensajes que producen los publicadores.
+
+El protocolo establece el comportamiento del servidor de mensajería y de los clientes que se conectan al broker, de manera que las implementaciones de distintos proveedores son interoperables
+AMQP proporciona la unidad de trabajo necesarioa para intercambiar información
+
+Es un protocolo orientado a crear un "cable" entre aplicaciones conectadas
+Incluye funcionalidad para entregar mensajes de manera fiable, representar los datos a través de diferentes formatos, flexixbilidad para definir datos, preparado para escalabilidad y capacidad de definir varias topologías
+
+El objetivo de diseño de AMQP era conseguir la creación de un protocolo que permita interoperar mediante mensajes, tanto dentro de la misma organizacaión como entre organizaciones, mediante la creación de un mensaje con estándar abierto para realizar transacciones de negocio
+
+Entidades AMQP:
+- Broker: servidor de mensajería al que los clientes se conectan usando el protocolo AMQP y que se encarga de distribuir los mensajes
+- Usuario
+- Conexión: conexión física sobre algún protocolo de transporte como TCP/IP o SCTP (ligada a un usuario)
+- Canal: conexión lógica ligada a una conexión
+
+Entidades usadas para transferencia de mensajes entre aplicaciones son declaradas dentro de un canal, que garantiza la creación lógica de los elementos necesarios para la comunicación, como la creación de un exchange, una cola a la cual enviar mensajes y la vinculación entre las entidades.
+
+Entidades que definen el protocolo para la creación y consumo de mensajes mediante AMQP:
+- Exchanges: entidades a las que los productores envían mensajes, y desde donde se envían los datos a las diferentes colas. Los mensajes se envían a una o más colas según el exchange y la clave de enrutamiento/routing key con que se publican. Tipos de exchange:
+	- Topic exchange: cuando se publica un mensaje, el determina qué colas lo recibirán comparando la routing key del mensaje con el patrón de enrutamiento que vinculan la cola con el exchange
+	- Direct exchange: envía mensajes a un receptor concreto,
+	TODO: seguir
+
+
+### XMPP
+
+Otra manera de comunicar varios dispositivos [IoT](#IoT) se logra mediante el Extensible Messaging and Presence Protocol, anteriormente conocido como Jabber. Este protocolo se basa en la transmisión de datos estructurados en formato [XML](#XML) dentro de una red de arquitectura cliente-servidor, en la cual los dispositivos están identificados por un Jabber ID, cuyo formato es similar al de una dirección de correo electrónico (por ejemplo, "abc@example.com"). En esta red, el cliente establece una conexión TCP/IP con el servidor, la cual permanece abierta. Posteriormente, el cliente se autentica con el servidor, y tras una autenticación exitosa, se habilita la posibilidad de enviar y recibir mensajes.
+
+Una característica notable de [XMPP](#XMPP) es que no existe un servidor central que gestione todas las comunicaciones; el intercambio de mensajes entre clientes y servidores está descentralizado, permitiendo a los usuarios y organizaciones operar su propio servidor [XMPP](#XMPP). Esto no restringe a los usuarios a conectarse únicamente con otros usuarios en el mismo servidor, ya que, al ser un estándar abierto regido por la Internet Engineering Task Force, los desarrolladores disponen de un protocolo bien documentado y fiable. De este modo, es posible interoperar entre diferentes implementaciones de [XMPP](#XMPP) a través de Internet, independientemente del proveedor. En el caso de querer comunicarse con otro servidor, ambos servidores [XMPP](#XMPP) se intercambian la información necesaria, habilitando un modelo federado.
+
+Este protocolo está diseñado para ofrecer mensajería instantánea o casi en tiempo real a través de la red, sin importar la distancia entre los dispositivos, uno de los problemas más comunes en [IoT](#IoT). Además, permite obtener información de presencia sobre los usuarios conectados y mantener una lista de contactos para cada usuario. [XMPP](#XMPP) también admite extensibilidad, permitiendo a los desarrolladores añadir características y funcionalidades personalizadas, ofreciendo más allá de la mensajería tradicional y adaptando [XMPP](#XMPP) a necesidades específicas de aplicaciones, como la transmisión de señales [VoIP](#VoIP), video, ficheros, chat grupal, conferencias multiusuario, suscripción de presencia para conocer cuándo alguien está conectado a la red, y comunicación publicación-suscripción para recibir actualizaciones sobre temas específicos de interés.
+
+En los mensajes [XMPP](#XMPP) se utiliza el formato stanzas [XML](#XML) para estructurar y transportar los datos. Existen 3 tipos principales de stanzas:
+- Stanza de mensaje (`<message>`): utilizado para enviar mensajes instantáneos entre clientes. Contiene los campos remitente, destinatario, cuerpo del mensaje y otros metadatos opcionales. Después de recibir el mensaje, el servidor utiliza el campo de destinatario para enrutar el propio mensaje. Ejemplo de uso de esta stanza: 
+	```xml
+	<message from='abc@example.com'
+		to='xyz@example.com'
+		type='chat'>
+		<body>Hemos tenido una velada encantadora.</body>
+	</message>
+	```
+- Stanza de presencia (`<presence>`): permite a las entidades conocer el estado y la disponibilidad online/offline de otros cliente. También puede transportar información adicional, como la actividad del cliente o su ubicación. Cuando un cliente se conecta o desconecta del servidor, envía una stanza de presencia para notificar a otros clientes de su lista de contactos. Ejemplo de uso de esta stanza:
+	```xml
+	<presence from="abc@example.com">
+		<show>away</show>
+		<status>Paro para comer.</status>
+		<priority>5</priority>
+	</presence>
+	```
+- Stanza de IQ o info/query (`<iq>): se usa para consultar al servidor, gestionar suscripciones o intercambiar datos estructurados entre clientes y servidores. Funciona de manera similar a los métodos [HTTP](#HTTP) GET y POST, siguiendo un patrón de petición-respuesta, en el cual un cliente envía una petición al servidor y este responde con la información solicitada o con una confirmación. Ejemplo de uso de esta stanza:
+	```xml
+	<iq to="user@example.com" type="get" id="314">
+		<query xmlns="http://jabber.org/protocol/disco#items" />
+	</iq>
+	```
+
+El protocolo [XMPP](#XMPP) es altamente escalable debido a su capacidad de manejar multitud de conexiones y mensajes simultáneos. Además, al ser descentralizado, permite implementar fácilmente más servidores para gestionar el aumento de usuarios y altos picos de uso. En cuanto a seguridad, [XMPP](#XMPP) es compatible con cifrado de extremo a extremo mediante [TLS](#TLS) o [SSL](#SSL), garantizando así la confidencialidad de los mensajes. Por último, cuenta con una amplia comunidad de usuarios, diversas implementaciones y guías que facilitan a los desarrolladores la creación de aplicaciones que integren este protocolo.
+
+
+### DDS
+
+Diseñado para ser usado en sistemas en tiempo real, y es un estándar máquina-máquina del Object Management Group (OMG)
+Objetivos DDS: permitir intercambios de datos fiables, de alto rendimiento, interoperables, en tiempo real y escalabes usando un patrón de mensajería publish subscribe
+Protocolo DDS diseñado para responder a las necesidades específicas de aplicaciones
+Diseñado para sistemas en tiempo real
+Conecta dispositivos directamente entre ellos
+Elimina el requisito del servidor intermediario: mayor velocidad y eficacia en el intercambio de datos
+Mejor protocolo de aplicación segura, por su naturaleza sin servidor
+Capaz de transmitir millones de mensajes a multitud de receptores de forma instantánea
+Entrega en tiempo real, útil para cualquier sistema que lo requiera
+Demuestra notable capacidad de adaptación, responde fácilmente a las neesidades únicas de cada ámbito de aplicaci´´on
+Prioriza entrega de un intercambio de datos fiable, escalable, de alta velocidad e interoperable
+
+Caract:
+- Diseñado para sistemas en tiempo real
+- Facilita comunicación directa entre dispositivos
+- Minimiza sobre carga de comunicación
+
+Ventajas:
+- Arquitectura flexible y adaptable
+- Baja sobrecarga, permite integración perfecta con sistemas de alto rendimiento
+- Garantiza una entrega de datos determinista
+- Altamente escalable para adaptarse a las crecientes demandas del sistema
+- Optimiza la utilización del ancho de banda de transporte
+
+//TODO: buscar más cosas de DDS (wikipedia o info)
+
+
+### CoAP
+
+El Constrained Application Control es un protocolo de la capa de aplicación que permite a dispositivos con recursos limitados, como los que se encuentran en una red [IoT](#IoT), comunicarse entre sí. Funciona en un marco cliente-servidor, en el cual el cliente realiza una solicitud a un punto de comunicación del dispositivo servidor, y este responde, permitiendo la interoperabilidad entre los dispositivos uno a uno.
+
+Este protocolo opera sobre el protocolo de transporte [UDP](#UDP), que, a diferencia de [TCP](#TCP), no requiere que los dispositivos establezcan una conexión de datos previa al envío de datos. Esto trae tanto consecuencias positivas como negativas. La consecuencia negativa radica en la poca fiabilidad en la comunicación de base, ya que el protocolo [UDP](#UDP) no garantiza la entrega de los mensajes, sino que esta garantía se gestiona desde la implementación de [CoAP](#CoAP). Es posible establecer acuses de recibo ([ACK](#ACK)), de manera que, por cada mensaje enviado, el dispositivo espera un acuse de recibo y, en caso de no recibirlo en un tiempo determinado, el mensaje se retransmite. La consecuencia positiva del uso de [UDP](#UDP) es la posibilidad de funcionar en redes con pérdidas o inestables, adecuado para redes [IoT](#IoT), ya que suelen operar en entornos de red difíciles, y la rapidez en la comunicación, pues no requiere una conexión de datos previa, enviando directamente el mensaje.
+
+Esta comunicación utiliza una arquitectura [REST](#REST)ful, en la cual los datos y las funcionalidades se consideran recursos a los que se accede mediante una interfaz estándar y uniforme. Estos recursos se acceden y se interactúa con ellos mediante métodos [HTTP](#HTTP) estándar (GET, POST, PUT, DELETE, que realizan las funciones "obtener", "crear", "actualizar" y "eliminar" recursos, respectivamente), permitiendo una interoperabilidad sencilla entre distintos tipos de dispositivos y facilitando a los desarrolladores la creación de aplicaciones que usan protocolo. No es necesario que los recursos de la red sean conocidos por el dispositivo que vaya a utilizarlos, ya que [CoAP](#CoAP) implementa un mecanismo de descubrimiento integrado, útil en redes [IoT](#IoT) en las que los dispositivos constantemente se conectan y desconectan. Esta función de descubrimiento trata de consultar un recurso conocido "núcleo" en la red, el cual provee la lista de los recursos de los dispositivos en la red. Es decir, si un dispositivo [IoT](#IoT) quiere interactuar con los recursos de otro, puede consultar al núcleo y comprobar qué recursos hay disponibles y cómo puede interactuar con ellos.
+
+El intercambio de mensajes [CoAP](#CoAP) entre dispositivos es asíncrono, lo que significa que un dispositivo puede enviar una solicitud a otro y continuar ejecutando otras tareas mientras que la respuesta puede recibirla en cualquier momento. Esto se logra mediante un id en los mensajes, permitiendo al dispositivo relacionar peticiones con respuestas, asegurando un alto nivel de fiabilidad en el intercambio de mensajes. Esta comunicación asíncrona es crucial en redes [IoT](#IoT), ya que los dispositivos pueden no estar siempre conectados o disponibles para responder en el momento de la solicitud.
+
+[CoAP](#CoAP) se basa en el intercambio de mensajes compactos codificados en un formato binario simple. El tamaño de estos mensajes no puede superar al necesario para encapsularlos dentro de un datagrama [IP](#IP), y tienen distintos campos:
+- Versión de [CoAP](#CoAP).
+- Tipo de mensaje.
+- Longitud del Token.
+- Código, en formato "c.dd", siendo "c" la clase indicando si es una solicitud, una respuesta satisfactoria, un error del cliente o un error del servidor, y "dd" el detalle.
+- ID de mensaje.
+- Token, usado para correlacionar solicitudes y respuestas.
+- Opciones.
+- Payload o carga útil.
+
+Los distintos tipos de mensajes que se pueden transmitir son los siguientes:
+- Mensajes confirmables (CON): utilizados cuando se necesita asegurar que el mensaje llegue al destinatario. Contienen un temporizador y un mecanismo de retroceso. Al transmitir una petición CON, se espera recibir un mensaje ACK con el mismo ID de la petición o una respuesta en un mensaje CON y con un ID distinto.
+
+- Mensajes no confirmables (NON): son mensajes menos fiables, usados para enviar información no crítica, que no requieren un acuse de recibo (ACK). En el caso de enviarse una solicitud como un mensaje NON, la respuesta también se recibirá como un mensaje NON (en el caso que el servidor tenga la información necesaria para responder).
+
+- Mensajes de acuse de recibo (ACK): son transmitidos para reconocer que ha llegado un mensaje confirmable específico identificado por su ID de transacción. Estos mensajes pueden tener su propio payload y algunas opciones para detallar la recepción.
+
+- Mensaje de reinicio (RST): cuando al receptor le falta información para procesar una solicitud, transmite un mensaje RST. Esto ocurre cuando el receptor se ha reiniciado y no ha persistido adecuadamente la petición recibida anteriormente, o cuando cancela una transacción.
+
+Además es un protocolo diseñado para requerir poca energía en la transferencia (tiene bajo consumo de recursos), y permite transferir tanto datos como archivos, utilizar el protocolo [DTLS](#DTLS) para aumentar la seguridad de las transferencias, y extender la implementación del protocolo con funcionalidades adicionales. Por el contrario, es un protocolo menos maduro y menos adoptado que sus alternativas, resultando en una menor cantidad de recursos, guías y herramientas, además de una compatibilidad reducida con otros dispositivos [IoT](#IoT).
+
+
+https://webbylab.com/blog/mqtt-vs-other-iot-messaging-protocols-detailed-comparison/
+https://www.techtarget.com/iotagenda/tip/Top-12-most-commonly-used-IoT-protocols-and-standards
+https://build5nines.com/top-iot-messaging-protocols/
+https://www.a3logics.com/blog/iot-messaging-protocols/
+https://en.wikipedia.org/wiki/MQTT
+https://www.emqx.com/en/blog/what-is-the-mqtt-protocol
+https://www.gotoiot.com/pages/articles/mqtt_intro/index.html
+https://dzone.com/refcardz/getting-started-with-mqtt
+https://www.hivemq.com/resources/achieving-200-mil-concurrent-connections-with-hivemq/
+https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol
+https://www.gotoiot.com/pages/articles/amqp_intro/index.html
+https://en.wikipedia.org/wiki/XMPP
+https://www.pubnub.com/guides/xmpp/
+https://blazeclan.com/blog/xmpp-for-dummies-part-3-stanzas-in-detail/
+https://slixmpp.readthedocs.io/en/latest/api/stanza/presence.html
+https://slixmpp.readthedocs.io/en/latest/api/stanza/iq.html
+https://www.emqx.com/en/blog/coap-protocol0
+https://www.gotoiot.com/pages/articles/coap_intro/index.html
+(DOCUMENTO) https://datatracker.ietf.org/doc/html/rfc7252
+
+
+
+
+
+
+
 ## Espressif y sus dispositivos
 
+Espressif Systems es una multinacional pública de semiconductores sin fábrica fundada en 2008, que opera como líder mundial en el ámbito del Internet de las Cosas y está comprometida en proporcionar a millones de usuarios algunos de los mejores dispositivos y plataformas de software de la industria, junto con una variedad de soluciones [IoT](#IoT) seguras.
 
-Espressif Systems es una empresa líder en el mundo de Internet-de las cosas (IoT). Son un innovador equipo de especialistas en diseño de chip, desarrolladores de software/firmware y comercializadores. Se han comprometido a proporcionar algunos de los mejores dispositivos de IoT y plataformas de software en la industria. También ayudan a sus clientes a construir sus propias soluciones y conectar con otros socios del ecosistema de IoT. Su pasión se encuentra en la creación de chipsets de vanguardia y permitir a sus socios ofrecer excelentes productos. Los productos de Espressif se han implementado principalmente en el mercado de tabletas, cajas OTT, cámaras e IoT.
+La empresa se identifica como una empresa compuesta por especialistas, ingenieros y científicos dedicados al desarrollo de soluciones de vanguardia de bajo consumo que aprovechan la comunicación inalámbrica, el [IoT](#IoT) y la inteligencia artificial de las cosas ([AIoT](#AIoT)). Estas soluciones se caracterizan por su seguridad, robustez, eficiencia energética, versatilidad, asequibilidad y enfoque código abierto.
 
-Espressif Systems es una empresa multinacional pública establecida en 2008, con oficinas en China, República Checa, India, Singapur y Brasil. Cuenta con un equipo apasionado de ingenieros y científicos de todo el mundo, enfocados en desarrollar soluciones AIoT de bajo consumo, Wi-Fi y Bluetooth de vanguardia. Espressif ha creado las populares series de chips, módulos y placas de desarrollo ESP8266, ESP32 y ESP32-S que ofrecen soluciones seguras, robustas y energéticamente eficientes. Al mismo tiempo, mediante la tecnología y las soluciones de código abierto, Espressif tiene como objetivo permitir que los desarrolladores utilicen sus soluciones a nivel mundial y construyan sus propios dispositivos inteligentes conectados. En julio de 2019, Espressif realizó su Oferta Pública Inicial en la Junta de Innovación Sci-Tech (STAR) de la Bolsa de Valores de Shanghai (SSE).
+Con el surgimiento de la inteligencia artificial y la evolución del [IoT](#IoT), la demanda de productos con conectividad inalámbrica segura ha ido creciendo considerablemente, y Espressif Systems ha respondido a este desafío desarrollando soluciones adaptadas a las necesidades del mercado. Espressif emplea los nodos de tecnología avanzada, la informática de bajo consumo, la comunicación inalámbrica, así como la tecnología de malla, para crear conjuntos de chips y módulos de alto rendimiento, que son más inteligentes, adaptables y versátiles.
+
+El compromiso de esta empresa china con el código abierto se refleja en su oferta de una variedad de frameworks y herramientas de desarrollo para construir aplicaciones en diferentes ámbitos, como [IoT](#IoT), audio, malla, conectividad de dispositivos, reconocimiento facial y asistentes de voz. Gracias a las tecnologías y soluciones abiertas de Espressif, permiten acercar el [IoT](#IoT) a sus clientes, comerciales y no comerciales, y que desarrolladores de todos los ámbitos puedan utilizarlas a nivel mundial y construir sus propios dispositivos inteligentes conectados y soluciones a algunos problemas del presente. Con este acercamiento a sus clientes, estos últimos pueden efectuar una conectividad inalámbrica de sus productos optimizando el rendimiento de estos y en un reducido tiempo de desarrollo. A su vez, apoyan activamente proyectos de código abierto en la comunidad de makers, creyendo en la accesibilidad de la tecnología como motor para el desarrollo de la sociedad [AIoT](#AIoT) del futuro.
+
+Además de su enfoque en el código abierto y en la tecnología accesible, Espressif se destaca por el compromiso con la sostenibilidad, la responsabilidad social corporativa y por la inversión en investigación y desarrollo de tecnologías ecológicas. A lo largo de su trayectoria, ha respaldado activamente soluciones que reducen el consumo de energía y el desperdicio de materiales.
+
+Los productos de Espressif se utilizan ampliamente en productos como electrodomésticos, altavoces, bombillas, cámaras, tabletas, TV boxes, terminales de pago y otros dispositivos de electrónica de consumo, y son especialmente útiles en contextos donde es necesario el Internet de las Cosas, comunicación inalámbrica e Inteligencia Artificial. Espressif es conocido por sus populares series de chips, módulos y placas de desarrollo ESP8266, ESP32 y ESP32-S, ESP32-C y ESP32-H, los cuales se analizarán en el siguiente apartado.
+
+
+
+
 
 
 
