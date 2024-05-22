@@ -11,6 +11,7 @@ HTTP: HyperText Transfer Protocol, Protocolo de Transferencia de Hipertexto
 HTTPS: HyperText Transfer Protocol Secure, Protocolo Seguro de Transferencia de Hipertexto
 IoT: Internet of Things, Internet de las Cosas
 IP: Internet Protocol, Protocolo de Internet
+ITU: International Telecommunication Union, Unión Internacional de Telecomunicaciones
 MIB: Management Information Base, Base de Información Gestionada
 MQTT: Message Queue Telemetry Transport, Transporte de Telemetría en Colas de Mensajes
 OASIS: Organization for the Advancement of Structured Information Standards, Organización para el Avance de Estándares de Información Estructurada
