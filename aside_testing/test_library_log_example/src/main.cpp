@@ -15,14 +15,19 @@ Elog *logger;
 
 void setup() {
   Serial.begin(9600);
-  logger = initializeSerialLogger(BROKER, INFO);
-	//logger = initializeSDLogger(BROKER, 5, 18, 19, 23, INFO);
-  logger->log(INFO, "Hello world!");
+  //logger = initializeSerialLogger(BROKER, INFO);
+	logger = initializeSDLogger(BROKER, 5, 18, 19, 23, DEBUG);
+}
 
+void loop() {
+	for (int i=0; i<10; i++) {
+		logger->log(INFO, "Hello world!");
+		logger->log(INFO, "Hello again!");
+		logger->log(INFO, "Goodbye!");
+		delay(1000);
+	}
 	logger = disableLogger();
-	logger->log(INFO, "You shouldn't see thi");
+	logger->log(INFO, "You shouldn't see this");
 
   delete logger;
 }
-
-void loop() {}
