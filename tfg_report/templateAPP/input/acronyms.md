@@ -13,6 +13,7 @@ IoT: Internet of Things, Internet de las Cosas
 IP: Internet Protocol, Protocolo de Internet
 MIB: Management Information Base, Base de Información Gestionada
 MQTT: Message Queue Telemetry Transport, Transporte de Telemetría en Colas de Mensajes
+OASIS: Organization for the Advancement of Structured Information Standards, Organización para el Avance de Estándares de Información Estructurada
 QoS: Quality of Service, Calidad de Servicio
 REST: Representational State Transfer, Transferencia de Estado Representacional
 RFID: Radio Frequency Identification, Identificación por Radiofrecuencia

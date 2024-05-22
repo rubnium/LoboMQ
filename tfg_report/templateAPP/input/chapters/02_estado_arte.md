@@ -160,116 +160,49 @@ Un protocolo de comunicación permite que los dispositivos se comuniquen y trans
 
 La elección del protocolo se basa en cómo se adecua al escenario en el que se quiere implementar, considerando requisitos a tener en cuenta como la ubicación, las limitaciones físicas, el consumo, la batería y el coste. Por lo general, no cualquier protocolo de comunicación es apropiado. Los protocolos que se mencionan en este apartado se adecuan a la mayoría de escenarios IoT debido a su rapidez y su fácil implementación, y es posible escoger aquel que se adapte mejor a los requisitos.
 
-
-
-
-
 ### MQTT
-- Protocolo de red ligero publicador/suscriptor para transportar mensajes con datos entre dispositivos IoT
-- Funciona sobre la capa TCP/IP para la transmisión de datos. Puede operar encima de otros protocolos de red, mientras sean conexiones ordenadas, sin perdidas y bidireccionales
-- Diseñado para ser ligero
-- Escenario ideal: dispositivos IoT con banda ancha limitada u otras restricciones que requieran dispositivos remotos con pocos/limitados recursos
-- Low power
-- Tamaño reducido de paquetes de datos
-- OASIS standard protocol
-- Modelo publicación-suscripción, lo que permite una red única para transmitir datos entre dispositivos y servidores. Permite controlar remotamente un gran número de dispositivos, lo que resulta ventajoso en situaciones de redes a gran escala con numerosos dispositivos pequeños
-	- Ejemplos de redes extensas: instalaciones submarinas, sensores de aparcamiento, redes electricas
-- Facilita control remoto de dispositivos a través de Internet
-- Tiene la capacidad de transmitir mensajes de forma asincrona, eliminando necesidad de respuestas inmediatas
-- Al ser sistema publicación-suscripción, los mensajes son encapsulados en paquetes de control
+El protocolo Message Queue Telemetry Transport es uno de los más populares en el ámbito del Internet de las Cosas. Diseñado para ser ligero y adecuado para redes con ancho de banda limitado y dispositivos con pocos recursos, este estándar del comité técnico [OASIS](#OASIS) permite el transporte bidireccional de mensajes con datos entre múltiples dispositivos.
 
-Pros:
-- Flexibilidad para elegir la calidad de los servicios
-- Ligereza
-- Estandarizado por el OASIS Technical Commitee
-- Fácil de implementar
+[MQTT](#MQTT) utiliza el patrón de comunicación publicación-suscripción. En este patrón, los publicadores categorizan los mensajes, y los suscriptores recibirán mensajes de las categorías de su interés, a diferencia de la comunicación tradicional en la que los publicadores envían los mensajes directamente a los suscriptores. En el caso de [MQTT](#MQTT), el patrón está basado en temas o topics, siendo posible que los suscriptores se interesen por uno o varios. Este patrón permite utilizar una red única para transmitir datos entre dispositivos y servidores, habilitando el control remoto de una gran cantidad de dispositivos a través de Internet.
 
-Cons:
-- Alto consumo de energía al usar una conexión TCP
+En una red [MQTT](#MQTT), se definen dos roles principales: el broker o intermediario de mensajes y los clientes. El broker [MQTT](#MQTT) es un servidor comparable a una oficina de correos, que recibe todos los mensajes publicados por los clientes y los dirige a los clientes de destino apropiados. Por otra parte, un cliente es cualquier dispositivo conectado al broker a través de una red, y puede producir y recibir datos al publicar y suscribirse respectivamente. Este mecanismo es útil para compartir datos, controlar y gestionar dispositivos. Por ejemplo, un dispositivo cliente puede publicar datos de sensores y además recibir información de configuración o comandos de control. La enrutación de mensajes que realizada por el broker proporciona transparencia y desacoplamiento en el espacio, ya que el publicador no necesita conocer ni la cantidad ni las direcciones de los suscriptores, y los suscriptores no necesitan conocer al publicador, ambos interactúan únicamente con el broker.
 
-!TODO: especificar partes del paquete MQTT
+Los mensajes están organizados en una jerarquía de temas o topics. Al publicar un mensaje, se publica en un tema específico, y en el caso de querer publicar a varios se deben realizar varias publicaciones. En cambio, un suscriptor puede suscribirse a un tema específico o a varios simultáneamente y recibirá una copia de todos los mensajes compatibles con los temas suscritos. La manera de indicar varios temas es mediante el uso de los siguientes caracteres comodín:
 
-En MQTT, se definen dos tipos de entidades en la red: un broker/intermediario de mensajes y una serie de clientes.
-Un broker MQTT es un servidor que recibe todos los mensajes de los clientes, y los dirige a los clientes de destino apropiados
-Un cliente MQTT es cualquier dispositivo conectado al broker MQTT a través de una red
+- Comodín de un nivel '+': coincide con un nivel de tema y puede utilizarse más de una vez en la especificación del tema.
+- Comodín de varios niveles '#': coincide con cualquier número de niveles y debe ser el último carácter en la especificación del tema.
 
-La información/mensajes se organizan en una jerarquía de temas/topics. Cuando un publicador tiene un nuevo dato que distribuir, envía un mensaje de control (tiene especificado el topic) con los datos al broker. El broker luego distribuye la información a los clientes que están suscritos a ese topic.
-El publicador no necesita conocer ni la cantidad ni las direcciones de los suscriptores
-Los suscriptores no necesita conocer al publicador
+Como ejemplo de uso de los temas, cuando se publica un mensaje en el tema "edificioA/sensor1/temperatura", el broker enviará una copia del mensaje los clientes suscritos a los temas "edificioA/sensor1/temperatura", "edificioA/+/temperatura" y "edificioA/#", pero no a un cliente suscrito a "edificioB" o a "edificioA/+/humedad".
 
-Si un broker recibe un mensaje en un topic en el cual no hay nadie suscrito, el broker descarta el mensaje a menos de que se haya especificado que el mensaje deba retenerse
-Un mensaje retenido es un mensaje MQTT normal pero con la flag/campo "retener" a true.
-El broker almacena el ultimo mensaje retenido y su correspondiente quality of service (QoS) del topic seleccionado.
+La transmisión de mensajes se realiza de forma asíncrona, sin detener la ejecución de ambos componentes a la hora de publicar o recibir, y se puede realizar una comunicación uno a muchos (un publicador y varios suscriptores), muchos a uno (varios publicadores y un suscriptor), uno a uno (un publicador y un suscriptor, menos común) y muchos a muchos (varios publicadores y varios suscriptores).
 
-Cada cliente que se suscribe a un topic pattern que coincide con el topic del mensaje retenido recibe el mensaje retenido inmediatamente tras suscribirse.
-El broker almacena solo un mensaje retenido por topic. Esto permite a los suscriptores recibir el valor más reciente, en vez de esperar a que se publique un mensaje
+En el caso de que el broker reciba una publicación de un tema en el cual no hay nadie suscrito, el broker por defecto descarta el mensaje. Es posible activar la retención de mensajes configurando un campo en el mensaje para evitar esto, consiguiendo así que el broker almacene el último mensaje retenido de cada tema y lo distribuya inmediatamente a cualquier nuevo cliente suscrito, permitiendo así que el suscriptor reciba el valor más reciente en lugar de esperar a una nueva publicación, y además añadiendo soporte a una comunicación desacoplada en el tiempo, donde publicadores y suscriptores no necesitan estar conectados simultáneamente.
 
-Los clientes solo interactúan con el broker, pero un sistema puede contener varios broker que intercambien datos basado en los topics actuales de los subs
+El protocolo soporta un mecanismo de limpieza de sesión. Por defecto, un cliente tras desconectarse y volverse a conectar no recibe los mensajes publicados durante su desconexión y el broker olvida las suscripciones del mismo cliente. Pero al desactivar dicho mecanismo, el broker mantiene tanto las relaciones de suscripción como los mensajes offline, enviándolos al cliente al momento de reconectarse, lo cual es útil para dispositivos que se conectan y desconectan constantemente, común en redes IoT. Además, [MQTT](#MQTT) enfrenta la inestabilidad de la red con un mecanismo Keep Alive que, al transcurrir un prolongado periodo sin interacción, ocurre un ping entre el cliente y el broker para evitar la desconexión. Si el ping falla y se identifica el cliente como desconectado, aplicará un mecanismo Last Will, que publica un último mensaje a un tema específico debido a una desconexión anormal, en el caso de estar configurado.
 
-Por defecto, MQTT envía credenciales de conexion en formato de texto plano y no incluye ninguna medida de seguridad o autenticación. Esto se puede lograr usando TLS para cifrar y proteger la info transferida contra intercepción, modificación o falsificación
+[MQTT](#MQTT) dispone de 14 tipos de mensajes diferentes, la mayoría utilizados para mecanismos internos y flujos de mensajes:
 
-
-
-MQTT broker es un sw ejecutándose en un ordenador 
-Broker  actua como una oficina de correos. Los clientes MQTT con se conectan directamente al destinatario, pero usan el asunto "topic/tema" para enviar. Cualquiera que se suscribe recibe una copia de todos los mensajes del topic. Multiples clientes pueden suscribirse a un topic de un single broker (capacidad one to many), y un single client puede registrar suscripciones a topics con multiples brokers (many to one)
-Cada cliente puede producir y recibir datos al publicar y suscribirse respectivamente. Ej: los dispositivos pueden publicar datos de sensores y seguir siendo capaz de recibir la información de configuración o comandos de control (MQTT es un protocolo de comunicación bidireccional). Esto permite  compartir datos, controlar y gestionar dispositivos. Un cliente no puede broadcast los mismos datos a un rango de topics, y debe publicar multiples mensajes al broker, cada uno con un topic especificado
-
-En la arquitectura MQTT del broker, los dispositivos clientes y la aplicación servidor están desacoplados. De esta forma, los clientes desconocen la información de los demás. 
-MQTT puede configurarse para usar el cifrado TLS con conexiones protegidas por certificado, nombre de usuario y contraseña. Opcionalmente, la conexión puede requerir certificación, en forma de un archivo de certificado que el cliente proporciona y que debe coincidir con la copia del servidor.
-
-En caso de fallo, se puede establecer un backup broker que trate la redundancia y la copia de seguridad de los mensajes. Los backup brokers pueden configurarse también para compartir la carga de clientes entre varios servidores.
-
-El broker mantiene un registro de toda la información de la sesión a medida que el dispositivo se enciende y se apaga, en una función llamada "sesiones persistentes". En este estado, el broker almacena tanto la información de conexión de cada cliente, los temas a lso que cada cliente se ha suscrito y cualquier mensaje para un tema con una QoS de 1 o 2.
-
-Ventajas broker MQTT:
-- Eliminar conexiones vulnerables e inseguras, si se ha configurado
-- Se puede escalar facilmente de un dispositivo a miles
-- Gestiona y rastrea todos los estados de conexión del cliente, incluyendo credenciales de seguridad y certificados, si se ha configurado
-- Reduce la carga de red sin comprometer la seguridad, si se ha configurado
-
-Wildcards: + y #
-- Single-level wildcard, '+': Matches one complete topic level, must occupy an entire topic level, and can be used more than once in a topic subscription 
-- Multi-level wildcard, '#': Matches any number of levels within a topic; must be the last character of a topic subscription 
-
-Este desacoplamiento de emisor y receptor puede diferenciarse en tres dimensiones: 
-    Desacoplamiento de espacio: el publicador y el suscriptor no necesitan conocerse (por ejemplo, por dirección IP y puerto). 
-    Desacoplamiento de tiempo: el publicador y el suscriptor no necesitan estar conectados simultáneamente. 
-    Desacoplamiento de sincronización: las operaciones de ambos componentes no se detienen durante la publicación o recepción de mensajes. 
-
-
-- Ligero y eficiente: MQTT minimiza el consumo extra ocupado por el propio protocolo, y la cabecera mínima del mensaje sólo necesita 2 bytes. Puede funcionar de forma estable en entornos de red con limitaciones de ancho de banda. Al mismo tiempo, los clientes MQTT necesitan muy pocos recursos de hardware y pueden ejecutarse en una gran variedad de dispositivos con recursos limitados.
-
-Además de QoS, MQTT proporciona un mecanismo de Limpieza de Sesión. Para los clientes que deseen recibir mensajes que se perdieron durante el período sin conexión después de volver a conectarse, puede establecer la Limpieza de Sesión en falso en el momento de la conexión. En ese momento, el servidor almacenará la relación de suscripción y los mensajes offline para el cliente y se los enviará cuando el cliente vuelva a estar online.
-
-
-- Conectar dispositivos IoT a escala masiva: Desde su nacimiento, el protocolo MQTT ha tenido en cuenta la creciente masa de dispositivos IoT. Gracias a su excelente diseño, las aplicaciones y servicios IoT basados en MQTT pueden tener fácilmente las capacidades de alta concurrencia, alto rendimiento y alta escalabilidad.
-El soporte del broker MQTT es indispensable para la conexión de dispositivos IoT masivos. Como hitos notables, la implementación de EMQX logró 100 millones de conexiones y la de HiveMQ 200 millones, ambas alcanzado el pico de 1 millón de mensajes gestionados por segundo.
-
-- Comunicación bidireccional segura: Basándose en el modelo publicación-suscripción, MQTT permite la mensajería bidireccional entre dispositivos y la nube. La ventaja del modelo publicación-suscripción es que publicadores y suscriptores no necesitan establecer una conexión directa ni estar en línea al mismo tiempo. En su lugar, el servidor de mensajes se encarga de enrutar y distribuir todos los mensajes.
-La seguridad es la piedra angular de todas las aplicaciones IoT. MQTT admite la comunicación bidireccional segura a través de TLS/SSL, mientras que el ID de cliente, el nombre de usuario y la contraseña proporcionados en el protocolo MQTT permiten a los usuarios implementar la autenticación y la autorización en la capa de aplicación.
-
-- Sesiones Keep Alive y Stateful: Para hacer frente a la inestabilidad de la red, MQTT proporciona un mecanismo Keep Alive. En caso de un largo periodo sin interacción de mensajes entre el cliente y el servidor, Keep Alive evita que se desconecte la conexión. Si la conexión se desconecta, el cliente puede percibirlo al instante y volver a conectarse inmediatamente.
-Al mismo tiempo, MQTT está diseñado con Last Will, que permite al servidor ayudar al cliente a enviar un mensaje de testamento a un tema MQTT especificado si el cliente se encuentra desconectado de forma anormal.
-
-
-***
-MQTT dispone de 14 tipos de mensajes diferentes, de los cuales la mayoría se utilizan para mecanismos internos y flujos de mensajes, mientras que los siguientes son los más comunes empleados por los usuarios:
 - CONNECT: establece una conexión con el broker, y si está configurado, se debe proporcionar un usuario y contraseña.
-- DISCONNECT: finaliza una sesión MQTT enviando este mensaje para cerrar la conexión. Esta desconexión se denomina "graceful shutdown" o "apagado elegante", porque está la posibilidad de conectarse al broker con la misma sesión y reanudar el progreso.
-- PINGREQ/PINGRESP: una operación de ping utilizada para saber si está viva la conexión y para mantenerla.
+- DISCONNECT: finaliza una sesión [MQTT](#MQTT) enviando este mensaje para cerrar la conexión. Esta desconexión se denomina "graceful shutdown" o "apagado elegante", porque está la posibilidad de conectarse al broker con la misma sesión y reanudar el progreso.
+- PINGREQ/PINGRESP: una operación de ping utilizada para saber si está viva la conexión y mantenerla.
 - PUBLISH: contiene un mensaje para publicarlo en un tema específico.
-- SUBSCRIBE: utilizado por los clientes para suscribirse a un tema específico para recibir las actualizaciones del mismo.
+- SUBSCRIBE: utilizado por los clientes para suscribirse a un tema específico y recibir las actualizaciones de este.
 - UNSUBSCRIBE: mensaje que utiliza un cliente para indicar la pérdida de interés y anular la suscripción a un tema específico
 - LWT: este mensaje "last will and testament" (última voluntad y testamento) se configura en un cliente para publicarse automáticamente si ocurre una desconexión inesperada. El broker mantiene un temporizador, y si comprueba que recientemente el cliente no ha publicado ni ha mandado un PINGREQ, se publica el mensaje LWT especificado notificando así a los suscriptores.
-***
 
-***
-El diseño de MQTT se basa en la simplicidad y en minimizar el ancho de banda, convirtiendo la manera de interpretar los mensajes en tarea del desarrollador. Los mensajes que se retransmiten a través de la red tienen la posibilidad de configurar el QoS o calidad de servicio por cada tema, asociados con distintas garantías de entrega y como se entregan los mensajes. Aunque MQTT depende de TCP, el cuál tiene su propia garantía de entrega, históricamente los niveles QoS eran necesarios para evitar la pérdida de datos en redes antiguas y poco fiables, y esta preocupación puede ser válida para las redes móviles de la actualidad. Estos son los siguientes tipos de QoS:
-- QoS 0, a lo sumo una vez: los mensajes se envían y no se tiene en cuenta si llegan o no. Está la posibilidad de la pérdida de mensajes y no se hacen retransmisiones.
-- QoS 1, al menos una vez: el receptor recibe el mensaje por lo menos una vez. El receptor debe enviar un acuse de recibo al emisor en cuanto reciba el mensaje, y si este ACK nunca llega (ya sea debido a que el mensaje nunca llegó o que el ACK se perdió), el emisor retransmitirá el mensaje, por lo que pueden producirse mensajes duplicados.
-- QoS 2, exactamente una vez: asegura que el mensaje llegue exactamente una vez. La manera de manejarlo es mediante la sobrecarga en la comunicación y el envío de una serie de acuses de recibo, y es la mejor opción cuando no se acepta ni la pérdida ni la duplicidad de mensajes.
-***
+El diseño de [MQTT](#MQTT) se basa en la simplicidad y en minimizar el ancho de banda, dejando la interpretación de los mensajes en manos del desarrollador. Los mensajes transmitidos a través de la red tienen la posibilidad de configurar el [QoS](#QoS) o calidad de servicio por cada tema, asociados con distintas garantías de entrega y cómo se entregan los mensajes. Aunque [MQTT](#MQTT) depende de [TCP](#TCP), el cual tiene su propia garantía de entrega, históricamente los niveles [QoS](#QoS) eran necesarios para evitar la pérdida de datos en redes antiguas y poco fiables, una preocupación válida para las redes móviles actuales. Estos son los siguientes tipos de [QoS](#QoS):
 
+- [QoS](#QoS) 0, a lo sumo una vez: los mensajes se envían y no se tiene en cuenta si llegan o no. Está la posibilidad de la pérdida de mensajes y no se hacen retransmisiones.
+- [QoS](#QoS) 1, al menos una vez: el receptor recibe el mensaje por lo menos una vez. El receptor debe enviar un acuse de recibo al emisor en cuanto reciba el mensaje, y si este [ACK](#ACK) nunca llega (ya sea debido a que el mensaje nunca llegó o que el [ACK](#ACK) se perdió), el emisor retransmitirá el mensaje, pudiendo producirse mensajes duplicados.
+- [QoS](#QoS) 2, exactamente una vez: asegura que el mensaje llegue exactamente una vez, manejado mediante la sobrecarga en la comunicación y el envío de una serie de acuses de recibo, y es la mejor opción cuando no se acepta ni la pérdida ni la duplicidad de mensajes.
+
+La transmisión de datos se realiza principalmente sobre la capa TCP/IP, pero existe la posibilidad de operar encima de otros protocolos de red que ofrezcan conexiones ordenadas, sin pérdidas y bidireccionales, y se transmiten en un tamaño reducido de paquetes de datos, estructurado por los siguientes campos:
+
+- Cabecera fija, en la que se especifica el tipo de mensaje, si el mensaje es un duplicado, el [QoS](#QoS), si es un mensaje que retener y el tamaño del paquete.
+- Cabecera variable, no siempre presente en los mensajes, y puede transportar información adicional de control.
+- Payload o carga útil.
+
+Por defecto, este protocolo envía credenciales y mensajes en texto plano sin medidas de seguridad, pero admite utilizar conexiones [TLS](#TLS)/[SSL](#SSL) protegidas por certificado, nombre de usuario y contraseña para cifrar y proteger la información transferida contra la intercepción, modificación o falsificación. Además, un broker [MQTT](#MQTT) tiene soporte para conectar dispositivos IoT a escala masiva, un factor tenido en cuenta a la hora de su diseño y que resulta en una alta capacidad de concurrencia, rendimiento y escalabilidad, características útiles en una red IoT. Implementaciones como EMQX y HiveMQ han alcanzado hitos notables, con 100 y 200 millones de conexiones respectivamente, y un pico de 1 millón de mensajes gestionados por segundo. A esta escalabilidad se le puede sumar la capacidad de implementar múltiples brokers, para así compartir la carga de clientes y tratar la redundancia y la copia de seguridad de los mensajes en caso de fallo.
 
 
 ### AMQP
@@ -327,34 +260,34 @@ Una característica notable de [XMPP](#XMPP) es que no existe un servidor centra
 Este protocolo está diseñado para ofrecer mensajería instantánea o casi en tiempo real a través de la red, sin importar la distancia entre los dispositivos, uno de los problemas más comunes en [IoT](#IoT). Además, permite obtener información de presencia sobre los usuarios conectados y mantener una lista de contactos para cada usuario. [XMPP](#XMPP) también admite extensibilidad, permitiendo a los desarrolladores añadir características y funcionalidades personalizadas, ofreciendo más allá de la mensajería tradicional y adaptando [XMPP](#XMPP) a necesidades específicas de aplicaciones, como la transmisión de señales [VoIP](#VoIP), video, ficheros, chat grupal, conferencias multiusuario, suscripción de presencia para conocer cuándo alguien está conectado a la red, y comunicación publicación-suscripción para recibir actualizaciones sobre temas específicos de interés.
 
 En los mensajes [XMPP](#XMPP) se utiliza el formato stanzas [XML](#XML) para estructurar y transportar los datos. Existen 3 tipos principales de stanzas:
-- Stanza de mensaje (`<message>`): utilizado para enviar mensajes instantáneos entre clientes. Contiene los campos remitente, destinatario, cuerpo del mensaje y otros metadatos opcionales. Después de recibir el mensaje, el servidor utiliza el campo de destinatario para enrutar el propio mensaje. Ejemplo de uso de esta stanza: 
-	```xml
-	<message from='abc@example.com'
-		to='xyz@example.com'
-		type='chat'>
-		<body>Hemos tenido una velada encantadora.</body>
-	</message>
-	```
-- Stanza de presencia (`<presence>`): permite a las entidades conocer el estado y la disponibilidad online/offline de otros cliente. También puede transportar información adicional, como la actividad del cliente o su ubicación. Cuando un cliente se conecta o desconecta del servidor, envía una stanza de presencia para notificar a otros clientes de su lista de contactos. Ejemplo de uso de esta stanza:
-	```xml
-	<presence from="abc@example.com">
-		<show>away</show>
-		<status>Paro para comer.</status>
-		<priority>5</priority>
-	</presence>
-	```
-- Stanza de IQ o info/query (`<iq>): se usa para consultar al servidor, gestionar suscripciones o intercambiar datos estructurados entre clientes y servidores. Funciona de manera similar a los métodos [HTTP](#HTTP) GET y POST, siguiendo un patrón de petición-respuesta, en el cual un cliente envía una petición al servidor y este responde con la información solicitada o con una confirmación. Ejemplo de uso de esta stanza:
-	```xml
-	<iq to="user@example.com" type="get" id="314">
-		<query xmlns="http://jabber.org/protocol/disco#items" />
-	</iq>
-	```
+
+- Stanza de mensaje (`message`): utilizado para enviar mensajes instantáneos entre clientes. Contiene los campos remitente, destinatario, cuerpo del mensaje y otros metadatos opcionales. Después de recibir el mensaje, el servidor utiliza el campo de destinatario para enrutar el propio mensaje. Ejemplo de uso de esta stanza: 
+```xml
+<message from='abc@example.com'
+	to='xyz@example.com'
+	type='chat'>
+	<body>Hemos tenido una velada encantadora.</body>
+</message>
+```
+- Stanza de presencia (`presence`): permite a las entidades conocer el estado y la disponibilidad online/offline de otros cliente. También puede transportar información adicional, como la actividad del cliente o su ubicación. Cuando un cliente se conecta o desconecta del servidor, envía una stanza de presencia para notificar a otros clientes de su lista de contactos. Ejemplo de uso de esta stanza:
+``` xml
+<presence from="abc@example.com">
+	<show>away</show>
+	<status>Paro para comer.</status>
+	<priority>5</priority>
+</presence>
+```
+- Stanza de IQ o info/query (`iq`): se usa para consultar al servidor, gestionar suscripciones o intercambiar datos estructurados entre clientes y servidores. Funciona de manera similar a los métodos [HTTP](#HTTP) GET y POST, siguiendo un patrón de petición-respuesta, en el cual un cliente envía una petición al servidor y este responde con la información solicitada o con una confirmación. Ejemplo de uso de esta stanza:
+``` xml
+<iq to="user@example.com" type="get" id="314">
+	<query xmlns="http://jabber.org/protocol/disco#items" />
+</iq>
+```
 
 El protocolo [XMPP](#XMPP) es altamente escalable debido a su capacidad de manejar multitud de conexiones y mensajes simultáneos. Además, al ser descentralizado, permite implementar fácilmente más servidores para gestionar el aumento de usuarios y altos picos de uso. En cuanto a seguridad, [XMPP](#XMPP) es compatible con cifrado de extremo a extremo mediante [TLS](#TLS) o [SSL](#SSL), garantizando así la confidencialidad de los mensajes. Por último, cuenta con una amplia comunidad de usuarios, diversas implementaciones y guías que facilitan a los desarrolladores la creación de aplicaciones que integren este protocolo.
 
 
 ### DDS
-
 Diseñado para ser usado en sistemas en tiempo real, y es un estándar máquina-máquina del Object Management Group (OMG)
 Objetivos DDS: permitir intercambios de datos fiables, de alto rendimiento, interoperables, en tiempo real y escalabes usando un patrón de mensajería publish subscribe
 Protocolo DDS diseñado para responder a las necesidades específicas de aplicaciones
@@ -393,6 +326,7 @@ Esta comunicación utiliza una arquitectura [REST](#REST)ful, en la cual los dat
 El intercambio de mensajes [CoAP](#CoAP) entre dispositivos es asíncrono, lo que significa que un dispositivo puede enviar una solicitud a otro y continuar ejecutando otras tareas mientras que la respuesta puede recibirla en cualquier momento. Esto se logra mediante un id en los mensajes, permitiendo al dispositivo relacionar peticiones con respuestas, asegurando un alto nivel de fiabilidad en el intercambio de mensajes. Esta comunicación asíncrona es crucial en redes [IoT](#IoT), ya que los dispositivos pueden no estar siempre conectados o disponibles para responder en el momento de la solicitud.
 
 [CoAP](#CoAP) se basa en el intercambio de mensajes compactos codificados en un formato binario simple. El tamaño de estos mensajes no puede superar al necesario para encapsularlos dentro de un datagrama [IP](#IP), y tienen distintos campos:
+
 - Versión de [CoAP](#CoAP).
 - Tipo de mensaje.
 - Longitud del Token.
@@ -403,12 +337,10 @@ El intercambio de mensajes [CoAP](#CoAP) entre dispositivos es asíncrono, lo qu
 - Payload o carga útil.
 
 Los distintos tipos de mensajes que se pueden transmitir son los siguientes:
+
 - Mensajes confirmables (CON): utilizados cuando se necesita asegurar que el mensaje llegue al destinatario. Contienen un temporizador y un mecanismo de retroceso. Al transmitir una petición CON, se espera recibir un mensaje ACK con el mismo ID de la petición o una respuesta en un mensaje CON y con un ID distinto.
-
 - Mensajes no confirmables (NON): son mensajes menos fiables, usados para enviar información no crítica, que no requieren un acuse de recibo (ACK). En el caso de enviarse una solicitud como un mensaje NON, la respuesta también se recibirá como un mensaje NON (en el caso que el servidor tenga la información necesaria para responder).
-
 - Mensajes de acuse de recibo (ACK): son transmitidos para reconocer que ha llegado un mensaje confirmable específico identificado por su ID de transacción. Estos mensajes pueden tener su propio payload y algunas opciones para detallar la recepción.
-
 - Mensaje de reinicio (RST): cuando al receptor le falta información para procesar una solicitud, transmite un mensaje RST. Esto ocurre cuando el receptor se ha reiniciado y no ha persistido adecuadamente la petición recibida anteriormente, o cuando cancela una transacción.
 
 Además es un protocolo diseñado para requerir poca energía en la transferencia (tiene bajo consumo de recursos), y permite transferir tanto datos como archivos, utilizar el protocolo [DTLS](#DTLS) para aumentar la seguridad de las transferencias, y extender la implementación del protocolo con funcionalidades adicionales. Por el contrario, es un protocolo menos maduro y menos adoptado que sus alternativas, resultando en una menor cantidad de recursos, guías y herramientas, además de una compatibilidad reducida con otros dispositivos [IoT](#IoT).
@@ -419,10 +351,12 @@ https://www.techtarget.com/iotagenda/tip/Top-12-most-commonly-used-IoT-protocols
 https://build5nines.com/top-iot-messaging-protocols/
 https://www.a3logics.com/blog/iot-messaging-protocols/
 https://en.wikipedia.org/wiki/MQTT
+https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern
 https://www.emqx.com/en/blog/what-is-the-mqtt-protocol
 https://www.gotoiot.com/pages/articles/mqtt_intro/index.html
 https://dzone.com/refcardz/getting-started-with-mqtt
 https://www.hivemq.com/resources/achieving-200-mil-concurrent-connections-with-hivemq/
+http://www.steves-internet-guide.com/mqtt-protocol-messages-overview/
 https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol
 https://www.gotoiot.com/pages/articles/amqp_intro/index.html
 https://en.wikipedia.org/wiki/XMPP

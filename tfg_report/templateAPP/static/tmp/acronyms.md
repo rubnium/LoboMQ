@@ -1,3 +1,7 @@
+<span id='ACK'>ACK</span>
+
+: Acknowledgement, Acuse de recibo
+
 <span id='AIoT'>AIoT</span>
 
 : Artificial Intelligence of Things, Inteligencia Artificial de las Cosas
@@ -22,9 +26,17 @@
 
 : Data Distribution Service, Servicio de Distribución de Datos
 
+<span id='DTLS'>DTLS</span>
+
+: Data Transport Layer Security, Protocolo de Seguridad de la Capa de Transporte
+
 <span id='HTML'>HTML</span>
 
 : HyperText Markup Language, Lenguaje de Marcado de Hipertexto
+
+<span id='HTTP'>HTTP</span>
+
+: HyperText Transfer Protocol, Protocolo de Transferencia de Hipertexto
 
 <span id='HTTPS'>HTTPS</span>
 
@@ -34,6 +46,10 @@
 
 : Internet of Things, Internet de las Cosas
 
+<span id='IP'>IP</span>
+
+: Internet Protocol, Protocolo de Internet
+
 <span id='MIB'>MIB</span>
 
 : Management Information Base, Base de Información Gestionada
@@ -41,6 +57,18 @@
 <span id='MQTT'>MQTT</span>
 
 : Message Queue Telemetry Transport, Transporte de Telemetría en Colas de Mensajes
+
+<span id='OASIS'>OASIS</span>
+
+: Organization for the Advancement of Structured Information Standards, Organización para el Avance de Estándares de Información Estructurada
+
+<span id='QoS'>QoS</span>
+
+: Quality of Service, Calidad de Servicio
+
+<span id='REST'>REST</span>
+
+: Representational State Transfer, Transferencia de Estado Representacional
 
 <span id='RFID'>RFID</span>
 
@@ -50,13 +78,33 @@
 
 : Simple Network Management Protocol, Protocolo Simple de Gestión de Redes
 
+<span id='SSL'>SSL</span>
+
+: Secure Sockets Layer, Capa de Puertos Seguros
+
 <span id='TCP'>TCP</span>
 
 : Transmission Control Protocol, Protocolo de Control de Transmisión
 
+<span id='TLS'>TLS</span>
+
+: Transport Layer Security, Seguridad de la Capa de Transporte
+
 <span id='TFG'>TFG</span>
 
 : Trabajo Final de Grado
+
+<span id='UDP'>UDP</span>
+
+: User Datagram Protocol, Protocolo de Datagramas de Usuario
+
+<span id='VoIP'>VoIP</span>
+
+: Voice over Internet Protocol, Voz sobre Protocolo de Internet
+
+<span id='XML'>XML</span>
+
+: Extensible Markup Language, Lenguaje de Marcado Extensible
 
 <span id='XMPP'>XMPP</span>
 
