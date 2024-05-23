@@ -32,8 +32,8 @@ jobs:
           docker rm -f tfgii
         fi
     
-    - name: Change permissions for run script
-      run: chmod +x ${{ github.workspace }}/tfg_report/templateAPP/run
+    - name: Change permissions only for required directories
+      run: find ${{ github.workspace }}/tfg_report/templateAPP/ \( ! -name input -a ! -name config.yaml \) -exec chmod 777 {} +
 
     - name: Run Docker "felix.albertos/tfgii" container
       run: docker run -v ${{ github.workspace }}/tfg_report/templateAPP:/home/tfgii/templateAPP --name tfgii felix.albertos/tfgii

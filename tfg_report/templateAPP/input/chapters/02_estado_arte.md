@@ -399,7 +399,6 @@ Los productos de Espressif se utilizan ampliamente en productos como electrodom√
 
 
 
-
 https://www.espressif.com/en/company/about-espressif
 https://www.eurotronix.com/es/fabricantes/espressif
 https://www.digikey.es/es/supplier-centers/espressif-systems
