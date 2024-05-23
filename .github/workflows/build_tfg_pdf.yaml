@@ -9,7 +9,7 @@ on:
       - 'tfg_report/templateAPP/input/**'
 
 jobs:
-  build-and-run:
+  Build Docker container and run:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
 #    - name: Log in to Docker Hub
 #      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Build Docker image
+    - name: Build Docker "felix.albertos/tfgii" image
       working-directory: ./tfg_report
       run: docker build -t="felix.albertos/tfgii" .
 
@@ -31,6 +31,9 @@ jobs:
         if [ "$(docker ps -aq -f name=tfgii)" ]; then
           docker rm -f tfgii
         fi
+    
+    - name: Change permissions for run script
+      run: chmod +x ${{ github.workspace }}/report/templateAPP/run
 
-    - name: Run Docker container
+    - name: Run Docker "felix.albertos/tfgii" container
       run: docker run -v ${{ github.workspace }}/tfg_report/templateAPP:/home/tfgii/templateAPP --name tfgii felix.albertos/tfgii
