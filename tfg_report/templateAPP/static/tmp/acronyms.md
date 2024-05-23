@@ -50,6 +50,10 @@
 
 : Internet Protocol, Protocolo de Internet
 
+<span id='ITU'>ITU</span>
+
+: International Telecommunication Union, Unión Internacional de Telecomunicaciones
+
 <span id='MIB'>MIB</span>
 
 : Management Information Base, Base de Información Gestionada
