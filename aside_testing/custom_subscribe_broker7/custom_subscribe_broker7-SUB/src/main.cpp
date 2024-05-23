@@ -4,7 +4,8 @@ typedef struct {
   int number;
 } CustomPayloadStruct;
 
-uint8_t brokerAddr[] = {0xC0, 0x49, 0xEF, 0xCA, 0x2B, 0x74}; //MAC destination address
+uint8_t brokerAddr[] = {0x24, 0xDC, 0xC3, 0x9C, 0x7E, 0x40}; //MAC destination address
+//uint8_t brokerAddr[] = {0x08, 0xB6, 0x1F, 0xBA, 0x04, 0xF8}; //MAC destination address, CYD board
 
 Elog *_logger;
 

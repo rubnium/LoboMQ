@@ -14,10 +14,9 @@
 #include <SPI.h>
 #include <WiFi.h>
 
-//Installed libraries:
 #include <Elog.h>
 
-#include "unnamedMQ/commons/Logger.h"
+#include "Logger.h"
 
 typedef enum {
 	MQ_ERR_SUCCESS = 0,

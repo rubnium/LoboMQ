@@ -8,8 +8,9 @@
 
 #define PUBSUB_H
 
-#include "unnamedMQ/commons/Includes.h"
 #include <stdint.h>
+
+#include "commons/Includes.h"
 
 #define MAXTOPICLENGTH 10
 
@@ -47,8 +48,11 @@ typedef struct : public MessageBase {
  * wildcard characters (`+`, `#`) nor non-UTF-8 characters. Invalid example: 
  * `+/café`. Valid example: `kitchen/coffee`.
  * @param payload Pointer to the message payload.
- * @retval `true` if the message is successfully published.  
- * @retval `false` if an error occurs during publishing.
+ * @param _logger Pointer to the logger object.
+ * @retval `MQ_ERR_SUCCESS` if the message is successfully published.  
+ * @retval `MQ_ERR_BAD_ESP_CONFIG`
+ * @retval `MQ_ERR_INVAL_TOPIC`
+ * @retval `MQ_ERR_ESP_SEND_FAIL`
  */
 IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
 
@@ -62,8 +66,11 @@ IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = dis
  * wildcard characters (`+`, `#`) when used properly, and can't contain
  * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
  * `+/+/out/#`.
- * @retval `true` if it's successfully subscribed.  
- * @retval `false` if an error occurs during subscription.
+ * @param _logger Pointer to the logger object.
+ * @retval `MQ_ERR_SUCCESS` if the message is successfully published.  
+ * @retval `MQ_ERR_BAD_ESP_CONFIG`
+ * @retval `MQ_ERR_INVAL_TOPIC`
+ * @retval `MQ_ERR_ESP_SEND_FAIL`
  */
 IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
@@ -77,8 +84,11 @@ IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger())
  * wildcard characters (`+`, `#`) when used properly, and can't contain
  * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
  * `+/+/out/#`.
- * @retval `true` if it's successfully unsubscribed.  
- * @retval `false` if an error occurs during unsubscription.
+ * @param _logger Pointer to the logger object.
+ * @retval `MQ_ERR_SUCCESS` if the message is successfully published.  
+ * @retval `MQ_ERR_BAD_ESP_CONFIG`
+ * @retval `MQ_ERR_INVAL_TOPIC`
+ * @retval `MQ_ERR_ESP_SEND_FAIL`
  */
 IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
@@ -87,8 +97,8 @@ IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger(
  * This function checks if the received bytes represent a MQ message from this
  * library.
  * @param incomingData The data received.
- * @retval true if the data is a MQ message.  
- * @retval false if the data is not a MQ message.  
+ * @retval `true` if the data is a MQ message.  
+ * @retval `false` if the data is not a MQ message.  
  * @note This function is recommended to be used at the subscriber side in the
  * data receive callback alongside getMQContent(). Pseudocode example:  
  * ```

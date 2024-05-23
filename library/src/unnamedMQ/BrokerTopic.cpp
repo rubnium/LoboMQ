@@ -21,10 +21,10 @@ BrokerTopic::BrokerTopic(Elog *_logger, const char topic[]) {
   //initializes the queue
   messagesQueue = xQueueCreate(10, sizeof(PublishContent));
   if (messagesQueue == NULL) {
-    logger->log(ERROR, "[BROKER TOPIC %s] Couldn't create the message queue", this->topic);
+    logger->log(ERROR, "[BROKER TOPIC %s] Couldn't create the message queue.", this->topic);
     return;
   }
-	logger->log(DEBUG, "[BROKER TOPIC %s] Created", this->topic);
+	logger->log(DEBUG, "[BROKER TOPIC %s] Created.", this->topic);
 }
 
 const char* BrokerTopic::getTopic() const {
@@ -49,7 +49,6 @@ void BrokerTopic::setFilename(const char* filename) {
 }
 
 bool addPeer(const uint8_t *mac) {
-  //TODO: add return false if error
   if(!esp_now_is_peer_exist(mac)) { //if peer not registered
     //Register peer
     esp_now_peer_info_t peerInfo;
@@ -57,7 +56,9 @@ bool addPeer(const uint8_t *mac) {
     memcpy(peerInfo.peer_addr, mac, 6);
     peerInfo.channel = 0;
     peerInfo.encrypt = false;
-    esp_now_add_peer(&peerInfo);
+
+    if (esp_now_add_peer(&peerInfo) != ESP_OK)
+			return false;
   }
   return true;
 }
@@ -115,15 +116,14 @@ std::string BrokerTopic::getSubscribersString() const {
   std::string result = "";
   for (const auto& mac : subscribers) {
     char macChar[18];
-    snprintf(macChar, sizeof(macChar), "%02X:%02X:%02X:%02X:%02X:%02X\n",
+    snprintf(macChar, sizeof(macChar), "%02X:%02X:%02X:%02X:%02X:%02X",
 			mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-    result += macChar;
+    result = result + macChar + "\n";
   }
   return result;
 }
 
 void BrokerTopic::publish(PublishContent pubContent, std::vector<std::array<uint8_t, 6>>& alreadySentMacs) const {
-  //TODO: duplicate pubContent and make pubContent.topic = topic
   for (const auto& subscriber : subscribers) { //goes through every subscriber
     //Checks if the message was already sent to this subscriber's MAC
     bool alreadySent = false;
@@ -134,12 +134,16 @@ void BrokerTopic::publish(PublishContent pubContent, std::vector<std::array<uint
       }
     }
     if (!alreadySent) {
-      addPeer(subscriber.data());
-      esp_now_send(subscriber.data(), (uint8_t *)&pubContent, sizeof(PublishContent));
-      alreadySentMacs.push_back(subscriber);
+      if (addPeer(subscriber.data())) {
+				esp_now_send(subscriber.data(), (uint8_t *)&pubContent, sizeof(PublishContent));
+				alreadySentMacs.push_back(subscriber);
+			} else {
+				logger->log(ERROR, "[BROKER TOPIC %s] Couldn't add peer %02X:%02X:%02X:%02X:%02X:%02X, it won't receive.",
+					topic, subscriber[0], subscriber[1], subscriber[2], subscriber[3], subscriber[4], subscriber[5]);
+			}
     }
   }
-	logger->log(DEBUG, "[BROKER TOPIC %s] Sent message to %d subscribers", topic, subscribers.size());
+	logger->log(DEBUG, "[BROKER TOPIC %s] Sent message to %d subscribers.", topic, subscribers.size());
 }
 
 bool BrokerTopic::isPublishable(const char *publishTopic) const {
