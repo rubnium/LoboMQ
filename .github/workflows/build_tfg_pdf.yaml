@@ -9,7 +9,7 @@ on:
       - 'tfg_report/templateAPP/input/**'
 
 jobs:
-  Build Docker container and run:
+  build_container_and_run:
     runs-on: ubuntu-latest
 
     steps:
