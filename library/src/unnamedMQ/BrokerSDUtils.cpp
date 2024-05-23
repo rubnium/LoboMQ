@@ -41,7 +41,7 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
     if (index>0) {
       String subpath = String(FILE_PATH).substring(0, index); //Gets subpath until next "/"
       if (!SD.exists(subpath) and !SD.mkdir(subpath)) { //If subpath does not exist, creates it
-			  logger->log(ERROR, "[BT SD] Couldn't create folder (%s).", subpath);
+			  logger->log(ERROR, "[BT SD] Couldn't create folder (%s).", subpath.c_str());
 				xSemaphoreGive(*mutex); //release mutex because of error
         return false;
       }
@@ -50,7 +50,7 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
 
   //Creates deepest folder
   if (!SD.exists(FILE_PATH) and !SD.mkdir(FILE_PATH)) {
-		logger->log(ERROR, "[BT SD] Couldn't create folder (%s).", String(FILE_PATH));
+		logger->log(ERROR, "[BT SD] Couldn't create folder (%s).", String(FILE_PATH).c_str());
 		xSemaphoreGive(*mutex); //release mutex because of error
     return false;
   }
@@ -133,7 +133,7 @@ void writeBTToFile(BrokerTopic* brokerTopic, Elog* logger, SemaphoreHandle_t *mu
 
 	File file = SD.open(fullFilepath, FILE_WRITE);
 	if (!file) {
-		logger->log(ERROR, "[BT SD] Couldn't open file for writing (%s).", fullFilepath);
+		logger->log(ERROR, "[BT SD] Couldn't open file for writing (%s).", fullFilepath.c_str());
 	} else {
 		serializeJsonPretty(doc, file);
 		logger->log(DEBUG, "[BT SD] Wrote topic '%s' to file '%s' successfully.", brokerTopic->getTopic(),
@@ -152,10 +152,10 @@ void deleteBTFile(const char* filename, Elog* logger, SemaphoreHandle_t *mutex, 
 	String fullFilepath = (String(FILE_PATH)+"/"+filename+String(FILE_FORMAT));
 	File file = SD.open(fullFilepath, FILE_WRITE);
 	if (!file) {
-		logger->log(ERROR, "[BT SD] Couldn't open file for deletion (%s).", fullFilepath);
+		logger->log(ERROR, "[BT SD] Couldn't open file for deletion (%s).", fullFilepath.c_str());
   } else {
 		if (!SD.remove(file.path())) {
-			logger->log(ERROR, "[BT SD] Couldn't delete file (%s).", fullFilepath);
+			logger->log(ERROR, "[BT SD] Couldn't delete file (%s).", fullFilepath.c_str());
 		} else {
 			logger->log(DEBUG, "[BT SD] Deleted file %s successfully.", file.name());
 		}

@@ -119,7 +119,6 @@ IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
   }
 	logger->log(INFO, "Message of %dB published successfully to '%s'.", sizeof(payload), topic);
 
-	//TODO: implement ack
 	return MQ_ERR_SUCCESS;
 }
 
@@ -146,7 +145,6 @@ IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger) {
   }
   logger->log(INFO, "Subscribed to '%s'.", subMsg.topic);
 	
-	//TODO: implement ack
 	return MQ_ERR_SUCCESS;
 }
 
@@ -174,7 +172,6 @@ IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger) {
   logger->log(INFO, "Unsubscribed from '%s'.", unsubMsg.topic);
 	return MQ_ERR_SUCCESS;
 
-	//TODO: implement ack
 	return MQ_ERR_SUCCESS;
 }
 
