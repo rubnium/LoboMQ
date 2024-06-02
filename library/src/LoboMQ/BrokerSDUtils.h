@@ -13,7 +13,7 @@
 #include "commons/Includes.h"
 #include "BrokerTopic.h"
 
-#define FILE_PATH "/unnamedMQ/topics" //must not end with "/"
+#define FILE_PATH "/LoboMQ/topics" //must not end with "/"
 #define FILE_FORMAT ".json"
 
 String replaceChars(const char *str);

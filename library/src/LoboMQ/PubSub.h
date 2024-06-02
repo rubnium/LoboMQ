@@ -49,12 +49,12 @@ typedef struct : public MessageBase {
  * `+/café`. Valid example: `kitchen/coffee`.
  * @param payload Pointer to the message payload.
  * @param _logger Pointer to the logger object.
- * @retval `MQ_ERR_SUCCESS` if the message is successfully published.  
- * @retval `MQ_ERR_BAD_ESP_CONFIG`
- * @retval `MQ_ERR_INVAL_TOPIC`
- * @retval `MQ_ERR_ESP_SEND_FAIL`
+ * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
+ * @retval `LMQ_ERR_BAD_ESP_CONFIG`
+ * @retval `LMQ_ERR_INVAL_TOPIC`
+ * @retval `LMQ_ERR_ESP_SEND_FAIL`
  */
-IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
+LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
 
 /**
  * @brief Subscribes to a topic on the broker.
@@ -67,12 +67,12 @@ IMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = dis
  * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
  * `+/+/out/#`.
  * @param _logger Pointer to the logger object.
- * @retval `MQ_ERR_SUCCESS` if the message is successfully published.  
- * @retval `MQ_ERR_BAD_ESP_CONFIG`
- * @retval `MQ_ERR_INVAL_TOPIC`
- * @retval `MQ_ERR_ESP_SEND_FAIL`
+ * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
+ * @retval `LMQ_ERR_BAD_ESP_CONFIG`
+ * @retval `LMQ_ERR_INVAL_TOPIC`
+ * @retval `LMQ_ERR_ESP_SEND_FAIL`
  */
-IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
+LMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
 /**
  * @brief Unsubscribes from a topic on the broker.
@@ -85,12 +85,12 @@ IMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger())
  * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
  * `+/+/out/#`.
  * @param _logger Pointer to the logger object.
- * @retval `MQ_ERR_SUCCESS` if the message is successfully published.  
- * @retval `MQ_ERR_BAD_ESP_CONFIG`
- * @retval `MQ_ERR_INVAL_TOPIC`
- * @retval `MQ_ERR_ESP_SEND_FAIL`
+ * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
+ * @retval `LMQ_ERR_BAD_ESP_CONFIG`
+ * @retval `LMQ_ERR_INVAL_TOPIC`
+ * @retval `LMQ_ERR_ESP_SEND_FAIL`
  */
-IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
+LMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
 /**
  * @brief Checks if the data received is a MQ message.
@@ -103,12 +103,12 @@ IMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger(
  * data receive callback alongside getMQContent(). Pseudocode example:  
  * ```
  * 	OnReceiveCallback(incomingData) {  
- * 		if isMQMessage(incomingData)  
+ * 		if isLMQMessage(incomingData)  
  * 			payload = getMQContent(incomingData)  
  * 	} 
  * ```
  */
-bool isMQMessage(const uint8_t *incomingData);
+bool isLMQMessage(const uint8_t *incomingData);
 
 /**
  * @brief Structure representing the content of a payload
@@ -127,14 +127,14 @@ typedef struct {
  * @param incomingData The data received.
  * @return A PayloadContent structure containing the extracted payload content.
  * @note This function is recommended to be used at the subscriber side in the
- * data receive callback alongside isMQMessage(). Pseudocode example:  
+ * data receive callback alongside isLMQMessage(). Pseudocode example:  
  * ```
  * 	OnReceiveCallback(incomingData) {  
- * 		if isMQMessage(incomingData)  
+ * 		if isLMQMessage(incomingData)  
  * 			payload = getMQContent(incomingData)  
  * 	} 
  * ```
  */
-PayloadContent getMQPayload(const uint8_t *incomingData);
+PayloadContent getLMQPayload(const uint8_t *incomingData);
 
 #endif

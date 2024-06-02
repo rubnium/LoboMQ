@@ -36,7 +36,7 @@ typedef struct {
 #define BRO_DEFAULT_PERSISTENCE false
 #define BRO_DEFAULT_CS_SD_PIN -1
 
-IMQErrType initBroker(MACAddrList *whitelist = BRO_DEFAULT_WHITELIST, Elog *_logger = BRO_DEFAULT_LOGGER,
+LMQErrType initBroker(MACAddrList *whitelist = BRO_DEFAULT_WHITELIST, Elog *_logger = BRO_DEFAULT_LOGGER,
 	bool persistence = BRO_DEFAULT_PERSISTENCE, int csSdPin = BRO_DEFAULT_CS_SD_PIN);
 
 #endif

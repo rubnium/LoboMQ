@@ -1,4 +1,4 @@
-#include <unnamedMQ/PubSub.h>
+#include <LoboMQ/PubSub.h>
 
 typedef struct {
   int number;
@@ -10,11 +10,11 @@ uint8_t brokerAddr[] = {0x24, 0xDC, 0xC3, 0x9C, 0x7E, 0x40}; //MAC destination a
 Elog *_logger;
 
 void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
-  if (isMQMessage(incomingData)) {
-    PayloadContent content = getMQPayload(incomingData);
+  if (isLMQMessage(incomingData)) {
+    PayloadContent content = getLMQPayload(incomingData);
     CustomPayloadStruct customPayloadStruct;
     memcpy(&customPayloadStruct, &content.content, content.contentSize);
-		_logger->log(INFO, "Received MQ message of %dB", content.contentSize);
+		_logger->log(INFO, "Received LMQ message of %dB", content.contentSize);
     printf("\t- Number: %d\n", customPayloadStruct.number);
   } else {
     _logger->log(ERROR, "Invalid message type received");

@@ -1,5 +1,5 @@
 {
-  "name": "unnamedMQ",
+  "name": "LoboMQ",
   "version": "0.0.0",
   "description": "TO BE DONE",
   "repository":
@@ -24,7 +24,7 @@
   "frameworks": "arduino",
   "platforms": ["espressif32"],
   "keywords": [
-    "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe", "broker", "esp-now", "now"
+    "lobo", "wolf", "mq", "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe", "broker", "esp-now", "now"
   ],
   "exclude": [
     "platformio.ini",
