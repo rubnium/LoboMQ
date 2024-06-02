@@ -19,9 +19,6 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-#    - name: Log in to Docker Hub
-#      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
     - name: Build Docker "felix.albertos/tfgii" image
       working-directory: ./tfg_report
       run: docker build -t="felix.albertos/tfgii" .
@@ -32,8 +29,16 @@ jobs:
           docker rm -f tfgii
         fi
     
+    - name: Create output folder
+      run: mkdir -p ${{ github.workspace }}/tfg_report/templateAPP/output
+      
     - name: Change permissions for directories
       run: chmod 777 -R ${{ github.workspace }}/tfg_report/templateAPP
+      
+    #- name: See folder
+    #  run: ls "${{ github.workspace }}/tfg_report/templateAPP" -la
 
     - name: Run Docker "felix.albertos/tfgii" container
-      run: docker run -v ${{ github.workspace }}/tfg_report/templateAPP:/home/tfgii/templateAPP --name tfgii felix.albertos/tfgii
+      #run: docker run -v "${{ github.workspace }}/tfg_report/templateAPP":/home/tfgii/templateAPP --workdir /home/tfgii/templateAPP --name tfgii felix.albertos/tfgii
+      run: docker run -v "./tfg_report/templateAPP":/home/tfgii/templateAPP --workdir /home/tfgii/templateAPP --name tfgii felix.albertos/tfgii
+      continue-on-error: true

@@ -6,23 +6,84 @@ Dado que una de las principales motivaciones de este Trabajo de Fin de Grado es 
 
 El siglo XX dio lugar al desarrollo de una cantidad de inventos que permitieron una revolución y un avance ágil en la sociedad, inventos nacidos de ideas creativas de sus desarrolladores y que en la actualidad son indispensables debido al frecuente uso y la manera en la que facilita la vida humana. Entre estos inventos se encuentra una de las herramientas más importantes y que mejoró la comunicación, el Internet. Nacido en 1969, ha permitido enlazar a personas con personas y tener acceso a información, pero hoy en día, no solo las personas están conectadas a Internet, también millones de objetos cuyas funciones son dependientes de la red.  
 
-*Internet de las Cosas* o *Internet of Things* es un término cuyo origen está disputado. El primer uso de este término data del discurso que realizó en septiembre de 1985 Peter T. Lewis, cofundador de la primera compañía de telefonía móvil de Estados Unidos, Cellular One. En tal discurso realizado en la Conferencia Legislativa Anual de la [CBCF](#CBCF) en Washington D.C., Lewis comentó de manera acertada "Predigo que no sólo los humanos, sino también las máquinas y otras cosas se comunicarán interactivamente a través de Internet." **(mencionar al podcast)**. Por otro lado, el mismo término fue acuñado en 1999 cuando Kevin Ashton, directivo de Procter & Gamble, tuvo la iniciativa de investigar el uso de etiquetas de identificación por radiofrecuencia ([RFID](#RFID)) y otros sensores en los productos de la cadena de suministro, y para presentar el proyecto tuvo que idear un título llamativo para la presentación. Esta presentación le permitió encontrar financiación además de cofundar y dirigir el laboratorio Auto-ID Center del Instituto de Tecnología de Massachusetts, en el cuál construyó la base del Internet de las cosas.  
+*Internet de las Cosas* o *Internet of Things* es un término cuyo origen está disputado. El primer uso de este término data del discurso que realizó en septiembre de 1985 Peter T. Lewis, cofundador de la primera compañía de telefonía móvil de Estados Unidos, Cellular One. En tal discurso realizado en la Conferencia Legislativa Anual de la [CBCF](#CBCF) en Washington D.C., Lewis comentó de manera acertada "Predigo que no sólo los humanos, sino también las máquinas y otras cosas se comunicarán interactivamente a través de Internet." **(TODO: mencionar al podcast)**. Por otro lado, el mismo término fue acuñado en 1999 cuando Kevin Ashton, directivo de Procter & Gamble, tuvo la iniciativa de investigar el uso de etiquetas de identificación por radiofrecuencia ([RFID](#RFID)) y otros sensores en los productos de la cadena de suministro, y para presentar el proyecto tuvo que idear un título llamativo para la presentación. Esta presentación le permitió encontrar financiación además de cofundar y dirigir el laboratorio Auto-ID Center del Instituto de Tecnología de Massachusetts, en el cuál construyó la base del Internet de las cosas.  
 
-Es esencial tener una clara comprensión del significado del Internet de las Cosas, en mayor parte por la confusión inherente al término en sí y por las aplicaciones cotidianas de esta tecnología. A primera vista, "Internet de las Cosas" podría dar la impresión de ser un término moderno para referirse a "conectar a Internet algo para controlarlo", una definición bastante simple para alguien que por ejemplo simplemente controla las luces de su hogar desde su teléfono móvil. Es tanta la confusión que no existe una definición formal única, debido a que hay sistemas que implementan [IoT](#IoT) y no cumplen todas las definiciones, por lo tanto, no se ha llegado a un consenso para formalizar una definición única, y a la hora de intentar conocer su significado se encuentran una disparidad de definiciones. En 2012, la [ITU](#ITU) (Unión Internacional de Telecomunicaciones) recomendó una aclaración del términio, definiendo el Internet de las Cosas como una infraestructura global que permite ofrecer servicios avanzados a todo tipo de aplicaciones conectando objetos entre sí e interoperando tecnologías de la información y comunicación, aprovechando capacidades de identificación, obtención de datos, procesamiento y comunicación y cumpliendo con requisitos de seguridad y privacidad. Sin embargo, por lo general, podemos entender que el Internet de las Cosas trata de dotar de capacidades de comunicación además de procesamiento, captura y/o análisis de datos a distintos tipos de entes, como dispositivos físicos, objetos, edificaciones, terrenos, sistemas, hardware, software, e incluso contextos y situaciones, ya sea añadiéndoles dispositivos o integrando las capacidades en los propios objetos. Estos entes pueden estar compuestos de sensores, que recopilan datos, o actuadores, que controlan otros objetos, y a través de redes, privadas o públicas, pueden intercambiar información con otros dispositivos, recopilar la información en un mismo dispositivo y transferir órdenes, además que existe la posibilidad de formar una agrupación de dispositivos para identificarlos como un único sistema que trata los datos. Estas redes de conexión de dispositivos [IoT](#IoT) pueden utilizar la información transferida para poder automatizar sus comportamientos, pero el nodo final de la conexión suelen ser las personas, ya que utilizan los objetos como fuentes de información, para a su vez utilizar los datos recibidos como descubrimiento de oportunidades de negocio y nuevos servicios, monitorización y evaluación del estado y el comportamiento de los objetos y el entorno, y la toma de decisiones sobre los propios objetos manipulándolos remotamente y programándolos. Dependiendo del entorno en que se implemente, estos sistemas deben cumplir requisitos de seguridad y privacidad, evitando manipulaciones y accesos indebidos o incluso daños en los propios objetos y en el entorno que los rodea.
+Es esencial tener una clara comprensión del significado del Internet de las Cosas, en mayor parte por la confusión inherente al término en sí y por las aplicaciones cotidianas de esta tecnología. A primera vista, "Internet de las Cosas" podría dar la impresión de ser un término moderno para referirse a "conectar a Internet algo para controlarlo", una definición bastante simple para alguien que por ejemplo simplemente controla las luces de su hogar desde su teléfono móvil. Es tanta la confusión que no existe una definición formal única, debido a que hay sistemas que implementan [IoT](#IoT) y no cumplen todas las definiciones, por lo tanto, no se ha llegado a un consenso para formalizar una definición única, y a la hora de intentar conocer su significado se encuentran una disparidad de definiciones. En 2012, la [ITU](#ITU) (Unión Internacional de Telecomunicaciones) recomendó una aclaración del término, definiendo el Internet de las Cosas como una infraestructura global que permite ofrecer servicios avanzados a todo tipo de aplicaciones conectando objetos entre sí e interoperando tecnologías de la información y comunicación, aprovechando capacidades de identificación, obtención de datos, procesamiento y comunicación y cumpliendo con requisitos de seguridad y privacidad. Sin embargo, por lo general, podemos entender que el Internet de las Cosas trata de dotar de capacidades de comunicación además de procesamiento, captura y/o análisis de datos a distintos tipos de entes, como dispositivos físicos, objetos, edificaciones, terrenos, sistemas, hardware, software, e incluso contextos y situaciones, ya sea añadiéndoles dispositivos o integrando las capacidades en los propios objetos. Estos entes pueden estar compuestos de sensores, que recopilan datos, o actuadores, que controlan otros objetos, y a través de redes, privadas o públicas, pueden intercambiar información con otros dispositivos, recopilar la información en un mismo dispositivo y transferir órdenes, además que existe la posibilidad de formar una agrupación de dispositivos para identificarlos como un único sistema que trata los datos. Estas redes de conexión de dispositivos [IoT](#IoT) pueden utilizar la información transferida para poder automatizar sus comportamientos, pero el nodo final de la conexión suelen ser las personas, ya que utilizan los objetos como fuentes de información, para a su vez utilizar los datos recibidos como descubrimiento de oportunidades de negocio y nuevos servicios, monitorización y evaluación del estado y el comportamiento de los objetos y el entorno, y la toma de decisiones sobre los propios objetos manipulándolos remotamente y programándolos. Dependiendo del entorno en que se implemente, estos sistemas deben cumplir requisitos de seguridad y privacidad, evitando manipulaciones y accesos indebidos o incluso daños en los propios objetos y en el entorno que los rodea.
 
 Un ejemplo concreto de la aplicación de Internet de las Cosas es un sistema de riego por aspersión inteligente. Como se puede comprobar en la Figura \ref{iot:ejemploRiegoIoT}, existe un jardín dividido en zonas, cada una con un dispositivo compuesto por sensores de temperatura y humedad y actuadores que activan y desactivan los aspersores que riegan la vegetación. Estos dispositivos están conectados y se comunican con un único gateway o puerta de enlace, teniendo la capacidad de recibir información de los dispositivos y mandar órdenes a estos. El gateway está comunicado a través de Internet con un servidor compuesto por una base de datos, donde se almacenan los datos históricos y registros, y un servicio que le permite ser controlado desde otro dispositivo conectado a Internet en cualquier sitio y momento. Este último dispositivo, denominado cliente, puede ser un teléfono móvil o un ordenador, y puede utilizarse para ver el estado del jardín y controlar los dispositivos manualmente desde una interfaz. La siguiente arquitectura, abstraída completamente de las limitaciones y los problemas que puede ofrecer su implementación, podrá dar lugar a dos casos de uso:
 
 - El usuario quiere activar los aspersores. El usuario, desde la interfaz el dispositivo cliente como puede ser un botón, enviará la orden de activar los aspersores al servicio, que a su vez se lo enviará al gateway. El gateway enviará una orden compatible a los dispositivos instalados en el jardín, haciendo que los aspersores comiencen a funcionar. Esta secuencia de ejecución será parecida si el usuario desea desactivar los aspersores.
 - Los aspersores funcionan cuando la temperatura es muy elevada y la humedad es baja. El usuario previamente, desde la interfaz del cliente, ha establecido que los aspersores funcionen de manera automática cuando, por ejemplo, el ambiente supere una temperatura de 42ºC y la humedad sea considerada baja. Estos parámetros los recibe el servidor y se los pasa al gateway, el cual los recordará. A partir de ese momento, el gateway irá recibiendo de los sensores de cada zona lecturas de temperatura y humedad, y las comparará con los parámetros establecidos. En el caso de que se superen la temperatura y humedad, se activarán los aspersores de la zona. Una vez activados, se mantendrá la lectura de temperatura y humedad, y cuando las lecturas sean inferiores, se desactivarán los aspersores. Además, con cada activación de los aspersores, el gateway notificará al servicio, que a su vez notifica al usuario, especificando la zona activada.
 
-![Esquema de un sistema de riego por aspersión utilizando dispositivos IoT\label{iot:ejemploRiegoIoT}](iot_example.png){width=75%}
+![Esquema de un sistema de riego por aspersión utilizando dispositivos [IoT](#IoT)\label{iot:ejemploRiegoIoT}](iot_example.png){width=75%}
 
 Cabe recalcar que el mencionado ejemplo puede volverse más complejo, por ejemplo añadiendo comprobaciones de previsión meteorológica en los próximos días, sensores de luz, control del caudal del agua, pero igualmente cumple con los requisitos para ser un sistema que implementa el Internet de las Cosas, ya que dota a un jardín de capacidad de comunicación, captura y análisis de datos, y se comunica con otros dispositivos y con personas para informar del estado y recibir órdenes.
 
 
-/*TODO: hablar ventajas, desventajas y cosas a tener en cuenta (bateria, limitaciones de computación, etc)*/
-/*TODO: hablar de la importancia y el valor de los datos*/
-/*TODO: hablar de usos de IoT*/
+### Factores, limitaciones y desafíos a tener en cuenta
+
+Al desarrollar una arquitectura del Internet de las Cosas, es necesario tener en cuenta una serie de factores que afectan tanto a los dispositivos como a la comunicación que puedan establecer entre ellos, ya que no todos los dispositivos funcionan de la misma manera en cualquier ambiente y entorno.
+
+Las principales consideraciones se encuentran en los dispositivos, ya que cada uno tiene sus características y se deben aplicar soluciones que puedan adaptarse a cada uno de ellos, además de depender entre sí. En los dispositivos, uno de los mayores problemas es la alimentación, ya que pueden alimentarse estando conectados constantemente o mediante una batería. En ambos casos habrá que tener en cuenta el consumo, ya que el coste de los recursos es importante, pero en el caso de la batería tiene aún mayor importancia al tener una capacidad limitada y, a su vez, limitar la vida útil del dispositivo. Si el dispositivo se encuentra en un objeto móvil, o si de por sí es un objeto móvil, también es algo a tener en cuenta, ya que, en este caso, el rango de movilidad condiciona el tipo de alimentación. No es lo mismo un dispositivo que puede moverse unos pocos centímetros de un enchufe que se encuentra en la pared, que un dispositivo diseñado para recorrer kilómetros, el cual deberá estar conectado a una batería o a un panel solar. En caso de que la batería sea un factor demasiado limitante en el funcionamiento de la arquitectura, está la posibilidad de utilizar baterías más grandes y de mayor capacidad, suponiendo también un peso y un tamaño adicional a los ya existentes en el dispositivo, limitando también el entorno en el que utilizarlos. Un dispositivo de grandes dimensiones no podrá pasar desapercibido si eso fuese un requisito, o un dispositivo de gran densidad será más difícil de implementar en zonas donde sea necesario que flote o se necesite sujetar a un objeto endeble.
+
+El Internet de las Cosas se basa en la transmisión de datos, por lo que habría que tener en cuenta la frecuencia de transmisión y el tamaño de los datos. Una transmisión constante supondrá un mayor consumo que una transmisión que ocurra en intervalos de tiempo más espaciados. Lo mismo ocurre con los datos, ya que, si es necesario transmitir grandes cantidades de datos, también se requiere procesarlos, y en ambos casos da lugar a un mayor consumo de energía.
+
+El entorno y la manera de desplegar los dispositivos suponen una serie de limitaciones, ya que si el entorno es abierto y los dispositivos están expuestos, pueden afectarles distintas condiciones ambientales, como la lluvia, la humedad, las vibraciones o las altas temperaturas, o pueden estar desplegados en zonas con conectividad limitada en términos de velocidad y disponibilidad. En el caso de montar la arquitectura con muchos dispositivos o en una zona en la que se encuentren una gran cantidad de estos, pueden ocurrir interferencias electromagnéticas que afecten la comunicación.
+
+Por otra parte, de manera más técnica, los dispositivos tienen sus propias limitaciones en cuanto al funcionamiento. Mayormente, el Internet de las Cosas se centra en la interconexión de dispositivos heterogéneos, por lo tanto, no todos tendrán las mismas capacidades. Es necesario encontrar dispositivos que puedan comunicarse al menos con otro mediante una tecnología de comunicación establecida y compatible con ambos (teniendo en cuenta además la velocidad y alcance de transmisión), calcular y establecer una cantidad de dispositivos desplegados y que la topología de conexión los admita, y comprobar cuán adecuado es la velocidad y capacidad de procesamiento en los dispositivos; todos estos factores en cuanto a los requisitos del despliegue. También es responsabilidad del desarrollador del software de los dispositivos tener en cuenta las capacidades y las limitaciones de estos. No va a ser lo mismo programar el funcionamiento de un dispositivo siempre conectado a la corriente y con recursos elevados que un dispositivo portátil y con menor capacidad de procesamiento, por lo que el desarrollador debe aplicar diversos métodos para, por ejemplo, suspender el funcionamiento del dispositivo cuando no está ejerciendo ninguna función útil y activarlo de nuevo cuando sea necesario, u optimizar el código para minimizar el consumo de recursos.
+
+Tratando la arquitectura [IoT](#IoT) como un ente, es necesario conocer cómo hacer funcionar los dispositivos que la componen y cuál es el fin de la arquitectura. Dependiendo del uso que se les vaya a dar a los dispositivos, habrá que tener en cuenta la topología de conexión entre estos, la necesidad de escalabilidad en caso de necesitar ampliar el área de recolección de datos o para mejorar el procesamiento, la gestión de dispositivos para actualizarlos, reconfigurarlos, localizarlos o desconectarlos, y la recolección de datos.
+
+Y por último, como riesgo, un tema muy importante es la ciberseguridad. Los dispositivos [IoT](#IoT) pueden recopilar datos personales y sensibles que se transmiten constantemente por Internet, y los dispositivos utilizados para el Internet de las Cosas no suelen disponer de altas capacidades de procesamiento para establecer controles de seguridad, o por su general coste bajo los fabricantes de los dispositivos han podido descuidar aspectos como la seguridad en el cifrado o en controles de acceso y centrarse en optimizar los recursos para una mayor potencia. Por lo tanto, dependiendo de la sensibilidad de los datos, podría ser necesario implementar mecanismos de autenticación, cifrado, gestión del control de acceso y políticas, entre otros, que aseguren la confidencialidad, integridad y disponibilidad.
+
+El Internet de las Cosas admite su implementación en una gran cantidad de situaciones y entornos. Pero antes de empezar a desplegar dispositivos es necesario realizar un análisis de requisitos y de posibles limitaciones en el entorno, un listado de soluciones a esas limitaciones y un diseño previo, además de pruebas y evaluaciones, resultando así en una arquitectura eficiente que aporte los resultados esperados.
+
+
+{
+ “IoT fundamentals: Networking technologies, protocols, and use cases for the internet of things”. David Hanes, Gonzalo Salgueiro, Patrick Grossetete, Jerome Henry, Robert Barton
+	https://www.redeweb.com/articulos/sensores/los-sensores-inalambricos-iot-y-el-problema-de-la-corta-duracion-de-las-baterias
+	https://neurona-ba.com/iot-a-tu-alcance/
+	https://www.ittrends.es/infraestructura/2021/12/los-problemas-de-conectividad-estan-dificultando-los-despliegues-de-iot
+	https://deingenierias.com/curso/iot/1-4-desafios-y-limitaciones-de-iot/
+	https://www.chakray.com/es/5-requesitos-de-una-arquitectura-iot/
+	https://www.incibe.es/incibe-cert/blog/riesgos-y-retos-ciberseguridad-y-privacidad-iot
+}
+
+
+### Ventajas y desventajas
+
+El Internet de las Cosas es un concepto en desarrollo que actualmente presenta, al igual que cualquier concepto, sus ventajas y desventajas.
+
+Las siguientes son las ventajas que puede ofrecer el uso del Internet de las Cosas:
+
+- Capacidad de conectar dispositivos a la red para enviar y transmitir datos de forma rápida y en tiempo real.
+- Mejora la recopilación de datos, haciéndolos accesibles en cualquier momento y lugar para ser utilizados cuando el usuario lo necesite. Este atributo también se aplica al control de los dispositivos.
+- Implementación en una gran variedad de entornos para distintos usos, aunque no siempre de la misma manera, ya que se debe adaptar a las necesidades específicas.
+- Habilidad de monitorización de procesos, controlando el consumo de recursos y habilitando la posibilidad de mejorar y optimizar su uso. Esto resulta en procesos más sostenibles y una reducción de costos en cuanto a recursos energéticos y personal humano, optimizando las actividades de los trabajadores en términos de tiempo y productividad.
+- Automatización de tareas, reduciendo procesos manuales o tareas repetitivas. Además, se puede incluir el añadido de inteligencia a los dispositivos para que tomen decisiones por sí mismos a partir de los datos, minimizando el esfuerzo humano y limitando las funciones del especialista en [IoT](#IoT) a la configuración, administración y soporte del sistema. Esta ventaja también conlleva una mejora en la eficiencia del sistema y, a su vez, en los procesos, recursos, costes, tiempo y productividad.
+- Posibilidad de mejorar la calidad de vida del usuario, dependiendo del entorno en el que se aplique. Por ejemplo, con la ayuda del Internet de las Cosas, un paciente puede tener un seguimiento continuo y preciso de sus constantes vitales que permita prever cualquier anomalía. En una ciudad inteligente que monitorea el consumo y las calles gracias al [IoT](#IoT), los habitantes pagarán menos por el mantenimiento de esta y se podrán identificar zonas donde sean necesarias modificaciones urbanísticas, como añadir nuevas señales de tráfico para evitar accidentes. En un vehículo equipado con sensores y actuadores, facilita la evitación de accidentes y se pueden realizar avisos necesarios en caso de accidente.
+- Ofrecer experiencias personalizadas y atractivas a clientes, proporcionando ofertas personalizadas y modificando la distribución de los productos en una tienda a partir de los datos recopilados sobre el comportamiento de los clientes utilizando [IoT](#IoT). Estos datos pueden incluir, por ejemplo, la manera en que se mueven por los pasillos y en qué productos se detienen más, resultando en un análisis profundo de tendencias y comparación con lecturas pasadas, útil para aplicar cambios y aumentar la lealtad de los clientes.
+- Tomar decisiones mejor informadas a partir de los datos generados y procesados en el sistema acerca de un negocio, tanto de manera interna como externa, ayudando a agregar valor al negocio de manera más rápida, impulsar la modernización y, por ejemplo, reducir el tiempo de comercialización de nuevos productos o servicios.
+
+En cuanto a las desventajas, se pueden encontrar las siguientes:
+
+- La implementación del [IoT](#IoT) conlleva varias limitaciones mencionadas en el apartado **TODO: REFERENCIAR APARTADO ANTERIOR**, como la dependencia energética, la tecnología a utilizar y la seguridad, siendo esta última la que puede traer más riesgos según aumenta su popularidad. Además de lo mencionado anteriormente, el conjunto de dispositivos [IoT](#IoT) se conecta a través de redes que pueden tener vulnerabilidades frente a infiltraciones y otras amenazas. Por ejemplo, el acceso no autorizado a una cámara puede ser peligroso. Los dispositivos recopilan y transmiten grandes cantidades de datos, los cuales también pueden ser afectados por las mismas amenazas, lo que puede resultar grave en caso de tratarse de datos sensibles sobre usuarios o empresas. La ciberseguridad debe tratarse con alta prioridad, y los dispositivos [IoT](#IoT) no siempre se incluyen en la estrategia de seguridad de las empresas. Una correcta seguridad implica que los dispositivos estén protegidos contra manipulaciones físicas y ataques en la red, software y hardware, y un adecuado cumplimiento del reglamento general de protección de datos. A este punto se puede aplicar la privacidad, ya que las empresas deben implementar las medidas necesarias al tratar con datos personales.
+- Siguiendo la desventaja anterior, las regulaciones legales de privacidad, protección de datos y ciberseguridad pueden variar entre países, siendo necesario conocer y aplicar la legislación de la zona en la que se va a implementar el sistema.
+- Los dispositivos que conforman el Internet de las Cosas suelen ser heterogéneos y de distintos fabricantes, que utilizan diferentes estándares y protocolos. Sumado al hecho de no existir un estándar internacional de compatibilidad para [IoT](#IoT), esto dificulta la interoperabilidad y la comunicación máquina a máquina entre dispositivos, requiriendo configuraciones, conexiones de hardware específicas y el uso de dispositivos adicionales, y dando lugar a fuentes de datos complicadas de analizar e integrar a un sistema.
+- Un sistema [IoT](#IoT) implica una complejidad que debe ser gestionada. Pese a que los dispositivos de manera independiente puedan realizar tareas sencillas, el sistema está compuesto por una gran cantidad y variedad de ellos, por no mencionar las distintas tecnologías que utilizan cada uno (como lenguajes de programación o métodos de transporte de datos). Esto requiere una curva de aprendizaje en la implementación, desarrollar una estrategia sobre cómo y por qué implementarlos, un desarrollo para llevar a cabo la implementación, y un mantenimiento obligatorio en caso de errores o mal funcionamiento del software. A su vez, requiere una inversión en la adquisición de los dispositivos y en personal capacitado para ofrecer soporte al sistema, por lo que sería adecuado planificar un presupuesto previo antes de desplegar dispositivos.
+- Los datos producidos deben ser adecuados y el usuario u organización debe estar preparada para tratarlos y analizarlos, y, debido a la gran cantidad de estos, implica un reto significativo al analizarlos y extraer información, especialmente en casos de falta de herramientas o experiencia en análisis.
+- Los dispositivos [IoT](#IoT) requieren métodos fiables para transportar datos, ya sea utilizando redes fiables o implementando mecanismos de acuses de recibo y verificación de mensajes. Si los datos se corrompen o son interceptados y modificados, el sistema puede dejar de funcionar correctamente.
+- Existe la posibilidad de aplicar escalabilidad a la arquitectura [IoT](#IoT), algo que se debe considerar para evitar un rediseño completo de las conexiones y los dispositivos. Aunque la capacidad de escalabilidad es una ventaja para soportar grandes volúmenes de datos y mejorar el procesamiento, puede volverse una desventaja si se aplica incorrectamente, resultando en peor rendimiento.
+- El aumento de la brecha tecnológica que generan estos sistemas impacta en la sociedad y limita el grupo social que tiene la capacidad de comprender su funcionamiento y sabe acceder y hacer uso de esta tecnología correctamente. Esto implica una necesidad de educación hacia los usuarios.
+
+{
+https://es.wikipedia.org/wiki/Internet_de_las_cosas
+https://www.ibm.com/es-es/topics/internet-of-things
+https://blog.ubisolutions.net/es/iot-tecnologias-casos-de-uso-ventajas-y-limitaciones-guia-completa
+https://www.tokioschool.com/noticias/ventajas-desventajas-internet-cosas/
+https://kryptonsolid.com/principales-ventajas-y-desventajas-de-iot-en-los-negocios/
+}
+
 
 ### Primeros ejemplos de IoT
 
@@ -67,11 +128,11 @@ toasterControl OBJECT-TYPE
 		To abort toasting (maybe in the event of an emergency), set it to up(2).”
 	:: = {toaster 3}
 ```
-(codigo tomado del articulo)  
+(TODO: REFERENCIAR codigo tomado del articulo)  
 
 Gracias a los objetos especificados, se podía identificar qué tostadora se estaba controlando, además de establecer el inicio, el tipo de pan y el nivel de tostado final del pan al modificar los objetos, todo a través del agente [SNMP](#SNMP) conectado al hardware que controlaba la alimentación de la tostadora, permitiendo un control remoto del electrodoméstico. Por ejemplo, si un usuario a través de [SNMP](#SNMP) modificaba la variable adecuada para indicar que quiere iniciar la tostadora, la tostadora recibía alimentación e iniciaba el proceso de tostado. La tostadora de Internet fue demostrada finalmente en el expositor de Epilogue en la convención de Interop 1990, mostrando un uso alternativo de [SNMP](#SNMP), fuera de la gestión de routers, y aprovechando la ocasión para buscar licenciar su implementación [SNMP](#SNMP). Como curiosidad, no se podía realizar la demostración de forma legal, ya que tostar pan se consideraba preparación de alimentos, algo permitido solo al sindicato, y para evitar este problema, Epilogue Technology negoció con el sindicato y acordaron tostar repetidamente la misma rebanada de pan para que el público no se la comiera. Además, en la posterior edición de 1991, el hardware de la tostadora evolucionó para añadir un pequeño brazo robótico de LEGO, también controlado por Internet, capaz de tomar una rebanada de pan e insertarla en la tostadora, consiguiendo automatizar el sistema por completo. En la actualidad, John Romkey aún posee esta tostadora de Internet, la cual sigue activa de vez en cuando en Portland, Oregón.  
 
-- Incluir imágenes tostadora (sacarla de url)
+- TODO: Incluir imágenes tostadora (sacarla de url)
 
 
 Como último ejemplo, también de la misma época de Internet, está la cafetera del laboratorio de informática de la Universidad de Cambridge. Desde los inicios de la computación, la Universidad de Cambridge ha jugado un papel fundamental, contando incluso los primeros ordenadores útiles de uso general, la EDSAC y la EDSAC 2. Además, ha albergado pioneros en ciencias de la computación, incluyendo al creador de las subrutinas, desarrolladores de los primeros procesadores ARM y de varios lenguajes de programación. Esto da lugar a que, por el entorno y por el talento que se encontraba en el campus, era natural que surgieran proyectos de informática. Uno de estos fue la máquina de café conectada a Internet, cuya primera versión fue creada por Quentin Stafford-Fraser y Paul Jardetzky. En 1991, mientras se implantaba la World Wide Web en el Centro Europeo de Investigación Nuclear (CERN), la cual no tenía la popularidad ni la presencia actual, los autores del objeto eran investigadores en el grupo de sistemas del campus, y se encontraban junto a entre 10 y 13 compañeros trabajando la mayoría en una sala del antiguo laboratorio de informática conocida como la Sala Trojan, en cambio otros estaban dispersos por la universidad. Debido a que eran académicos con recursos limitados, solo disponían de una única máquina de café de goteo-filtro para todos, que se encontraba en el pasillo junto a la salida de la Sala Trojan. Aunque la cafeína era esencial para mantener la investigación en informática (de hecho, por la necesidad las jarras de café no duraban mucho), el café de esta máquina era poco inspirador y considerado horrible, pero tolerable si se podía conseguir recién hecho, algo que pocas personas tenían suerte de disfrutar, como Stafford-Fraser que se sentaba al lado de la máquina, mientras otras personas que trabajaban en plantas distintas tenían que recorrer todo el edificio solo para encontrar los posos en el fondo de la jarra, café de muy mala calidad o descubrir que les tocaba rellenar la máquina. Este problema causó cierta angustia en el grupo, por lo que decidieron solucionarlo mediante la tecnología.  
@@ -86,17 +147,6 @@ La posibilidad de consultar la cámara directamente desde el navegador web, sin 
 
 Tras una década en funcionamiento y habiendo pasado por varias cámaras y cafeteras, el grupo de investigación de encontraba frente a un nuevo desafío. Con el software volviéndose cada vez más difícil de mantener y la necesidad de trasladar el laboratorio a las nuevas instalaciones en el Edificio William Gates, se planteaba la urgencia de pasar página. Este software de investigación demostraba no tener la calidad óptima, como suele ocurrir con otro software del mismo estilo, y a su vez la imposibilidad de migrar el sistema a las nuevas máquinas del laboratorio complicaba aún más la situación. Finalmente, tomaron una decisión que tuvo gran cobertura mediática y no fue apoyada en las protestas nostálgicas de los aficionados a las webcams de todo el mundo: apagar la cámara y la cafetera. El 22 de agosto de 2001, a las 09:54 UTC, se observó en Internet la última imagen capturada por las cámaras que apuntaban a la máquina de café de la Sala Trojan, que muestra los dedos de Daniel Gordon, Martyn Johnson y Quentin Stafford-Fraser pulsando el interruptor de apagado del Acorn Archimedes que había capturado las imágenes durante estos años. En el mismo mes, una de las cuatro o cinco últimas máquinas de café de la Sala Trojan vistas en Internet, la que más tiempo estuvo en servicio, una Krups ProAroma 305, se puso en subasta en Internet a través del portal de subastas y comercio electrónico eBay con el fin de recaudar fondos para las instalaciones de café del nuevo laboratorio. Fue adquirida por 3.350 libras, siendo el mayor postor el sitio web alemán de noticias Der Spiegel. Posteriormente, la cafetera fue restaurada de manera gratuita por los empleados de Krups, y fue encendida de nuevo en la oficina de redacción de la revista. Desde el verano de 2016, la cafetera se encuentra en préstamo permanente en el museo de informática Heinz Nixdorf Museums Forum de Paderborn, Alemania.
 
-### Redes IoT, comunicación entre dispositivos y roles
-- Sensores
-- Actuadores
-- Smart objects
-- PAN, WAN, etc
-
-
-
-
-Aunque Internet de las Cosas se mencionase por primera vez a finales del siglo XX, no se comenzó a usar hasta bien entrados los 2010s
-*Incluir grafica: https://trends.google.com/trends/explore?date=all&q=%2Fm%2F02vnd10&hl=es* 
 
 https://www.nougir.com/index.php/blog-3/item/13-que-es-iot-o-internet-de-las-cosas-y-sus-aplicaciones
 https://informationmatters.net/internet-of-things-definitions/
@@ -146,7 +196,86 @@ https://www.cl.cam.ac.uk/coffee/qsf/switchoff.html
 https://owl.museum-digital.de/object/3761
 
 
-/*TODO: apartados restantes*/
+### Tipos de dispositivos y redes
+
+Como se ha mencionado anteriormente, el IoT se basa en la transmisión de datos entre dispositivos. Estos datos pueden ser información recibida del entorno u órdenes de actuación, que salen o llegan a un dispositivo ubicado en un extremo de la red de conexión y que tiene conectado uno o ambos de los siguientes tipos de objetos:
+
+- Sensores: Miden una propiedad física y la representan digitalmente, siendo útiles para detectar cambios en el entorno. Tienen mayor precisión y capacidad de percepción que los órganos sensoriales humanos, y pueden integrarse en cualquier objeto físico para interpretar su entorno. Actualmente están experimentado una proliferación debido a su disminución en tamaño y coste. Estos se pueden categorizar a partir de ciertos criterios:
+	- Activos, si requieren una fuente de energía externa, o pasivos, si no requieren alimentación adicional.
+	- Invasivos, si forman parte del entorno que miden, o no invasivos, si miden externamente.
+	- Absoluto o relativo, dependiendo de si las lecturas se realizan en función de otro valor.
+	- Según su ámbito de aplicación, por ejemplo, el sector agrario o el médico.
+	- Según el mecanismo utilizado para medir la información, por ejemplo, óptico o termoeléctrico.
+	- Según lo que miden, por ejemplo, posición, fuerza o luz.
+- Actuadores: Dispositivos que interpretan una señal eléctrica y desencadenan un efecto físico tras interpretarla, siendo útiles para producir cambios en el entorno. Si un sensor se puede comparar con los órganos sensoriales humanos, un actuador se puede comparar con las acciones que pueden ejecutar las extremidades. Dependiendo de cómo actúen, se pueden categorizar por:
+	- Según el tipo de movimiento que producen, por ejemplo, lineal o rotativo.
+	- Según su potencia, por ejemplo, alta o baja.
+	- Binarios, si solo producen dos estados (por ejemplo, encendido o apagado), o continuos, si tienen un rango de posiciones o estados (por ejemplo, un motor y sus grados).
+	- Según su ámbito de aplicación.
+	- Según el tipo de energía.
+
+En una red del Internet de las Cosas, tanto sensores como actuadores son el corazón del sistema, ya que permiten interactuar con el mundo físico. Pero a esta lista también se le agregan los objetos inteligentes. Estos están dotados de procesador, sensores y/o actuadores, un método de comunicación y fuente de energía, y son objetos cotidianos que integran todo lo necesario para interactuar con el entorno.
+
+Todos estos dispositivos heterogéneos están interconectados en una red que detecta, mide y actúa en relación con el entorno. Sin embargo, es necesario establecer un diseño previo de la red para poder integrar estas capacidades correctamente en una red sin pérdida de datos, tolerante a fallos y efectiva, según varios criterios:
+
+- Topología y jerarquía de red:
+	- Si van a estar todos los dispositivos interconectados entre sí (topología punto a punto).
+	- Si un dispositivo central se comunica con el resto (topología en estrella).
+	- Si hay agrupaciones de dispositivos y estas se comunican entre sí por un único nodo (topología en malla).
+- Distancia entre dispositivos y tipo de red: Cada tecnología de comunicación tiene un alcance máximo y podría no ser compatible con los dispositivos a conectar. Es necesario elegir una que pertenezca a la clasificación de red más adecuada de las siguientes:
+	- PAN, Red de Área Personal: Conecta dispositivos cercanos al usuario, con un alcance de hasta máximo 10 metros. Por ejemplo, Bluetooth.
+	- LAN, Red de Área Local: Conecta dispositivos dentro de una pequeña zona, como un edificio, con un alcance de hasta 100 metros. Por ejemplo, Wi-Fi 802.11.
+	- MAN, Red de Área Metropolitana: Conecta dispositivos dentro de un área grande, como una ciudad o un grupo de edificios, con un alcance máximo de 50 kilómetros.
+	- WAN, Red de Área Amplia: Conecta grupos de dispositivos a grandes distancias. Por ejemplo, LoRaWAN.
+
+	Cabe remarcar que las distancias mencionadas no las cumplen todos los protocolos, sino que son valores estimados del alcance del tipo de red.
+- Patrones de comunicación: Si los objetos se activan tras un evento determinado o en intervalos periódicos.
+- Procesamiento de datos: Si se procesan los datos en el mismo dispositivo que los recopila, si hay un dispositivo central que agrupa varios, agrega los datos recibidos de estos y los procesa, o si se recopilan y procesan en un servidor o en la nube los datos de todo el sistema.
+
+ /*TODO: insertar imagen topologias*/
+
+{
+	https://www.ibm.com/es-es/topics/internet-of-things
+	(LIBRO, el de los apuntes) “IoT fundamentals: Networking technologies, protocols, and use cases for the internet of things”. David Hanes, Gonzalo Salgueiro, Patrick Grossetete,
+Jerome Henry, Robert Barton.
+https://www.cloudflare.com/es-es/learning/network-layer/what-is-a-personal-area-network/
+https://www.cloudflare.com/es-es/learning/network-layer/what-is-a-lan/
+https://www.cloudflare.com/learning/network-layer/what-is-a-metropolitan-area-network/
+https://www.cloudflare.com/learning/network-layer/what-is-a-wan/
+https://www.gadae.com/blog/tipos-de-redes-informaticas-segun-su-alcance/
+}
+
+### Usos y el valor de los datos
+
+Hoy en día vivimos en un mundo interconectado, en el cual estamos rodeados de muchos dispositivos, gran parte de ellos interconectados como sistemas [IoT](#IoT). La información es crucial en la actualidad, especialmente a nivel empresarial, ya que permite crear nuevas posibilidades, modelos, interacciones y soluciones únicas, entender y anticiparse a tendencias, identificar nuevas oportunidades, encontrar ventajas competitivas y problemas internos, entre otras aplicaciones beneficiosas para la sociedad. Esta información se obtiene a partir del procesamiento y análisis de colecciones de datos, recopilados de diversas fuentes potenciales, como es el caso del [IoT](#IoT). El Internet de las Cosas se encarga de capturar información del entorno e interactuar con el mismo, siendo un factor fundamental en la transformación digital de los sectores laborales. Sin embargo, disponer de varios dispositivos interconectados durante largos periodos de tiempo en ambientes variados puede generar cantidades masivas de datos, interpretables como Big Data y difíciles de analizar manualmente. Por lo tanto, un método muy común es incorporar la inteligencia artificial al ecosistema [IoT](#IoT), utilizándola para analizar y extraer información valiosa de los datos. Las técnicas de inteligencia artificial suelen ser eficientes y requieren poca o nula interacción humana. Entre los beneficios que ofrecen se encuentran la identificación de patrones, la realización de predicciones y la toma de decisiones automatizadas basadas en los datos.
+
+El uso de [IoT](#IoT) es aplicable a una gran variedad de entornos y puede traer beneficios de manera general, como monitorear la localización, el consumo y los errores que puedan ocurrir en el equipamiento (por ejemplo, el médico o el utilizado en obras), administrar el inventario fácilmente (el de un supermercado, una farmacia) y reducir y optimizar el trabajo del personal. De manera más concreta, los beneficios pueden tener un gran impacto en los siguientes ámbitos y sectores:
+
+- Sanidad: La implantación de sistemas [IoT](#IoT) en el sector de la salud puede ayudar a reducir costes de atención y mejorar la calidad de vida de los pacientes. Se pueden utilizar sensores para monitorizar los signos vitales (como la frecuencia cardíaca, la presión arterial, la saturación de oxígeno o la temperatura) y dificultades físicas del paciente sin necesidad de ingresarlos en un hospital, evitando la sobrepoblación y la falta de camas en los hospitales. Junto a esta monitorización remota, se agrega la recopilación y análisis de los mismos datos, útiles para detectar patrones e identificar posibles problemas de salud, y ofrecer de forma instantánea un amplio contexto a los especialistas sanitarios para que puedan tomar decisiones y hacer recomendaciones de forma adecuada sin necesidad de invertir tiempo en buscar datos del paciente ni tomarle notas. Además, se pueden utilizar dispositivos fáciles de manejar por los pacientes para recibir avisos textuales, de audio o video por parte de los doctores, y en cuanto a las medicaciones se pueden integrar etiquetas inteligentes para poder monitorear la localización, obtener información sobre la expiración, comprobar si el medicamento es auténtico y las dosis recomendadas. 
+
+- Agricultura y ganadería: No solo es posible aplicar el Internet de las Cosas a zonas urbanas, sino también a zonas donde la conectividad es más compleja de implementar, por lo que normalmente en este sector se suelen utilizar dispositivos de bajo consumo conectados a baterías o a placas solares. La tecnología puede ayudar a analizar las condiciones del suelo, como la temperatura, humedad y nutrientes mediante el uso de sensores, y actuar en consecuencia de forma manual o automatizada, por ejemplo, regando de manera controlada, y así reduciendo el desperdicio de recursos. Es útil para analizar y prever patrones climáticos y determinar cuándo sería adecuado realizar la cosecha, así como para monitorizar el crecimiento de los cultivos, y se puede utilizar para determinar la necesidad de utilizar fertilizantes o insecticidas. También se pueden utilizar sensores para localizar al ganado, registrar información, analizar constantes vitales, monitorizar la salud o identificarlo, y para mantener una alta calidad en los productos provenientes de animales, por ejemplo, mediante sensores se podría monitorizar la temperatura y el movimiento de la leche recolectada en un tanque.
+
+- Transporte, conducción y logística: El Internet de las Cosas también es compatible con vehículos en movimiento, siendo capaz de ofrecer un transporte inteligente. Un vehículo repleto de sensores puede tener la capacidad de ofrecer conducción asistida o automatizada mediante reconocimiento de señales, frenado en caso de emergencia y detección de peatones, evitando accidentes. También pueden informar sobre el estado del vehículo y monitorizar su rendimiento, para prever problemas y darle un mejor mantenimiento. También puede tener la capacidad de reducir el tiempo de conducción y mejorar la eficiencia del combustible al calcular rutas óptimas y asistir en la búsqueda de aparcamiento.
+Lo mencionado anteriormente no solo se puede aplicar a la conducción privada, sino también al transporte público y a los envíos de mercancías, mejorando los tiempos de entrega y agregando la capacidad de rastreo de los envíos mediante etiquetas inteligentes y sensores. En el caso de transportar productos perecederos, se puede mejorar la calidad de los mismos al monitorizar con sensores y mantener la temperatura y humedad del remolque que los transporta.
+
+- Fabricación: Monitorizar los sitios donde se fabrican los productos mejora la eficiencia en la fabricación. Pueden implementarse sensores en las máquinas para monitorizar su rendimiento y detectar fallos, así como en los centros de fabricación para controlar la temperatura y humedad, asegurando condiciones óptimas para la producción de productos sensibles. Gracias a todos los datos recopilados, es posible optimizar procesos de producción e identificar áreas donde sería necesario más personal, sin necesidad de estar presencialmente en el centro de fabricación. Además, mediante la automatización, se podrían realizar mejores controles de calidad a los productos terminados y optimizar otros procesos de producción.
+
+- Comercio: [IoT](#IoT) sirve para mejorar tanto la fabricación como la venta, trayendo beneficio a todo el ciclo de vida de un producto. Esta mejora influye incluso en la propia decisión que el cliente debe tomar respecto a un producto, ya que se pueden crear ofertas, optimizar la colocación de los productos y mejorar la experiencia del cliente mediante sensores en la tienda, que rastreen el tráfico dentro de la misma y analicen el comportamiento de los clientes. Los clientes también se ven beneficiados, ya que al tener sensores en los productos o en las estanterías, pueden guiarse mediante algún dispositivo específico al producto que desean, y con terminales de autopago no necesitan esperar largas colas, haciendo que las compras sean eficientes. Además, los productos de las tiendas pueden ser rastreados y analizar toda su trazabilidad, desde el primer momento en el que llegaron al almacén hasta cuando salieron por la puerta a modo de venta.
+
+- Ciudades y edificios inteligentes: El Internet de las Cosas puede traer facilidades incluso a la vida cotidiana, ya sea en un hogar, en la oficina del trabajo o en una ciudad por completo. Mediante sensores y cámaras, puede ser posible tener una mejor vigilancia en las calles, haciendo más eficientes las acciones de los equipos de emergencia, además de analizar infracciones, accidentes y monitorear el tráfico, con la intención de evitar congestiones y realizar modificaciones en las calles y carreteras. Además, en una ciudad inteligente, se podrían tener aparcamientos repletos de sensores para hacer eficiente la búsqueda de aparcamiento para los usuarios y poder analizar el uso de las plazas, útil por si fuera necesario añadir más. Siendo la contaminación uno de los factores más influyentes en la salud de las personas, en una ciudad inteligente se podría mejorar, instalando sensores para la contaminación acústica y del aire, o incluso en las plantas de tratamiento del agua. Incluso en zonas de mayor atracción turística es posible instalar sensores que guíen a un sitio u objeto en específico, para, por ejemplo, facilitar la llegada a un asiento en un estadio o encontrar una pieza de arte en un museo. Todos los datos recopilados de varios sensores pueden dar lugar a implantar soluciones inteligentes en calles y edificios para facilitar la vida a sus ciudadanos. De manera más específica, en un edificio o sitio cerrado se podrían equipar dispositivos que detecten la presencia y así tomar decisiones en cuanto a la intensidad de la iluminación o el control de la calefacción, permitiendo además controlarlos remotamente. También se pueden aplicar para controlar, gestionar y automatizar entornos habitables, por ejemplo, la habitación de un niño pequeño o la casa de una persona anciana, tipos de personas más vulnerables a riesgos.
+
+El Internet de las Cosas no solo se reduce a estos sectores, es prácticamente aplicable a todos, como la educación, la construcción o el turismo, y a cualquier fase, desde el diseño hasta ofrecer y consumir el servicio o producto, gracias a la popularización de esta tecnología y al aumento de dispositivos que aparecen a nuestro alrededor.
+
+TODO:
+{
+	https://www.campusbigdata.com/big-data-blog/item/101-relacion-iot-con-big-data
+	https://www.ibm.com/es-es/topics/internet-of-things
+	https://www.nougir.com/index.php/blog-3/item/13-que-es-iot-o-internet-de-las-cosas-y-sus-aplicaciones
+	https://innovayaccion.com/blog/aplicando-el-internet-de-las-cosas-a-las-empresas-2
+	https://cdn.ihs.com/www/pdf/IoT_ebook.pdf
+	https://www2.deloitte.com/content/dam/Deloitte/nl/Documents/real-estate/deloitte-nl-fsi-real-estate-smart-buildings-how-iot-technology-aims-to-add-value-for-real-estate-companies.pdf
+	https://www.researchgate.net/publication/325373920_Internet_of_things_IoT_a_survey_on_architecture_enabling_technologies_applications_and_challenges
+}
 
 
 ## Protocolos de mensajería usados en IoT
@@ -209,49 +338,44 @@ Por defecto, este protocolo envía credenciales y mensajes en texto plano sin me
 
 
 ### AMQP
-Protocolo de la capa de aplicación de estándar abierto para middleware orientado a mensajes
-Protocolo binario diseñado para soportar una amplia gama de aplicaciones de mensajería y patrones de comunicación
-No está diseñado específicamente para soluciones IoT, pero funciona muy bien para las comunicaciones de mensajes que incluyen muchos escenarios IoT
-Protocolo binario de capa de aplicación
-Puede utilizarse para mensajería punto a punto y pub-sub
-Amplia compatibilidad con escenarios de mensajería
-Admite el cifrado de mensajes extremo a extremo
-Mensajes enviados sobre TCP y UDP
 
-Cons: alto consumo de recursos (energía y memoria)
-Orientación de mensajes, colas, enrutamiento, fiabilidad y seguridad
-AMQP define como deben comportarse tanto el proveedor del servicio del mensajería como el cliente. Permite que implementaciones de diferentes vendedores puedan funcionar juntoas
+Advanced Message Queuing Protocol es un protocolo binario avanzado que opera sobre la capa de aplicación, cuyo estándar abierto permite desarrollar mensajería y patrones de comunicación entre dispositivos. Facilita la comunicación entre servicios definiendo el formato de los datos enviados a través de la red como un flujo de bytes, así como la creación de mensajes, el encolamiento y enrutamiento de los mensajes producidos, y la manera de entregarlos a los consumidores.
 
-AMQP es un protocolo a nivel de cable, que describe el formato de los datos que se envían a través de la red como un flujo de bytes. Cualquier herramienta que pueda crear e interpretar mensajes que se ajusten a este formato de datos puede interoperar con cualquier otra herramienta que lo cumpla, independientemente del lenguaje de implementación
+Este protocolo se basa en el concepto de publicar y consumir de colas de mensajes a través de una conexión fiable, persistente y orientada al envío de flujos de datos. Además, es compatible con el envío de múltiples flujos de datos simultáneos mediante múltiples canales en una única conexión. Permite hacer uso de estas colas de mensajes mediante distintos modelos de mensajería, como la entrega directa punto a punto y el modelo publicación-suscripción, y, pese a no ser un protocolo diseñado originalmente para su uso en el Internet de las Cosas, funciona muy bien en este ámbito y en la gran variedad de escenarios de comunicación y mensajería posibles.
 
-Es un protocolo de mensajería avanzado
-Permite la comunicación entre servicios y aplicaciones
-Protocolo abierto que funciona a nivel de capa de aplicación
-Define la creación de mensajes, encolamiento, enrutamiento de los mensajes producidos y exactitud para entregar los mensajes a los consumidores
+En [AMQP](#AMQP) se definen las dos siguientes entidades principales que interactúan entre sí:
 
-Compuesto de un broker de mensajería. Este internamente posee exchanges, donde se conectan los productores de mensajes. También posee colas, vinculadas a exchanges a través de distintos criterios. Los consumidores de los datos se conectan a las colas para extraer los mensajes que producen los publicadores.
+- Cliente: del tipo suscriptor o publicador (o consumidor y productor, respectivamente), se conecta a un broker a través de credenciales y, en caso de estar autorizado, puede recibir o publicar mensajes.
+- Broker: servidor de mensajería al que los clientes se conectan y que se encarga de distribuir los mensajes. Internamente, posee exchanges o intercambiadores, donde se conectan los productores de mensajes, y colas, vinculadas a los exchanges dependiendo de varios criterios y a las que se conectan los consumidores para extraer los mensajes producidos.
 
-El protocolo establece el comportamiento del servidor de mensajería y de los clientes que se conectan al broker, de manera que las implementaciones de distintos proveedores son interoperables
-AMQP proporciona la unidad de trabajo necesarioa para intercambiar información
+De manera sencilla, se puede resumir el funcionamiento de este protocolo como un modelo en el que los mensajes son publicados y enviados a exchanges, los cuales enrutan los mensajes a las colas apropiadas según reglas o bindings, y los consumidores reciben los mensajes a través de las mismas colas.
 
-Es un protocolo orientado a crear un "cable" entre aplicaciones conectadas
-Incluye funcionalidad para entregar mensajes de manera fiable, representar los datos a través de diferentes formatos, flexixbilidad para definir datos, preparado para escalabilidad y capacidad de definir varias topologías
+Los exchages, además de recibir mensajes de los productores, se encargan de enviar los datos a las colas apropiadas, ya sean a una o a varias dependiendo del exchange y la clave de enrutamiento o routing key con la que se publica el mensaje. A este funcionamiento se le puede asociar la analogía del funcionamiento del envío de emails, ya que estos se envían a direcciones "routing key@exchange", siendo la clave de enrutamiento la dirección de correo y el exchange el servidor. En [AMQP](#AMQP) existen cuatro tipos de exchanges:
+ 
+- Topic, que permite una comunicación publicación-suscripción: los mensajes se enrutan a las colas adecuadas en función de la clave de enrutamiento y el patrón de vinculación al exchange.
+- Direct, que permite una comunicación punto a punto: los mensajes se reciben en un exchange con una clave de enrutamiento específica y son enrutados directamente a una cola creada con la misma clave. Es posible que una cola tenga varias claves, conectándose a varios exchange simultáneamente, al igual que varias colas pueden compartir una misma clave de enrutamiento, enviando los mensajes a varios destinatarios.
+- Fanout, que permite una comunicación parecida a broadcast: los mensajes son enrutados a todas las colas vinculadas al exchange.
+- Cabeceras, que permite una comunicación publicación-suscripción: los mensajes se encaminan a las colas dependiendo de la coincidencia de las cabeceras de los mensajes.
 
-El objetivo de diseño de AMQP era conseguir la creación de un protocolo que permita interoperar mediante mensajes, tanto dentro de la misma organizacaión como entre organizaciones, mediante la creación de un mensaje con estándar abierto para realizar transacciones de negocio
+Las colas son fragmentos de memoria creados por el cliente suscriptor identificadas unívocamente mediante un nombre, definido previamente por el cliente o automáticamente por el broker. Intrínsicamente, [AMQP](#AMQP) garantiza la recepción y procesamiento de mensajes, ya que dispone de un mecanismo de [ACK](#ACK) o acuse de recibo que permite confirmar la recepción y procesamiento del mensaje. En el caso de no recibir el [ACK](#ACK) de un mensaje por parte de un consumidor, ya que perdió la conexión o no se procesó correctamente, el broker encola de nuevo el mensaje para reintentar las operaciones. Junto a este mecanismo, también está la posibilidad de rechazar mensajes mediante un mensaje [NACK](#NACK) o acuse de recibo negativo, útil para indicar que no se ha procesado bien el mensaje y que el broker puede borrar el mensaje de esa cola. Además, las colas admiten persistencia, para mantener la existencia de la cola incluso luego de que ocurra un reinicio en el broker y que el suscriptor no deba conectarse nuevamente.
 
-Entidades AMQP:
-- Broker: servidor de mensajería al que los clientes se conectan usando el protocolo AMQP y que se encarga de distribuir los mensajes
-- Usuario
-- Conexión: conexión física sobre algún protocolo de transporte como TCP/IP o SCTP (ligada a un usuario)
-- Canal: conexión lógica ligada a una conexión
+Para relacionar colas y exchanges se utilizan bindings o vinculaciones para especificar el flujo de los mensajes. Tras crear el exchange y la cola, se indica al broker la vinculación de ambas mediante un binding, especificando una clave de enrutamiento que, según el tipo de exchange, enruta adecuadamente las colas. El exchange entregará como máximo una copia de mensaje a una cola si corresponden las propiedades del mensaje con las propiedades del binding. Con los bindings es posible vincular varias colas a un mismo exchange, al igual que una cola a varios exchanges.
 
-Entidades usadas para transferencia de mensajes entre aplicaciones son declaradas dentro de un canal, que garantiza la creación lógica de los elementos necesarios para la comunicación, como la creación de un exchange, una cola a la cual enviar mensajes y la vinculación entre las entidades.
+Con los tres conceptos mencionados previamente, exchange, binding y cola, se produce una transparencia en la comunicación entre los productores y los consumidores, ya que ambos están aislados entre sí y desconocen su existencia y ubicación. 
 
-Entidades que definen el protocolo para la creación y consumo de mensajes mediante AMQP:
-- Exchanges: entidades a las que los productores envían mensajes, y desde donde se envían los datos a las diferentes colas. Los mensajes se envían a una o más colas según el exchange y la clave de enrutamiento/routing key con que se publican. Tipos de exchange:
-	- Topic exchange: cuando se publica un mensaje, el determina qué colas lo recibirán comparando la routing key del mensaje con el patrón de enrutamiento que vinculan la cola con el exchange
-	- Direct exchange: envía mensajes a un receptor concreto,
-	TODO: seguir
+Este protocolo especifica el comportamiento del servidor y de los clientes conectados, junto al formato de los datos enviados a través de la red, por lo que al crear implementaciones se deben ajustar a este mismo formato de datos, permitiendo interoperar independientemente del lenguaje o del proveedor. Los mensajes se transmiten sobre la capa [TCP](#TCP), y disponen de propiedades como las siguientes:
+
+- Clave de enrutamiento.
+- Modo de entrega, si es un mensaje persistente.
+- Prioridad del mensaje en un rango entre 0 y 9.
+- Vencimiento, indicado en milisegundos, es el tiempo que el broker debe esperar antes de descartar el mensaje si no fue consumido.
+- Contador de intentos de entrega.
+- Anotaciones de mensaje.
+- Propiedades, como el ID del mensaje, usuario y tiempo de creación.
+- Payload o carga útil.
+- Footer, que contiene detalles del mensaje como hashes o firmas.
+
+[AMQP](#AMQP) es extenso en cuanto a funciones, soportando seguridad mediante el cifrado extremo a extremo, multitud de propiedades de mensajes y modos de entrega, fiabilidad de entrega, persistencia de mensajes, enrutado complejo y estrategias de distribución de mensajes, escalabilidad y definición de topologías, entre otros. Sin embargo, pese a su idoneidad para sistemas distribuidos, es un protocolo que requiere un alto consumo de recursos como energía y memoria.
 
 
 ### XMPP
@@ -291,32 +415,20 @@ El protocolo [XMPP](#XMPP) es altamente escalable debido a su capacidad de manej
 
 
 ### DDS
-Diseñado para ser usado en sistemas en tiempo real, y es un estándar máquina-máquina del Object Management Group (OMG)
-Objetivos DDS: permitir intercambios de datos fiables, de alto rendimiento, interoperables, en tiempo real y escalabes usando un patrón de mensajería publish subscribe
-Protocolo DDS diseñado para responder a las necesidades específicas de aplicaciones
-Diseñado para sistemas en tiempo real
-Conecta dispositivos directamente entre ellos
-Elimina el requisito del servidor intermediario: mayor velocidad y eficacia en el intercambio de datos
-Mejor protocolo de aplicación segura, por su naturaleza sin servidor
-Capaz de transmitir millones de mensajes a multitud de receptores de forma instantánea
-Entrega en tiempo real, útil para cualquier sistema que lo requiera
-Demuestra notable capacidad de adaptación, responde fácilmente a las neesidades únicas de cada ámbito de aplicaci´´on
-Prioriza entrega de un intercambio de datos fiable, escalable, de alta velocidad e interoperable
 
-Caract:
-- Diseñado para sistemas en tiempo real
-- Facilita comunicación directa entre dispositivos
-- Minimiza sobre carga de comunicación
+El Data Distribution Service es un estándar de middleware y [API](#API) máquina-máquina que facilita la comunicación y el intercambio de datos. Fue desarrollado por el Object Management Group con el fin de responder a las necesidades específicas de aplicaciones que requieren intercambios de datos fiables y de alto rendimiento en sistemas distribuidos en tiempo real, sin dejar de lado la eficiencia. Su arquitectura se basa en un modelo de publicación-suscripción sin servidor, sino que los dispositivos se conectan entre sí, y donde los datos son publicados en un dominio y los suscriptores se conectan a este para recibir la información que les interesa.
 
-Ventajas:
-- Arquitectura flexible y adaptable
-- Baja sobrecarga, permite integración perfecta con sistemas de alto rendimiento
-- Garantiza una entrega de datos determinista
-- Altamente escalable para adaptarse a las crecientes demandas del sistema
-- Optimiza la utilización del ancho de banda de transporte
+Este middleware es la capa de software que se encuentra entre el sistema operativo y las aplicaciones, abstrayendo la comunicación entre ambos y, por tanto, los detalles del tranporte de red y de los datos a bajo nivel. Permite que los distintos componentes de un sistema compartan y comuniquen datos, proporcionando el formato, el protocolo de transporte, la fiabilidad, la calidad de sevicio y la seguridad, y simplificando así el desarrollo. En el caso de [DDS](#DDS), se centra completamente en los datos, asegurando un buen transporte e incluyendo información contextual de los mismos, lo que lo hace ideal para el Internet de las Cosas aplicado en entornos industriales.
 
-//TODO: buscar más cosas de DDS (wikipedia o info)
+[DDS](#DDS) funciona con el principal concepto de espacio de datos global, un almacén de datos que a ojos del programador parece una memoria local accedida mediante [API](#API)s. Sin embargo, este espacio es solo una ilusión, ya que no existe un lugar donde residan todos los dato, es un concepto que se refiere a una colección de distintos almacenes locales en cada nodo por los cuales se reparten los datos. El programador piensa que está enviando mensajes a un almacén global, pero en realidad [DDS](#DDS) envía mensajes a los almacenes locales apropiados.
 
+Este espacio global, a pesar de ser tan característico, no pierde compatibilidad, ya que el middleware es independiente del lenguaje de programación y la plataforma, posibilitando la interoperabilidad entre distintos sistemas y aplicaciones y una implementación que se adapte a las necesidades sin afectar a las comunicaciones entre dispositivos. Tampoco pierde efectividad, ya que su velocidad, baja latencia, baja sobrecarga en la comunicación, optimización del transporte y capacidad de transmitir millones de mensajes a multitud de receptores instantáneamente, lo convierten en una tecnología ideal para sistemas de alto rendimiento en tiempo real.
+
+Al ser descentralizado, es decir, al no requerir un nodo central, el servicio [DDS](#DDS) es mucho más eficiente y eficaz, ya que los mensajes no deben atravesar un dispositivo intermediario, ejecutando la comunicación punto a punto, y resultando en una mayor velocidad. Además, dispone de un servicio de descubrimiento dinámico, haciendo que las aplicaciones [DDS](#DDS) sean extensibles y escalables. La aplicación no necesita conocer ni configurar los puntos finales de los dispositivos para la comunincación, ya que estos se descubren automáticamente en ejecución, y es capaz de identificar si el punto final se utiliza para publicar datos, para suscribirse o para ambos, el tipo de dato publicado o suscrito, y las características específicas de la comunicación. En cuanto a los participantes, admite tanto a los localizados en una misma máquina como a los distribuidos en distintas máquinas, y es compatible con miles de dispositivos, manteniendo una alta velocidad.
+
+[DDS](#DDS) soporta principalmente el modelo de publicación-suscripción, intercambiando información basada en un tema o topic identificado por su nombre. En este modelo, cualquier nodo conectado puede publicar mensajes con el tema especificado o suscribirse a un tema, y [DDS](#DDS) se encarga de que los datos se entreguen a los suscriptores correctos en el momento adecuado mediante comunicación peer-to-peer. Al suscribirse, es posible especificar filtros de tiempo y subconjuntos de datos para obtener solo los requeridos, y tiene la capacidad de detectar cambios para que los suscriptores reciban actualizaciones adecuadas de los datos. Por otro lado, al publicar, es [DDS](#DDS) quien gestiona la complejidad de la transmisión y se encarga de almacenar los datos de manera segura. También ofrece compatibilidad con RPC o llamadas a procedimientos remotos.
+
+El middleware es independiente del transporte, y puede funcionar sobre [UDP](#UDP), [TCP](#TCP), memoria compartida, entre otros. Entre las características opcionales que ofrece, como el filtrado de grandes datos, se encuentra la gestión de calidad de servicio o [QoS](#QoS), donde se pueden especificar requisitos de rendimiento y confiabilidad, como la latencia, el ancho de banda, la prioridad, la disponibilidad de los datos, el uso de recursos y la sincronización. Además, incluye mecanismos de seguridad que proporcionan autenticación, encriptación, confidencialidad, control de acceso e integridad en la distribución de información.
 
 ### CoAP
 
@@ -362,19 +474,73 @@ https://www.hivemq.com/resources/achieving-200-mil-concurrent-connections-with-h
 http://www.steves-internet-guide.com/mqtt-protocol-messages-overview/
 https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol
 https://www.gotoiot.com/pages/articles/amqp_intro/index.html
+https://www.emqx.com/en/blog/mqtt-vs-amqp-for-iot-communications#what-is-amqp
+http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format
 https://en.wikipedia.org/wiki/XMPP
 https://www.pubnub.com/guides/xmpp/
 https://blazeclan.com/blog/xmpp-for-dummies-part-3-stanzas-in-detail/
 https://slixmpp.readthedocs.io/en/latest/api/stanza/presence.html
 https://slixmpp.readthedocs.io/en/latest/api/stanza/iq.html
+https://www.dds-foundation.org/omg-dds-standard/
+https://www.utpl.edu.ec/proyectomiddleware/?q=tutorial-dds 
 https://www.emqx.com/en/blog/coap-protocol0
 https://www.gotoiot.com/pages/articles/coap_intro/index.html
 (DOCUMENTO) https://datatracker.ietf.org/doc/html/rfc7252
 
+### Comparación de todos los protocolos
 
+A partir de la información de los apartados anteriores, se pueden recopilar las diferencias y similitudes en los siguientes puntos:
 
+1. *[MQTT](#MQTT)*:
+   - **Descripción corta:** Basado en colas de mensajes.
+   - **Patrón de comunicación:** Publicación-suscripción.
+   - **Necesita intermediario:** Sí, el broker.
+   - **Protocolo de transporte:** [TCP](#TCP).
+   - **Ventajas:** Muy utilizado, ligero, eficiente, útil en dispositivos y redes de recursos limitados, soporta distintas calidades de servicio.
+   - **Desventajas:** Encriptación y enrutación limitadas, bajo soporte para tipos de datos complejos.
+   - **Casos de uso:** Telemetría, mensajería ligera, automatización industrial, monitorización del entorno, hogares inteligentes, soluciones energéticas.
 
+2. *[AMQP](#AMQP)*:
+   - **Descripción corta:** Basado en colas de mensajes y exchanges.
+   - **Patrón de comunicación:** Publicación-suscripción.
+   - **Necesita intermediario:** Sí, el broker.
+   - **Protocolo de transporte:** [TCP](#TCP).
+   - **Ventajas:** Alto rendimiento, seguro, ampliamente usado, parecido a [MQTT](#MQTT).
+   - **Desventajas:** Alto consumo de recursos, difícil aprendizaje.
+   - **Casos de uso:** Servicios financieros, procesamiento de transacciones, envío de datos en tiempo real, comunicación segura entre entidades.
 
+3. *[XMPP](#XMPP)*:
+   - **Descripción corta:** Comunicación de datos y presencia mediante mensajes [XML](#XML).
+   - **Patrón de comunicación:** Cliente-servidor.
+   - **Necesita intermediario:** Sí, el servidor.
+   - **Protocolo de transporte:** [TCP](#TCP).
+   - **Ventajas:** Robusto, extensible, muy ampliable de funciones.
+   - **Desventajas:** No optimizado para entornos limitados, complejo de implementar.
+   - **Casos de uso:** Mensajería instantánea, redes sociales, plataformas de colaboración.
+
+4. *[DDS](#DDS)*:
+   - **Descripción corta:** Comunicación sin servidor.
+   - **Patrón de comunicación:** Publicación-suscripción.
+   - **Necesita intermediario:** No.
+   - **Protocolo de transporte:** [TCP](#TCP) y [UDP](#UDP), compatible con otros.
+   - **Ventajas:** Alto rendimiento, fácil de escalar, comunicación centrada en datos en tiempo real, soporte de tipos de datos complejos, configurable la calidad de servicio.
+   - **Desventajas:** Complejo de implementar, altos recursos de dispositivos y de ancho de banda.
+   - **Casos de uso:** Sistemas de tiempo real, aplicaciones de misión crítica, automatización industrial, automoción, gestión de cadenas de suministro, sistemas distribuidos de gran escala.
+
+5. *[CoAP](#CoAP)*:
+   - **Descripción corta:** Basada en recursos compartidos y accesibles mediante [REST](#REST).
+   - **Patrón de comunicación:** Cliente-servidor.
+   - **Necesita intermediario:** No.
+   - **Protocolo de transporte:** [UDP](#UDP).
+   - **Ventajas:** Eficiente en redes y dispositivos de recursos limitados, soporte nativo para tecnologías web.
+   - **Desventajas:** Bajo soporte de clientes concurrentes.
+   - **Casos de uso:** Dispositivos de recursos limitados, automatización en hogares.
+
+{
+	https://webbylab.com/blog/mqtt-vs-other-iot-messaging-protocols-detailed-comparison/
+	https://www.a3logics.com/blog/iot-messaging-protocols/
+
+}
 
 
 ## Espressif y sus dispositivos
@@ -389,12 +555,289 @@ El compromiso de esta empresa china con el código abierto se refleja en su ofer
 
 Además de su enfoque en el código abierto y en la tecnología accesible, Espressif se destaca por el compromiso con la sostenibilidad, la responsabilidad social corporativa y por la inversión en investigación y desarrollo de tecnologías ecológicas. A lo largo de su trayectoria, ha respaldado activamente soluciones que reducen el consumo de energía y el desperdicio de materiales.
 
-Los productos de Espressif se utilizan ampliamente en productos como electrodomésticos, altavoces, bombillas, cámaras, tabletas, TV boxes, terminales de pago y otros dispositivos de electrónica de consumo, y son especialmente útiles en contextos donde es necesario el Internet de las Cosas, comunicación inalámbrica e Inteligencia Artificial. Espressif es conocido por sus populares series de chips, módulos y placas de desarrollo ESP8266, ESP32 y ESP32-S, ESP32-C y ESP32-H, los cuales se analizarán en el siguiente apartado.
-
-
-
-
+Los productos de Espressif se utilizan ampliamente en productos como electrodomésticos, altavoces, bombillas, cámaras, tabletas, TV boxes, terminales de pago y otros dispositivos de electrónica de consumo, y son especialmente útiles en contextos donde es necesario el Internet de las Cosas, comunicación inalámbrica e Inteligencia Artificial. Espressif es conocido por sus populares series de chips, módulos y placas de desarrollo ESP8266, ESP32 y ESP32-S, ESP32-C y ESP32-H, los cuales se analizarán en los siguientes apartados.
+{
 https://www.espressif.com/en/company/about-espressif
 https://www.eurotronix.com/es/fabricantes/espressif
 https://www.digikey.es/es/supplier-centers/espressif-systems
+}
 
+### ESP8266
+
+El ESP8266 es un [SoC](#SoC) o sistema en un chip diseñado para dispositivos móviles, electrónica portátil y aplicaciones del Internet de las Cosas. Lanzado en agosto de 2014, integra un procesador mononúcleo Tensilica L106 con una arquitectura [RISC](#RISC) de 32 bits de bajo consumo y una velocidad de reloj de entre 80 y 160 [MHz](#MHz).
+
+Presenta una arquitectura de ahorro de energía, permitiendo establecer el chip en modo activo, reposo y reposo profundo, lo cual es útil para que los dispositivos diseñados para alimentarse por batería funcionen durante mucho más tiempo.
+
+En cuanto a memoria, no dispone de una memoria flash para almacenar programas, la cual debe ser proporcionada por el módulo que implemente este chip y puede tener un tamaño máximo de 16 [MiB](#MiB). Integra una [RAM](#RAM) para instrucciones de 32 [KiB](#KiB), una caché de instrucciones 32 [KiB](#KiB), 80 [KiB](#KiB) para almacenar datos del usuario y 16 [KiB](#KiB) para datos del sistema de [ETS](#ETS).
+
+Su bajo voltaje operativo oscila entre 2,5 y 3,6 [V](#V), con una corriente de operación alrededor de los 80 [mA](#mA). Cuenta con la capacidad de funcionar en entornos industriales gracias a su amplio rango de temperatura de operación, que va de -40 y 125 [ºC](#ºC).
+
+Admite distintos tipos de protocolos, como [IP](#IP)v4, [TCP](#TCP), [UDP](#UDP) y [HTTP](#HTTP). Es un dispositivo certificado para funcionar por Wi-Fi y compatible con los protocolos 802.11 b/g/n en una frecuencia de 2,4 [GHz](#GHz). Tiene la capacidad de actuar como cliente en redes protegidas por claves [WEP](#WEP), [WPA](#WPA) y [WPA](#WPA)2, además de poder actuar como punto de acceso inalámbrico.
+
+También integra en sus dimensiones compactas 16 pines [GPIO](#GPIO) para conectar dispositivos de entrada y salida, un conversor analógico de 10 bits, conmutadores de antena, un amplificador de potencia y de recepción, un balun de radiofrecuencia y módulos de gestión de potencia.
+
+Este sistema admite varios [IDE](#IDE)s y lenguajes de programación, como C y C++, utilizando Arduino [IDE](#IDE) o PlatformIO; MicroPython, utilizando Mu Editor, Thonny [IDE](#IDE) o Pymakr; y Lua, utilizando LuaLoader.
+
+{
+	https://www.espressif.com/en/products/socs/esp8266
+	https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf
+	https://en.wikipedia.org/wiki/ESP8266
+	https://www.luisllamas.es/esp8266/
+	https://programarfacil.com/podcast/esp8266-wifi-coste-arduino
+	https://randomnerdtutorials.com/micropython-ides-esp32-esp8266/
+	https://www.danielmartingonzalez.com/es/usando-lua-en-esp8266-nodemcu-con-lualoader-y-esplorer/
+}
+
+### ESP32
+
+El ESP32 es el [SoC](#SoC) sucesor del ESP8266. Igual de apto para electrónica portátil e Internet de las Cosas, comparte muchas características y añade mejoras que lo convierten en un sistema muy superior.
+
+Integra un procesador Tensilica Xtensa LX6 de doble núcleo (o de uno, dependiendo de la variante utilizada) cuya frecuencia de reloj oscila entre los 160 y 240 [MHz](#MHz), que trabaja en conjunto con un coprocesador de ultra baja energía.
+
+La memoria experimenta un significativo aumento, con un total de 520 [KiB](#KiB) de SRAM, 448 [KiB](#KiB) de memoria de solo lectura, 32 [KiB](#KiB) de caché y hasta 4 [MiB](#MiB) de memoria de almacenamiento (dependiendo del modelo).
+
+Este chip, lanzado en septiembre de 2016, añade en comparación con el ESP8266 una mejora de potencia, soporte de Bluetooth 4.2 y [BLE](#BLE), sensor de temperatura, sensor hall, sensor táctil, reloj de tiempo real, más pines [GPIO](#GPIO) (hasta 34) y varios modos de energía.
+
+Además, incorpora arranque seguro, encriptado de la flash y soporte de aceleración por hardware para los algoritmos y protocolos de cifrado y encriptación [AES](#AES), [SHA](#SHA)-2, [RSA](#RSA), [ECC](#ECC) y el generador de números aleatorios.
+
+El ESP32 tiene la posibilidad de funcionar como un sistema autónomo o como parte de un puente e interconexiones, y tiene la capacidad de interactuar con otros sistemas para proveer funcionalidad Wi-Fi y Bluetooth a través de sus interfaces.
+
+Desde el lanzamiento del ESP32 original, han ido apareciendo variantes con distintas capacidades y procesadores, pero gran parte del código del ESP32 es compatible. Estas variantes son:
+
+- ESP32-S2: Enfocado en el consumo, integra un procesador mononúcleo LX7, reduce la memoria disponible y no tiene soporte de Bluetooth.
+- ESP32-S3: Utiliza el mismo procesador que el anterior, contiene más memoria y da soporte a Bluetooth 5 y [BLE](#BLE), enfocado al soporte de inteligencia artificial.
+- ESP32-C3: Contiene un procesador [RISC](#RISC)-V mononúcleo y admite Bluetooth 5 y [BLE](#BLE), enfocado en la seguridad.
+- ESP32-C6: Centrado en la conectividad, la principal diferencia con el anterior es el soporte de Bluetooth 5.3, Wi-Fi 6 (802.11ax) y conectividad de radio (802.15.4) compatible con los protocolos Thread, Zigbee y Matter.
+- ESP32-C2: Incorpora un procesador [RISC](#RISC)-V mononúcleo y admite Bluetooth 5 y [BLE](#BLE). Es un chip de pequeñas dimensiones que mantiene una conectividad robusta y estándares de seguridad.
+- ESP32-C5: Es la versión más reciente con mayor velocidad de reloj y capacidad de memoria, y es el primero que soporta Wi-Fi 6 a 5 [GHz](#GHz). Su enfoque en la conectividad también proviene de la capacidad de conexión con Bluetooth 5.2.
+
+{
+	https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf
+	https://www.espressif.com/en/products/socs/esp32
+	https://en.wikipedia.org/wiki/ESP32
+	https://www.luisllamas.es/esp32/
+	https://www.espboards.dev/blog/esp32-soc-options/
+}
+
+## ESP-NOW
+
+El Internet de las Cosas se forma a partir de una conectividad entre objetos, donde surge la necesidad de un protocolo que equilibre las necesidades de latencia, uso de energía, capacidad de transmisión, confiabilidad y seguridad en la transmisión de datos. Son factores determinantes en el futuro desarrollo de esta tecnología, y aparecen como candidatos un gran número de protocolos, destinados tanto para la comunicación en área local, como Wi-Fi, para áreas amplias, como LoRa, y para transmisión a corta distancia, como [RFID](#RFID). Recientemente, al grupo de protocolos se ha añadido ESP-NOW, el cual, pese a sus limitaciones, tiene características notables y es adecuado para [IoT](#IoT).
+
+ESP-NOW es un protocolo de comunicación inalámbrica diseñado por Espressif para su uso entre sus dispositivos, como los ESP8266 y ESP32. Con el objetivo de sustituir a Wi-Fi y a otras tecnologías, ESP-NOW es capaz de realizar transmisiones de información y control rápidas, estables y con un bajo consumo de recursos de [CPU](#CPU) y memoria flash entre dispositivos inteligentes, sin necesidad de un enrutador.
+
+Se caracteriza por la rapidez de la transmisión, lograda mediante la evitación de establecer una conexión previa entre dispositivos. Permite a su vez poner a disposición los dispositivos para transmitir datos y recibir órdenes instantáneamente tras el encendido. Además, este protocolo está basado en la capa de enlace de datos y es capaz de omitir las capas de red, transporte, sesión, presentación y aplicación del modelo [OSI](#OSI), reduciendo el consumo de energía (mejorando la autonomía en dispositivos con batería) y el retardo en la recepción y en el procesamiento de mensajes debido a la nula necesidad de cabeceras de paquete o desempaquetadores de cada capa. En redes congestionadas, es una característica beneficiosa, ya que brinda la capacidad de respuestas rápidas que reducen el retraso causado por la pérdida de paquetes. En el modelo utilizado en ESP-NOW en comparación con el modelo OSI estándar de la figura \ref{espnow:modeloOsiEspNow} se puede observar la notoria ausencia de las 5 capas mencionadas anteriormente. 
+
+![Comparación de las capas del modelo OSI con las del modelo ESP-NOW **TODO: REFERENCIAR**\label{espnow:modeloOsiEspNow}](espnow_osi_model.png){width=85%}
+
+Pese al objetivo de ESP-NOW de reemplazar Wi-Fi, en los dispositivos de Espressif es capaz de coexistir simultáneamente junto a Wi-Fi y Bluetooth. Esto es útil para utilizar un dispositivo como hotspot o gateway y exportar los datos intercambiados entre ESP-NOW hacia otras redes.
+
+Tiene la capacidad de transmitir datos de máquina a máquina, unicast, o broadcast, a todos los conectados, y únicamente para establecer la comunicación es necesario la dirección [MAC](#MAC) de destino y establecer un canal de transmisión. No obstante, dispone de una cantidad limitada de dispositivos con los que se puede emparejar. En general, el número de dispotivos emparejados no puede exceder de 20, y la cantidad de estos con los que se puede establecer una comunicación cifrada es configurable. Por defecto, este valor es 7, y admite un valor máximo de 17. Esta limitación puede ser un inconveniente en caso de necesitar una gran cantidad de dispositivos interconectados, pero una solución sería formar jerarquías de dispositivos.
+
+Para el envío de datos, permite establecer una función de callback que será llamada instantáneamente tras el envío para poder gestionarlo. Esto puede llegar a ser útil debido a los posibles fallos que puedan ocurrir, por ejemplo, si el dispositivo de destino no existe, los canales de transmisión establecidos en ambos dispositivos no son los mismos o la trama de acción se pierde por interferencias. De la misma manera, se puede establecer una función de callback que sea llamada al recibir datos para poder tratarlos. Cabe remarcar que el protocolo no garantiza que se reciban los datos correctamente, pero existe la posibilidad de establecer [ACK](#ACK)s para confirmar la correcta recepción y procesamiento de los datos, además de números de secuencia para afrontar la duplicidad.
+
+ESP-NOW utiliza tramas de acción específicas del proveedor para encapsular y transmitir datos de una longitud máxima de 250 bytes, con un alcance de transmisión de entre 100 y 500 metros, dependiendo de las condiciones atmosféricas, y con una tasa de velocidad de bits de 1 megabit por segundo. Esto es beneficioso para la comunicación a larga distancia debido a su gran alcance en dispositivos al aire libre o incluso separados por paredes o pisos. Sin embargo, limita su uso debido a la pequeña carga útil que puede transmitir, por lo que en otros casos podría ser mejor utilizar otras tecnologías como Wi-Fi. ESP-NOW utiliza tramas de un tamaño entre 43 y 293 bytes, cuyo formato está compuesto por los siguientes campos:
+
+- Cabecera [MAC](#MAC), distinta de una cabecera [MAC](#MAC) común debido a su funcionamiento sin conexión.
+- Código de categoría, establecido a 127 para indicar la categoría específica del proveedor.
+- Identificador de la organización único, que son los 3 primeros bytes de la dirección [MAC](#MAC) aplicada por Espressif.
+- Valores aleatorios, utilizados para prevenir ataques de retransmisión.
+- Contenido específico del proveedor, que ocupa entre 7 y 257 bytes y contiene los siguientes campos específicos del proveedor:
+	- ID del elemento, establecido a 221 para indicar que se trata del elemento específico del proveedor.
+	- Longitud total del resto de campos.
+	- Identificador de la organización, igual que el mencionado antes, los 3 primeros bytes de la dirección [MAC](#MAC).
+	- Tipo, con valor 4 para indicar ESP-NOW.
+	- Versión de ESP-NOW.
+	- Cuerpo, que contiene los datos de ESP-NOW y puede ocupar entre 0 y 250 bytes.
+- Frame Check Sequence, utilizado para verificar la integridad de la información recibida.
+
+Existe la posibilidad de asegurar la transmisión de datos a través de ESP-NOW utilizando algoritmos de encriptación [ECDH](#ECDH) y [AES](#AES) y el método CBC-MAC Protocol (CCMP) que protegen las tramas de acción. El funcionamiento de estos se realiza mediante dos tipos de claves en los dispositivos: una Clave Maestra Principal (PMK) y varias Claves Maestras Locales (LMK) que corresponden a cada dispositivo emparejado. La PMK se utiliza para cifrar la LMK, y la LMK del dispositivo emparejado se utiliza para cifrar la trama de acción específica del proveedor. Esto está limitado a comunicaciónes entre pares, ya que no se admite el cifrado de tramas utilizadas para la multidifusión.
+
+En cuanto a la gestión de dispositivos, puede utilizarse como un protocolo que ayude al aprovisionamiento de datos y configuraciones a dispositivos, depurarlos y actualizar su firmware.
+
+ESP-NOW no necesita ningún procedimiento especial aparte de la implementación para poder utilizarse con fines comerciales. En la actualidad, se encuentra ampliamente utilizado en electrodomésticos inteligentes, iluminación inteligente, control remoto, sensores y otros.
+
+{
+	(imagen, fuente): https://www.espressif.com/sites/all/themes/espressif/images/esp-now/model-en-mobile.png
+	https://www.espressif.com/en/solutions/low-power-solutions/esp-now
+	https://docs.espressif.com/projects/espressif-esp-faq/en/latest/application-solution/esp-now.html
+	https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html
+	https://emariete.com/esp8266-esp32-espnow/
+}
+
+### Comparaciones con otras tecnologías
+
+#### Wi-Fi
+
+"Wi-Fi" es el nombre que otorga la Wi-Fi Alliance a este protocolo de red inalámbrica basado en los estándares [IEEE](#IEEE) 802.11. Este protocolo es ampliamente utilizado para enlazar dispositivos en redes [LAN](#LAN) y proveer de acceso a Internet utilizando ondas de radio de 2,4 o 5 [GHz](#GHz) (dependiendo de la versión) para transmitir la información, cumpliendo con la misión de ser una alternativa al envío de datos a través de cables.
+
+En una red que utiliza Wi-Fi, se pueden encontrar una variedad de dispositivos cliente, que son los que aprovechan las características de la red, y dispositivos que distribuyen la red. Estos últimos consisten en routers o enrutadores, que brindan la conexión a Internet a los dispositivos y enrutan los mensajes enviados a través de la red; puntos de acceso, que transmiten la señal inalámbrica y es donde se conectan los dispositivos introduciendo las credenciales de la red; y repetidores, utilizados para extender el área de cobertura de una red. Entre los dispositivos, tanto clientes como los distribuidores de red, se utilizan adaptadores de red inalámbrica, que convierten los datos en una señal de radio y viceversa.
+
+Es una de las tecnologías más utilizadas a nivel mundial y, en la mayoría de hogares y establecimientos, se encuentran disponibles estas redes, además de los dispositivos que se fabrican con un Certificado Wi-Fi otorgado por la Wi-Fi Alliance tras superar las pruebas homologadas de interoperabilidad. Esta popularidad es beneficiosa para el Internet de las Cosas, ya que ofrece una capa de compatibilidad con una amplia gama de dispositivos sin necesidad de antenas, adaptadores de red ni otro tipo de hardware adicional. Además, Wi-Fi no es una tecnología nueva, tiene un sólido legado de interoperabilidad, y permite enviar información entre dispositivos con baja latencia.
+
+Entre sus características adicionales se encuentra la topología flexible, que permite implementar Wi-Fi conectando los dispositivos de distintas maneras; la seguridad, ya que es posible tener redes protegidas con contraseñas cifradas mediante distintos protocolos ([WEP](#WEP), [WPA](#WPA) y [WPA](#WPA)2), el coste de implementación, que en comparación con la instalación de una red cableada, resulta más económico; y la capacidad de llegar a donde los cables no pueden llegar.
+
+Existen distintos estándares de Wi-Fi que definen cómo actúa la red, y que cambian cada pocos años trayendo mejoras en el alcance, la velocidad y la conectividad. Por lo general, los dispositivos certificados para un estándar son intercomunicables con los certificados para otro estándar Wi-Fi siempre que compartan la misma banda de frecuencia, por lo que no es una preocupación tener todos los dispositivos con la versión más reciente. Los estándares Wi-Fi se muestran en la tabla \ref{espnow:estandaresWiFi}.
+
+| Nombre comercial | Estándar [IEEE](#IEEE) | Año  | Frecuencia ([GHz](#GHz)) | Velocidad máxima  | Rango (metros)   |
+|------------------|------------------------|------|--------------------------|-------------------|------------------|
+| Wi-Fi 1          | 802.11a                | 1999 | 5                        | 54 [Mbps](#Mbps)  | 120              |
+| Wi-Fi 2          | 802.11b                | 1999 | 2,4                      | 11 [Mbps](#Mbps)  | 140              |
+| Wi-Fi 3          | 802.11g                | 2003 | 2,4                      | 54 [Mbps](#Mbps)  | 140              |
+| Wi-Fi 4          | 802.11n                | 2009 | 2,4 y 5                  | 450 [Mbps](#Mbps) | 250              |
+| Wi-Fi 5          | 802.11ac               | 2014 | 5                        | 2,3 [Gbps](#Gbps) | 35               |
+| WiGig            | 802.11ad               | 2016 | 60                       | 7 [Gbps](#Gbps)   | 100              |
+| Wi-Fi 6          | 802.11ax               | 2019 | 2,4, 5 y 6               | 9,6 [Gbps](#Gbps) | 240              |
+| Wi-Fi 7          | 802.11be               | 2024 | 2,4, 5 y 6               | 46 [Gbps](#Gbps)  | (Por determinar) |
+
+: Lista de estándares Wi-Fi *TODO: REFERENCIAR*\label{espnow:estandaresWiFi}
+
+La popularidad de Wi-Fi abarca una gran variedad de dispositivos soportados, como teléfonos inteligentes, ordenadores, televisores inteligentes, impresoras e incluso placas de desarrollo como ESP8266 y ESP32.
+
+{
+	https://en.wikipedia.org/wiki/Wi-Fi
+	https://es.wikipedia.org/wiki/Wifi
+	https://emariete.com/esp8266-esp32-espnow/
+	https://www.wi-fi.org/discover-wi-fi/internet-things
+	https://www.adslzone.net/reportajes/tecnologia/que-es-wifi-como-funciona/
+	https://www.proofpoint.com/es/threat-reference/wifi#:~:text=Wifi%2C%20que%20es%20una%20contracci%C3%B3n,red%20mediante%20frecuencias%20de%20radio.
+	
+	Fuentes de tabla
+	https://www.intel.la/content/www/xl/es/support/articles/000005725/wireless/legacy-intel-wireless-products.html
+	https://www.monolitic.com/cual-es-la-mejor-tecnologia-wifi-para-desarrollos-iot/
+	https://www.makeuseof.com/tag/understanding-common-wifi-standards-technology-explained/
+	https://www.netspotapp.com/es/blog/wifi-standards/
+	https://www.xataka.com/nuevo/nuevo-wifi-7-informacion
+	https://www.geckoandfly.com/10041/wireless-wifi-802-11-abgn-router-range-and-distance-comparison/
+	https://www.business.com/articles/what-is-802-11-ax-wi-fi/
+
+}
+
+#### Bluetooth
+
+Bluetooth es un estándar de tecnología que facilita el intercambio de datos entre dispositivos a través de distancias cortas, con un máximo de 10 metros. 
+
+Desde su introducción en 1998, ha pasado por múltiples revisiones, siendo las más notorias de la última década:
+- Versión 4.0 hasta 4.2: Aumentó la velocidad de transferencia de datos a 24 Mbps y el alcance hasta 100 metros, y añadió soporte al protocolo IPv6. Además, introdujo BLE o Bluetooth Low Energy, una nueva variante de esta tecnología.
+- Versión 5.0 hasta 5.2: Aumentó la velocidad de transferencia de datos a 50 Mbps y el alcance hasta 200 metros, y realizó mejoras en la transmisión de audio y en el consumo de energía.
+
+El Bluetooth Low Energy mencionado anteriormente fue diseñado para operaciones de bajo consumo de energía, y capaz de soportar tipologías de comunicación (punto a punto, difusión y malla), a diferencia del clásico que solo admite punto a punto. Mientras que el Bluetooth clásico se usa para transferir datos y sonido, BLE es capaz de utilizarse para analizar con alta precisión la presencia, distancia y dirección del dispositivo.
+
+Bluetooth utiliza ondas de radio UHF en las bandas ISM sin licencia de 2,4 GHz, y se utiliza como alternativa a las conexiones por cable para intercambiar ficheros y conectar transmisores de audio. Gracias a su bajo consumo de energía, seguridad, capacidad contra interferecias, compatibilidad con varios sistemas operativos y facilidad de implementación, esta tecnología se convierte en una buena opción para la implementación del Internet de las Cosas. Además, tiene la capacidad de agregar capas de cifrado, autenticación y verificación, y de construir PAN entre dispositivos al interconectar varios entre sí. Es común encontrarlo en pulseras y relojes inteligentes, teléfonos inteligentes, ordenadores, reproductores de música, altavoces, auriculares, y placas de desarrollo como ESP32.
+
+{
+	https://www.bluetooth.com/learn-about-bluetooth/tech-overview/
+	https://en.wikipedia.org/wiki/Bluetooth
+	https://www.xatakahome.com/curiosidades/bluetooth-su-evolucion-estas-diferencias-distintas-versiones
+	https://www.mokosmart.com/es/what-is-bluetooth-iot-and-why-choose-it/
+}
+
+#### Comparaciones entre Wi-Fi, Bluetooth y ESP-NOW
+
+/*TODO: insertar logos*/
+
+Es de alta relevancia comparar estos protocolos, ya que son los más populares en el ámbito del Internet de las Cosas y son compatibles con las placas ESP32 que incorporan el reciente e innovador ESP-NOW. En particular, ESP32 es compatible con Bluetooth 4.2 y con Wi-Fi b, g y n de 2,4 GHz, por lo que a lo largo de este apartado se comparan estas versiones. Estos tres protocolos son similares en varios aspectos, ya que utilizan ondas de radio para transmitir datos de forma inalámbrica a una amplia gama de dispositivos, de manera rápida y fiable. Esto puede resultar en una decisión compleja para elegir entre los tres, aunque hay escenarios en los que no es necesario elegir, ya que en un ESP32 pueden trabajar en conjunto.
+
+De manera más resumida, estas son las características teóricas que ofrecen los protocolos:
+
+1. *ESP-NOW*:
+	- **Alcance**: 220 metros.
+	- **Cantidad de dispositivos conectables**: 20 a cada nodo.
+	- **Unidad de Transmisión Máxima (MTU)**: 250 bytes.
+	- **Velocidad de transmisión**: 1 [Mbps](#Mbps).
+	- **Uso**: [IoT](#IoT) y comunicación entre dispositivos de Espressif.
+2. *Wi-Fi b/g/n (2,4 [GHz](#GHz))*:
+	- **Alcance**: 250 metros.
+	- **Cantidad de dispositivos conectables**: Depende de la configuración de la red y la asignación de direcciones [IP](#IP).
+	- **Unidad de Transmisión Máxima (MTU)**: 1460 bytes, configurado en la librería de red de ESP32.
+	- **Velocidad de transmisión**: 54 [Mbps](#Mbps).
+	- **Uso**: Conexión a internet, acceso a dispositivos e [IoT](#IoT).
+3. *Bluetooth 4.2*:
+	- **Alcance**: 50 metros.
+	- **Cantidad de dispositivos conectables**: 7 a cada nodo.
+	- **Unidad de Transmisión Máxima (MTU)**: 251 bytes.
+	- **Velocidad de transmisión**: 1 [Mbps](#Mbps).
+	- **Uso**: Audio, dispositivos personales e [IoT](#IoT).
+
+/*TODO: referenciar*/
+
+Para detallar las comparaciones aplicando los protocolos en escenarios de uso real, se han tomado los datos de distintas pruebas realizadas y detalladas en una publicación de 2021 llevada a cabo por Dania Eridani, Adian Fatchur Rochim y Faiz Noerdiyan Cesara, miembros del Departamento de Ingeniería Informática de la Universidad de Diponegoro, en Indonesia.
+
+En esta publicación se realizaron pruebas de rango, velocidad, latencia, consumo y resistencia a barreras. Para ello, se utilizaron una placa ESP32 Development Board, una ESP32-CAM y una ESP32U, además de una antena externa de 2.4GHz conectada a la última placa mencionada y utilizada en ciertas pruebas. En la mayoría de las pruebas, estas placas estaban conectadas a 1 metro de distancia entre ellas en un mismo circuito en el cual, al pulsar un botón, iniciaban simultáneamente la transmisión y recepción de datos.
+
+| Prueba realizada                                | ESP-NOW  | Wi-Fi     | Bluetooth |
+| ----------------------------------------------- | :------: | :-------: | :-------: |
+| *Rango máximo (metros), más valor es mejor:*    | | | |
+| · con antena interna                            | **185**  | 84        | 15        |
+| · con antena externa                            | **220**  | 88        | 25        |
+| *Velocidad de transmisión, más valor es mejor:* | | | |
+| · de 200 bytes ([Kbps](#Kbps))                  | 588      | **2048**  | 938       |
+| · del [MTU](#MTU) ([Mbps](#Mbps))               | 0,63     | **24,86** | 0,98      |
+| *Latencia ([μs](#μs)), menos valor es mejor:*   | | | |
+| · con 100 bytes de datos                        | **1869** | 3435      | 8514      |
+| · con 50 bytes de datos                         | **1435** | 3388      | 6460      |
+| · con 10 bytes de datos                         | **1133** | 3367      | 6200      |
+| · con 1 byte de datos                           | **1059** | 3359      | 6048      |
+| *Consumo ([mW](#mW)), menos valor es mejor:*    | | | |
+| · solo conectado, como receptor                 | 489      | 214       | **141**   |
+| · solo conectado, como emisor                   | 449      | 465       | **212**   |
+| · transfiriendo datos, como receptor            | 511      | 477       | **338**   |
+| · transfiriendo datos, como emisor              | 1042     | 538       | **441**   |
+
+: Resultados de las pruebas comparativas realizadas entre los protocolos *TODO: REFERENCIAR*\label{espnow:pruebasComparacionProtocolos}
+
+La primera prueba llevada a cabo fue la de rango máximo, exponiendo las placas en un área residencial con una condición de propagación de alcance visual o line of sight, en la que las ondas viajan en un camino directo desde el emisor al receptor. La prueba se basaba en un emparejamiento correcto entre las placas y la transmisión y recepción de 1 byte, confirmando una transmisión correcta. En la tabla \ref{espnow:pruebasComparacionProtocolos} se pueden observar las distancias máximas obtenidas, demostrando que el uso de una antena externa correctamente instalada es capaz de aumentar el rango en un 18,9%, 4,7% y 66,6% en los protocolos ESP-NOW, Wi-Fi y Bluetooth, respectivamente. Además, ESP-NOW es el protocolo que soporta una mayor distancia entre dos dispositivos interconectados.
+
+La segunda prueba se centró en la capacidad de transmisión de los datos, utilizando código programado en Arduino [IDE](#IDE) para ESP-NOW, Bluetooth Serial y Wi-Fi [UDP](#UDP). Se realizó en dos tandas, la primera utilizando paquetes de 200 bytes, y la segunda utilizando paquetes con un tamaño igual al [MTU](#MTU) de cada protocolo. En el caso de ESP-NOW y Wi-Fi, se requiere de un retardo entre paquetes para prevenir errores de transmisión en ESP-NOW y para alcanzar la velocidad máxima en Wi-Fi. Tras 30 pruebas ejecutadas, cuyos resultados se muestran en la tabla \ref{espnow:pruebasComparacionProtocolos}, se puede concluir que Wi-Fi es el protocolo con mayor capacidad para transmitir datos rápidamente.
+
+Para la prueba de latencia, se realizaron mediciones para cuatro tamaños distintos de paquetes. Los resultados, mostrados en la tabla \ref{espnow:pruebasComparacionProtocolos}, demuestran que la variación del tamaño es directamente proporcional a la latencia: a mayor tamaño, mayor latencia. Se observa que ESP-NOW tiene la menor latencia, 1ms para 1 byte, tres veces menos que Wi-Fi y seis veces menos que Bluetooth, siendo la mejor opción en cuanto a esta propiedad de la conexión. Debido a la baja compatibilidad de dispositivos que admiten ESP-NOW, una buena alternativa sería utilizar Wi-Fi para la transmisión de datos con poco retardo.
+
+El consumo, una propiedad importante en el Internet de las Cosas, fue medido de cuatro maneras distintas, mezclando los dispositivos en modo de transmisor y receptor, y en modo solo conectado o transmitiendo datos. En la tabla \ref{espnow:pruebasComparacionProtocolos} se puede observar que Wi-Fi y ESP-NOW tienen un consumo similar al estar conectados como transmisor, mientras que Bluetooth consume menos tanto como transmisor como receptor. En el caso de transmitir datos, ESP-NOW es el que más consume ya que necesita activar internamente Wi-Fi para funcionar. La prueba demuestra que, en el caso de implementar una batería, la mejor solución puede ser Bluetooth, aunque hay diversas maneras de mejorar el código que se utilice en la placa ESP32 para mejorar la eficiencia energética, como añadir paradas y suspensión.
+
+Finalmente, se evaluó una prueba para comprobar la capacidad y potencia de atravesar barreras con los distintos protocolos, y cómo estas reducen la señal. Para ello, se instaló un dispositivo transmisor a 10 centímetros de una barrera, y el receptor a 5-10 metros de la misma barrera, que es de distintos materiales: madera contrachapada, cristal, metal y muro. La prueba se realiza con distintos materiales, ya que cada uno tiene distintos valores que demuestran la capacidad de absorber, bloquear y reflejar señales. Los resultados demuestran que la madera y el cristal no afectan gravemente a la señal en comparación con la transmisión al aire libre, que el metal afecta de manera más notoria a los 10 metros y que el Bluetooth sin una antena externa no es capaz de atravesar muros a 10 metros.
+
+![Comparación del rendimiento entre protocolos en distintos aspectos **TODO: REFERENCIAR**\label{espnow:rendimientoComparacionProtocolos}](espnow_protocols_comparison.png){width=62%}
+
+Las conclusiones a las que se llega en esta publicación se pueden representar en la figura \ref{espnow:rendimientoComparacionProtocolos}, que muestra que:
+
+- La mayor ventaja de Bluetooth se encuentra en el consumo, ya que su rendimiento en el resto de los aspectos es muy deficiente.
+- ESP-NOW es el mejor candidato cuando se requieren rangos elevados, una señal de comunicación resistente y mínima latencia en velocidades de datos muy pequeñas, pero su uso es poco eficiente de energía.
+- Wi-Fi es un protocolo muy equilibrado, y destaca por su velocidad.
+
+{
+	https://es.wikipedia.org/wiki/Bluetooth_(especificaci%C3%B3n)
+https://docs.espressif.com/projects/esp-faq/en/latest/application-solution/esp-now.html
+https://www.amarinfotech.com/differences-comparisons-bluetooth-5-vs-4-2.html
+https://www.symmetryelectronics.com/blog/bluetooth-5-versus-bluetooth-4-2-what-s-the-difference/
+https://docs.arduino.cc/tutorials/nano-esp32/esp-now/
+https://github.com/espressif/arduino-esp32/blob/master/libraries/Network/src/NetworkUdp.cpp
+https://www.electronicdesign.com/technologies/communications/article/21801788/ble-v42-creating-faster-more-secure-power-efficient-designspart-1
+
+	(documento)https://ieeexplore.ieee.org/document/9573246
+	}
+
+
+## Ejemplo de modelo tradicional publicador-broker-suscriptor con MQTT y ESP32
+
+Tras introducir una serie de conceptos sobre el Internet de las cosas, en este apartado se detallará el ejemplo visto en el apartado de [Internet de las Cosas](#internet-de-las-cosas), en la figura \ref{iot:ejemploRiegoIoT}, que trata de un sistema de riego por aspersión.
+
+La primera parte consiste en identificar los dispositivos a utilizar. Los sensores y actuadores deben estar conectados a un dispositivo capaz de interactuar con ellos, como puede ser una placa ESP32.
+
+El broker utilizará una comunicación basada en colas para recibir todos los datos, integrando así una implementación del protocolo de mensajería [MQTT](#MQTT), como puede ser Mosquitto, que únicamente se puede llevar a cabo si el broker es un ordenador, como un ordenador portátil o un single board computer. Para este ejemplo, se puede suponer que el broker será una placa Raspberry Pi.
+
+Teniendo las placas ESP32 y la Raspberry Pi con Mosquitto, es necesario establecer la comunicación entre ambos. Una de las opciones a evaluar que sea compatible con ambas placas es Bluetooth, pero no es adecuado para una comunicación a larga distancia, ni para transmitir datos en tiempo casi real debido a su su baja velocidad, y tampoco es compatible con Mosquitto. Por lo tanto, se debe utilizar Wi-Fi para que las placas ESP32 publiquen los datos que generen y se suscriban a las órdenes y configuraciones mediante las colas adecuadas de Mosquitto. En este caso, se deberá desplegar una serie de puntos de acceso y routers para formar una red [LAN](#LAN) o [MAN](#MAN) que dote de Internet a todos los dispositivos.
+
+Finalmente, se configuran las placas ESP32 para que, con la ayuda de alguna librería de código, puedan interactuar con las colas de Mosquitto, y también el broker para poder interactuar con el servidor.
+
+La implementación de este sistema de riego presenta una serie de inconvenientes. En cuanto a inversión de dinero y tiempo, implica el despliegue de numerosos puntos de acceso y routers, así como su configuración y mantenimiento. Además, se debe asegurar una buena señal al aire libre, evaluar la zona donde se instalarán y proveer más baterías en los dispositivos que formen esta red.
+
+Todos los dispositivos están conectados en la misma red, por lo que un tráfico alto de datos o una interrupción en el servicio puede provocar una congestión de la red y un mal funcionamiento de la misma.
+
+Finalmente, en cuanto a seguridad, a todos los dispositivos de esta red se les otorga acceso a Internet, por lo que deben estar preparados para no sufrir un ciberataque que pueda invalidar el sistema por completo y todos los dispositivos conectados. Esto supone una mayor complejidad en el despliegue y mayor mantenimiento para evitar un riesgo significativo en la red.
+
+Aunque la implementación de este sistema de riego se puede realizar de distintas maneras, en este ejemplo se intenta demostrar la complejidad que supone un despliegue limitado por utilizar [MQTT](#MQTT) y ESP32 en la actualidad. Pese a que, de manera independiente, ambos tienen grandes ventajas, su combinación supone una complejidad difícil de evitar.
+
+/*TODO: añadir un nuevo esquema*/
+
+{
+	https://www.prometec.net/esp32-mqtt/ (libreria de codigo)
+}
