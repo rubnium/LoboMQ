@@ -14,28 +14,52 @@
 
 #define MAXTOPICLENGTH 10
 
+/**
+ * @enum MessageType
+ * @brief Enumerates every type of message sent between the broker and the 
+ * clients.
+ */
 typedef enum __attribute__((packed)) {
-	MSGTYPE_SUBSCRIBE = (uint8_t)0x00,
-	MSGTYPE_UNSUBSCRIBE,
-	MSGTYPE_PUBLISH
+	MSGTYPE_SUBSCRIBE = (uint8_t)0x00,	/**< Subscribe message, sent from subscriber to broker. */
+	MSGTYPE_UNSUBSCRIBE,								/**< Unsubscribe message, sent from subscriber to broker. */
+	MSGTYPE_PUBLISH											/**< Publish message, sent from publisher to broker or from broker to subscriber. */
 } MessageType;
 
+/**
+ * @struct MessageBase
+ * @brief Structure that contains the fields used by every message.
+ */
 typedef struct {
 	MessageType type;
 } MessageBase;
 
+/**
+ * @struct SubscribeAnnouncement
+ * @brief Structure that contains the fields used by a subscribe message, apart 
+ * from those inherited from the MessageBase.
+ */
 typedef struct : public MessageBase {
-	char topic[MAXTOPICLENGTH];
+	char topic[MAXTOPICLENGTH]; /**< Topic that the subscriber shows interest in. */
 } SubscribeAnnouncement;
 
+/**
+ * @struct UnsubscribeAnnouncement
+ * @brief Structure that contains the fields used by a unsubscribe message, 
+ * apart from those inherited from the MessageBase.
+ */
 typedef struct : public MessageBase{
-	char topic[MAXTOPICLENGTH];
+	char topic[MAXTOPICLENGTH]; /**< Topic that the subscriber no longer shows interest in. */
 } UnsubscribeAnnouncement;
 
+/**
+ * @struct PublishContent
+ * @brief Structure that contains the fields used by a publish message, apart 
+ * from those inherited from the MessageBase.
+ */
 typedef struct : public MessageBase {
-	char topic[MAXTOPICLENGTH];
-	size_t contentSize;
-	void* content[16]; //stores any type of content
+	char topic[MAXTOPICLENGTH];	/**< Topic where the message is published to. */
+	size_t contentSize;					/**< Size of the content. */
+	void* content[16];					/**< Any content stored as bytes. */
 } PublishContent;
 
 
@@ -44,15 +68,15 @@ typedef struct : public MessageBase {
  * This function takes the payload and builds a message that will be published
  * to the specified topic on the broker.
  * @param mac The broker MAC address.
- * @param topic The MQTT topic to publish the message to. It can't contain
- * wildcard characters (`+`, `#`) nor non-UTF-8 characters. Invalid example: 
- * `+/café`. Valid example: `kitchen/coffee`.
+ * @param topic The topic to publish the message to. It can't contain wildcard 
+ * characters (`+`, `#`) nor non-UTF-8 characters. Invalid example: `+/café`. 
+ * Valid example: `kitchen/coffee`.
  * @param payload Pointer to the message payload.
  * @param _logger Pointer to the logger object.
  * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
- * @retval `LMQ_ERR_BAD_ESP_CONFIG`
- * @retval `LMQ_ERR_INVAL_TOPIC`
- * @retval `LMQ_ERR_ESP_SEND_FAIL`
+ * @retval `LMQ_ERR_BAD_ESP_CONFIG` if ESP-NOW couldn't be initialized.
+ * @retval `LMQ_ERR_INVAL_TOPIC` if the given topic is invalid.
+ * @retval `LMQ_ERR_ESP_SEND_FAIL` if the message couldn't be sent.
  */
 LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
 
@@ -62,15 +86,14 @@ LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = dis
  * is interested in receiving all the messages compatible with the specified
  * topic.
  * @param mac The broker MAC address.
- * @param topic The MQTT topic the board subscribes to. Is compatible with
- * wildcard characters (`+`, `#`) when used properly, and can't contain
- * non-UTF-8 characters. Invalid example: `résumé/+/#/garden`. Valid example:
- * `+/+/out/#`.
+ * @param topic The topic the board subscribes to. Is compatible with wildcard 
+ * characters (`+`, `#`) when used properly, and can't contain non-UTF-8 
+ * characters. Invalid example: `résumé/+/#/garden`. Valid example: `+/+/out/#`.
  * @param _logger Pointer to the logger object.
  * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
- * @retval `LMQ_ERR_BAD_ESP_CONFIG`
- * @retval `LMQ_ERR_INVAL_TOPIC`
- * @retval `LMQ_ERR_ESP_SEND_FAIL`
+ * @retval `LMQ_ERR_BAD_ESP_CONFIG` if ESP-NOW couldn't be initialized.
+ * @retval `LMQ_ERR_INVAL_TOPIC` if the given topic is invalid.
+ * @retval `LMQ_ERR_ESP_SEND_FAIL` if the message couldn't be sent.
  */
 LMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
@@ -86,9 +109,9 @@ LMQErrType subscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger())
  * `+/+/out/#`.
  * @param _logger Pointer to the logger object.
  * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
- * @retval `LMQ_ERR_BAD_ESP_CONFIG`
- * @retval `LMQ_ERR_INVAL_TOPIC`
- * @retval `LMQ_ERR_ESP_SEND_FAIL`
+ * @retval `LMQ_ERR_BAD_ESP_CONFIG` if ESP-NOW couldn't be initialized.
+ * @retval `LMQ_ERR_INVAL_TOPIC` if the given topic is invalid.
+ * @retval `LMQ_ERR_ESP_SEND_FAIL` if the message couldn't be sent.
  */
 LMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger());
 
@@ -98,13 +121,13 @@ LMQErrType unsubscribe(uint8_t *mac, char *topic, Elog *_logger = disableLogger(
  * library.
  * @param incomingData The data received.
  * @retval `true` if the data is a MQ message.  
- * @retval `false` if the data is not a MQ message.  
+ * @retval `false` otherwise.  
  * @note This function is recommended to be used at the subscriber side in the
- * data receive callback alongside getMQContent(). Pseudocode example:  
+ * data receive callback alongside getLMQPayload(). Pseudocode example:  
  * ```
  * 	OnReceiveCallback(incomingData) {  
  * 		if isLMQMessage(incomingData)  
- * 			payload = getMQContent(incomingData)  
+ * 			payload = getLMQPayload(incomingData)  
  * 	} 
  * ```
  */
@@ -131,7 +154,7 @@ typedef struct {
  * ```
  * 	OnReceiveCallback(incomingData) {  
  * 		if isLMQMessage(incomingData)  
- * 			payload = getMQContent(incomingData)  
+ * 			payload = getLMQPayload(incomingData)  
  * 	} 
  * ```
  */
