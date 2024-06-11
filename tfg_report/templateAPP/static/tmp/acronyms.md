@@ -38,6 +38,10 @@
 
 : Central Processing Unit, Unidad Central de Procesamiento
 
+<span id='CSS'>CSS</span>
+
+: Cascading Style Sheets, Hojas de Estilo en Cascada
+
 <span id='DDS'>DDS</span>
 
 : Data Distribution Service, Servicio de Distribución de Datos
@@ -57,6 +61,10 @@
 <span id='ETS'>ETS</span>
 
 : Erlang Term Storage, Almacenamiento de términos de Erlang
+
+<span id='GB'>GB</span>
+
+: Gigabyte
 
 <span id='GHz'>GHz</span>
 
@@ -90,6 +98,10 @@
 
 : Institute of Electrical and Electronics Engineers, Instituto de Ingenieros Eléctricos y Electrónicos
 
+<span id='IETF'>IETF</span>
+
+: Internet Engineering Task Force, Grupo de Trabajo de Ingeniería de Internet
+
 <span id='IoT'>IoT</span>
 
 : Internet of Things, Internet de las Cosas
@@ -101,6 +113,10 @@
 <span id='ITU'>ITU</span>
 
 : International Telecommunication Union, Unión Internacional de Telecomunicaciones
+
+<span id='JPEG'>JPEG</span>
+
+: Joint Photographic Experts Group
 
 <span id='Kbps'>Kbps</span>
 
@@ -166,6 +182,14 @@
 
 : Open Systems Interconnection, Interconexión de Sistemas Abiertos
 
+<span id='PDF'>PDF</span>
+
+: Portable Document Format, Formato de Documento Portátil
+
+<span id='PNG'>PNG</span>
+
+: Portable Network Graphics, Gráficos de Red Portátiles
+
 <span id='QoS'>QoS</span>
 
 : Quality of Service, Calidad de Servicio
@@ -206,6 +230,10 @@
 
 : Secure Sockets Layer, Capa de Puertos Seguros
 
+<span id='SVG'>SVG</span>
+
+: Scalable Vector Graphics, Gráficos Vectoriales Escalables
+
 <span id='TCP'>TCP</span>
 
 : Transmission Control Protocol, Protocolo de Control de Transmisión
@@ -217,6 +245,10 @@
 <span id='TFG'>TFG</span>
 
 : Trabajo Final de Grado
+
+<span id='UCLM'>UCLM</span>
+
+: Universidad de Castilla-La Mancha
 
 <span id='UDP'>UDP</span>
 
