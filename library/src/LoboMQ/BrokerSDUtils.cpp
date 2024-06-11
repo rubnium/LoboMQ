@@ -1,4 +1,4 @@
-#include "unnamedMQ/BrokerSDUtils.h"
+#include "LoboMQ/BrokerSDUtils.h"
 
 String replaceChars(const char *str) {
   String result = "";
@@ -79,7 +79,7 @@ void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger,
 				JsonDocument doc;
 				DeserializationError error = deserializeJson(doc, file);
 				if (error) {
-					Serial.printf("Error parsing JSON file %s\n", file.name());
+					Serial.printf("Error parsing JSON file %s\n", file.name()); //TODO: change to log?
 					continue;
 				}
 

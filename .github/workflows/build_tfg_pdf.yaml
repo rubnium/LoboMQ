@@ -1,0 +1,44 @@
+name: Build TFG PDF
+
+on:
+  push:
+    paths:
+      - 'tfg_report/templateAPP/input/**'
+  pull_request:
+    paths:
+      - 'tfg_report/templateAPP/input/**'
+
+jobs:
+  build_container_and_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker "felix.albertos/tfgii" image
+      working-directory: ./tfg_report
+      run: docker build -t="felix.albertos/tfgii" .
+
+    - name: Remove existing Docker container
+      run: |
+        if [ "$(docker ps -aq -f name=tfgii)" ]; then
+          docker rm -f tfgii
+        fi
+    
+    - name: Create output folder
+      run: mkdir -p ${{ github.workspace }}/tfg_report/templateAPP/output
+      
+    - name: Change permissions for directories
+      run: chmod 777 -R ${{ github.workspace }}/tfg_report/templateAPP
+      
+    #- name: See folder
+    #  run: ls "${{ github.workspace }}/tfg_report/templateAPP" -la
+
+    - name: Run Docker "felix.albertos/tfgii" container
+      #run: docker run -v "${{ github.workspace }}/tfg_report/templateAPP":/home/tfgii/templateAPP --workdir /home/tfgii/templateAPP --name tfgii felix.albertos/tfgii
+      run: docker run -v "./tfg_report/templateAPP":/home/tfgii/templateAPP --workdir /home/tfgii/templateAPP --name tfgii felix.albertos/tfgii
+      continue-on-error: true

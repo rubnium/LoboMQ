@@ -1,6 +1,6 @@
-#include "unnamedMQ/Broker.h"
-#include "unnamedMQ/BrokerTopic.h"
-#include "unnamedMQ/BrokerSDUtils.h"
+#include "LoboMQ/Broker.h"
+#include "LoboMQ/BrokerTopic.h"
+#include "LoboMQ/BrokerSDUtils.h"
 
 #define SUBSCRIBETASKS 1
 #define UNSUBSCRIBETASKS 1
@@ -53,7 +53,7 @@ void SubscribeTask(void *parameter) {
         newTopic.subscribe(mac);
 				if (gPersistence) {
 					newTopic.setFilename(replaceChars(subAnnounce->topic).c_str()); //translates the topic to have a compatible filename
-					printf("After setting filename, this is: %s\n", newTopic.getFilename());
+					printf("After setting filename, this is: %s\n", newTopic.getFilename()); //TODO: remove this 
 					writeBTToFile(&newTopic, logger, &mutex, portMAX_DELAY);
 				}
 				topicsVector.push_back(newTopic);
@@ -231,7 +231,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   }
 }
 
-IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, int csSdPin) {
+LMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, int csSdPin) {
 	gWhitelist = whitelist;
 	logger = _logger;
   randomSeed(analogRead(0)); //to generate random numbers
@@ -264,25 +264,25 @@ IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
   //Initialize ESP-NOW and set up receive callback
   if (esp_now_init() != ESP_OK || esp_now_register_recv_cb(OnDataRecv) != ESP_OK) {
     logger->log(CRITICAL, "Couldn't initialize ESP-NOW, aborting!");
-    return MQ_ERR_BAD_ESP_CONFIG;
+    return LMQ_ERR_BAD_ESP_CONFIG;
   }
 
   subMsgQueue = xQueueCreate(10, sizeof(SubscribeTaskParams));
   if (subMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the subscribe message queue, aborting!");
-    return MQ_ERR_XQUEUECREATE_FAIL;
+    return LMQ_ERR_XQUEUECREATE_FAIL;
   }
 
   unsubMsgQueue = xQueueCreate(10, sizeof(UnsubscribeTaskParams));
   if (unsubMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the unsubscribe message queue, aborting!");
-    return MQ_ERR_XQUEUECREATE_FAIL;
+    return LMQ_ERR_XQUEUECREATE_FAIL;
   }
 
   pubMsgQueue = xQueueCreate(10, sizeof(PublishTaskParams));
   if (pubMsgQueue == NULL) {
     logger->log(CRITICAL, "Couldn't create the publish message queue, aborting!");
-    return MQ_ERR_XQUEUECREATE_FAIL;
+    return LMQ_ERR_XQUEUECREATE_FAIL;
   }
 
 
@@ -292,7 +292,7 @@ IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
     snprintf(taskName, sizeof(taskName), "SubscribeTask%d", 0+1);
     if (xTaskCreate(SubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the subscribe task, aborting!");
-      return MQ_ERR_XTASKCREATE_FAIL;
+      return LMQ_ERR_XTASKCREATE_FAIL;
     }
   }
 
@@ -300,7 +300,7 @@ IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
     snprintf(taskName, sizeof(taskName), "UnsubscribeTask%d", i+1);
     if (xTaskCreate(UnsubscribeTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the unsubscribe task, aborting!");
-      return MQ_ERR_XTASKCREATE_FAIL;
+      return LMQ_ERR_XTASKCREATE_FAIL;
     }
   }
 
@@ -308,9 +308,9 @@ IMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
     snprintf(taskName, sizeof(taskName), "PublishTask%d", i+1);
     if (xTaskCreate(PublishTask, taskName, 10000, (void *) i, 1, NULL) != pdPASS) {
       logger->log(CRITICAL, "Couldn't create the publish task, aborting!");
-      return MQ_ERR_XTASKCREATE_FAIL;
+      return LMQ_ERR_XTASKCREATE_FAIL;
     }
   }
 	logger->log(INFO, "Broker is running at %s!", WiFi.macAddress().c_str());
-	return MQ_ERR_SUCCESS;
+	return LMQ_ERR_SUCCESS;
 }

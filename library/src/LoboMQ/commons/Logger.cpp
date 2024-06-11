@@ -25,7 +25,7 @@ Elog *initializeSerialLogger(LoggerClass className, Loglevel level) {
 
 Elog *initializeSDLogger(LoggerClass className, int cs, int sck, int miso, int mosi, Loglevel level) {
   Elog *logger = new Elog();
-	const char *filepath = "lMQ.log";
+	const char *filepath = "LMQ.log";
 	pinMode(cs, OUTPUT);
 	spi.begin(sck, miso, mosi, cs);
 
