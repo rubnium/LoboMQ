@@ -28,6 +28,7 @@ IoT: Internet of Things, Internet de las Cosas
 IP: Internet Protocol, Protocolo de Internet
 ITU: International Telecommunication Union, Unión Internacional de Telecomunicaciones
 JPEG: Joint Photographic Experts Group
+JSON: JavaScript Object Notation, Notación de Objeto de JavaScript
 Kbps: Kilobits por segundo
 KiB: Kibibyte
 LAN: Local Area Network, Red de Área Local

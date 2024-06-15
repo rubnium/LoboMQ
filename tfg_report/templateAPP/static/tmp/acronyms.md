@@ -118,6 +118,10 @@
 
 : Joint Photographic Experts Group
 
+<span id='JSON'>JSON</span>
+
+: JavaScript Object Notation, Notación de Objeto de JavaScript
+
 <span id='Kbps'>Kbps</span>
 
 : Kilobits por segundo
