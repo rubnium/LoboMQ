@@ -21,9 +21,11 @@ TRABAJO FIN DE GRADO
 
 <+placeholder+>
 
-\vspace{2.5cm}
+\vspace{1.0cm}
 
 \Title
+
+\Subtitle
 
 \Name
 

@@ -21,9 +21,11 @@ TRABAJO FIN DE GRADO
 
 GRADO EN INGENIERÍA INFORMÁTICA
 
-\vspace{2.5cm}
+\vspace{1.0cm}
 
 \Title
+
+\Subtitle
 
 \Name
 
