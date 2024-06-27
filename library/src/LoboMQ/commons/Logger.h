@@ -1,6 +1,7 @@
 /**
  * @file Logger.h
  * @author Rubén Gómez Villegas
+ * 
  * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
  */
 
@@ -21,16 +22,21 @@
  * which is being logged.
  */
 enum LoggerClass {
+	/** Broker log class. */
 	BROKER = 0,
+	/** Publisher log class. */
 	PUBLISHER,
+	/** Subscriber log class. */
 	SUBSCRIBER,
-	UNKNOWN /**< Log class unknown or generic. */
+	/** Log class unknown or generic. */
+	UNKNOWN
 };
 
 /**
  * @brief Creates a logger that prints messages to the serial monitor.
+ * 
  * This function creates a logger used by the broker or client which prints 
- * messages to the serial monitor as most critical as the indicated. 
+ * messages to the serial monitor as most critical as the indicated.
  * @param className The log class.
  * @param level The most critical level of registration in which there is 
  * interest.
@@ -41,6 +47,7 @@ Elog *initializeSerialLogger(LoggerClass className, Loglevel level = DEFAULT_LOG
 
 /**
  * @brief Creates a logger that prints messages to a file inside a SD card.
+ * 
  * This function creates a logger used by the broker or client which prints 
  * messages to a file in the SD card as most critical as the indicated. 
  * @param className The log class.
@@ -56,6 +63,7 @@ Elog *initializeSDLogger(LoggerClass className, int cs, int sck, int miso, int m
 
 /**
  * @brief Creates a logger without the ability to print messages.
+ * 
  * This function creates a logger used by the broker or client which will not 
  * print any message produced by the library. 
  * @return A pointer to an Elog instance set up to not log messages.

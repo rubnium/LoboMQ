@@ -26,10 +26,6 @@
 
 : Bluetooth Low Energy, Bluetooth de Baja Energía
 
-<span id='CBCF'>CBCF</span>
-
-: Congressional Black Caucus Foundation, Fundación del Caucus Negro del Congreso de los Estados Unidos
-
 <span id='CoAP'>CoAP</span>
 
 : Constrained Application Protocol, Protocolo de Aplicación Restringida
@@ -82,10 +78,6 @@
 
 : HyperText Transfer Protocol, Protocolo de Transferencia de Hipertexto
 
-<span id='HTTPS'>HTTPS</span>
-
-: HyperText Transfer Protocol Secure, Protocolo Seguro de Transferencia de Hipertexto
-
 <span id='ID'>ID</span>
 
 : Identificador, Identifier
@@ -117,6 +109,10 @@
 <span id='JPEG'>JPEG</span>
 
 : Joint Photographic Experts Group
+
+<span id='JSON'>JSON</span>
+
+: JavaScript Object Notation, Notación de Objeto de JavaScript
 
 <span id='Kbps'>Kbps</span>
 
@@ -233,6 +229,10 @@
 <span id='SVG'>SVG</span>
 
 : Scalable Vector Graphics, Gráficos Vectoriales Escalables
+
+<span id='TB'>TB</span>
+
+: Terabyte
 
 <span id='TCP'>TCP</span>
 

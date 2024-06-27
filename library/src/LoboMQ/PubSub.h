@@ -1,6 +1,7 @@
 /**
  * @file PubSub.h
  * @author Rubén Gómez Villegas
+ * 
  * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
  */
 
@@ -20,9 +21,12 @@
  * clients.
  */
 typedef enum __attribute__((packed)) {
-	MSGTYPE_SUBSCRIBE = (uint8_t)0x00,	/**< Subscribe message, sent from subscriber to broker. */
-	MSGTYPE_UNSUBSCRIBE,								/**< Unsubscribe message, sent from subscriber to broker. */
-	MSGTYPE_PUBLISH											/**< Publish message, sent from publisher to broker or from broker to subscriber. */
+	/** Subscribe message, sent from subscriber to broker. */
+	MSGTYPE_SUBSCRIBE = (uint8_t)0x00,
+	/** Unsubscribe message, sent from subscriber to broker. */
+	MSGTYPE_UNSUBSCRIBE,
+	/** Publish message, sent from publisher to broker or from broker to subscriber. */
+	MSGTYPE_PUBLISH											
 } MessageType;
 
 /**

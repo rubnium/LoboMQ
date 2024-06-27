@@ -2,21 +2,25 @@
 
 ## Herramientas
 
-En este apartado se identifican y describen las distintas herramientas hardware y software que han permitido llevar a cabo este Trabajo de Fin de Grado.
+En este apartado se identifican y describen las distintas herramientas hardware y software que han permitido llevar a cabo este [TFG](#TFG).
 
 ### Hardware
 
 El núcleo de este [TFG](#TFG) se basa en la programación de una placa de desarrollo, por lo que es necesario ciertos elementos hardware para llevarlo a cabo:
 
-**Ordenador portátil**: 
-	Wifi
-	USBs
-	Lector tarjetas SD
+**Ordenador portátil**: es el componente principal para el desarrollo de este [TFG](#TFG), en el cual se han instalado las herramientas necesarias, se ha escrito el código, se ha accedido a herramientas y recursos en línea, y ha permitido subir el código a la placa. En este caso, el ordenador personal del alumno es un Lenovo Ideapad 3 15ALC6, cuyas características destacadas para este trabajo son:
 
-**Dos placas ESP32 DEVKIT V1**: Ambas fueron cedidas por la [UCLM](#UCLM) para el desarrollo de este [TFG](#TFG). este tipo de placas contienen las mismas características que el SoC ESP32 mencionado en el apartado \ref{02_estado_arte.esp32} /*TODO: comprobar funcionamiento referencia*/. Concretando, utiliza el módulo ESP32-WROOM-32.
+- Procesador AMD Ryzen 7 5700 U, de 64 bits y lanzado en enero de 2021, que permite ejecutar aplicaciones y servicios aprovechando sus 8 núcleos, su alta frecuencia de 1,8 [GHz](#GHz) hasta 4,3 [GHz](#GHz) y su bajo consumo @Ryzen7Specs.
+- 12 GB de [RAM](#RAM) DDR4, que almacenan la información temporal generada por los programas en ejecución. Su capacidad determina cuántas tareas simultáneas se pueden ejecutar y su velocidad determina la rapidez de ejecución de estas.
+- Almacenamiento interno SSD de 1 [TB](#TB), encargado de almacenar de manera persistente información como el sistema operativo, las herramientas instaladas y los ficheros de código utilizados en el proyecto.
+- 3 puertos USB, que permiten conectar distintos dispositivos simultáneamente al ordenador, como en este trabajo, las placas para subir el código y observar la salida por terminal durante la ejecución.
+- Lector de tarjetas SD, utilizado para acceder al contenido de la tarjeta SD que se conecta a una de las placas (detallado posteriormente).
+- Adaptador de red Bluetooth y Wi-Fi, para poder conectar el ordenador a Internet y acceder a los recursos necesarios para el desarrollo.
+
+**Dos placas ESP32 DEVKIT V1**: ambas fueron cedidas por la [UCLM](#UCLM) para el desarrollo de este [TFG](#TFG). este tipo de placas contienen las mismas características que el SoC ESP32 mencionado en el apartado \ref{02_estado_arte.esp32} /*TODO: comprobar funcionamiento referencia*/. Concretando, utiliza el módulo ESP32-WROOM-32.
 Las placas están distribuidas en una placa de pruebas o breadboard, permitiendo conectar distintos elementos a los pines de las placas mediante jump wires o cables puente, sin necesidad de soldadura ni diseñar circuitos integrados y facilitando la prueba de componentes. En este caso, tienen conectados distintos módulos y sensores que permiten ampliar las funciones de estas:
 
- - **Módulo lector de tarjeta microSD**: Compuesto por un socket para insertar tarjetas microSD en un circuito impreso del cuál salen 7 pines para poder utilizar el bus SPI de las tarjetas microSD. El SPI o Serial Peripheral Interface es un estándar que se utiliza para transferir información entre circuitos integrados, como pueden ser la placa ESP32 DEVKIT y el lector de tarjetas. Los pines que tiene este módulo son los siguientes:
+ - **Módulo lector de tarjeta microSD**: compuesto por un socket para insertar tarjetas microSD en un circuito impreso del cuál salen 7 pines para poder utilizar el bus SPI de las tarjetas microSD. El SPI o Serial Peripheral Interface es un estándar que se utiliza para transferir información entre circuitos integrados, como pueden ser la placa ESP32 DEVKIT y el lector de tarjetas. Los pines que tiene este módulo son los siguientes:
 	- VCC: Entrada de energía, se conecta a una fuente de alimentación para alimentar el lector.
 	- GND: Conexión a tierra, se conecta al terminal negativo de la fuente de alimentación.
 	- Data In: También conocido como MOSI o Master Output Slave Input, se utiliza para enviar datos desde la placa ESP32 hasta la tarjeta microSD.
@@ -24,11 +28,12 @@ Las placas están distribuidas en una placa de pruebas o breadboard, permitiendo
 	- Serial Clock: Reloj SPI, se utiliza para sincronizar la transferencia de datos entre las placas.
 	- Chip Select: Se utiliza para activar y desactivar la comunicación con el lector.
 	- Card Detect: Se utiliza para detectar si hay una tarjeta insertada en el lector.
-	Para este trabajo, el lector, cedido por la UCLM, se utiliza para leer y escribir datos en una tarjeta microSD desde la ESP32 DEVKIT V1 que actúe como broker y gestione los registros o logs y las direcciones de los dispositivos suscritos contenidos. 
- - **Sensor DHT11**: Sensor digital capaz de medir la temperatura y la humedad, cedido por la UCLM. Alimentado por 3,3 o 5 voltios, es capaz de leer la humedad en el ambiente entre los rangos 20 y 95% (con un 5% de fallo) y la temperatura entre 0 y 50 ºC (con 2 ºC de fallo).
- - **Potenciómetro BQ Zum Kit Advanced**: Contenido originalmente en un kit junto a varios sensores y una placa controladora, este potenciómetro de señal analógica cedido por la UCLM es capaz de devolver un valor en función a su rotación, siendo su rotación máxima 300º, al alimentarlo con 3,3 o 5 voltios.
 
-**Placa ESP32-2432S028R**: Esta placa proporcionada por el autor y popularmente conocida como Cheap-Yellow-Display o CYD para abreviar, se ha utilizado para hacer pruebas del funcionamiento de la herramienta desarrollada, y al igual que las anteriormente mencionadas placas ESP32, está potenciado por un ESP32-WROOM-32. En cuanto a componentes integra:
+	Para este trabajo, el lector, cedido por la UCLM, se utiliza para leer y escribir datos en una tarjeta microSD desde la ESP32 DEVKIT V1 que actúe como broker y gestione los registros o logs y las direcciones de los dispositivos suscritos contenidos. 
+ - **Sensor DHT11**: sensor digital capaz de medir la temperatura y la humedad, cedido por la [UCLM](#UCLM). Alimentado por 3,3 o 5 voltios, es capaz de leer la humedad en el ambiente entre los rangos 20 y 95% (con un 5% de fallo) y la temperatura entre 0 y 50 [ºC](#ºC) (con 2 [ºC](#ºC) de fallo).
+ - **Potenciómetro BQ Zum Kit Advanced**: contenido originalmente en un kit junto a varios sensores y una placa controladora @Pot_TiendaBQ @Pot_KitBQ, este potenciómetro de señal analógica cedido por la [UCLM](#UCLM) es capaz de devolver un valor en función a su rotación, siendo su rotación máxima 300º, al alimentarlo con 3,3 o 5 voltios @Pot_TiendaRobotica.
+
+**Placa ESP32-2432S028R**: esta placa proporcionada por el autor y popularmente conocida como Cheap-Yellow-Display o CYD para abreviar, se ha utilizado para hacer pruebas del funcionamiento de la herramienta desarrollada, y al igual que las anteriormente mencionadas placas ESP32, está potenciado por un ESP32-WROOM-32. En cuanto a componentes integra:
 
  - Pantalla LCD de 2,8 pulgadas con resolución 320x240 píxeles, y táctil de tipo resistivo.
  - LED multicolor RGB.
@@ -36,178 +41,146 @@ Las placas están distribuidas en una placa de pruebas o breadboard, permitiendo
  - Sensor LDR, cuyo valor que devuelve depende de la resistencia que le otorga la luz que recibe.
  - Conectores y pines adicionales para conectar un altavoz y otros módulos.
 
-**Tarjeta microSD**: Tarjeta proporcionada por el alumno autor y utilizada por una de las placas con lector de tarjetas para almacenar los registros o logs y las direcciones de los dispositivos suscritos al broker. Las características de la tarjeta no son deterministas para la tarjeta, ya que las especificaciones no afectan al rendimiento de la herramienta resultante de este TFG. En este caso, la tarjeta microSD utilizada es de la marca Samsung y cuenta con capacidad de almacenamiento de 1 GB.
+**Tarjeta microSD**: tarjeta proporcionada por el alumno autor y utilizada por una de las placas con lector de tarjetas para almacenar los registros o logs y las direcciones de los dispositivos suscritos al broker. Las características de la tarjeta no son deterministas para la tarjeta, ya que las especificaciones no afectan al rendimiento de la herramienta resultante de este [TFG](#TFG). En este caso, la tarjeta microSD utilizada es de la marca Samsung y cuenta con capacidad de almacenamiento de 1 [GB](#GB).
 
-**Adaptador de tarjeta microSD a SD**: Proporcionada por el autor, permite utilizar una tarjeta microSD en un lector de tarjetas SD normal al adaptar su tamaño y forma. Se ha utilizado para leer, modificar y eliminar contenidos de la tarjeta microSD desde el ordenador portátil, útil para hacer probar el funcionamiento de la herramienta.
+**Adaptador de tarjeta microSD a SD**: proporcionada por el autor, permite utilizar una tarjeta microSD en un lector de tarjetas SD normal al adaptar su tamaño y forma. Se ha utilizado para leer, modificar y eliminar contenidos de la tarjeta microSD desde el ordenador portátil, útil para hacer probar el funcionamiento de la herramienta.
 
 {
 	https://www.sparkfun.com/products/544
 	https://es.wikipedia.org/wiki/Serial_Peripheral_Interface
 	https://tienda.bricogeek.com/sensores-temperatura/1574-modulo-sensor-dht11-humedad-y-temperatura.html
-	https://centroderobotica.com/producto/potenciometro-para-proyectos/
-	https://tienda.bq.com/products/componentes-zum-kit-advanced?variant=37589957935292
-	https://educacion.bq.com/zum-kit-advanced/
 	https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/
 }
 
 ### Software
 
-Para poder realizar el desarrollo correcto de este TFG, se han requerido las siguientes piezas de software:
+Para poder realizar el desarrollo correcto de este [TFG](#TFG), se han requerido las siguientes piezas de software:
 
-**Windows 10**: El sistema operativo es clave para poder hacer funcionar el Trabajo de Fin de Grado. En este caso, el autor ha utilizado la versión más reciente a fecha de la escritura de este documento, 22H2. Este sistema operativo desarrollado por Microsoft se encuentra instalado en el ordenador portátil mencionado en el apartado de hardware /*TODO: mencionar*/, y debido a su alta popularidad tiene una gran compatibilidad con la mayoría de aplicaciones existentes, y en este caso es beneficioso para el resto de software mencionado posteriormente. Además, integra:
+**Windows 10**[^herramientasSw:w10]: el sistema operativo es clave para poder hacer funcionar el Trabajo de Fin de Grado. En este caso, el autor ha utilizado la versión más reciente a fecha de la escritura de este documento, 22H2. Este sistema operativo desarrollado por Microsoft se encuentra instalado en el ordenador portátil mencionado en el apartado de hardware /*TODO: mencionar*/, y debido a su alta popularidad tiene una gran compatibilidad con la mayoría de aplicaciones existentes, y en este caso es beneficioso para el resto de software mencionado posteriormente. Además, integra:
 
 - Windows Update y Windows Defender: Permite tener el sistema en la última versión y seguro gracias a los últimos parches de seguridad, una capa de protección importante para los ficheros, la información contenida y la integridad del propio sistema al estar conectado a Internet e instalar aplicaciones. 
 - Explorador de archivos: Como su nombre lo indica, permite navegar entre carpetas y acceder a los archivos, tanto de los discos duros instalados internamente como los externos (por ejemplo, pendrives, tarjetas de memoria o discos).
 - Bloc de notas: Esta herramienta es ideal para crear y editar ficheros de texto plano o, en el caso de este desarrollo, ver ficheros de código de manera rápida.
-- Drivers: Ofrecen compatibilidad y rendimiento con todo el hardware contenido en el ordenador, como procesador, tarjeta gráfica, teclado y ratón, puertos USB, lectores de tarjetas y otros dispositivos externos. En este caso, para poder hacer uso de las placas, se ha necesitado instalar un driver adicional. /*TODO: añadir enlace*/
+- Drivers: Ofrecen compatibilidad y rendimiento con todo el hardware contenido en el ordenador, como procesador, tarjeta gráfica, teclado y ratón, puertos USB, lectores de tarjetas y otros dispositivos externos. En este caso, para poder hacer uso de las placas, se ha necesitado instalar un driver adicional denominado *CH341SER*[^herramientasSw:driver].
+
 La relevancia de usar Windows 10 es mínima, ya que es posible de adaptar el proyecto a un entorno en Linux con pocas o nulas complicaciones. El uso de Windows 10 ha sido decisión del autor por gusto.
 
-**GitHub**: 
-Es ...
-Creado en ...
-Poryectos en repos
-GitHub permite a los equipos de desarrolladores colaborar y realizar cambios en proyectos compartidos alojados en repositorios de Git.
+[^herramientasSw:w10]: <https://www.microsoft.com/es-es/software-download/windows10>
+[^herramientasSw:driver]: <https://www.wch-ic.com/downloads/CH341SER_ZIP.html>
 
-Git es un sistema de control de versiones de código abierto creado en 2005 por Linus Torvalds, que permite a cualquier desarrollador gestionar el código fuente y el historial de cambios mediante comandos ejecutados en una terminal. Tiene la característica de ser distribuido, permitiendo usar ramas para aislar partes del código, como pueden ser nuevas funcionalidades que están en desarrollo, y que no afecte al código final desplegado. Cada parte del equipo puede crear una rama, integrar los cambios que vea necesarios, y luego fusionarla con la rama principal para hacer efectivos estos cambios, lo cual es útil para añadir varias funcionalidades simultáneamente, trabajar varias personas en los mismos ficheros, comprobar las diferencias entre estos, aprobarlas, y volver a una versión funcional anterior en caso de que se encuentren errores. GitHub aprovecha estas funcionalidades y las aplica a su interfaz web, haciendo más accesible los repositorios Git a usuarios con poco conocimiento técnico al evitar recordar comandos específicos.
+**GitHub**[^herramientasSw:gh]: es una plataforma en la nube propiedad de Microsoft que permite a los equipos de desarrolladores almacenar código, colaborar y realizar cambios en proyectos compartidos, alojados en esta plataforma en forma de repositorios de Git.
+Git es un sistema de control de versiones de código abierto creado en 2005 por Linus Torvalds, que permite a cualquier desarrollador gestionar el código fuente y el historial de cambios mediante comandos ejecutados en una terminal. Tiene la característica de ser distribuido, permitiendo usar ramas para aislar partes del código, como pueden ser nuevas funcionalidades en desarrollo, sin afectar al código final desplegado. Cada parte del equipo puede crear una rama, integrar los cambios necesarios y luego fusionarla con la rama principal para hacer efectivos estos cambios. Esto es útil para añadir varias funcionalidades simultáneamente, permitir que varias personas trabajen en los mismos archivos, comprobar las diferencias entre estos, aprobarlas y volver a una versión funcional anterior en caso de que errores. GitHub aprovecha estas funcionalidades con sus repositorios y las aplica a su interfaz web, haciendo su uso sea más accesible para usuarios con poco conocimiento técnico al evitar recordar comandos específicos.
 
-Desde el repositorio Git se puede
+Desde un repositorio en GitHub se pueden crear y modificar ramas, cargar ficheros, realizar *commits* (la unidad de trabajo de GitHub que representa un cambio en el repositorio), ver su histórico para hacer un seguimiento de los cambios realizados, obtener las modificaciones realizadas por otros usuarios y hacer *pull requests* (solicitudes de cambios) para integrar estos cambios en el proyecto. GitHub va un paso más allá de alojar proyectos, ya que permite la gestión de proyectos y la interacción del equipo de desarrollo a través de *issues* que retroalimentan el proyecto y ofrecen ideas, asignación de responsabilidades, hitos, etiquetas, discusiones, y gráficos y tableros estilo Kanban que permiten observar fácilmente el trabajo realizado y por hacer.
 
+Los repositorios pueden ser públicos o privados, siendo en este último caso que el repositorio solo pueden ser vistos por los usuarios agregados y cuya funcionalidad está limitada. La plataforma permite a los usuarios interactuar con repositorios de otros usuarios, incluidos los públicos (GitHub es comúnmente utilizado para alojar proyectos de código abierto), contribuyendo o realizando una bifurcación para adaptarlo como un proyecto distinto. Otras funciones que incluye GitHub son:
 
-Los repositorios pueden ser públicos o privados, siendo en este último caso que el repositorio solo pueden verlo los usuarios agregados y cuya funcionalidad está limitada.
-...
-
-Otras funciones que incluye GitHub son:
-
-- Documentación de proyectos, mediante la creación de ficheros de texto "readme" o "leeme" en lenguaje Markdown en directorios del proyecto.
-- Creación de Wikis.
-- Automatizar pruebas, lanzamientos y despliegues con GitHub Actions, especificando los pasos a ejecutar tras una acción específica realizada en el repositorio.
-- GitHub Codespaces, un IDE online.
-- Alojar páginas web estáticas con GitHub Pages como parte de un repositorio, como blogs, documentación de código y libros.
+- Documentación de proyectos, mediante la creación de ficheros de texto "readme" o "léeme" en lenguaje Markdown en los directorios del proyecto.
+- Creación de wikis.
+- Automatización de pruebas, lanzamientos y despliegues con GitHub Actions, especificando los pasos a ejecutar tras una acción específica realizada en el repositorio.
+- GitHub Codespaces, un [IDE](#IDE) online.
+- Alojamiento de páginas web estáticas con GitHub Pages como parte de un repositorio, como blogs, documentación de código y libros.
 - Gists o fragmentos de código compartibles o utilizables con soporte de control de versiones.
-...
 
-GitHub además soporta planes de pago para aumentar la funcionalidad que ofrece, dar un soporte personalizado a los usuarios y quitar limitaciones de repositorios privados.
+GitHub además soporta planes de pago para aumentar la funcionalidad que ofrece, proporcionar soporte personalizado a los usuarios y quitar limitaciones de repositorios privados.
 
-En el caso de este proyecto, se ha utilizado en el plan gratuito de GitHub un repositorio privado a lo largo del desarrollo para alojar el código, compartirlo fácilmente con los tutores para enviar dudas e informar del estado del proyecto, y llevar un histórico de los cambios realizados. Posteriormente, se ha modificado la visibilidad del repositorio a público para compartir el proyecto a través de la plataforma de librerías de PlatformIO (mencionado posteriormente) y aprovechar la funcionalidad de GitHub Pages para incluir una página web estática que documente las distintas funciones que componen el proyecto, ambas funciones automatizadas a través de GitHub Actions /*TODO: realizar*/
+En el caso de este proyecto, se ha utilizado, con el plan gratuito de GitHub, un repositorio privado durante el desarrollo para alojar el código, compartirlo fácilmente con los tutores para enviar dudas e informar del estado del proyecto, y llevar un histórico de los cambios realizados. Posteriormente, se ha modificado la visibilidad del repositorio a público para compartir el proyecto a través de la plataforma de librerías de PlatformIO (mencionado en los siguientes puntos) y aprovechar la funcionalidad de GitHub Pages para incluir una página web estática que documente las distintas funciones que componen el proyecto, ambas funciones automatizadas a través de GitHub Actions /*TODO: realizar*/. Pese a conocer alternativas a la plataforma, como GitLab, se ha decidido utilizar GitHub por la experiencia previa del alumno y la facilidad de uso que ofrece.
 
-Otra herramienta que ofrece GitHub para no separar la funcionalidad del escritorio local es **GitHub Desktop**, permitiendo simplificar el flujo de trabajo del desarrollador y centrarse en su trabajo. Proporciona una interfaz gráfica que evita interactuar directamente con Git para clonar proyectos, hacer commits, cambiar de rama y ver los cambios y diferencias en los ficheros.
+Otra herramienta que ofrece GitHub para no separar la funcionalidad del escritorio local es **GitHub Desktop**[^herramientasSw:ghDesktop], que permite simplificar el flujo de trabajo del desarrollador y centrarse en su trabajo. Proporciona una interfaz gráfica que evita interactuar directamente con Git para clonar proyectos, hacer *commits*, cambiar de rama y ver los cambios y diferencias en los archivos.
 
-
-///
-Es una plataforma donde se pueden almacenar, compartir y trabajar junto a otros usuarios para escribir codigo
-
-
-Almacenar codigo en un repositorio para:
-- Presentar o compartir trabajo
-- Seguir y administrar cambios en el codigo a lo largo del tiempo
-- Dejar que otros users revisen el codigo y realicen sugerencias
-- Colaborar en un proyecto compartido, sin preocuparse de que los cambios afectarán al trabajo de los otros colaboradores
-Trabajo colaborativo es la caracterisitica fundamental de GH. Es posible gracias a Git, en el que se basa GitHub
-
-Al cargar archivos a GitHub se guardan en repositorio de Git. Git se inicializa para administrar los cambios en el momento de hacer cambios en archivos GitHub
-
-Las herramientas están disponibles tanto desde el naavegador como desde la terminal en un equipo local (crear ramas, cargar archivos, crear repo)
-
-Para colaborar con otros usuarios teneis que estar en el mismo repositorio, extraer los cambios más recientes de los colaboradores, y hacer subidas de los cambios al mismo repositorio
-
-GitHub es un servicio en la nube que aloja un sistema de control de versiones llamado Git
-Permite a los desarrolladores colaborar y realizar cambios en proyectoc compartidos. Y mantener un seguimiento detallado del progreso
-GitHub es una platf de gestión y organización de proyectos basada en la nube que incorpora funciones de control de versiones de Git.
-
-
-GitHub desarrollado en Abril 2008 usando Ruby on Rails. Comprado por Microsoft el 26 de octubre de 2018
-Es plataforma de desarrollo que permite a los desarrollaodres crear, almacenar, gestionar y compartir su codigo
-Usa Git, proporcionando control de acceso, trackeo de bugs, peticiones de software funciones, gestion de tareas, integración continua y wikis para los proyectos. 
-Usado comunmente para alojar proyectos open source
-Los proyectos se pueden acceder usando el git cli, y todos los comandos de git funcionan
-Permite a los usuarios tambien explorar repositorios publicos
-Ofrece funciones de red social, como feeds, followers, wikis y bifurcaciones de proyectos
-Usuarios pueden contribuir a repositorios publicos
-Tambien ofrece repos privados (solo lo pueden usar gente asignada al repositorio) gratuitos y con funcionalidades limitadas de manera gratuita
-
-El proposito principal de GitHub es facilitar el control de versiones y el tracking de issues del desarrollo software. Dispone de labels, milestones, asignación de responsabilidades y un buscador para el trackeo de issues. Luego el control de versiones, se pueden hacer pull requests, ver las diferencias que proponen los cambios y aprobarlas, commiteando esos cambios. Luego hay un historico de commits que se pueden ver
-
-Mas funcionalidades:
-- Informacion de contribuyentes, lenguajes de codigo utilizados, commits
-- Notificaciones
-- Discusiones
-
-
-//
-	GitHub Desktop
-
+[^herramientasSw:gh]: <https://github.com/>
+[^herramientasSw:ghDesktop]: <https://desktop.github.com/>
 
 {
 	https://docs.github.com/es/get-started/start-your-journey/about-github-and-git
 	https://www.hostinger.es/tutoriales/que-es-github
 	https://en.wikipedia.org/wiki/GitHub
+	https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/about-commits
+	https://docs.github.com/es/issues/tracking-your-work-with-issues/about-issues
 	https://desktop.github.com/
 }
 
+**Visual Studio Code**[^herramientasSw:vsc]: es un [IDE](#IDE) ligero, potente, multiplataforma, personalizable y de código abierto creado por Microsoft. El editor no se basa en un sistema de proyectos, sino que permite al usuario abrir uno o varios directorios simultáneamente, formando workspaces o espacios de trabajos compuestos por ficheros que pueden contener distintos lenguajes de programación. Por defecto, soporta los lenguajes JavaScript, TypeScript y Node.js, pero esta lista se puede ampliar mediante extensiones para utilizarlo con C++, Java, Python y otros lenguajes. Estas extensiones, creadas por Microsoft o por terceros, están disponibles en un repositorio central, y además permiten personalizar y extender las funcionalidades del editor, adaptándose a las necesidades del usuario.
 
+Visual Studio Code integra una serie de funcionalidades que lo convierten en un editor ideal para incrementar la productividad del usuario y perfecto para su uso diario, tales como el subrayado de sintaxis y errores, sangría automática, refactorización, autocompletado, sugerencias y fragmentos de código. Ofrece la posibilidad de compilar y ejecutar fácilmente los ficheros de código y proyectos simplemente haciendo clic en el botón de "play", evitando la necesidad de aprender comandos o repetirlos constantemente y agilizando el trabajo del desarrollador. En aquellas ejecuciones de código que pueden resultar en error o son difíciles de comprender ayuda a realizar comprobaciones mediante un depurador interactivo, que permite recorrer el código fuente con puntos de interrupción, inspeccionar variables, ver pilas de llamadas y modificar líneas de código en ejecución. Además, es compatible con repositorios Git, ofreciendo al usuario la posibilidad de ver las diferencias y cambios respecto a la versión localizada en el repositorio, sin necesidad de salir de la aplicación ni usar comandos complejos en la terminal.
 
-
-**Visual Studio Code**: Es un [IDE](#IDE) ligero y de código abierto creado por Microsoft el 29 de abril de 2015, que funciona como un potente editor de código altamente personalizable y ejecutable en Windows, macOS, Linux y navegadores web. El editor no se basa en un sistema de proyectos, sino que permite al usuario abrir uno o varios directorios simultáneamente, formando workspaces o espacios de trabajos compuestos por ficheros que pueden contener distintos lenguajes de programación. Por defecto, soporta los lenguajes JavaScript, TypeScript y Node.js, pero esta lista se puede ampliar mediante extensiones para utilizarlo con C++, Java, Python y otros lenguajes. Estas extensiones, creadas por Microsoft o por terceros, están disponibles en un repositorio central, y además permiten personalizar y extender las funcionalidades del editor, adaptándose a las necesidades del usuario.
-Visual Studio Code integra una serie de funcionalidades que lo convierten en un editor ideal para incrementar la productividad del usuario y perfecto para su uso diario, tales como el subrayado de sintaxis y errores, sangría automática, refactorización, autocompletado, sugerencias y fragmentos de código. Ofrece la posibilidad de compilar y ejecutar fácilmente los ficheros de código y proyectos simplemente haciendo clic en el botón de "play", evitando la necesidad de aprender comandos o repetirlos constantemente y agilizando el trabajo del desarrollador. En aquellas ejecuciones de código que pueden resultar en error o son difíciles de comprender ayuda a realizar comprobaciones mediante un depurador interactivo, que permite recorrer el código fuente con puntos de interrupción, inspeccionar variables, ver pilas de llamadas y modificar líneas de código en ejecución.
-Es compatible con Git y con el control de versiones en dispositivos con Git instalado y en proyectos que formen parte de un repositorio Git, ofreciendo al usuario la posibilidad de ver las diferencias y cambios con la versión localizada en el repositorio, sin necesidad de salir de la aplicación ni usar comandos complejos en la terminal.
-La funcionalidad que ofrece Visual Studio Code no se ve limitada únicamente a la interfaz de usuario, ya que dispone de una lista de comandos ejecutables que se pueden asignar a atajos de teclado.
 Este ha sido el [IDE](#IDE) de preferencia para el desarrollo de este trabajo, y se ha complementado con las siguientes extensiones:
 
-- **PlatformIO**:
-- C/C++ Extension Pack:
-- Better Comments: 
-- Code Spell Checker:
-- Doxygen Documentation Generator: 
-- TODO Highlight y Todo Tree:
-- GitHub Copilot:
+- PlatformIO IDE[^herramientasSw:vscPlatformIO]: habilita el uso de Visual Studio Code como [IDE](#IDE) para el desarrollo de software embebido para distintas plataformas y frameworks utilizando el sistema de PlatformIO (explicado posteriormente) @PlatformIO_VSMarketplace. 
+- C/C++ Extension Pack[^herramientasSw:vscCppPack]: un conjunto de tres extensiones que permiten utilizar Visual Studio Code para el desarrollo de proyectos en C/C++, incluyendo características como resaltado de sintaxis, completado de código, depuración y comprobación de errores @CppExtension_VSMarketplace @CppProgrammingVSC.
+- GitHub Copilot[^herramientasSw:vscGHCopilot]: una herramienta de programación basada en inteligencia artificial que ayuda al desarrollador a escribir código de forma rápida e inteligente @GHCopilot_VSMarketplace. Esta herramienta se puede utilizar para recibir ayuda en cualquier librería, lenguaje y framework popular, ya que el entrenamiento de esta IA se ha realizado a partir de los repositorios públicos alojados en GitHub @GHCopilot_VSMarketplace. GitHub Copilot ofrece sugerencias de código inteligentes mientras se escribe, basándose en el contexto y en los comentarios del propio código. Asimismo, proporciona un chat para realizar consultas sobre cualquier tarea del código, como pedir explicaciones, informarse acerca de conceptos de programación y guiar al usuario para mejorar su código o implementar nuevas funcionalidades @GHCopilot_VSMarketplace @GHCopilot_Overview.
+El uso de esta herramienta está limitado a los usuarios de pago o a quienes disponen de un GitHub Student Developer Pack tras asociar la cuenta de GitHub con el correo de la institución académica. También dispone de una versión de prueba @GHEducation.
+- Better Comments[^herramientasSw:vscBetterComments]: añade diferencias de estilo y enfatizaciones a comentarios en el código destinados a alertar, hacer peticiones, indicar acciones por realizar o TODOs, o remarcar información importante, logrando así comentarios más comprensibles @BetterComments_VSMarketplace.
+- TODO Highlight[^herramientasSw:vscTodoHighlight] y Todo Tree[^herramientasSw:vscTodoTree]: ambas extensiones se utilizan en conjunto para llevar un seguimiento de las tareas que se deben realizar en el código, evitando que el desarrollador las olvide. La primera extensión resalta las líneas que contienen el texto "TODO" y "FIXME" @TODOHighlight_VSMarketplace, útil para llamar la atención del usuario que recorre las líneas del código, mientras que la segunda muestra en forma de árbol todos los "TODO" y "FIXME" que se encuentren en el código @TodoTree_VSMarketplace, para poder agruparlos en un mismo lugar y acceder a ellos fácilmente.
+- Code Spell Checker[^herramientasSw:vscSpellChecker]: un corrector ortográfico que marca los errores ortográficos detectados en los comentarios y en el código, y que ayuda a solucionarlos a través de sugerencias @SpellChecker_VSMarketplace.
+- Doxygen Documentation Generator[^herramientasSw:vscDoxygenDoc]: permite generar automáticamente en formato Doxygen los comentarios junto a parámetros como las descripciones, los parámetros y los valores retornados para su uso en la documentación. Además, ofrece soporte para autocompletado y sugerencias de comandos Doxygen @DoxygenGenerator_VSMarketplace.
 
-/*TODO: poner enlaces y explicar*/
+[^herramientasSw:vsc]: <https://code.visualstudio.com/>
+[^herramientasSw:vscPlatformIO]: <https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide>
+[^herramientasSw:vscCppPack]: <https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-extension-pack>
+[^herramientasSw:vscGHCopilot]: <https://marketplace.visualstudio.com/items?itemName=GitHub.copilot>
+[^herramientasSw:vscBetterComments]: <https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments>
+[^herramientasSw:vscTodoHighlight]: <https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight>
+[^herramientasSw:vscTodoTree]: <https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree>
+[^herramientasSw:vscSpellChecker]: <https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker>
+[^herramientasSw:vscDoxygenDoc]: <https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen>
+
 {
 	https://code.visualstudio.com/docs/editor/whyvscode
 	https://en.wikipedia.org/wiki/Visual_Studio_Code
 }
 
-**Trello**: Es una aplicación web que permite elaborar listas con tareas de forma visual al estilo Kanban, creada en 2011 por Fog Creek Software y vendido a Atlassian, su actual dueño, en 2017.
+**PlatformIO**[^herramientasSw:platformIO]: es una herramienta de código abierto para ingenieros y desarrolladores de software de sistemas embebidos. Permite desarrollar software desde cualquiera de los sistemas operativos modernos de manera sencilla para todo tipo de usuarios, tanto aficionados como profesionales, incluyendo las herramientas necesarias para compilar, ejecutar, subir y escribir el código. Ofrece una amplia compatibilidad, con soporte para más de mil placas embebidas diferentes, más de 40 plataformas de desarrollo y más de 20 marcos de trabajo o frameworks.
 
-Se basa en tableros, compuesto principalmente por los siguientes componentes:
-- Listas: Representadas en formato de columnas, suelen hacer referencia a las distintas fases que puede tener una tarea. Por ejemplo, en un tablero puede haber tres columnas: "por hacer", "en curso", "hecho".
-- Tarjetas: Cada tarjeta en un tablero puede ser una tarea o idea relacionada al trabajo o proyecto, y se colocan en las columnas correspondientes según su estado o tipo. La idea de las tarjetas es moverlas según avance el desarrollo del proyecto. Se les puede además añadir un miembro asignado para reflejar qué usuario está encargado de la tarea, evitando la necesidad de preguntar personalmente; fechas de vencimiento de la tarea, con capacidad de notificar según se acerque la fecha y de marcarlas como realizadas; ficheros adjuntos para organizarlos, descripción, comentarios, y checklists para dividir una tarea grande en distintas tareas pequeñas.
-- Miembros: Cada uno con responsabilidades asignadas a las tarjetas y permisos para utilizar el tablero.
+PlatformIO aloja uno de los mayores registros de librerías embebidas en PlatformIO Registry, lo que permite explorar e instalar de manera sencilla distintas bibliotecas de código, plataformas y herramientas, listadas junto a ejemplos e instrucciones de uso. Este registro se puede utilizar desde la interfaz gráfica de la herramienta, por línea de comandos y desde su página web[^herramientasSw:platformIOReg].
 
+Una de sus características más importantes es la gestión de dependencias integrada. Es común que los proyectos aprovechen funcionalidades ofrecidas en bibliotecas, por lo que el usuario debe referenciar la biblioteca y PlatformIO se encarga de resolver las dependencias al compilar el código. Estas bibliotecas soportadas pueden estar en local (como carpetas o ficheros comprimidos), en un repositorio con control de versiones (como Git) o en el PlatformIO Registry.
 
+Además, contiene un depurador de código, un analizador estático de código, un monitor de puerto serial y soporte para pruebas unitarias.
 
+La manera de utilizar PlatformIO en un proyecto es sencilla, solo es necesario instalar el [IDE](#IDE), indicar la placa y el framework de interés, y PlatformIO se encarga de la descarga e instalación de las herramientas necesarias de forma automática. Además, ofrece cierta flexibilidad y opciones a los desarrolladores, que pueden decidir si usar la herramienta por línea de comandos o con la versión gráfica.
 
+Esta herramienta se integra con otros [IDE](#IDE)s o editores de texto a través de extensiones, siendo Visual Studio Code el más recomendado.
 
-Herramienta en linea para gestionar proyectos y tareas personales
-Herramienta visual que permite a equipos gestionar cualquier tipo de proyecto y flujo de trabajo, y supervisar tareas
-Sencillo, flexible y potente.
+El código de este proyecto se ha creado con PlatformIO y se ha configurado para utilizar la placa ESP32 DEVKIT V1 con la plataforma Espressif32. En cuanto al framework, se ha utilizado el de Arduino, pese a ser posible también utilizar el de Espressif (ESP-IDF), debido a que cumple las necesidades del desarrollador, a la experiencia previa con placas de desarrollo Arduino por parte del autor y a la facilidad de uso. Las diferencias entre ambos son las siguientes:
 
-Usuarios pueden crear tablones de tareas con diferentes columnas y mover tareas entre ellas
-Puede utilizarse para fines personales y empresariales (gesti´´on inmobiliaria, de proyectos sw, tablones de anuncios escolares, planificación de clases, contabilidad, diseño web, juegos, gestión de casos en despachos de abogados)
+- El framework ESP-IDF ofrece un soporte completo de los lenguajes C y C++, permitiendo escribir código eficiente y de alto rendimiento. Por otro lado, Arduino utiliza una implementación simplificada y adaptada a los microcontroladores, limitando la flexibilidad y funcionalidad del código.
+- Las aplicaciones desarrolladas con ESP-IDF están preparadas para hacer uso de los núcleos disponibles en la placa y  su estructura se basa en tareas, mientras que en Arduino por defecto solo se aprovecha de un núcleo y las aplicaciones siguen una estructura en la que se debe declarar una función `setup` y otra `loop`.
+- El framework de Arduino es útil si previamente el desarrollador lo ha utilizado para desarrollar en otras placas, además de ser fácil de usar para quienes no tienen mucha experiencia, y contiene un gran rango de librerías y APIs por defecto que facilitan el desarrollo. En cambio, ESP-IDF se puede utilizar para desarrollar software que requiera controlar funciones avanzadas del hardware, como el consumo de energía y recursos, e incluye un mayor conjunto de herramientas para depurar la placa y gestionar el uso de la memoria.
+- En cuanto a la comunidad, debido a la implementación de Arduino en una gran variedad de placas, es la que mayor comunidad tiene en comparación con ESP-IDF.
 
-Tablero Personalizable según necesidades
-Tableros, listas y tarjetas para ver de forma clara quién está haciendo qué y las tareas pendientes
-Tableros Trello mantienen las tareas organizadas y ayudan a que el equipo avance. Puedes ver todo de un vistazo (tareas pendientes hasta tareas hechas)
-Miembros del tablero: asignar responsabilidades añadiendo miembros a tarjetaas de proyectos y tareas, evita preguntar personalmente quien hace que
-Trello sirve para flujos de trabajo de cualquier proyecto, grande o pequeño
-Gestión de proyectos: mantener tareas ordenadas, plazos controlados y miembros del equipo coordinados
-Consigue reuniones productivas, motivadoras
-Lluvia de ideas: creatividad en el equipo, mantiene visibilidad de las ideas, la colaboración en ellas y su utilidad práctica
+[^herramientasSw:platformIO]: <https://platformio.org/>
+[^herramientasSw:platformIOReg]: <https://registry.platformio.org/>
 
-Admite integraciones: intregar aplicaciones que utilice el equipo en el flujo de trabajo de trello, o añade power-up que te ayude con necesidades concretas
-Admite automatización: por cada tablero, se puede crear automatizaciones sin código. Permite centrarse en el trabajo
-	Crea proceso infalible para hacer avanzar el trabajo con el sistema de automatizacion integrado de trello
-	Ejecuta comandos y establece reglas automatizadas para casi cualquier cosa, para centrarse en lo importante
+{
+	https://docs.platformio.org/en/latest/what-is-platformio.html
+	https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide
+	https://docs.platformio.org/en/latest/platforms/index.html
+	https://docs.platformio.org/en/latest/librarymanager/dependencies.html
+	https://docs.platformio.org/en/latest/integration/ide/index.html
+	https://registry.platformio.org/
+	https://www.espboards.dev/blog/esp-idf-vs-arduino-core/
+}
 
-Gestiona usuarios de forma sencilla en tiempo real y controla permisos de usuario.
+**Trello**[^herramientasSw:trello]: es una aplicación web que permite elaborar listas con tareas de forma visual al estilo Kanban. Esta aplicación de Atlassian se basa en tableros personalizables donde se muestran y categorizan ideas o tareas, compuestos principalmente por:
 
-Permite integrarlo con aplicaciones y servicios que usa el equipo, como Slack, Outlook, Gmail, Jira o GitHub
-catalogo powerups
-Permite powerups para crear flujos de trabajo, que conviertan a trello en casi cualquier cosa que necesites: solucion CRM, tickets de soporte, calendarios
+- Listas: representadas en formato de columnas, suelen hacer referencia a las distintas fases que puede tener una tarea. Por ejemplo, en un tablero puede haber tres listas: "por hacer", "en curso" y "hecho".
+- Tarjetas: cada tarjeta en un tablero puede ser una tarea o idea relacionada con el trabajo o proyecto, y se colocan en las columnas correspondientes según su estado o tipo. La idea de las tarjetas es moverlas según avance el desarrollo del proyecto. Se les puede además añadir un miembro asignado para reflejar qué usuario está encargado de la tarea, evitando la necesidad de preguntar personalmente; fechas de vencimiento de la tarea, con capacidad de notificar según se acerque la fecha y de marcarlas como realizadas; ficheros adjuntos para organizarlos, descripción, comentarios y checklists para dividir una tarea grande en varias tareas pequeñas.
+- Miembros: cada uno con responsabilidades asignadas a las tarjetas y permisos para utilizar el tablero.
 
-Tiene distintos planes de pago, tanto para equipos pequeños como para organizaciones con varios equipos. En mi caso, uso el gratis
+Trello se puede utilizar tanto para fines personales como empresariales, sin importar el tamaño del proyecto, utilizando los tableros para, por ejemplo, la gestión de proyectos de software, realizar anuncios escolares, planificar clases o gestionar los casos en un despacho de abogados. Gracias a la concentración de la información en un tablero, que permite observar todo de un rápido vistazo, se puede realizar un seguimiento sencillo de las tareas y sus plazos, coordinar a los miembros de un equipo y llevar a cabo reuniones productivas y motivadoras.
 
-/*TODO: hablar de extensiones, automatizaciones*/
+Trello tiene la capacidad de ampliar la funcionalidad gracias a las integraciones con otras aplicaciones (como Slack, Gmail o GitHub), a las automatizaciones de tablero sin código (por ejemplo, mover una tarjeta a una determinada lista cuando se complete) para centrarse únicamente en el trabajo, y a los *power-ups*, que actúan como extensiones de la funcionalidad básica de Trello recopiladas en un catálogo.
+
+Para el proyecto, el alumno ha creado un tablero adaptado a sus necesidades (detallado posteriormente) usando el plan gratuito de Trello. Este tablero permite llevar un seguimiento de todas las tareas, tanto de código como de la memoria, realizadas durante el desarrollo, y ha facilitado las reuniones de seguimiento al poder mostrar a los tutores el estado de las tareas. Utiliza los siguientes *power-ups*:
+
+- GitHub[^herramientasSw:trelloGH]: sirve para llevar un seguimiento de lo sucedido en GitHub desde el tablero, como adjuntar a tarjetas ramas, commits, incidencias y pull requests y asociar repositorios a tarjetas @GH_TrelloPU.
+- Smart Fields[^herramientasSw:trelloSmartFields]: permite crear campos personalizados en las tarjetas, como campos de texto, de número o de fecha, y soporta el uso de fórmulas para calcular el valor del campo. Estos campos se pueden mostrar desde la vista general del tablero, sin necesidad de entrar a ver los detalles de la tarjeta @SmartFields_TrelloPU.
+
+[^herramientasSw:trello]: <https://trello.com/es>
+[^herramientasSw:trelloGH]: <https://trello.com/power-ups/55a5d916446f517774210004/github>
+[^herramientasSw:trelloSmartFields]: <https://trello.com/power-ups/5e2212c3ba57415ef2ef9352/smart-fields>
+
 {
 	https://en.wikipedia.org/wiki/Trello
 	https://trello.com/es
@@ -216,17 +189,18 @@ Tiene distintos planes de pago, tanto para equipos pequeños como para organizac
 
 }
 	
-**Doxygen**: Utilizada para la documentación de este trabajo, esta herramienta de código abierto, muy empleada en el desarrollo de software, permite obtener documentación a partir del código de forma sencilla. Desde su primera versión, lanzada el 26 de octubre de 1997, posibilita la generación automática de documentación en distintos formatos, como [HTML](#HTML), [PDF](#PDF), Word y [XML](#XML), a partir de los comentarios insertados en el código durante el desarrollo, analizando la información de las distintas clases, funciones y variables. Gracias a esta automatización, se agiliza y estandariza el proceso de documentación de proyectos, lo cual es beneficioso para entender el proyecto y el código que lo compone, además de mejorar la colaboración entre los miembros del equipo de desarrollo y el mantenimiento del propio código.
-Originalmente ofrece un robusto soporte a C++, pero es compatible con otros lenguajes como C, Python, Java y PHP. La documentación se realiza a partir de comentarios, como el siguiente:
+**Doxygen**[^herramientasSw:doxygen]: utilizada para la documentación de este trabajo, esta herramienta de código abierto, muy empleada en el desarrollo de software, permite obtener documentación a partir del código de forma sencilla. Posibilita la generación automática de documentación en distintos formatos, como [HTML](#HTML), [PDF](#PDF), Word y [XML](#XML), a partir de los comentarios insertados en el código durante el desarrollo, analizando la información de las distintas clases, funciones y variables. Gracias a esta automatización, se agiliza y estandariza el proceso de documentación de proyectos, lo cual es beneficioso para entender el proyecto y el código que lo compone, además de mejorar la colaboración entre los miembros del equipo de desarrollo y el mantenimiento del propio código.
 
-```c++
+Soporta C++, C, Python, Java, PHP y otros lenguajes. La documentación se realiza a partir de comentarios, como se muestra en el Listado \ref{herramientasSw:ejemploDoxygen}.
+
+```{.cpp #herramientasSw:ejemploDoxygen .numberLines caption="Ejemplo de uso de Doxygen" frame=single}
 /**
  * <Descripción corta de la función>
  *
  * <Descripción larga de la función>
  *
- * @param  parametro1 Descripción del primer parámetro de entrada
- * @param  parametro2 Descripción del segundo parámetro de entrada
+ * @param  parametro1 <Descripción del primer parámetro de entrada>
+ * @param  parametro2 <Descripción del segundo parámetro de entrada>
  * @param <Descripción del resto de parámetros>
  * @return <Descripción del valor o valores que retorna>
  */
@@ -234,7 +208,11 @@ public int ejemploFuncion(int parametro1, bool parametro2, ...)
 ```
 
 Entre las capacidades adicionales se encuentran las referencias cruzadas entre distintas partes de la documentación, soporte de Markdown en los comentarios, dibujo de diagramas para representar gráficamente clases, herencias y relaciones entre partes del código, personalización de la documentación resultante y configuración mediante un fichero Doxyfile con distintos parámetros establecidos por el usuario.
-En el caso de este trabajo, se ha generado documentación en formato [HTML](#HTML) para crear una página web con toda la información de las distintas funciones que componen el proyecto, y se ha personalizado con Doxygen Awesome, un tema [CSS](#CSS) aplicable a la página para disponer de una página con un aspecto moderno, limpio y compatible con la interfaz móvil.
+
+En el caso de este trabajo, se ha generado documentación en formato [HTML](#HTML) para crear una página web con toda la información de las distintas funciones que componen el proyecto, y se ha personalizado con Doxygen Awesome[^herramientasSw:doxygenAwesome], un tema [CSS](#CSS) aplicable a la página para disponer de una página con un aspecto moderno, limpio y compatible con la interfaz móvil.
+
+[^herramientasSw:doxygen]: <https://doxygen.nl/>
+[^herramientasSw:doxygenAwesome]: <https://jothepro.github.io/doxygen-awesome-css/>
 
 {
 	https://doxygen.nl/
@@ -242,57 +220,45 @@ En el caso de este trabajo, se ha generado documentación en formato [HTML](#HTM
 	https://jothepro.github.io/doxygen-awesome-css/
 }
 
-**Plantilla de TFG**: Fue desarrollada por Félix Albertos Marco, profesor del Grado de Ingeniería Informática de la sede de la [UCLM](#UCLM) de Talavera de la Reina, ofreciendo una alternativa para desarrollar la memoria del Trabajo de Fin de Grado. Esta plantilla, utilizada en este [TFG](#TFG), se caracteriza por emplear Markdown para redactar todos los apartados, evitando las complicaciones del formato del documento (como el interlineado, fuentes, cabeceras y pie de página y saltos de página), además de proporcionar la portabilidad del trabajo, ya que estos ficheros son de marcado ligero y no necesitan editores ni sistemas operativos específicos. El soporte de Markdown también incluye todos los elementos que este lenguaje ofrece, como tablas, listados, fragmentos de código o formateado del texto.
-Esta plantilla está compuesta por una serie de ficheros y directorios donde el autor debe ir cumplimentando todo lo necesario que quiera reflejar en el documento final. En la raíz del proyecto se encuentra un fichero `config.yaml` donde especificar las propiedades del [TFG](#TFG) (título, autor, tutores, departamento y fecha), y en el mismo nivel se encuentra la carpeta `input`. Dentro de esta, existen ficheros ya creados con ciertos apartados del documento, como el resumen, los acrónimos, la dedicatoria y la declaración de autoría, además de una carpeta para introducir los apartados de anexo y otra para los capítulos. Los apartados y capítulos se escriben en ficheros nombrados con el formato `XX_nombre_capitulo.md`. Además, esta plantilla soporta la inserción de imágenes y las referencias bibliográficas, ambas se deben realizar desde la carpeta de recursos.
-El funcionamiento de esta plantilla es sencillo, ya que opera con una imagen Docker que, utilizando la herramienta Pandoc, convierte los ficheros a LaTeX y genera el documento PDF final, simplemente ejecutando el comando `make docker` (en el caso de tener instalado Docker) o ejecutando la herramienta en una máquina GNU/Linux. La combinación de las características de la plantilla de Félix Albertos permite al alumno centrarse únicamente en el contenido que tiene que escribir, agilizando notablemente el desarrollo del trabajo.
+**Plantilla de [TFG](#TFG)**[^herramientasSw:plantilla]: fue desarrollada por Félix Albertos Marco, profesor del Grado de Ingeniería Informática de la sede de la [UCLM](#UCLM) de Talavera de la Reina, ofreciendo una alternativa para desarrollar la memoria del Trabajo de Fin de Grado. Esta plantilla, utilizada en este [TFG](#TFG), se caracteriza por emplear Markdown para redactar todos los apartados, evitando las complicaciones del formato del documento (como el interlineado, fuentes, cabeceras y pie de página y saltos de página), además de proporcionar la portabilidad del trabajo, ya que estos ficheros son de marcado ligero y no necesitan editores ni sistemas operativos específicos. El soporte de Markdown también incluye todos los elementos que este lenguaje ofrece, como tablas, listados, fragmentos de código o formateado del texto.
+
+Esta plantilla está compuesta por una serie de ficheros y directorios donde el autor debe ir cumplimentando todo lo necesario que quiera reflejar en el documento final. Su funcionamiento es sencillo, ya que opera con una imagen Docker que, utilizando la herramienta Pandoc, convierte los ficheros a LaTeX y genera el documento PDF final, simplemente ejecutando el comando `make docker` (en el caso de tener instalado Docker) o ejecutando la herramienta en una máquina GNU/Linux. El conjunto de las características de la plantilla de Félix Albertos permite al alumno centrarse únicamente en el contenido que tiene que escribir, agilizando notablemente el desarrollo del trabajo.
+
+[^herramientasSw:plantilla]: <https://www.felixalbertos.com/resources/downloads/tfg_template.html>
 
 {
 	https://www.felixalbertos.com/resources/downloads/tfg_template.html
 }
 
-**Teams**:
-Aplicacion de colaboracion en equipo desarrollada por Microsoft, como parte de los productos Microsoft 365.
-Ofrende chat y videoconferencia en el espacio de trabajo, almacenamiento de ficheros e integración de aplicaciones propias y de terceros.
-para las reuniones (se usa tambien el calendario interno)
-Es de uso personal y empresarial. Empresarial permite tener equipos. Viene con microsoft 365, cuenta uclm.
-Se puede meet, call y collaborate con cualquiera con quien trabajes, todo en el mismo lugar
-Team: coleccion de gente, contenido y herramientas basado en un proyecto o grupo especifico. 
-	Pueden ser privados, publicos, y se pueden asignar roles
+**Teams**[^herramientasSw:teams]: es una aplicación multiplataforma de colaboración en equipo. Se puede utilizar de manera gratuita con el plan personal o con una licencia Microsoft 365, diferenciándose en ambos casos la versión empresarial de la personal debido a sus limitaciones.
 
-Canales, dentro de teams: areas designadas para tener conversaciones de un tema específico. 
-	Agrupan conversaciones 
-	Pueden ser privados para ciertos miembros o publico para todo el equipo
-	Soporta conversaciones en hilo
-	Soporta traduccion
-	Se pueden compartir ficheros adjuntandolos a mensajes
-	Permite subir ficheros
+Microsoft 365 es una suscripción que incluye las aplicaciones de Microsoft Office (Word, PowerPoint y Excel), almacenamiento en la nube, copias de seguridad y correo electrónico, que habilita el uso en la nube de éstas y permite mantener siempre la última versión con los parches de seguridad correctos mediante un pago mensual o anual. La [UCLM](#UCLM) provee a sus usuarios de cuentas de Microsoft 365 Empresa, por lo que se ha aprovechado esta suscripción para este desarrollo.
 
-Para grupos pequeños y comunicacion 1 a 1, se pueden usar chats normales
-Mensajes formateables (negrita, cursiva, fragmento de codigo, fuente, tamaño), tambien @
+Teams permite comunicarse con personas a través de mensajes instantáneos formateables, con soporte para menciones, respuestas, adjuntos y traducciones; y a través de reuniones de dos o varios participantes, en forma de llamadas de audio o videollamadas, con capacidad de compartir pantalla, grabar la reunión, colaborar en aplicaciones (como una pizarra compartida) y traducción y transcripción en tiempo real. Tanto las traducciones como las transcripciones reducen la barrera del lenguaje que puede surgir entre personas de diferentes regiones al trabajar en conjunto. Estas opciones de comunicación evitan el uso de múltiples programas o tecnologías, centralizando así toda la comunicación.
 
-Creado en marzo 2017 como competencia a Slack
+Se basa en el concepto de equipos o *teams*, espacios de trabajo compartido para comunidades, grupos o equipos de personas. Se utilizan para compartir mensajes, contenido y herramientas entre los miembros que lo componen, y pueden ser privados o públicos, permitiendo asignar roles y responsabilidades sobre el propio equipo a los miembros. Dentro de los equipos están los canales, áreas para tener conversaciones sobre temas específico en los que es posible restringir el acceso únicamente a ciertos miembros del equipo. Tener canales dentro de los equipos permite subdividir el equipo en grupos de trabajo, agrupar las conversaciones, almacenar ficheros compartidos y reunirse con el resto de miembros.
 
-Funciones
-- Chats: permite a usuarios comunicarse en chats bidireccionales persistentes con uno o varios participantes. Pueden enviarse mensajes, emojis, imagenes, enlaces y archivos
-- Teams/equipos: permite a comunidades, g rupos o equipos contribuir en un espacio de trabajo compartido donde se comparten mensajes y contenidos digitales sobre un tema específico
-- Canales de equipos: permiten a miembros de equipo comunicarse sin usar email ni sms. Usuarios pueden responder a mensajes con texto, imagenes. Mensajes directos envian pmensajes privados, no a todo el canal
-- Conversaciones en grupo: mensajeria instantanea, llamadas de audio y video
-- Reuniones: con multiples participantes, capaces de compartir audio, video, chat y contenido presentado con todos los participantes. Funciones de grabar llamadas y obtener transcripcion y traducciones en tiempo real. Supresión de ruido
+Por otro lado, para realizar una comunicación directa o en grupos pequeños se pueden utilizar chats normales en lugar de equipos.
 
-Chatas de uno a uno o en grupo pequeño
+Teams dispone de otras funciones, como aplicaciones instalables dentro del propio software que permiten ampliar la funcionalidad, y un calendario con capacidad de programar reuniones y enviarlas a otros usuarios para que las acepten o las declinen.
 
-MI USO: REUNIONES CON TUTORES, PONERLAS EN EL CALENDARIO
+Para este [TFG](#TFG), Microsoft Teams ha permitido mantener un contacto directo entre los tutores y el alumno a través de un equipo organizado por canales destinados a las partes de desarrollo y memoria. Estos han agilizado la consulta de dudas y de disponibilidad, y organizar archivos compartidos. Por ejemplo, en el canal destinado a la memoria se alojaron las distintas versiones del documento de la memoria, mientras que en el canal de desarrollo se encuentran enlaces, manuales y códigos de ejemplo. Además, se han programado y celebrado reuniones de seguimiento en esta aplicación, de la cual tanto el alumno como los tutores tenían experiencia de uso.
 
-Hablar de 365 y de que tengo licencia por la uclm
+[^herramientasSw:teams]: <https://www.microsoft.com/es-es/microsoft-teams/group-chat-software/>
 
 {
 	https://teamsdemo.office.com
 	https://en.wikipedia.org/wiki/Microsoft_Teams
-}
+	https://www.microsoft.com/es-es/microsoft-teams/compare-microsoft-teams-business-options
+	https://www.microsoft.com/es-ES/microsoft-365/buy/compare-all-microsoft-365-products
+	}
 
 
-**Visio**: Es un programa para crear diagramas y vectores, creado por Visio Corporation en 1992 y traspasado a Microsoft tras la compra de la empresa el 7 de enero de 2000. Su uso está limitado a los usuarios con licencia de Microsoft 365, servicio mencionado anteriormente y del cual la [UCLM](#UCLM) distribuye la licencia a todos los usuarios de la universidad, como es el caso del autor, quien ha destinado el uso de la aplicación al dibujo de algunos esquemas de la memoria. Este programa, disponible tanto en línea como en una aplicación descargable, permite crear diagramas, imágenes vectoriales y objetos fácilmente, facilitando la visualización de datos e ideas de forma atractiva, lo cual es útil en equipos y en documentación para asegurar de manera sencilla la comprensión de los conceptos.
+**Visio**[^herramientasSw:visio]: es un programa para crear diagramas y vectores. Su uso está limitado a los usuarios con licencia de Microsoft 365, servicio mencionado anteriormente y del cual la [UCLM](#UCLM) distribuye la licencia a todos los usuarios de la universidad, como es el caso del autor, quien ha destinado el uso de la aplicación al dibujo de algunos esquemas de la memoria. Este programa, disponible tanto en línea como en una aplicación descargable, permite crear diagramas, imágenes vectoriales y objetos fácilmente, facilitando la visualización de datos e ideas de forma atractiva, lo cual es útil en los equipos y en la documentación para asegurar de manera sencilla la comprensión de los conceptos.
+
 El programa contiene plantillas personalizables para que los usuarios no partan desde cero en la creación del diagrama, y con las extensas librerías de objetos que incluye se pueden crear diagramas profesionales, como los de flujo, red, Venn, bloques, UML, PERT, organigramas, matrices de negocio o mapas mentales. También ofrece compatibilidad con otras herramientas de Microsoft, como Teams para realizar diagramas en colaboración, y Power BI o Excel, para ofrecer una manera alternativa de visualizar los datos. Los objetos creados con este programa se pueden compartir en su propio formato VSDX, o exportarlos en otros más comunes como [JPEG](#JPEG), [PNG](#PNG) y [PDF](#PDF) para hacerlos accesibles.
+
+[^herramientasSw:visio]: https://www.microsoft.com/es-es/microsoft-365/visio/flowchart-software/
 
 {
 	https://www.microsoft.com/es-es/microsoft-365/visio/flowchart-software#x68bca46524744e268ea489ad8cc29bbb
@@ -300,8 +266,11 @@ El programa contiene plantillas personalizables para que los usuarios no partan 
 }
 
 
-**Inkscape**: Es una herramienta de software gratuita, multiplataforma y de código abierto que permite diseñar gráficos vectoriales. Surgió en 2003 como una bifurcación de otro editor con el mismo propósito, Sodipodi. Este programa permite generar y manipular ficheros [SVG](#SVG), en los cuales las imágenes no están dibujadas por píxeles ni puntos, sino por líneas y vectores, lo que permite ampliar la imagen sin pérdida de calidad. Inkscape se centra en este formato y permite a los diseñadores crear una gran variedad de gráficos, como ilustraciones, diagramas, iconos, logotipos, mapas, diseños y otras imágenes complejas, de forma sencilla. Permite crear imágenes renderizables utilizando formas vectoriales, como líneas, rectángulos, eclipses, estrellas, y texto, los cuales pueden rellenarse con colores, patrones y gradientes, además de modificar el borde de dichos objetos. En caso de que las herramientas incluidas no sean suficientes, dispone de una galería de extensiones instalables para personalizar y aumentar la funcionalidad del programa.
+**Inkscape**[^herramientasSw:inkscape]: Es una herramienta de software gratuita, multiplataforma y de código abierto que permite diseñar gráficos vectoriales. Surgió en 2003 como una bifurcación de otro editor con el mismo propósito, Sodipodi. Este programa permite generar y manipular ficheros [SVG](#SVG), en los cuales las imágenes no están dibujadas por píxeles ni puntos, sino por líneas y vectores, lo que permite ampliar la imagen sin pérdida de calidad. Inkscape se centra en este formato y permite a los diseñadores crear una gran variedad de gráficos, como ilustraciones, diagramas, iconos, logotipos, mapas, diseños y otras imágenes complejas, de forma sencilla. Permite crear imágenes renderizables utilizando formas vectoriales, como líneas, rectángulos, eclipses, estrellas, y texto, los cuales pueden rellenarse con colores, patrones y gradientes, además de modificar el borde de dichos objetos. En caso de que las herramientas incluidas no sean suficientes, dispone de una galería de extensiones instalables para personalizar y aumentar la funcionalidad del programa.
+
 En este trabajo, el uso de Inkscape ha sido para casos específicos en los que se ha requerido una imagen, como puede ser para el logo de la herramienta. /*TODO: todavia no se sabe*/
+
+[^herramientasSw:inkscape]: <https://inkscape.org/es/>
 
 {
 	https://inkscape.org/es/acerca-de/
@@ -309,148 +278,329 @@ En este trabajo, el uso de Inkscape ha sido para casos específicos en los que s
 	https://en.wikipedia.org/wiki/Inkscape
 }
 
-Navegador Web Firefox y Edge para hacer busquedas de informacion del codigo
+**Navegador web**, como Firefox[^herramientasSw:firefox] y Microsoft Edge[^herramientasSw:edge]: utilizados en este proyecto para acceder a las herramientas web mencionadas anteriormente y realizar búsquedas de información acerca de partes del código en desarrollo y del contenido de esta memoria.
+
+[^herramientasSw:firefox]: <https://www.mozilla.org/es-ES/firefox/new/>
+[^herramientasSw:edge]: <https://www.microsoft.com/es-es/edge/>
+
 
 /*TODO: poner lo que vaya a utilizar para diagramas*/
 
 
 ### Lenguajes
 
-C/C++, con librerias Arduino y otras usadas para ESP32
-	Bajo el framework espressif
-MD para escribir la memoria
+**C++**: es un lenguaje de programación diseñado en 1979 por Bjarne Stroustrup para extender el ya existente C y añadir mecanismos de manipulación de objetos. Es un lenguaje que requiere una compilación para que el programa pueda ser ejecutado, además de ser multiparadigma, abarcando programación estructurada, orientada a objetos, genérica e imperativa (es decir, las instrucciones indican cómo realizar una tarea y se conoce el estado del programa durante la ejecución).
 
+La orientación a objetos permite descomponer los proyectos en distintos archivos que contienen tipos de datos abstractos o clases. Estas son estructuras de tipos de datos concretos con un nombre definido. Además, permite asignar propiedades y funciones ejecutables a un objeto de esa clase y relacionar las propias clases con otras, por ejemplo, para que una clase pueda heredar de otra.
+
+Tanto C++ como su predecesor C son lenguajes que requieren que el programador tenga claro qué hacer y cómo hacerlo, ya que permiten al programador expresar lo que quiere hacer sin restringir lo que está permitido. Son lenguajes simples, concisos y rápidos, pero, por otro lado, la compilación del código no comprueba las conversiones incorrectas de tipos, los índices erróneos de arrays ni el mal uso de punteros. Además, no cuentan con un recolector de basura que gestione la memoria automáticamente, por lo que el programador debe realizarlo manualmente. Esto convierte a C++ en un lenguaje frágil y exigente en la gestión de recursos.
+
+C++ fue diseñado teniendo en cuenta la programación de sistemas, tanto grandes como embebidos y con recursos limitados, utilizando el rendimiento, la eficiencia y la flexibilidad como puntos clave de diseño.
+
+{
+	https://www2.eii.uva.es/fund_inf/cpp/temas/1_introduccion/introduccion.html
+	https://academia-lab.com/enciclopedia/programacion-imperativa/
+	http://cslibrary.stanford.edu/101/EssentialC.pdf
+	https://aprendiendoarduino.wordpress.com/2015/03/26/lenguaje-de-programacion-c/
+	https://en.wikipedia.org/wiki/C%2B%2B
+}
+
+En el caso de este trabajo, se utiliza el framework de Arduino, una implementación de este lenguaje que limita las funciones que C++ trae por defecto y se puede usar, e incluye algunas propias. Junto a este lenguaje, se han utilizado las siguientes librerías compatibles con la placa ESP32 y que la añaden funcionalidades y mejoran el desarrollo de código:
+
+ - FreeRTOS[^herramientasSw:freeRtos]: esta biblioteca permite utilizar FreeRTOS como un sistema operativo en el proyecto, encargándose del acceso al hardware y de la gestión de las tareas. Es un sistema operativo en tiempo real, centrado en tener un control preciso del tiempo, y está destinado a ser utilizado en dispositivos embebidos.
+
+	FreeRTOS se basa en tareas definidas por el desarrollador, cada una con su frecuencia de ejecución. Estas tareas se ejecutan dependiendo de su estado, los cuales pueden ser: disponible, en ejecución, suspendida o bloqueada. El núcleo de FreeRTOS es el scheduler o planificador, que se encarga de gestionar y ejecutar las tareas. Este distribuye el tiempo de ejecución del procesador entre las tareas y asigna las tareas a los núcleos del procesador disponibles (solo se puede ejecutar una tarea por núcleo), permitiendo la ejecución en paralelo o alternando la ejecución entre varias tareas. Además, es el responsable de cambiar los estados entre las tareas.
+
+	FreeRTOS también ofrece otras funcionalidades y herramientas, como semáforos para sincronizar tareas, colas para compartir datos entre tareas, temporizadores y un bus de notificaciones.
+
+	{
+		https://es.wikipedia.org/wiki/FreeRTOS
+	https://www.luisllamas.es/como-usar-freertos-en-arduino/
+	}
+
+ - bblanchon/ArduinoJson[^herramientasSw:arduinoJson]: es capaz de abstraer documentos [JSON](#JSON) y las herramientas para serializarlos y deserializarlos, añadiendo una inexistente compatibilidad de C++ con [JSON](#JSON). El formato de texto plano JavaScript Object Notation o [JSON](#JSON) almacena datos de manera estructurada, y es común su uso en sistemas de comunicación que intercambian información y en la operación de páginas web. Soporta objetos como texto, números, booleanos y nulos, los cuales se pueden agrupar dentro de otros objetos o en arrays; y se almacenan en formato clave-valor, facilitando el acceso al valor a través de su clave. Este proyecto utiliza ArduinoJson 7.0.4 para crear ficheros estructurados en los que almacenar propiedades de objetos, como una lista de placa suscriptoras, y almacenarlos en una tarjeta microSD, para poder recuperarlos durante el arranque de la placa ESP32.
+ - x385832/Elog[^herramientasSw:elog]: creada para manejar eficientemente los logs o registros sin que impacte en el rendimiento de la ejecución, añade la capacidad de mostrar los registros por terminal serial, agregarlos a un fichero en una tarjeta SD y almacenarlos en la memoria flash. Admite distintos tipos de registros, dependiendo de cómo de crítico sea el mensaje, diferenciar mensajes por clases especificadas y mostrar marcas de tiempo. En el caso de este trabajo, se utiliza en la versión 1.1.5 para añadir mensajes de registro, como avisos o errores, para informar del estado de la ejecución del código, y ofrecer la posibilidad de almacenar los registros en una tarjeta microSD.
+
+[^herramientasSw:freeRtos]: <https://www.freertos.org/>
+[^herramientasSw:arduinoJson]: <https://registry.platformio.org/libraries/bblanchon/ArduinoJson>
+[^herramientasSw:elog]: <https://registry.platformio.org/libraries/x385832/Elog>
+
+{
+	https://arduinojson.org/v7/faq/automatically-serialize-an-object/
+	https://www.luisllamas.es/en/arduino-json/
+	https://registry.platformio.org/libraries/x385832/Elog
+}
+
+**Markdown**: es un lenguaje de marcado ligero utilizado en este [TFG](#TFG) para redactar los distintos apartados de la memoria. Markdown permite escribir en documentos de texto plano, utilizando su propia sintaxis para indicar formatos especiales y el aspecto que debe tener (como negrita, cursiva o títulos), con la característica de mantener una lectura natural del documento en casos en los que no sea posible previsualizar el formato. A pesar de ser un lenguaje ligero, no limita el uso a únicamente texto, ya que permite insertar imágenes, tablas, listados y otros tipos de elementos.
+
+Otra característica notable es su portabilidad, ya que se trata de ficheros de texto que se pueden abrir con cualquier editor y en cualquier plataforma. Esta portabilidad permite comparar este lenguaje con Word, ya que este último mantiene el contenido encerrado en un formato de archivo propietario. Sin embargo, no todo lo escrito en Markdown se mantiene en ficheros .md, ya que es posible realizar conversiones a otros formatos, como [HTML](#HTML), para ver el contenido desde un navegador web, o [PDF](#PDF), para transformarlo en documento portátil, mediante scripts o aplicaciones. Estas características convierten a Markdown en un candidato ideal para todo tipo de usos, como la creación de sitios web, documentos, libros, presentaciones y mensajes de correo electrónico.
+
+{
+	https://www.markdownguide.org/getting-started/
+}
 
 
 ## Metodología
-En este apartado se deben indicar las metodologías empleadas para planificación y desarrollo del TFG, así como explicar de modo claro y conciso cómo se han aplicado dichas metodologías.
 
-Aqui se dicen como se han aplicado las herramientas
+En este apartado se tratan conceptos básicos de la metodología junto a la forma en la que se aplica a este [TFG](#TFG).
 
-/*TODO: HABLAR AUTOMATIZACIONES, USO DE EXTENSIONES, TRELLO Y MI PLANTILLA, CONTROL DE VERSIONES*/
+### Metodologías tradicionales y ágiles en el desarrollo de software
 
-### Guía Rápida de las Metodologías de Desarrollo del Software
+Las metodologías de desarrollo de software son marcos, compuestos de técnicas y métodos, utilizados con el fin de estructurar, planear y controlar el proceso para aumentar la productividad y la calidad del software. Estas se deben elegir con precaución, ya que, si son apropiadas para el equipo y para el proyecto y su implementación se lleva a cabo correctamente, beneficiarán al proporcionar estimaciones superiores de tiempo y esfuerzo, priorizar las tareas, comprender con claridad los esfuerzos futuros y previos, posibilitar tiempo adicional suficiente para hacer ajustes, reportar al cliente el estado del proyecto y, además, entregar sistemas y productos estables y de calidad @UsoMets @Mets_Tecnitium.
 
-A continuación, se incluye una guía rápida que puede ser de gran utilidad en la elaboración de este capítulo.
+Las metodologías se organizan en dos grandes bloques: las tradicionales y las ágiles.
 
-#### Proceso de Desarrollo de Software
+#### Metodología tradicional
 
-El proceso de desarrollo de software se denomina también ciclo de vida del desarrollo del software (SDLC, Software Development Life-Cycle) y cubre las siguientes actividades:
+Las metodologías tradicionales en el desarrollo de software se caracterizan por su enfoque estructurado y secuencial en la gestión de proyectos. Enfatizan la planificación exhaustiva y la fijación de los requisitos a lograr en las primeras etapas del proyecto, y siguen de manera lineal unas fases bien definidas, abarcando el inicio del proyecto, la planificación, la implementación, la verificación y el mantenimiento, durante las cuales se genera el producto junto a la documentación clara @Mets_Tecnitium @Mets_Feda.
 
-- Obtención y análisis de requisitos (requirements analysis). Es la definición de la funcionalidad del software a desarrollar. Suele requerir entrevistas entre los ingenieros de software y el cliente para obtener el 'qué' y 'cómo'. Permite obtener una especificación funcional del software.
+Por un lado, ofrecen unos objetivos claramente definidos y sus procesos son controlables, pero, por otro lado, el desarrollo requiere más responsabilidad por parte de los involucrados y es poco tolerante a cambios tardíos, ya sean de requisitos o para resolver problemas, influyendo negativamente en el presupuesto y los plazos de entrega @Mets_Tecnitium @Mets_Feda @MetsTradicionales_TecnoDigital.
 
-- Diseño (SW design). Consiste en la definición de la arquitectura, los componentes, las interfaces y otras características del sistema o sus componentes.
+Entre la variedad de esta clase de metodologías se encuentran:
 
-- Implementación (SW construction and coding). Es el proceso de codificación del software en un lenguaje de programación. Constituye la fase en que tiene lugar el desarrollo de software.
+- Desarrollo en cascada: enfocado en la planificación y en el desarrollo lineal de etapas definidas que generan documentación, como el análisis de requisitos, diseño, implementación, pruebas y mantenimiento. Al final del desarrollo, se entrega un único producto que cumple con los requisitos especificados. Ofrece una estructura clara y un buen mantenimiento, pero supone mayores costos al tratar problemas tardíos. Es adecuado en proyectos con requisitos estables y entornos regulados por normativas @MetsTradicionales_TecnoDigital.
+- Proceso Unificado de Desarrollo: centrado en casos de uso y en la gestión de riesgos. Se desarrolla en ciclos iterativos que resultan en incrementos que se van acercando al producto deseado. Utiliza UML para modelar y documentar las partes del sistema, junto a otras buenas prácticas para gestionar los riesgos y mejorar la calidad del producto final. Su uso resulta adecuado en proyectos complejos a gran escala y que necesitan una gestión de riesgos cuidadosa, pero requiere un equipo capacitado @MetsTradicionales_TecnoDigital.
+- Desarrollo en espiral: toma aspectos del desarrollo en cascada y en iteraciones, realizando ciclos que entregan versiones del software y que están formados por fases de planificación, análisis de riesgos, ingeniería y evaluación. Permite adaptar el desarrollo a los cambios y gestionar los riesgos, pero es una metodología compleja de implementar y necesita un equipo eficaz. Es utilizada en proyectos complejos con requisitos cambiantes y un alto nivel de incertidumbre o riesgos @MetsTradicionales_TecnoDigital.
 
-- Pruebas (testing and verification). Verificación del correcto funcionamiento del software para detectar fallos lo antes posible. Persigue la obtención de software de calidad. Consisten en pruebas de caja negra y caja blanca. Las primeras comprueban que la funcionalidad es la esperada y para ello se verifica que, ante un conjunto amplio de entradas, la salida es correcta. Con las segundas se comprueba la robustez del código sometiéndolo a pruebas cuya finalidad es provocar fallos de software. Esta fase también incorpora las pruebas de integración en las que se verifica la interoperabilidad del sistema con otros existentes.
+#### Metodología ágil
 
-- Documentación (documentation). Persigue facilitar la mejora continua del software y su mantenimiento.
+La metodología ágil es una metodología de gestión de proyectos que impulsa el desarrollo iterativo mediante entregas incrementales, la colaboración en equipo y la planificación y el aprendizaje continuos @Agile_MS @AgileDev_MS @Agile_Wikipedia. Está basada en el Manifiesto Ágil, acordado en 2001 por 17 desarrolladores de software agrupados como la Agile Alliance @Agile_Wikipedia, y valora @ManifiestoAgil:
 
-- Despliegue (deployment). Consiste en la instalación del software en un entorno de producción y puesta en marcha para explotación. En ocasiones implica una fase de entrenamiento de los usuarios del software.
+- Los individuos e interacciones sobre los procesos y las herramientas.
+- El software funcionando sobre la documentación extensiva.
+- La colaboración con el cliente sobre la negociación contractual.
+- La respuesta ante el cambio sobre seguir un plan.
 
-- Mantenimiento (maintenance). Su propósito es la resolución de problemas, mejora y adaptación del software en explotación.
+En esta metodología, el desarrollo se realiza en ciclos iterativos breves o sprints de una duración entre 1 y 4 semanas, cuyo resultado es un pequeño incremento de la funcionalidad del software. En los sprints, el equipo realiza la codificación, las pruebas y la comprobación de calidad, fases regidas por requisitos de trabajo pendiente bien definidos y priorizados. En el desarrollo existe el rol del propietario del producto, @AgileDev_MS @Agile_Wikipedia es quien se encarga de representar a las partes interesadas del proyecto y se compromete a responder a las preguntas de los desarrolladores a lo largo de las iteraciones @Agile_Wikipedia. El propietario del producto se encarga de añadir, modificar y repriorizar las tareas pendientes dentro de un listado o backlog al principio de cada sprint, en función de las necesidades del cliente @AgileDev_MS; y al final de cada iteración es quien se reúne con las partes interesadas para revisar el progreso del desarrollo y reevaluar la priorización de las tareas, con la intención de satisfacer a los interesados @Agile_Wikipedia. Además, las tareas con las que se trabaja deben ser claras para el equipo de desarrollo, por lo que requieren una continua refinación por parte del propietario y el equipo hasta que el propio equipo decida que están listas para trabajarlas @AgileDev_MS.
 
-#### Metodologías de Desarrollo Software
+Los incrementos conllevan el beneficio de corregir constantemente errores que surjan y adaptarse a cambios, en vez de tener que enfrentarlos al final del proyecto o en etapas en las que puede resultar muy costoso @Agile_Wikipedia.
 
-Las metodologías son el modo en que las fases del proceso software se organizan e interaccionan para conseguir que dicho proceso sea reproducible y predecible para aumentar la productividad y la calidad del software.
+Una característica fundamental del desarrollo ágil es la comunicación directa y eficaz entre los involucrados, lo que se traduce en la capacidad de comunicar de forma efectiva las necesidades del cliente y las tareas con el equipo de desarrollo. El Manifiesto Ágil sugiere una comunicación cara a cara, que permite reducir el tiempo de preguntas y respuestas para ponerse a trabajar cuanto antes. Es común apoyarse en un radiador de información que muestra el estado del proyecto, como un tablero con post-its o una pantalla grande. Esto se aplica a otra característica del desarrollo: la realización de sesiones de retroalimentación diarias para revisar el progreso, las tareas a completar en el día, los impedimentos y los riesgos. Son sesiones breves, de unos 15 minutos y sin entrar en detalle, ya que tienen el fin de reforzar la comunicación y la coordinación del equipo de desarrollo @Agile_Wikipedia.
 
-Una metodología es una colección de:
+En esta metodología, es común utilizar herramientas y técnicas de integración continua y entrega continua que mejoren la calidad del proyecto y agilicen el desarrollo. Por ejemplo, automatizar la compilación, la ejecución de pruebas y el despliegue. Esto evita procesos lentos y propensos a errores, y permite demostrar un producto de calidad al final de cada iteración @AgileDev_MS @Agile_Wikipedia.
 
-- Procedimientos: indican cómo hacer cada tarea y en qué momento,
+La metodología ágil es adaptativa, es decir, se centra en adaptarse rápidamente a las necesidades cambiantes. Durante la planificación se identifican hitos, pero estos son flexibles, además de que difícilmente se describe el futuro del desarrollo. Esta característica es muy importante, ya que es la que la separa de las metodologías tradicionales predictivas. Las metodologías predictivas planifican las tareas y características previstas en detalle y tienen en cuenta los riesgos conocidos, resultados de un primer análisis exhaustivo. En el caso de no haber tenido en cuenta algún riesgo o que ocurra algún otro imprevisto, puede ser difícil realizar cambios @Agile_Wikipedia. Esta comparación no intenta demostrar que una es superior a la otra, ya que ambas son adecuadas dependiendo de las necesidades específicas del proyecto, e incluso existe la posibilidad de realizar un enfoque híbrido combinándolas @AgileDiffs. 
 
-- Herramientas: ayudas para la realización de cada tarea, y
+Junto a los valores mencionados previamente, el Manifiesto Ágil sigue los siguientes principios @ManifiestoAgil_Principios, algunos de los cuales se han tratado a lo largo de este apartado:
 
-- Ayudas documentales.
+- La prioridad es satisfacer al cliente mediante la entrega temprana y continua de software con valor.
+- Se acepta que los requisitos cambien, incluso en etapas tardías del desarrollo. Los procesos ágiles aprovechan el cambio para proporcionar ventaja competitiva al cliente.
+- La entrega de software funcional es frecuente, entre dos semanas y dos meses, con preferencia al periodo de tiempo más corto posible.
+- Los responsables de negocio y los desarrolladores trabajan juntos de forma cotidiana durante todo el proyecto.
+- Los proyectos se desarrollan en torno a individuos motivados. Deben disponer del entorno y el apoyo que necesitan, y contar con la confianza hacia la ejecución del trabajo.
+- El método más eficiente y efectivo de comunicar información al equipo de desarrollo y entre sus miembros es la conversación cara a cara.
+- El software funcionando es la medida principal de progreso.
+- Los procesos ágiles promueven el desarrollo sostenible. Los promotores, desarrolladores y usuarios debemos ser capaces de mantener un ritmo constante de forma indefinida.
+- La atención continua a la excelencia técnica y al buen diseño mejora la agilidad.
+- La simplicidad, o el arte de maximizar la cantidad de trabajo no realizado, es esencial.
+- Las mejores arquitecturas, requisitos y diseños emergen de equipos auto-organizados.
+- A intervalos regulares, el equipo reflexiona sobre cómo ser más efectivo para, a continuación, ajustar y perfeccionar su comportamiento en consecuencia.
 
-Cada metodología es apropiada para un tipo de proyecto dependiendo de sus características técnicas, organizativas y del equipo de trabajo. En los entornos empresariales es obligado, a veces, el uso de una metodología concreta (p. ej. para participar en concursos públicos). El estándar internacional ISO/IEC 12270 describe el método para seleccionar, implementar y monitorear el ciclo de vida del software.
+Dentro de este tipo de metodología se pueden encontrar, entre otros:
 
-Mientras que unas intentan sistematizar y formalizar las tareas de diseño, otras aplican técnicas de gestión de proyectos para dicha tarea. Las metodologías de desarrollo se pueden agrupar dentro de varios enfoques según se señala a continuación.
-
-- Metodología de Análisis y Diseño de Sistemas Estructurados (SSADM, Structured Systems Analysis and Design Methodology). Es uno de los paradigmas más antiguos. En esta metodología se emplea un modelo de desarrollo en cascada (waterfall). Las fases de desarrollo tienen lugar de modo secuencial. Una fase comienza cuando termina la anterior. Es un método clásico poco flexible y adaptable a cambios en los requisitos. Hace hincapié en la planificación derivada de una exhaustiva definición y análisis de los requisitos. Son metodologías que no lidian bien con la flexibilidad requerida en los proyectos de desarrollo software. Derivan de los procesos en ingeniería tradicionales y están enfocadas a la reducción del riesgo. Emplea tres técnicas clave:
-
-  - Modelado lógico de datos (Logical Data Modelling),
-  - Modelado de flujo de datos (Data Flow Modelling), y
-  - Modelado de Entidades y Eventos (Entity EventModelling).
-
-- Metodología de Diseño Orientado a Objetos (OOD, Object-Oriented Design). Está muy ligado a la OOP (Programación Orientada a Objetos) en que se persigue la reutilización. A diferencia del anterior, en este paradigma los datos y los procesos se combinan en una única entidad denominada objetos (o clases). Esta orientación pretende que los sistemas sean más modulares para mejorar la eficiencia, calidad del análisis y el diseño. Emplea extensivamente el Lenguaje Unificado de Modelado (UML) para especificar, visualizar, construir y documentar los artefactos de los sistemas software y también el modelo de negocio. UML proporciona una serie diagramas de básicos para modelar un sistema:
-
-  - Diagrama de Clases (Class Diagram). Muestra los objetos del sistema y sus relaciones.
-  - Diagrama de Caso de Uso (Use Case Diagram). Plasma la funcionalidad del sistema y quién interacciona con él.
-  - Diagrama de secuencia (Sequence Diagram). Muestra los eventos que se producen
-en el sistema y como este reacciona ante ellos.
-  - Modelo de Datos (Data Model).
-
-- Desarrollo Rápido de Aplicaciones (RAD, Rapid Application Developmnent). Su filosofía es sacrificar calidad a cambio de poner en producción el sistema rápidamente con la funcionalidad esencial. Los procesos de especificación, diseño e implementación son simultáneos. No se realiza una especificación detallada y se reduce la documentación de diseño. El sistema se diseña en una serie de pasos, los usuarios evalúan cada etapa en la que proponen cambios y nuevas mejoras. Las interfaces de usuario se desarrollan habitualmente mediante sistemas interactivos de desarrollo. En vez de seguir un modelo de desarrollo en cascada sigue un modelo en espiral (Boehm). La clave de este modelo es el desarrollo continuo que ayuda a minimizar los riesgos. Los desarrolladores deben definir las características de mayor prioridad. Este tipo de desarrollo se basa en la creación de prototipos y realimentación obtenida de los clientes para definir e implementar más características hasta alcanzar un sistema aceptable para despliegue.
-
-- Metodologías Ágiles. "[...] envuelven un enfoque para la toma de decisiones en los proyectos de software, que se refiere a métodos de ingeniería del software basados en el desarrollo iterativo e incremental, donde los requisitos y soluciones evolucionan con el tiempo según la necesidad del proyecto. Así el trabajo es realizado mediante la colaboración de equipos auto-organizados y multidisciplinarios, inmersos en un proceso compartido de toma de decisiones a corto plazo. Cada iteración del ciclo de vida incluye: planificación, análisis de requisitos, diseño, codificación, pruebas y documentación. Teniendo gran importancia el concepto de "Finalizado" (Done), ya que el objetivo de cada iteración no es agregar toda la funcionalidad para justificar el lanzamiento del producto al mercado, sino incrementar el valor por medio de "software que funciona" (sin errores). Los métodos ágiles enfatizan las comunicaciones cara a cara en vez de la documentación. [...]"}[^agiles_wikipedia] 
-
-[^agiles_wikipedia]: Fuente: [Wikipedia](https://es.wikipedia.org/wiki/Desarrollo_%C3%A1gil_de_software)
-
-### Proceso de Testing
-
-Se debe indicar qué tipo de pruebas se han realizado, por ejemplo las siguientes:
-
-- Pruebas modulares (pruebas unitarias). Su propósito es hacer pruebas sobre un módulo tan pronto como sea posible. Las pruebas unitarias que comprueban el correcto funcionamiento de una unidad de código. Dicha unidad elemental de código consistiría en cada función o procedimiento, en el caso de programación estructurada y cada clase, para la programación orientada a objetos. Las características de una prueba unitaria de calidad son: automatizable (sin intervención manual), completa, reutilizable, independiente y profesional.
-- Pruebas de integración. Pruebas de varios módulos en conjunto para comprobar su interoperabilidad.
-- Pruebas de caja negra.
-- Beta testing.
-- Pruebas de sistema y aceptación.
-- ...
+- Scrum: define de forma flexible roles, eventos, artefactos y reglas que los equipos deben seguir para mejorar la productividad, la calidad del trabajo y la comunicación. Los eventos principales que ocurren son los sprints iterativos e incrementales en los cuales existe un control continuo de la calidad del producto. Debe utilizarse por equipos de menos de 10 personas que sepan autoorganizar su trabajo. En grandes proyectos, el uso de esta metodología puede resultar en una pérdida de la perspectiva general durante el desarrollo. Además, aunque es compatible con todo tipo de proyectos, no es sencillo de integrar en todas las organizaciones @Scrum_Ionos.
+- Kanban: se centra en la mejora del flujo de trabajo, de la productividad y de la calidad a través del uso de un tablero. El tablero muestra las tareas como tarjetas que se van desplazando entre las columnas para representar si están pendientes, en curso o concluidas. Estas columnas admiten priorización y limitación, evitando tener equipos sobrecargados. Las tareas se completan antes de comenzar otras, y ocurren reuniones regulares para obtener retroalimentación. Es una metodología fácil de integrar y que muestra los avances del proyecto de manera sencilla, pero requiere que el trabajo sea divisible en fases y que los miembros se adapten a trabajar en distintas etapas del proceso @Kanban_Ionos.
+- Programación Extrema (eXtreme Programming): se basa en un entorno de comunicación constante entre desarrolladores y cliente, y en el cual existe respeto para tratar errores y críticas. Es utilizada en proyectos en los cuales el cliente no tiene una idea clara del producto final, por lo que ocurren procesos iterativos para entregar una versión y revisarla. Sin embargo, requiere una gran inversión de tiempo y disciplina para llevarla a cabo @XtremeProgram_Ionos.
 
 
-###  Marco Tecnológico
+### Scrum
 
-En esta sección se enumeran las tecnologías y herramientas utilizadas en la elaboración del TFG. A continuación, se citan algunos ejemplos.
+Como está definido en la Guía de Scrum @ScrumGuide, Scrum es un marco de trabajo ligero para el desarrollo ágil de software que ayuda a personas, equipos y organizaciones a generar valor a través de soluciones adaptativas. Busca conseguir un equipo que trabaje en colaboración y obtener el mejor resultado posible de los proyectos, pero en vez de detallar instrucciones específicas a seguir, ofrece una guía de relaciones e interacciones en el equipo. Esta libertad permite usar varios procesos, técnicas y métodos que visibilicen la eficacia de la gestión, el entorno y las técnicas de trabajo para poder mejorarlas.
 
-#### Herramientas CASE (Computer Aided Software Engineering)
+Se basa en el conocimiento adquirido a partir de la experiencia, en la toma de decisiones basada en observaciones, y en el pensamiento centrado en lo esencial. Utiliza un enfoque iterativo e incremental en el cual un equipo con las habilidades necesarias para el proyecto celebra ciertos eventos que previenen y controlan riesgos, inspeccionan, adaptan y desarrollan el trabajo. Estos eventos están envueltos en uno principal, el sprint.
 
-Las herramientas CASE están destinadas a facilitar una o varias de las tareas implicadas en el ciclo de vida del desarrollo de software. Se pueden dividir en la siguientes categorías:
+Los sprints son etapas de desarrollo que duran entre 1 y 4 semanas de trabajo (según se establezca en el equipo). En estos se convierten las ideas en valor para el producto, llamados incrementos, los cuales se producen con cada sprint y avanzan el desarrollo hacia el objetivo del producto final. Los incrementos pasan por una revisión con los interesados del proyecto, y se ajusta lo necesario para poder comenzar el siguiente sprint, uno detrás de otro.
 
-- Modelado y análisis de negocio.
-- Desarrollo. Facilitan las fases de diseño y construcción.
-- Verificación y validación.
-- Gestión de configuraciones.
-- Métricas y medidas.
-- Gestión de proyecto. Gestión de planes, asignación de tareas, planificación, etc.
+Tanto el sprint como los otros eventos tienen utilidad, ya que se puede visibilizar el trabajo realizado en los artefactos, inspeccionar los mismos para detectar variaciones o problemas y adaptar los procesos y los materiales en caso de que el desarrollo se desvíe fuera de los límites aceptables o si el producto resultante es inaceptable.
 
-#### IDE (Integrated Development Environment)
+El proceso de llevar a cabo Scrum se define por sus eventos, roles y artefactos, resumidos en inglés en la figura \ref{scrum:resumenProceso} y que se detallan a lo largo de este apartado.
 
-- Notepad++: [https://notepad-plus-plus.org/](https://notepad-plus-plus.org/)
-- Visual Studio Code: [https://code.visualstudio.com/](https://code.visualstudio.com/)
-- Atom: [https://atom.io/](https://atom.io/)
-- GNU Emacs: [https://www.gnu.org/s/emacs/](https://www.gnu.org/s/emacs/)
-- NetBeans: [https://netbeans.org/](https://netbeans.org/)
-- Eclipse: [https://eclipse.org/](https://eclipse.org/)
-- QtCreator: [https://www.qt.io/ide/](https://www.qt.io/ide/)
-- jEdit: [http://www.jedit.org/](http://www.jedit.org/)
+![Esquema de la ejecución de Scrum (Fuente: @Scrum_image)\label{scrum:resumenProceso}](scrum_process.jpg){width=90%}
 
-#### Depuración
+https://arrizabalagauriarte.com/en/10-principios-clave-metodologias-agile-scrum/
 
-- GNU Debugger: [https://www.gnu.org/s/gdb/](https://www.gnu.org/s/gdb/)
+Durante los sprints y en toda la implementación de Scrum, se encuentra una pequeña unidad de personas responsables: el equipo Scrum. Este equipo es multifuncional, y sus miembros poseen las habilidades necesarias para generar valor en cada sprint. Es autogestionado, asignándose internamente las tareas y la forma de realizarlas, y está enfocado en el objetivo del producto. El equipo Scrum es responsable de llevar a cabo todas las actividades relacionadas con el producto (colaboración con interesados, mantenimiento, desarrollo, investigación y otras), además de crear un incremento útil y valioso en cada sprint. No tiene jerarquías ni subequipos, todos sus miembros están al mismo nivel. El tamaño ideal del equipo es de 10 personas o menos para asegurar la agilidad, facilitar la distribución de tareas entre ellos, promover una buena comunicación y mantener la productividad. Esto no implica que no pueda haber más personas, en dicho caso se organizarán varios equipos Scrum. En el equipo existen tres roles principales:
 
-#### Repositorios y control de versiones
+- Equipo de desarrollo: grupo de personas comprometidas a crear cualquier aspecto de un incremento de calidad en cada sprint. Se encargan de crear el Sprint Backlog con las tareas a realizar durante el sprint y de adaptar su plan de trabajo diario para cumplir con el objetivo del sprint.
+- Propietario del Producto o Product Owner: única persona responsable de maximizar el valor del producto resultante. Se encarga o se responsabiliza de que el Product Backlog contenga las tareas necesarias para alcanzar el objetivo del producto, representen las necesidades de los interesados, estén ordenadas y priorizadas, y sean comprendidas. Toda la organización debe respetar sus decisiones, y cualquier posible Product Backlog debe ser justificado ante él.
+- Scrum Master: responsable de asegurar que Scrum sea comprendido y ejecutado tal y como está definido en la Guía de Scrum, tanto por el equipo de desarrollo como por la organización en su conjunto, por lo que puede ser común a toda la organización. Ayuda a comprender el trabajo, facilita su realización, elimina barreras y mejora las prácticas utilizadas.
 
-- Git: [https://git-scm.com/](https://git-scm.com/)
-- Mercurial: [[https://www.mercurial-scm.org/](https://www.mercurial-scm.org/)
-- Github: [https://github.com/](https://github.com/)
-- Bitbucket: [https://bitbucket.org/](https://bitbucket.org/)
-- SourceTree: [https://www.sourcetreeapp.com/](https://www.sourcetreeapp.com/)
+Estos miembros, junto a los interesados, tienen una idea clara del estado del desarrollo y de las tareas realizadas a partir de los siguientes artefactos, tratados a lo largo de los sprints:
 
-#### Documentación
+- Pila del Producto o Product Backlog: lista ordenada y emergente de las tareas a realizar necesarias para mejorar el producto. Estas tareas se refinan mediante su detallado y división en partes más pequeñas y precisas, listas para ser seleccionadas en la planificación del siguiente sprint. Esta lista se basa en el cumplimiento del objetivo del producto, que es el objetivo a largo plazo.
+- Pila del Sprint o Sprint Backlog: lista de tareas creada por los desarrolladores, que representa el plan de trabajo para el sprint con el fin de lograr el objetivo del sprint. No es fija y se actualiza a lo largo del sprint.
+- Incremento: representa un avance hacia el objetivo del producto. Se generan uno o varios incrementos al final del sprint, los cuales se añaden a los anteriores y se verifican para garantizar su correcto funcionamiento en conjunto. Un incremento se considera completo cuando cumple con los estándares de calidad definidos en la definición de terminado.
 
-- LaTeX: [https://www.latex-project.org/](https://www.latex-project.org/)
-- Markdown: [https://markdown.es/](https://markdown.es/)
-- Doxygen: [https://www.doxygen.nl/](https://www.doxygen.nl/)
-- DocGen: [http://mtmacdonald.github.io/docgen/docs/index.html](http://mtmacdonald.github.io/docgen/docs/index.html)
-- Pandoc: [http://pandoc.org/](http://pandoc.org/)
+Una característica importante de Scrum es la celebración de eventos que permiten inspeccionar y adaptar los artefactos de manera formal. Estos eventos se utilizan para aplicar regularidad a las reuniones y minimizar la necesidad de reuniones no planificadas. La Guía de Scrum recomienda que siempre se realicen en el mismo lugar y a la misma hora para reducir la complejidad. Los distintos tipos de eventos son los siguientes:
 
-#### Gestión y Planificación de Proyectos
+- Sprint: además de lo mencionado anteriormente, cabe detallar algunas características de este evento. El sprint es una etapa en la que se procura mantener constante la calidad del desarrollo y no se realizan cambios que puedan comprometer el objetivo del sprint. Permite modificaciones en el Product Backlog para refinar los elementos, así como aclaraciones y negociaciones con el Product Owner. La ejecución del sprint garantiza la inspección y adaptación del progreso hacia el objetivo del producto al menos una vez al mes. Su duración se justifica porque periodos más largos pueden hacer que el objetivo del sprint se vuelva inválido e incrementen la complejidad y los riesgos. Los sprints cortos limitan el riesgo de coste y esfuerzo a intervalos pequeños, comparables a proyectos de menor envergadura. Los sprints anteriores son útiles para la toma de decisiones y para pronosticar el progreso del sprint, mediante prácticas como el análisis de trabajo pendiente (burn-downs), de trabajo completado (burn-ups) y los flujos acumulativos. Existe la posibilidad de cancelar el sprint si su objetivo se vuelve obsoleto, y solo el Product Owner tiene la autoridad para hacerlo.
 
-- Trello: [https://trello.com/](https://trello.com/)
-- Jira: [https://es.atlassian.com/software/jira](https://es.atlassian.com/software/jira)
-- Asana: [https://asana.com/](https://asana.com/)
-- Slack: [https://slack.com/](https://slack.com/)
-- Basecamp: [https://basecamp.com/](https://basecamp.com/)
-- Teamwork Proyects: [https://www.teamwork.com/project-management-software](https://www.teamwork.com/project-management-software)
-- Zoho Projects: [https://www.zoho.com/projects/](https://www.zoho.com/projects/)
+- Planificación del Sprint: sirve para establecer el trabajo que se realizará durante el sprint. Es el primer evento que se ejecuta antes de comenzar el sprint, en el cual el equipo Scrum colabora para crear un plan. El Product Owner debe asegurarse de que los asistentes estén preparados para discutir los elementos importantes del Product Backlog y su relación con el objetivo del producto. Los temas que se tratan son:
+	- El valor que aporta el sprint y el incremento resultante al producto y a los interesados, definiendo un objetivo del sprint.
+	- Las tareas a realizar durante el sprint, seleccionadas por los desarrolladores a partir del Product Backlog. El equipo Scrum puede refinar estos elementos para aumentar su comprensión y confianza.
+	- El plan del trabajo necesario para crear un incremento que cumpla con la definición de terminado, elaborado por los desarrolladores.
+
+	Este evento no se limita únicamente al equipo Scrum, se pueden invitar a otras personas que asesoren al equipo.
+
+- Scrum diario: es un evento diario de unos 15 minutos realizado durante el sprint en el que los desarrolladores inspeccionan el progreso hacia el objetivo del sprint y adaptan el Sprint Backlog según sea necesario. Los participantes informan brevemente sobre el progreso y generan un plan viable para el siguiente día laboral, identificando impedimentos, promoviendo una toma de decisiones rápida y eliminando la necesidad de reuniones no planificadas. Esto se traduce en un equipo bien comunicado, enfocado y autogestionado. El Scrum diario no tiene una estructura fija y no excluye la posibilidad de realizar discusiones más detalladas a lo largo del día.
+
+- Revisión del Sprint: es una sesión de trabajo colaborativo que se realiza con el fin de inspeccionar los resultados al final del sprint y determinar futuras adaptaciones del proyecto. Durante este evento, el equipo Scrum presenta los resultados de su trabajo a los interesados y se discute el progreso hacia el objetivo del producto, incluyendo posibles ajustes al Product Backlog para satisfacer nuevas oportunidades.
+
+- Retrospectiva del Sprint: es la última reunión del sprint, con el fin de planificar formas de aumentar la calidad y efectividad del desarrollo. El equipo Scrum analiza las interacciones entre personas, los procesos y herramientas, y la definición de terminado para identificar qué salió bien durante el sprint, los problemas encontrados y la forma de resolverlos (en el caso de hacerlo). Tras ello, identifican cambios útiles para mejorar, y se abordan al momento o se añaden al Sprint Backlog.
+
+### OpenUP
+
+OpenUP es definido @OpenUP_UTM como una metodología de desarrollo de software iterativa e incremental que manifiesta el proceso de construir un sistema mediante el desarrollo colaborativo de software, con un enfoque pragmático y una filosofía ágil. A su vez, permite centrar el desarrollo en los casos de uso del usuario final, en la identificación y mitigación de riesgos, y en la arquitectura del sistema desde las primeras fases. Esta metodología está concebida para ser utilizada como una base, conteniendo los elementos fundamentales para el desarrollo, y se le puede añadir o adaptar el contenido de otros procesos según las necesidades del proyecto.
+
+OpenUP se apoya en equipos saludables, colaborativos y con conocimiento compartido acerca del proyecto, en maximizar los beneficios y cumplir con los requisitos, y en utilizar prácticas que permitan obtener retroalimentación temprana y continua a partir de incrementos en la funcionalidad del producto.
+
+Los proyectos que implementan OpenUP se dividen en iteraciones cortas planificadas. El uso de las iteraciones evita la generación innecesaria de documentación, diagramas e iteraciones excesivas, y facilita la detección temprana de errores, haciendo más eficiente el uso de recursos y tiempo. Durante las iteraciones, el equipo se organiza y se compromete para alcanzar los objetivos. Se define una lista de tareas detalladas que resultan en microincrementos y en la entrega de valor a las partes interesadas. Los microincrementos se producen a un ritmo constante y permiten comprender el valor que aporta la iteración al proyecto y el progreso del mismo.
+
+OpenUP organiza las iteraciones en cuatro fases del ciclo de vida del proyecto, compuestas por objetivos y actividades que permiten gestionar eficientemente el proyecto:
+
+- Inicio: se determina el alcance del proyecto y los objetivos a cumplir. Tras esta fase, si se considera viable, el proyecto se continúa.
+- Elaboración: trata la mitigación de riesgos, la arquitectura del sistema, la validación de requisitos, el diseño, los costos y los cronogramas.
+- Construcción: detalla los requisitos y su cumplimiento, el diseño, la implementación de funcionalidades y las pruebas del software.
+- Transición: se centra en la transferencia del software al entorno del cliente, en la aceptación y conformidad del producto por parte de las partes interesadas, en la corrección de defectos y otros ajustes finales.
+
+### Implementación en este proyecto
+
+Tras la definición de los conceptos necesarios acerca de las metodologías, esta sección desarrolla la manera en la que se aplicaron Scrum y OpenUP. El desarrollo de este proyecto se ha realizado teniendo OpenUP en mente, mientras que el esfuerzo de este proyecto se ha gestionado utilizando la metodología Scrum. Pese a conocer que la aplicación no es la más adecuada al ser un equipo más pequeño de lo normal y en el que existe un único desarrollador, la aplicación de esta metodología procura ser fiel con todos los elementos esenciales que la componen. Se ha optado por metodologías ágiles debido a que es un proyecto cuyo desarrollo comienza con unos requisitos básicos y atraviesa fases en las que se identifican fallos de rendimiento, posibles mejoras y nuevos requisitos. Una característica importante de estas metodologías es la constante retroalimentación de los interesados, que permiten redirigir el proyecto según transcurría, y la baja formalidad en cuanto a documentación permitía centrar el esfuerzo en el funcionamiento del proyecto. Por otro lado, la elección ha sido influida por la preferencia y la previa experiencia del autor con estas metodologías.
+
+#### Roles y artefactos
+
+En este proyecto han participado los tutores y el alumno con los roles distribuidos de la siguiente manera:
+
+- Interesados: los tutores Rubén Cantarero Navarro y Ana Rubio Ruiz.
+- Equipo de desarrollo: compuesto únicamente por el alumno Rubén Gómez Villegas.
+- Product Owner: los tutores Rubén Cantarero Navarro y Ana Rubio Ruiz.
+- Scrum Master: tanto el alumno como los tutores. Debido a que ambas partes tienen conocimiento acerca de Scrum y llegaron a un acuerdo acerca de como gestionar este proyecto, no ha sido necesaria la intervención de este rol. 
+
+Los distintos artefactos Scrum se han representado en un tablero Kanban creado con Trello para facilitar el seguimiento de la metodología. Un tablero Kanban funciona como una herramienta ágil para gestionar proyectos, ayudando a visualizar el trabajo, limitar el trabajo en curso y maximizar la eficiencia del mismo @Kanban_Atlassian @Kanban_Miro, además de tener equipos comprometidos con una cantidad de trabajo adecuada @Kanban_Atlassian. Está compuesto por tarjetas y otras señales visuales que describen el trabajo, permitiendo que los compañeros y los interesados conozcan su estado @Kanban_Atlassian. Las tarjetas están agrupadas en columnas que representan etapas del flujo de trabajo, y se van moviendo entre columnas según avanza la tarea hasta su finalización @Kanban_Atlassian @Kanban_Miro.
+
+/*TODO: insertar imagen del tablero. Clonar tablero, mostrar entre sprints 4 y 1, hide empty  columns*/
+
+El tablero de Trello utilizado es una representación digital de Kanban, creado por y para el alumno y las necesidades del desarrollo, y contiene las siguientes columnas:
+
+- *Info, templates and utils*: contiene información del tablero y una tarjeta que actúa como plantilla para representar tareas.
+- *Product backlog*: contiene las tareas propias de un Product Backlog de Scrum.
+- *Sprint backlog*: contiene las tareas propias de un Sprint Backlog de Scrum.
+- *In progress*: lista las tareas que se están ejecutando a lo largo del sprint. Son tareas que aún no están finalizadas.
+- *Review/Testing*: representa las tareas que se han terminado de desarrollar pero que deben pasar por una revisión de su correcto funcionamiento y otra del cumplimiento con las necesidades de los interesados, siendo esta última ejecutada durante la revisión del sprint.
+- *Done (Sprint X)*: cuando las tareas están terminadas, acaban en esta lista, en la cual se marcan apropiadamente como finalizadas. Existe una lista por cada sprint, para poder diferenciar qué tarea se hizo cuándo, siendo "X" el número del sprint.
+
+![Vistas de las tarjetas del tablero: vista previa (izquierda) y detallada (derecha)\label{metodologia:vistasTarjetasTrello}](trello_vistasTarjeta.png){width=80%}
+
+Como se ha mencionado anteriormente, las tarjetas se mueven dependiendo de la fase en la que se encuentren. Las tarjetas representan tareas, y se muestran en dos vistas, mostradas en la figura \ref{metodologia:vistasTarjetasTrello}: la vista previa, que muestra la tarjeta resumida en una columna, y la vista detallada, la cual se abre al hacer clic en la tarjeta resumida. Las tarjetas tienen las siguientes propiedades configuradas:
+
+- Miembros: quienes se encargan de la tarea. Son usuarios registrados en Trello y miembros del tablero que pueden autoasignarse o ser asignados por otros.
+- Etiquetas: se utilizan para clasificar de manera visual el tipo de tarjeta. Existen 6 tipos distintos, cada uno con un color y patrón (útil para las personas con daltonismo) como se puede ver en la figura \ref{metodologia:etiquetasTrello}, siendo posible aplicar varios simultáneamente. Son los siguientes:
+
+	![Etiquetas disponibles en el tablero\label{metodologia:etiquetasTrello}](trello_etiquetas.png){width=40%}
+
+	- *New feature*, verde: la tarjeta representa una tarea cuyo resultado es una nueva funcionalidad en el proyecto.
+	- *Test*, amarillo: la tarjeta representa una tarea que prueba funciones y elementos ya existentes en el proyecto.
+	- *Fix*, naranja: la tarjeta representa una tarea que arregla funciones y elementos ya existentes en el proyecto.
+	- *Blocked*, rojo: la tarjeta representa una tarea pausada debido a un impedimento u obstáculo, como una dependencia de otra tarea.
+	- *Details card*, azul: la tarjeta muestra información, no representa ninguna tarea.
+	- *Report*, rosa: la tarjeta representa una tarea relacionada con esta memoria del proyecto.
+
+- Vencimiento: fecha límite de realización de la tarea.
+- Sprint: un campo personalizado que representa el número del sprint de la tarea.
+- Weight: un campo personalizado numérico que representa el número del sprint de la tarea. El weight o peso es un número subjetivo que representa la dificultad, el tiempo a dedicar y la experiencia o falta de esta por parte del desarrollador respecto a una tarea.
+- Card count: un campo personalizado numérico utilizado para contabilizar la cantidad de tarjetas en una lista. Siempre tiene el valor 1 y está oculto.
+- Descripción: en el caso de necesitar detallar o añadir información adicional a las tareas, existe este campo.
+- Actividad: muestra las acciones que han ocurrido (como el paso de una lista a otra o la asignación de miembros) y permite a los miembros del tablero hacer comentarios.
+
+En este tablero se pueden identificar dos tipos de tarjetas: las tarjetas de información y las de tareas. Las de tareas se crean a partir de una plantilla y se mueven entre las listas durante los sprints. En cambio, las de información son fijas y sirven para detallar el uso de una lista y resumir su contenido. Éstas se encuentran en la primera posición de las listas, tienen la etiqueta azul y dos campos que se pueden observar desde la vista previa:
+
+- Sum of Weight: calcula la suma de los pesos de una lista de tareas. Útil para calcular el peso total de un sprint.
+- Sum of Card count: calcula la cantidad de tareas en una lista. Debido a que Trello por defecto no proporciona una forma de realizar esto, el campo es útil en las listas en las que no caben todas las tarjetas en pantalla, además que sirve para comparar entre sprints la cantidad de tareas hechas.
+
+Además, las tarjetas de información en los sprints indican la fecha de inicio y fin del sprint. En el caso de ser un sprint finalizado, se le adjunta el pull request realizado en GitHub para conocer fácilmente el incremento del producto al que dio lugar.
+
+En el tablero se ha habilitado la automatización que ofrece Trello a través de la selección de varios triggers o disparadores y de acciones consecuentes relacionadas con las propiedades de las tarjetas y las acciones realizables sobre ellas. En este proyecto, las reglas activadas son las siguientes, mostradas en la figura \ref{metodologia:reglasAutomTrello}:
+
+![Reglas de automatización utilizadas en el tablero\label{metodologia:reglasAutomTrello}](trello_automatizaciones.png){width=100%}
+
+1. *Cuando una tarjeta sin miembro asignado se mueve al Sprint backlog por un miembro X, el miembro X se le asigna, se establece la fecha de vencimiento a 1 semana y se añade el comentario "Añadido al Sprint backlog"*: automatiza la selección de una tarea para ejecutarla durante el sprint.
+2. *Cuando una tarjeta se mueve a cualquier lista "Done" por cualquiera, marcar la fecha de vencimiento como completa*: automatiza el completado de una tarea.
+3. *Cuando la fecha de vencimiento de una tarjeta se marca como completa, se añade el comentario "Completado"*: automatiza el registro del completado de una tarea.
+4. *Cuando una tarjeta se mueve fuera de cualquier lista "Done" por cualquiera, marcar la fecha de vencimiento como incompleta*: automatiza la reversión del completado de una tarea.
+5. *Cuando la fecha de vencimiento de una tarjeta se marca como incompleta, se añade el comentario "Tarea reabierta"*: automatiza el registro de la reapertura de una tarea.
+
+Cabe recalcar que este tablero lo ofrece el alumno para su uso en cualquier desarrollo de software, y que en este caso su contenido está en inglés debido a que su uso ha sido en gran parte para gestionar la parte codificada, también en inglés, de este [TFG](#TFG).
+
+
+#### Ejecución de los eventos
+
+Los eventos definidos en [Scrum](#Scrum) se han realizado mediante Teams, donde se programan las reuniones para crear recordatorios y llevarlas a cabo, evitando el consumo de tiempo que supone para el alumno y los tutores el desplazamiento, y facilitando la manera de mostrar código y otros aspectos del proyecto. Se han ejecutado de la siguiente forma:
+
+**Planificación del sprint**: antes de iniciar el sprint, el desarrollador y los Product Owners comparan los objetivos del proyecto y las necesidades con las tareas ya realizadas, y debaten sobre qué tareas nuevas añadir en forma de tarjetas al product backlog para realizar a lo largo del desarrollo. Estas tareas también se pueden basar en ideas surgidas tanto por el desarrollador como por los propietarios. Asimismo, se planifica el fin del sprint, limitando el tiempo a 1 semana si el incremento se basa en el código del producto, o a 2 semanas si el incremento se basa en la documentación y la memoria de este proyecto; y se consideran las tareas para añadirlas al sprint backlog y así realizarlas en el sprint entrante, con el suficiente refinamiento y que resulten en uno o varios incrementos previamente debatidos. Estas tareas son añadidas a la lista correspondiente del tablero y el desarrollador rellena los campos de manera apropiada, incluyendo el peso de la tarea, siendo este un valor útil para conocer si es demasiada tarea a realizar en un sprint. Normalmente, si el equipo de desarrollo fuera de mayor tamaño habría que llevar a cabo procesos como el *planning poker* para estimar un peso con el que el equipo esté de acuerdo. Pero como no es el caso, el desarrollador elige un valor de la secuencia modificada de Fibonacci: 0.5, 1, 2, 3, 5, 8, 13, 20, 40 o 100. Como parte final del sprint, se programan las demás reuniones y la próxima planificación del sprint. Finalmente, en el tablero Kanban se prepara una nueva lista *Done* con el número del sprint.
+
+**Sprint**: a lo largo del sprint, el desarrollador ejecuta las tareas establecidas en el sprint backlog haciendo uso de las herramientas correspondientes. En cuanto comienza una tarea, la tarjeta es añadida a la lista *In progress* y se moverá hacia la lista *Review/Testing* cuando se finalice. Dentro de esta fase, la tarea puede pasar por pruebas realizadas dentro del sprint, y si se reconsidera como no completada, se mueve de vuelta a *In progress*. Dichas tareas se cumplen siguiendo la calidad definida en los siguientes apartados, y durante su progreso se irán realizando *commits* o publicaciones con los cambios al repositorio, concretando más, en la rama `develop` (se explica acerca de esta rama en posteriores apartados). A modo de añadir métricas de tiempo invertido en el desarrollo, los sprints se han realizado a lo largo de los días de la semana, con una jornada no fija de entre 1 y 8 horas diarias.
+
+**Scrum diario**: no se ha realizado debido a que el equipo de desarrolladores está formado únicamente por el autor y a que los otros roles de Scrum ya conocen la tarea a realizar a lo largo del sprint por la reunión de planificación. Por otro lado, los tutores han mostrado la predisposición de atender lo antes posible cualquier consulta, ya sea a través de llamada rápida o mensaje de Teams, siendo esto un buen sustitutivo del Scrum diario.
+
+**Revisión del sprint**: el desarrollador y los product owners revisan el estado final de las tareas establecidas en el sprint, además de probar la nueva funcionalidad del incremento. Tras una posible modificación rápida, las tarjetas de tareas del tablero Kanban son movidas a la columna *Done* del correspondiente sprint, marcándose así como completadas, y se realiza un pull request desde la rama `develop` a `main`, aumentando la versión del producto (ramas y versionado explicados en posteriores apartados). En el caso de ser una versión superior a la 1.0.0, se ejecuta el proceso de crear un release en el repositorio, subir la nueva versión del producto al registro de PlatformIO y generar la página web de documentación.
+
+**Retrospectiva del sprint**: utilizadas para comentar el rendimiento de los sprints, la idoneidad de la cantidad de tareas, mejoras en la gestión del proyecto y en las propias reuniones. Por ejemplo, en una reunión de este tipo se debatió el paso de sprints de 1 semana a 2 semanas cuando las tareas están relacionadas con la redacción y no con el código, debido a que las primeras consumían más tiempo. No existía un procedimiento para el desarrollo de esta reunión, simplemente el tema se exponía y se resolvía en consecuencia.
+
+### Control de versiones
+
+En este apartado se detalla la forma en la que se ha implementado el control de versiones, una característica beneficiosa en el desarrollo de software, ya que permite a los equipos de desarrollo trabajar en paralelo evitando conflictos en el código. Además, facilita el rastreo y la gestión de los cambios realizados a lo largo del desarrollo, y permite comparar el estado actual del código fuente con versiones previas para resolver errores @ControlVersiones. Para este [TFG](#TFG), se han aprovechado las herramientas que ofrece GitHub, como las ramas, los pull requests y las liberaciones o releases.
+
+![Ilustración de Gitflow (Fuente: @Gitflow_Img)\label{metodologia:gitflow}](gitflow.png){width=75%}
+
+En cuanto a la ramificación del repositorio, se utiliza una adaptación del flujo de trabajo Gitflow, un modelo de creación de ramas publicado en 2010 por Vincent Driessen, útil para proyectos de entrega continua @Gitflow_Atlassian. Según la publicación @Gitflow_Nvie, y para detallar la figura \ref{metodologia:gitflow}, existen dos ramas principales que perduran a lo largo del tiempo: `master` o `main`, que registra el historial de publicación oficial del proyecto, y `develop`, en la cual se van integrando las funciones para la siguiente liberación del código. Cuando el código de la rama `develop` se encuentra en un punto estable y listo para la liberación, todos los cambios se fusionan hacia la rama `master`, lo que se traduce en una nueva versión del producto que se etiqueta. Junto a estas ramas, se utilizan otras con un tiempo de vida limitado y que en algún momento se eliminarán:
+
+- Ramas de características o *feature*: se utilizan para desarrollar nuevas características para una futura versión. Se crean a partir de `develop`, existen mientras la característica está en desarrollo, y finalmente se fusionan de nuevo hacia `develop` añadiendo la característica, o se descartan.
+- Ramas de lanzamiento o *release*: nombradas `release-<next-version>`, se utilizan para preparar una nueva versión de producción. Se crea una a partir de `develop` cuando este último refleja las características destinadas a la versión a construir, se le asigna un número de versión, se mantiene la rama para añadir cambios ligeros y metadatos, hasta que finalmente está lista para el lanzamiento y se fusiona en `master`, representando una nueva versión. También se fusiona hacia `develop`, para mantener esos pequeños cambios realizados a esta rama.
+- Ramas de parche rápido o *hotfix*: nombradas `hotfix-<next-version>`, se utilizan para resolver un fallo crítico en una versión de producción. Se crea a partir de `master`, se solventa el problema y finalmente se fusiona en `master`, aumentando la versión del producto, y en `develop`.
+
+El uso de Gitflow por parte del alumno proviene de la previa experiencia utilizándolo y la compatibilidad que tiene con las metodologías del proyecto, pero en este caso difiere respecto a lo definido anteriormente:
+
+- No se utilizan ramas de características. Al ser un equipo de desarrollo de un solo miembro y al no haberse planeado el desarrollo de distintas características en paralelo (la complejidad del proyecto no lo requiere), se ha considerado innecesaria la creación de este tipo de ramas, por lo que todos los cambios se van publicando a la rama `develop`.
+- No se utilizan ramas de lanzamiento. Para simplificar el desarrollo, la única rama que contiene los lanzamientos es `main`, y en caso de realizar un ligero cambio en el código se crean ramas *hotfix*. `develop` se fusiona directamente hacia `main`, y si luego ocurre un *hotfix* en `main`, `main` se fusiona hacia `develop`.
+
+Para etiquetar las versiones se ha utilizado un versionado semántico, que sirve para lanzar versiones que puedan indicar a los sistemas dependientes si dicha versión puede romper el funcionamiento del sistema. En su definición @Semver se trata el formato de la versión, que es `X.Y.Z`, formado por números enteros no negativos ni precedidos por ceros, y el incremento de versiones está definido de la siguiente forma:
+
+- `X`, versión mayor: se han realizado cambios incompatibles. Cada incremento de `X` provoca establecer `Y` y `Z` a 0.
+- `Y`, versión menor: se ha añadido funcionalidad compatible con versiones anteriores. Cada incremento de `Y` provoca establecer `Z` a 0.
+- `Z`, versión parche: repara errores compatibles con versiones anteriores.
+
+La primera versión lanzada al público se define como `1.0.0`, y es posible agregar identificadores y metadatos a versiones prelanzamiento. Por ejemplo, `1.0.0-alpha+001`.
+
+Se ha preferido el versionado semántico sobre otros, como el versionado de calendario (usado por Ubuntu, cuya versión 24.04 muestra que salió en abril de 2024). Por ejemplo, ante el de calendario, es preferible este uso para que la versión no muestre una sensación de obsolescencia al utilizar una versión lanzada hace años ni una falta de madurez al utilizar una versión lanzada recientemente. De manera general, su uso se debe a la facilidad, la comprensión y a la previa experiencia del alumno.
+
+/*TODO: hablar de automatización (RELEASES AUTOMATICAS, GENERACION DE LA WEB, CUANDO SE IMPLEMENTE)*/
+
+### Criterios de calidad y estilo del código
+
+A lo largo del desarrollo del código, se han seguido unos criterios de calidad establecidos por el autor con el fin de obtener un código comprensible tanto para desarrolladores como para usuarios, fácil de mantener y retomar en el futuro. Además, se ha procurado mantener un estilo homogéneo del código, lo cual ofrece una sensación de calidad y que también se define en este apartado. Los criterios son los siguientes:
+
+- El código está escrito en inglés, incluyendo variables, funciones, comentarios y mensajes de registro. Al utilizar el idioma más hablado en el mundo @IdiomasHabladosMundo, la base de usuarios puede ser mucho más amplia que si se utilizara el idioma local.
+- El código funciona como se espera. A partir de una tarea se crea el código, y dicho código cumple con la tarea asignada.
+- El código es autoexplicativo. En caso de ser complejo de comprender, hay comentarios que facilitan su entendimiento.
+- Gran parte de las funciones están documentadas utilizando Doxygen, especificando una descripción, parámetros (en caso de existir) y valores de retorno (en caso de tenerlos). Al comentar, tienen prioridad las funciones disponibles para ser utilizadas por los usuarios finales. También se documentan otras partes del código, como las enumeraciones y los valores configurables.
+- Las importaciones, enumeraciones, definiciones de valores, documentación y otros elementos considerados necesarios se muestran en archivos de cabecera (`.h`), evitando sobrecargar los archivos de código fuente (`.cpp`) con elementos no funcionales.
+- El funcionamiento del código es eficiente, aprovechando las capacidades de la placa de desarrollo y del lenguaje de programación. Para ello, se realizan pruebas y consultas con los tutores y con herramientas de inteligencia artificial.
+- Las líneas de comentarios no superan los 80 caracteres de longitud y las de código no superan los 120. En caso de necesitar más espacio, se introducen saltos de línea. Estos valores se originan a partir del primer almacenamiento digital de la historia de la informática, las tarjetas perforadas de 80x12 agujeros, y en la actualidad se limitan los caracteres por fila para mejorar la legibilidad del código sin necesidad de hacer scroll horizontal @80chars.
+- El estilo de programación utilizado es el *Kernighan & Ritchie*, que evita líneas sin sentido y el consumo innecesario de espacio vertical en la sintaxis. Junto a este estilo, se emplea la indentación mediante tabulaciones y la convención de nombrado *lowerCamelCase*, útil para identificar distintas palabras al nombrar elementos del código sin necesidad de ampliar horizontalmente el código. El Listado \ref{metodologia:estiloKRlCC} muestra un ejemplo de este estilo.
+
+```{.cpp #metodologia:estiloKRlCC .numberLines caption="Ejemplo de estilo del código Kernighan & Ritchie con lowerCamelCase" frame=single}
+public int main(int argc, char *argv[]) {
+	while (x == y) {
+		doSomething();
+		doSomethingElse();
+		if (error)
+			fixError();
+		else
+			continueAsNormal();
+	}
+}
+```
+
+- La ejecución muestra registros o *logs* si el usuario lo desea, los cuales se distribuyen por el código en puntos clave. Estos registros permiten realizar un seguimiento de lo que realiza la ejecución del código del proyecto e identificar fácilmente los fallos.
+
+/*TODO: mencionar test si al final se hacen TENER EN CUENTA LAS MENCIONES A TESTS A LO LARGO DEL APARTADO*/

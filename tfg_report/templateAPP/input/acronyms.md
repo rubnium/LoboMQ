@@ -5,7 +5,6 @@ AMQP: Advanced Message Queuing Protocol, Protocolo Avanzado de Colas de Mensajes
 ARPANET: Advanced Research Projects Agency Network, Red de la Agencia de Proyectos de Investigación Avanzada
 API: Application Programming Interface, Interfaz de Programación de Aplicaciones
 BLE: Bluetooth Low Energy, Bluetooth de Baja Energía
-CBCF: Congressional Black Caucus Foundation, Fundación del Caucus Negro del Congreso de los Estados Unidos
 CoAP: Constrained Application Protocol, Protocolo de Aplicación Restringida
 CPU: Central Processing Unit, Unidad Central de Procesamiento
 CSS: Cascading Style Sheets, Hojas de Estilo en Cascada
@@ -19,7 +18,6 @@ GHz: Gigahercios
 GPIO: General Purpose Input/Output, Entrada/Salida de Propósito General
 HTML: HyperText Markup Language, Lenguaje de Marcado de Hipertexto
 HTTP: HyperText Transfer Protocol, Protocolo de Transferencia de Hipertexto
-HTTPS: HyperText Transfer Protocol Secure, Protocolo Seguro de Transferencia de Hipertexto
 ID: Identificador, Identifier
 IDE: Integrated Development Environment, Entorno de Desarrollo Integrado
 IEEE: Institute of Electrical and Electronics Engineers, Instituto de Ingenieros Eléctricos y Electrónicos
@@ -28,6 +26,7 @@ IoT: Internet of Things, Internet de las Cosas
 IP: Internet Protocol, Protocolo de Internet
 ITU: International Telecommunication Union, Unión Internacional de Telecomunicaciones
 JPEG: Joint Photographic Experts Group
+JSON: JavaScript Object Notation, Notación de Objeto de JavaScript
 Kbps: Kilobits por segundo
 KiB: Kibibyte
 LAN: Local Area Network, Red de Área Local
@@ -57,6 +56,7 @@ SoC: System on a Chip, Sistema en un Chip
 SNMP: Simple Network Management Protocol, Protocolo Simple de Gestión de Redes
 SSL: Secure Sockets Layer, Capa de Puertos Seguros
 SVG: Scalable Vector Graphics, Gráficos Vectoriales Escalables
+TB: Terabyte
 TCP: Transmission Control Protocol, Protocolo de Control de Transmisión
 TLS: Transport Layer Security, Seguridad de la Capa de Transporte
 TFG: Trabajo Final de Grado
