@@ -79,7 +79,7 @@ void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger,
 				JsonDocument doc;
 				DeserializationError error = deserializeJson(doc, file);
 				if (error) {
-					Serial.printf("Error parsing JSON file %s\n", file.name()); //TODO: change to log?
+					logger->log(ERROR, "[BT SD] Error parsing JSON file %s.", file.name());
 					continue;
 				}
 

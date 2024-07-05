@@ -53,7 +53,6 @@ void SubscribeTask(void *parameter) {
         newTopic.subscribe(mac);
 				if (gPersistence) {
 					newTopic.setFilename(replaceChars(subAnnounce->topic).c_str()); //translates the topic to have a compatible filename
-					printf("After setting filename, this is: %s\n", newTopic.getFilename()); //TODO: remove this 
 					writeBTToFile(&newTopic, logger, &mutex, portMAX_DELAY);
 				}
 				topicsVector.push_back(newTopic);
