@@ -18,7 +18,7 @@
 
 String replaceChars(const char *str);
 bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickType_t delay = portMAX_DELAY);
-void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex,
+void restoreBTs(std::vector<BrokerTopic> *topicsVector, Elog *logger, SemaphoreHandle_t *mutex, 
 	TickType_t delay = portMAX_DELAY);
 void writeBTToFile(BrokerTopic* brokerTopic, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay = portMAX_DELAY);
 void deleteBTFile(const char* filename, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay = portMAX_DELAY);

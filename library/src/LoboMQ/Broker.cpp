@@ -255,7 +255,7 @@ LMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
 		}
 
 		//Restore topics from SD card
-		restoreBTs(&topicsVector, gCsSdPin, logger, &mutex, portMAX_DELAY);
+		restoreBTs(&topicsVector, logger, &mutex, portMAX_DELAY);
 	}
 
 

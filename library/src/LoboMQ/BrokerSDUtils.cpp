@@ -58,7 +58,7 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
 	return true;
 }
 
-void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex,
+void restoreBTs(std::vector<BrokerTopic> *topicsVector, Elog *logger, SemaphoreHandle_t *mutex,
 	TickType_t delay) {
 	if (!xSemaphoreTake(*mutex, delay)) {
 		logger->log(ERROR, "[BT SD] Couldn't take mutex for BTs restoration.");
