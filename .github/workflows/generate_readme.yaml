@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  merge-markdown:
+  merge_markdown:
     runs-on: ubuntu-latest
 
     env:
@@ -30,3 +30,4 @@ jobs:
             git push origin HEAD
           else
             echo "No changes detected in $OUTPUT, skipping commit."
+          fi
