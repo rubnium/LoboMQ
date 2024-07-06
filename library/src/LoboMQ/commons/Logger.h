@@ -2,7 +2,8 @@
  * @file Logger.h
  * @author Rubén Gómez Villegas
  * 
- * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ * This file contains the necessary definitions and declarations to easily
+ * create an Elog logger object for LoboMQ.
  */
 
 #ifndef LOGGER_H
@@ -59,7 +60,8 @@ Elog *initializeSerialLogger(LoggerClass className, Loglevel level = DEFAULT_LOG
  * interest.
  * @return A pointer to an Elog instance set up to log to the SD card.
  */
-Elog *initializeSDLogger(LoggerClass className, int cs, int sck, int miso, int mosi, Loglevel level = DEFAULT_LOG_LEVEL);
+Elog *initializeSDLogger(LoggerClass className, int cs, int sck, int miso, int mosi,
+	Loglevel level = DEFAULT_LOG_LEVEL);
 
 /**
  * @brief Creates a logger without the ability to print messages.

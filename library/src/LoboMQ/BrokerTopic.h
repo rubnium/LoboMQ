@@ -2,7 +2,8 @@
  * @file BrokerTopic.h
  * @author Rubén Gómez Villegas
  * 
- * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ * This file contains the necessary definitions and declarations to manage
+ * objects that represent a topic in the LoboMQ broker.
  */
 
 #ifndef BROKERTOPIC_H

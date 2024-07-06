@@ -1,3 +1,10 @@
+/**
+ * @file Broker.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to deploy a LoboMQ broker.
+ */
+
 #include "LoboMQ/Broker.h"
 #include "LoboMQ/BrokerTopic.h"
 #include "LoboMQ/BrokerSDUtils.h"

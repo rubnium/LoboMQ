@@ -1,3 +1,11 @@
+/**
+ * @file BrokerSDUtils.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to manage `BrokerTopic` objects on the
+ * SD card for LoboMQ.
+ */
+
 #include "LoboMQ/BrokerSDUtils.h"
 
 String replaceChars(const char *str) {

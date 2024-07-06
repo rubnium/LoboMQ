@@ -2,7 +2,8 @@
  * @file MACAddrList.h
  * @author Rubén Gómez Villegas
  * 
- * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ * This file contains the necessary definitions and declarations to easily
+ * manage a vector with MAC addresses.
  */
 
 #ifndef MACADDRLIST_H

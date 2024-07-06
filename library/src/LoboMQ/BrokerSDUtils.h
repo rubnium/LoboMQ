@@ -1,3 +1,11 @@
+/**
+ * @file BrokerSDUtils.h
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary definitions and declarations to manage
+ * `BrokerTopic` objects on the SD card for LoboMQ.
+ */
+
 #ifndef BROKERSDUTILS_H
 
 #define BROKERSDUTILS_H

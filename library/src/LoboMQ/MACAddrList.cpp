@@ -1,3 +1,11 @@
+/**
+ * @file MACAddrList.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to easily manage a vector with MAC
+ * addresses.
+ */
+
 #include "LoboMQ/MACAddrList.h"
 
 bool MACAddrList::isInList(const uint8_t *mac) const {

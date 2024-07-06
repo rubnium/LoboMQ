@@ -2,7 +2,8 @@
  * @file PubSub.h
  * @author Rubén Gómez Villegas
  * 
- * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ * This file contains the necessary definitions and declarations to publish,
+ * subscribe and unsubscribe as a LoboMQ client.
  */
 
 #ifndef PUBSUB_H
@@ -65,7 +66,6 @@ typedef struct : public MessageBase {
 	size_t contentSize;					/**< Size of the content. */
 	void* content[16];					/**< Any content stored as bytes. */
 } PublishContent;
-
 
 /**
  * @brief Publishes a message to the broker.

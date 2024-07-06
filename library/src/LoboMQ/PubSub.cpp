@@ -1,3 +1,11 @@
+/**
+ * @file PubSub.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to publish, subscribe and unsubscribe
+ * as a LoboMQ client.
+ */
+
 #include "LoboMQ/PubSub.h"
 
 Elog *logger;
