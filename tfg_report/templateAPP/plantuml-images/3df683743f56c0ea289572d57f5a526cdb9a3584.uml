@@ -1,0 +1,20 @@
+@startgantt
+printscale weekly
+Project starts 2024-02-01
+[Sprint 0] starts 2024-02-01 and ends 2024-02-18
+[Sprint 1] starts at [Sprint 0]'s end and ends 2024-02-25
+[Sprint 2] starts at [Sprint 1]'s end and ends 2024-03-08
+[Sprint 3] starts at [Sprint 2]'s end and ends 2024-03-15
+[Sprint 4] starts at [Sprint 3]'s end and ends 2024-03-21
+[Sprint 5] starts at [Sprint 4]'s end and ends 2024-04-05
+[Sprint 6] starts at [Sprint 5]'s end and ends 2024-04-12
+[Sprint 7] starts at [Sprint 6]'s end and ends 2024-04-19
+[Sprint 8] starts at [Sprint 7]'s end and ends 2024-04-26
+[Sprint 9] starts at [Sprint 8]'s end and ends 2024-05-10
+[Sprint 10] starts at [Sprint 9]'s end and ends 2024-05-23
+[Sprint 11] starts at [Sprint 10]'s end and ends 2024-06-07
+[Sprint 12] starts at [Sprint 11]'s end and ends 2024-06-21
+[Sprint 13] starts at [Sprint 12]'s end and ends 2024-07-05
+[Sprint 14] starts at [Sprint 13]'s end and ends 2024-07-12
+[Primer release] happens at [Sprint 14]'s end
+@endgantt

@@ -40,11 +40,12 @@ header-includes: |
   \renewcommand{\lstlistlistingname}{Índice de Listados}
   }
   \lstset{
-    basicstyle=\ttfamily,
+    basicstyle=\ttfamily\fontsize{10.5}{11.5}\selectfont,
     columns=fullflexible,
     frame=single,
     breaklines=true,
     postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+		literate={√}{{\text{√}}}1
   }
 ---
 

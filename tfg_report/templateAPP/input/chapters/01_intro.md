@@ -8,6 +8,13 @@ Esta sección aborda la motivación del trabajo. Se trata de señalar la necesid
 
 En este capítulo debería introducirse el contexto disciplinar y tecnológico en el que se desarrolla el trabajo de modo que pueda entenderse con facilidad el ámbito y alcance del TFG. Puesto que un TFG no tiene que ser necesariamente un trabajo con aportes novedosos u originales, solo es necesario la inclusión de estado del arte cuando este contribuya a aclarar aspectos clave del TFG o se desee justificar la originalidad del trabajo realizado. Si la sección estado del arte es muy extensa, considera la opción de introducirla como un capítulo independiente.
 
+
+{
+	La proliferación del Internet de las Cosas (IoT) se evidencia en aplicaciones que abarcan desde elementos de uso diario hasta iniciativas de gran alcance. Esto demanda que los profesionales en el desarrollo soluciones IoT se enfrenten y adapten a distintas restricciones, ya sean ambientales o propias del dispositivo. Un desafío recurrente es la gestión de energía en las placas, ya que muchos dispositivos exigen un consumo reducido. Esta exigencia se magnifica cuando se requiere la transmisión de información entre diferentes placas con conexiones intermitentes, complicando considerablemente la labor del desarrollador.
+Este proyecto tiene como objetivo el diseño e implementación de un protocolo de mensajería para redes ESP-NOW, inspirado en características fundamentales de MQTT, como su modelo de publicación y suscripción y su aptitud para manejar conexiones intermitentes. El resultado combinará la eficiencia en latencia y consumo energético de ESP-NOW con la flexibilidad de MQTT. Además, se desarrollarán bibliotecas de software para facilitar la integración de este protocolo en aplicaciones IoT. Esta propuesta no solo sería una valiosa contribución a la comunidad de IoT, combinando lo mejor de dos protocolos existentes, sino también un desafío ingenieril significativo.
+
+}
+
 ## Redacción de la Memoria
 
 Durante la realización de la memoria del TFG es importante tener presente respetar la guía de estilo de la institución. Por tanto, el empleo de plantillas para un sistema de procesamiento de textos (por ejemplo, Word o LaTeX) puede requerir su adaptación cuando la plantilla mencionada no haya sido suministrada en la institución a la que se dirige el trabajo.
@@ -26,11 +33,6 @@ Este capítulo suele incluir una sección que indica la estructura (capítulos y
 - Objetivo. Determina de modo claro el propósito del trabajo descrito que puede desglosarse en subobjetivos cuando el objetivo principal se puede descomponer en módulos o componentes. Es muy importante definir el objetivo de modo apropiado. El Capítulo Objetivos de esta guía explica cómo definir el objetivo.
 - Antecedentes o Contexto disciplinar/tecnológico. También puede denominarse Estado del Arte cuando se trata de comentar trabajos relacionados que han abordado la cuestión u objetivo que se plantea.
 - Estructura del documento. Resumen de los capítulos y anexos que integran el documento.
-
-## Abreviaturas y Acrónimos
-
-Un TFG que utiliza muchas abreviaturas y acrónimos puede añadir esta sección dónde se muestra el conjunto de abreviaturas y acrónimos y su significado.  
-
 
 ## Objetivos
 
@@ -54,6 +56,10 @@ En el ámbito de la memoria del TFG se tiene que definir el primer tipo de objet
 
 La categoría del objetivo planteado justifica modificaciones en la organización genérica de la memoria del trabajo. Así en el caso de estudios y validación de hipótesis el apartado de resultados y conclusiones debería incluir los resultados de experimentación y los comentarios de cómo dichos resultados validan o refutan la hipótesis planteada.
 
+{
+	Diseñar e implementar en forma de librerías un protocolo de mensajería publicador-subscriptor confiable, inspirado en MQTT, mediante el uso del protocolo de comunicación inalámbrica ESP-NOW.
+}
+
 ### Objetivos Específicos
 
 Generalmente, el objetivo general puede ser descompuesto en varios objetivos más específicos que se pretenden alcanzar. En esta sección se enumeran y describen cada uno de ellos.
@@ -63,3 +69,10 @@ Junto con la definición de estos objetivos se puede especificar los requisitos 
 Al redactar el objetivo de un TFG se debe evitar confundir los medios con el fin. Así es habitual encontrarse con objetivos definidos en términos de las acciones (verbos) o tareas que será preciso realizar para llegar al verdadero objetivo. Sin embargo, a la hora de planificar el desarrollo del trabajo si es apropiado descomponer todo el trabajo en hitos y estos en tareas para facilitar dicha planificación.
 
 La categoría del objetivo planteado justifica modificaciones en la organización genérica de la memoria del trabajo. Así en el caso de estudios y validación de hipótesis el apartado de resultados y conclusiones debería incluir los resultados de experimentación y los comentarios de cómo dichos resultados validan o refutan la hipótesis planteada.
+
+{
+	1.	Diseñar un protocolo de mensajería para redes ESP-NOW que incorpore características de publicación y suscripción similares a MQTT.
+2.	Implementar librerías software que permitan a los desarrolladores integrar fácilmente el protocolo propuesto en sus aplicaciones de IoT.
+3.	Presentar demostraciones o casos de uso que ilustren la utilidad y aplicabilidad del protocolo en contextos reales de IoT.
+4.	Comparar el rendimiento y eficiencia del protocolo propuesto con otros protocolos existentes en términos de latencia, consumo energético y confiabilidad.
+}

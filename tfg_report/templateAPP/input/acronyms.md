@@ -1,6 +1,5 @@
 ACK: Acknowledgement, Acuse de recibo
 AES: Advanced Encryption Standard, Estándar de Cifrado Avanzado
-AIoT: Artificial Intelligence of Things, Inteligencia Artificial de las Cosas
 AMQP: Advanced Message Queuing Protocol, Protocolo Avanzado de Colas de Mensajes
 ARPANET: Advanced Research Projects Agency Network, Red de la Agencia de Proyectos de Investigación Avanzada
 API: Application Programming Interface, Interfaz de Programación de Aplicaciones
@@ -40,7 +39,6 @@ MiB: Mebibyte
 MQTT: Message Queue Telemetry Transport, Transporte de Telemetría en Colas de Mensajes
 MTU: Maximum Transmission Unit, Unidad de Transmisión Máxima
 mW: Milivatios
-NACK: Negative Acknowledgement, Acuse de recibo Negativo
 OASIS: Organization for the Advancement of Structured Information Standards, Organización para el Avance de Estándares de Información Estructurada
 OSI: Open Systems Interconnection, Interconexión de Sistemas Abiertos
 PDF: Portable Document Format, Formato de Documento Portátil
