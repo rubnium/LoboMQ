@@ -1,3 +1,10 @@
+/**
+ * @file Broker.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to deploy a LoboMQ broker.
+ */
+
 #include "LoboMQ/Broker.h"
 #include "LoboMQ/BrokerTopic.h"
 #include "LoboMQ/BrokerSDUtils.h"
@@ -53,7 +60,6 @@ void SubscribeTask(void *parameter) {
         newTopic.subscribe(mac);
 				if (gPersistence) {
 					newTopic.setFilename(replaceChars(subAnnounce->topic).c_str()); //translates the topic to have a compatible filename
-					printf("After setting filename, this is: %s\n", newTopic.getFilename()); //TODO: remove this 
 					writeBTToFile(&newTopic, logger, &mutex, portMAX_DELAY);
 				}
 				topicsVector.push_back(newTopic);
@@ -256,7 +262,7 @@ LMQErrType initBroker(MACAddrList *whitelist, Elog *_logger, bool persistence, i
 		}
 
 		//Restore topics from SD card
-		restoreBTs(&topicsVector, gCsSdPin, logger, &mutex, portMAX_DELAY);
+		restoreBTs(&topicsVector, logger, &mutex, portMAX_DELAY);
 	}
 
 

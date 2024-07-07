@@ -1,3 +1,11 @@
+/**
+ * @file BrokerSDUtils.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to manage `BrokerTopic` objects on the
+ * SD card for LoboMQ.
+ */
+
 #include "LoboMQ/BrokerSDUtils.h"
 
 String replaceChars(const char *str) {
@@ -58,7 +66,7 @@ bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickTyp
 	return true;
 }
 
-void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex,
+void restoreBTs(std::vector<BrokerTopic> *topicsVector, Elog *logger, SemaphoreHandle_t *mutex,
 	TickType_t delay) {
 	if (!xSemaphoreTake(*mutex, delay)) {
 		logger->log(ERROR, "[BT SD] Couldn't take mutex for BTs restoration.");
@@ -79,7 +87,7 @@ void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger,
 				JsonDocument doc;
 				DeserializationError error = deserializeJson(doc, file);
 				if (error) {
-					Serial.printf("Error parsing JSON file %s\n", file.name()); //TODO: change to log?
+					logger->log(ERROR, "[BT SD] Error parsing JSON file %s.", file.name());
 					continue;
 				}
 

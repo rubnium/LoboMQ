@@ -1,3 +1,11 @@
+/**
+ * @file BrokerTopic.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to manage objects that represent a
+ * topic in the LoboMQ broker.
+ */
+
 #include "LoboMQ/BrokerTopic.h"
 
 bool hasWildcardCheck(const char topic[]) {

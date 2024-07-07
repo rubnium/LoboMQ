@@ -1,3 +1,11 @@
+/**
+ * @file PubSub.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to publish, subscribe and unsubscribe
+ * as a LoboMQ client.
+ */
+
 #include "LoboMQ/PubSub.h"
 
 Elog *logger;
@@ -64,7 +72,7 @@ int pubTopicCheck(char *topic) {
     return LMQ_ERR_INVAL_TOPIC;
 
   for (size_t i = 0; i < strlen(topic); i++) { 
-    if (topic[i] == '+' || topic[i] == '#') //if there's '+' or '#' inside
+    if (topic[i] == '+' || topic[i] == '#' || !isASCII(topic[i])) //if there's '+', '#' or a non-ASCII character
       return LMQ_ERR_INVAL_TOPIC;
   }
   return LMQ_ERR_VALID_TOPIC;

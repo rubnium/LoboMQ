@@ -6,10 +6,6 @@
 
 : Advanced Encryption Standard, Estándar de Cifrado Avanzado
 
-<span id='AIoT'>AIoT</span>
-
-: Artificial Intelligence of Things, Inteligencia Artificial de las Cosas
-
 <span id='AMQP'>AMQP</span>
 
 : Advanced Message Queuing Protocol, Protocolo Avanzado de Colas de Mensajes
@@ -165,10 +161,6 @@
 <span id='mW'>mW</span>
 
 : Milivatios
-
-<span id='NACK'>NACK</span>
-
-: Negative Acknowledgement, Acuse de recibo Negativo
 
 <span id='OASIS'>OASIS</span>
 

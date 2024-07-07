@@ -15,3 +15,19 @@ Cuando se tiene en cuenta la puesta en marcha de un proyecto de ingeniería, la 
 ## Competencias Específicas de Intensificación Adquiridas y/o Reforzadas
 
 Se deberán listar aquellas competencias de la intensificación que hayan sido adquiridas y/o reforzadas con el desarrollo de este TFG, incluyendo su justificación.
+
+## Propuestas de trabajo a futuro
+
+LoboMQ se encuentra en una versión base, pero con una amplia posibilidad de mejorar la comunicación, explotar las capacidades de las placas y, en general, potenciar las prestaciones del protocolo a través de un desarrollo más extenso. Algunas de estas posibilidades se presentan a continuación en forma de propuestas de mejora.
+
+En primer lugar, debido a las tecnologías utilizadas por las placas ESP32 para este protocolo, existe la posibilidad de ampliar la compatibilidad con varios tipos de placas con similares características, como las ESP8266. Aunque estas placas disponen de un único núcleo y son relativamente antiguas, podría ser interesante implementar una versión de la librería para permitir la interoperabilidad entre distintos tipos de placas.
+
+Un aspecto muy importante en la comunicación es la fiabilidad de la entrega, la cual puede ser mejorada implementando la calidad de servicio o [QoS](#QoS), una característica relevante de [MQTT](#MQTT). A su vez, el procesamiento de los mensajes podría mejorarse añadiendo una opción de persistencia de los mismos, permitiendo así reiniciar el broker sin perder ningún mensaje y entregarlos a las nuevas placas conectadas.
+
+Otra mejora tomada de [MQTT](#MQTT) es la adición del mecanismo *Keep Alive*, que puede permitir tanto al broker como a los suscriptores comprobar la existencia de ambos cada cierto tiempo. Con este mecanismo, el broker puede beneficiarse en cuanto a rendimiento, ya que, si detecta que un suscriptor está desconectado, puede desuscribirlo, evitando así enviar mensajes que nunca llegarán.
+
+El uso de una whitelist de direcciones [MAC](#MAC) que identifican un único dispositivo puede no resultar óptimo en redes con cambios frecuentes en su configuración. Por ello, se propone mejorar este aspecto mediante un mecanismo de autenticación con usuario y contraseña, permitiendo utilizar ambos para controlar el acceso. Asimismo, encriptar la comunicación puede asegurar los datos, y su implementación es posible utilizando las capacidades integradas en ESP-NOW o desarrollando un mecanismo propio de LoboMQ.
+
+La capacidad de procesamiento de las placas ESP32 puede ser insuficiente en contextos donde la comunicación es constante y se realiza entre una gran cantidad de dispositivos. Añadir la posibilidad de distribuir un sistema que haga uso de LoboMQ puede beneficiar estos contextos, ya que al agregar el uso de varias placas broker se pueden distribuir las tareas (por ejemplo, una placa se encarga de la autenticación y la publicación, mientras que otra realiza las suscripciones) y los suscriptores, posibilitando superar la limitación de 20 dispositivos en redes ESP-NOW. Además, se podría designar un broker de respaldo o backup, manteniendo el sistema en continua operación incluso si un broker se detiene.
+
+Finalmente, no se puede obviar la mejora de rendimiento. Todo software es susceptible de mejoras y este protocolo no es la excepción, especialmente cuando se utilizan placas de baja potencia. La implementación de funciones más eficientes y una adecuada gestión de la memoria son tareas esenciales para esta mejora.

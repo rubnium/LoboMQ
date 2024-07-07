@@ -1,3 +1,11 @@
+/**
+ * @file Logger.cpp
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary logic to easily create an Elog logger object
+ * for LoboMQ.
+ */
+
 #include "Logger.h"
 
 SPIClass spi = SPIClass(VSPI);

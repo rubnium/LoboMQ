@@ -1,3 +1,11 @@
+/**
+ * @file BrokerSDUtils.h
+ * @author Rubén Gómez Villegas
+ * 
+ * This file contains the necessary definitions and declarations to manage
+ * `BrokerTopic` objects on the SD card for LoboMQ.
+ */
+
 #ifndef BROKERSDUTILS_H
 
 #define BROKERSDUTILS_H
@@ -18,7 +26,7 @@
 
 String replaceChars(const char *str);
 bool initializeSDCard(int csPin, Elog *logger, SemaphoreHandle_t *mutex, TickType_t delay = portMAX_DELAY);
-void restoreBTs(std::vector<BrokerTopic> *topicsVector, int csPin, Elog *logger, SemaphoreHandle_t *mutex,
+void restoreBTs(std::vector<BrokerTopic> *topicsVector, Elog *logger, SemaphoreHandle_t *mutex, 
 	TickType_t delay = portMAX_DELAY);
 void writeBTToFile(BrokerTopic* brokerTopic, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay = portMAX_DELAY);
 void deleteBTFile(const char* filename, Elog* logger, SemaphoreHandle_t *mutex, TickType_t delay = portMAX_DELAY);

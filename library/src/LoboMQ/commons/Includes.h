@@ -2,7 +2,8 @@
  * @file Includes.h
  * @author Rubén Gómez Villegas
  * 
- * This library is used to create a MQTT Broker using ESP32 and ESP-NOW protocol.
+ * This file contains the definitions and dependencies shared by every LoboMQ
+ * library part.
  */
 
 #ifndef INCLUDES_H
