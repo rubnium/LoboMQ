@@ -1,6 +1,8 @@
 # Introducción 
 
-El capítulo de Introducción debe describir el problema que se pretende resolver con el desarrollo del Trabajo Fin de Grado (TFG). Debe dar respuesta al qué sin especificar cómo se va a realizar, para lo cual se usarán el resto de los capítulos del documento. El lector de este documento debe tener claro el alcance del proyecto habiendo leído únicamente el capítulo de Introducción.
+En este primer capítulo se presenta el problema que se pretende resolver mediante el desarrollo del Trabajo de Fin de Grado ([TFG](#TFG)), explicando el alcance de la librería y el protocolo desarrollados, junto con la motivación y a los desafíos que han dado lugar.
+
+A lo largo de este Trabajo de Fin de Grado se detalla el proceso de desarrollo de LoboMQ, un protocolo que se fija en [MQTT](#MQTT) para tomar las bases de la comunicación a través de colas de mensajes y adaptarlas a un entorno de trabajo con dispositivos del Internet de las Cosas. Este protocolo aprovecha las capacidades de ESP-NOW para ofrecer una comunicación sin cables ni Internet y a larga distancia, y es implementado en forma de una librería C++ para placas ESP32, la cual está disponible en el registro de PlatformIO. La librería LoboMQ ofrece al usuario las funciones necesarias para, con facilidad, desplegar un broker, publicar mensajes a un tema, y suscribirse y desuscribirse de los mismos.
 
 ## Motivación
 
@@ -9,36 +11,44 @@ Esta sección aborda la motivación del trabajo. Se trata de señalar la necesid
 En este capítulo debería introducirse el contexto disciplinar y tecnológico en el que se desarrolla el trabajo de modo que pueda entenderse con facilidad el ámbito y alcance del TFG. Puesto que un TFG no tiene que ser necesariamente un trabajo con aportes novedosos u originales, solo es necesario la inclusión de estado del arte cuando este contribuya a aclarar aspectos clave del TFG o se desee justificar la originalidad del trabajo realizado. Si la sección estado del arte es muy extensa, considera la opción de introducirla como un capítulo independiente.
 
 
+
+Popular iot @IoTConexiones_Statista @IoTGasto_Statista
+Popular esp32
+Popular MQTT
+Habitual despliegue en zonas sin comunicación, o puede que no haga falta
+No hay protocolos de comunicación que usen ESP-NOw, es tarea del desarrollador preparar la comunicacion entre los nodos (tarea compleja)
+Usar característica integrada en ESP32
+
+
+
 {
 	La proliferación del Internet de las Cosas (IoT) se evidencia en aplicaciones que abarcan desde elementos de uso diario hasta iniciativas de gran alcance. Esto demanda que los profesionales en el desarrollo soluciones IoT se enfrenten y adapten a distintas restricciones, ya sean ambientales o propias del dispositivo. Un desafío recurrente es la gestión de energía en las placas, ya que muchos dispositivos exigen un consumo reducido. Esta exigencia se magnifica cuando se requiere la transmisión de información entre diferentes placas con conexiones intermitentes, complicando considerablemente la labor del desarrollador.
 Este proyecto tiene como objetivo el diseño e implementación de un protocolo de mensajería para redes ESP-NOW, inspirado en características fundamentales de MQTT, como su modelo de publicación y suscripción y su aptitud para manejar conexiones intermitentes. El resultado combinará la eficiencia en latencia y consumo energético de ESP-NOW con la flexibilidad de MQTT. Además, se desarrollarán bibliotecas de software para facilitar la integración de este protocolo en aplicaciones IoT. Esta propuesta no solo sería una valiosa contribución a la comunidad de IoT, combinando lo mejor de dos protocolos existentes, sino también un desafío ingenieril significativo.
 
 }
 
-## Redacción de la Memoria
+## Desafíos durante la realización
 
-Durante la realización de la memoria del TFG es importante tener presente respetar la guía de estilo de la institución. Por tanto, el empleo de plantillas para un sistema de procesamiento de textos (por ejemplo, Word o LaTeX) puede requerir su adaptación cuando la plantilla mencionada no haya sido suministrada en la institución a la que se dirige el trabajo.
+El desarrollo de la solución implica abordar una serie de desafíos, descritos a continuación.
 
-Para redactar un trabajo académico de modo efectivo se deben tener presentes una serie de normas que ayuden a conseguir un resultado final que sea claro y de fácil lectura.
+El uso de placas ESP32 requiere de conocimientos específicos para maximizar el rendimiento y la eficiencia durante la ejecución. FreeRTOS es fundamental en este contexto, ya que comprender su uso y los conceptos que lo sustentan permiten una correcta ejecución paralela de múltiples tareas en esta placa, limitada por su capacidad de procesamiento. A su vez, requiere conocimientos del lenguaje C++ y de las herramientas para desarrollar código capaz de usar y liberar adecuadamente la memoria durante la ejecución. Por otro lado, la tecnología de comunicación utilizada, ESP-NOW, presenta sus propias limitaciones, como la cantidad de pares conectados simultáneamente y el tamaño máximo de los mensajes, las cuales deben ser consideradas al utilizarla.
 
-A la hora de redactar el texto se debe poner especial atención en no cometer plagio y respetar los derechos de propiedad intelectual. En particular merece gran atención la inclusión de gráficos e imágenes procedentes de Internet que no sean de elaboración propia. En este sentido se recomienda consultar el manual de la Universidad de Cantabria [^incluir_img]  en el que se explica de modo conciso cómo incluir imágenes en un trabajo académico.
+Este nuevo protocolo, al basarse en el ya existente [MQTT](#MQTT), requiere un conocimiento profundo de su funcionamiento. Esto incluye el formato y los tipos de mensajes, las comprobaciones que se realizan al enviar mensajes, y el orden de ejecución y procesamiento, entre otros aspectos. Sin embargo, esto no limita la herramienta a ser una réplica fiel, ya que se deben diseñar componentes y funcionalidades del protocolo con suficiente libertad creativa, pero manteniendo una operación similar a [MQTT](#MQTT).
 
-[^incluir_img]: Guía de Imágenes: [https://web.unican.es/buc/Documents/Formacion/guia_imagenes.pdf](https://web.unican.es/buc/Documents/Formacion/guia_imagenes.pdf)
+PlatformIO, a parte de permitir el desarrollo en las mencionadas placas, ofrece una serie de plantillas y comandos esenciales para desarrollar una librería. Esto implica realizar una lectura exhaustiva de la documentación de esta plataforma, junto con diversas pruebas, para disponer de una librería funcional.
 
 ## Estructura del Documento
 
-Este capítulo suele incluir una sección que indica la estructura (capítulos y anexos) del documento y el contenido de cada una de las partes en que se divide. Por tanto, las secciones que suelen acompañar este capítulo son:
-
-- Motivación. Responde a la pregunta sobre la necesidad o pertinencia del trabajo.
-- Objetivo. Determina de modo claro el propósito del trabajo descrito que puede desglosarse en subobjetivos cuando el objetivo principal se puede descomponer en módulos o componentes. Es muy importante definir el objetivo de modo apropiado. El Capítulo Objetivos de esta guía explica cómo definir el objetivo.
-- Antecedentes o Contexto disciplinar/tecnológico. También puede denominarse Estado del Arte cuando se trata de comentar trabajos relacionados que han abordado la cuestión u objetivo que se plantea.
-- Estructura del documento. Resumen de los capítulos y anexos que integran el documento.
+/*TODO: redactar*/
 
 ## Objetivos
 
+/*TODO: redactar*/
 Para hacer un planteamiento apropiado de los objetivos se recomienda utilizar la Guía para la elaboración de propuestas de TFG en la que se explica cómo definir correctamente los objetivos de un TFG.
 
 ### Objetivo General
+
+/*TODO: redactar*/
 
 Introduce y motiva la problemática (i.e ¿cuál es el problema que se plantea y por qué es interesante su resolución?).
 
@@ -61,6 +71,8 @@ La categoría del objetivo planteado justifica modificaciones en la organizació
 }
 
 ### Objetivos Específicos
+
+/*TODO: redactar*/
 
 Generalmente, el objetivo general puede ser descompuesto en varios objetivos más específicos que se pretenden alcanzar. En esta sección se enumeran y describen cada uno de ellos.
 

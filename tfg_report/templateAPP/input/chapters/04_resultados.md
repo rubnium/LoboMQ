@@ -843,7 +843,6 @@ Tareas:
 - Migrar la librería al nuevo nombre (peso: 8). Finalmente, se decidió por el nombre "LoboMQ", por lo que se reemplazaron todos los nombres provisionales de los ficheros, las variables y cualquier otra referencia a la herramienta.
 - Configurar Doxygen y Doxygen Awesome (peso: 13). Establecer las propiedades necesarias en el fichero Doxyfile y descargar las hojas de estilo Doxygen Awesome para generar un HTML que muestre la documentación del proyecto.
 
-
 ## Iteración 12
 
 Periodo: 08/06/2024 - 21/06/2024 (2 semanas). Peso total: 100.
@@ -853,4 +852,32 @@ El objetivo principal de este sprint fue redactar la memoria y arreglar Doxygen.
 Tareas:
 
 - Redactar Estado del arte (peso: 40) y Herramientas y metodología (peso: 40).
-- Corregir los comentarios y la generación de Doxygen (peso: 20).
+- Corregir los comentarios y la generación de Doxygen (peso: 20). Realizado con el fin de mostrar la documentación de forma correcta.
+
+## Iteración 13
+
+Periodo: 22/06/2024 - 05/07/2024 (2 semanas). Peso total: 116.
+
+El objetivo principal de este sprint fue redactar la memoria, realizar pequeñas correcciones, personalizar la herramienta y crear un test para probar el funcionamiento de los clientes.
+
+Tareas:
+
+- Añadir comprobación ASCII del topic al publicar (peso: 5). Arreglar esta opción ya existente en el caso de la suscripción.
+- Eliminar el parámetro `csPin` no utilizado al recuperar objetos `BrokerTopic` de la tarjeta SD (peso: 5). Mejorar el código evitando la asignación innecesaria de parámetros.
+- Actualizar y probar la librería Elog (peso: 8). Hasta el momento, en el desarrollo se ha utilizado la versión 1.1.4. Para asegurar que el uso de la librería siga siendo correcto, se realizan pruebas con la reciente versión 1.1.6.
+- Añadir readme y un logo (peso: 5). Mejorar la documentación del proyecto mediante un fichero que lo describa, y crear un logo que añada identidad a la herramienta.
+- Mejorar la generación de la documentación Doxygen y añadir comentarios (peso: 8).
+- Crear test de publicador y suscriptor (peso: 13). Asegurar que las funciones de crear mensaje, extraer contenido y comprobar el topic funcionan correctamente, siendo además útil para comprobar estas funciones luego de que surja alguna modificación.
+- Redactar Resultados (peso: 40), Estado del arte y Herramientas y metodología (peso: 40).
+
+
+
+## Diseño final del protocolo
+
+Una vez finalizado el desarrollo, los artefactos del protocolo quedan definidos. En LoboMQ existen 2 tipos de nodos: el broker y los clientes. El broker gestiona las suscripciones y actúa como un centro de mensajería, ya que redirige las publicaciones a los suscriptores interesados en el mismo tema. Los clientes, por su parte, publican mensaje en temas y se suscriben o desuscriben de estos. Tanto la publicación como la suscripción o desuscripción se transmiten de forma asíncrona, permitiendo la ejecución de tareas sin  estar bloqueados esperando una respuesta.
+
+Se identifican tres tipos de mensajes: SubscribeAnnouncement, UnsubscribeAnnouncement y PublishContent, cuyos campos se muestran en la Figura /*TODO: crear*/. Estos mensajes tienen en común el campo `MessageType`, que identifica el tipo de mensaje, y `topic`, el tema al cual se relaciona el mensaje. El topic, al igual que en [MQTT](#MQTT), admite el uso de wildcards, pero en este caso está limitado a /*TODO: mencionar caracteres*/. Además, los mensajes no pueden superar los 250 bytes debido a las limitaciones de ESP-NOW.
+
+/*TODO: hacer figura campos del protocolo*/
+
+La implementación de este protocolo se realiza mediante la creación de código en C++ que utilice la homónima librería LoboMQ, la cual está disponible tanto en el anteriormente mencionado repositorio como en el registro de PlatformIO /*TODO: insertar enlace*/. La documentación de esta librería también se encuentra disponible en la página /*TODO: insertar enlace*/

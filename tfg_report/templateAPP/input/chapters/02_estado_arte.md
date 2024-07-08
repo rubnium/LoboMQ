@@ -1,5 +1,7 @@
 # Estado del arte
 
+En este capítulo se aborda el concepto de Internet de las Cosas, incluyendo su valor, los desafíos que presenta y los tipos de dispositivos que lo conforman. Sumado a esto, se comparan los distintos protocolos, middleware y tecnologías empleados en el transporte de datos en este ámbito, y se menciona la popular placa ESP32, ampliamente utilizada en el Internet de las Cosas.
+
 ## Internet de las Cosas
 
 El siglo XX dio lugar al desarrollo de numerosos inventos que impulsaron una revolución y un avance ágil en la sociedad, que en la actualidad son frecuentemente usados y facilitan la vida humana. Este es el caso del Internet, que desde 1969 ha permitido la comunicación entre personas y el acceso a información. Hoy en día, también millones de objetos están conectados a la red, cuyas funcionalidades dependen de esta.
