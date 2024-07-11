@@ -102,7 +102,7 @@ int subTopicCheck(char *topic) {
   return LMQ_ERR_VALID_TOPIC;
 }
 
-LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
+LMQErrType publish(uint8_t *mac, char *topic, void *payload, size_t payloadSize, Elog *_logger) {
 	logger = _logger;
 	if (!configureESPNOW(mac)) {
 		return LMQ_ERR_BAD_ESP_CONFIG;
@@ -116,8 +116,8 @@ LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
 	PublishContent pubMsg;
 	pubMsg.type = MSGTYPE_PUBLISH;
 	strcpy(pubMsg.topic, topic);
-	pubMsg.contentSize = sizeof(payload);
-	memcpy(&pubMsg.content, payload, sizeof(payload));
+	pubMsg.contentSize = payloadSize;
+	memcpy(&pubMsg.content, payload, payloadSize);
 
 	//Send message
 	esp_err_t result = esp_now_send(mac, (uint8_t *) &pubMsg, sizeof(pubMsg));
@@ -125,7 +125,7 @@ LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger) {
 		logger->log(ERROR, "Error sending message: %d.", result);
 		return LMQ_ERR_ESP_SEND_FAIL;
   }
-	logger->log(INFO, "Message of %dB published successfully to '%s'.", sizeof(payload), topic);
+	logger->log(INFO, "Message of %dB published successfully to '%s'.", payloadSize, topic);
 
 	return LMQ_ERR_SUCCESS;
 }

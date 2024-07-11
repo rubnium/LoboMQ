@@ -15,6 +15,7 @@
 #include "commons/Includes.h"
 
 #define MAXTOPICLENGTH 10
+#define MAXCONTENTSIZE 16
 
 /**
  * @enum MessageType
@@ -63,8 +64,8 @@ typedef struct : public MessageBase{
  */
 typedef struct : public MessageBase {
 	char topic[MAXTOPICLENGTH];	/**< Topic where the message is published to. */
-	size_t contentSize;					/**< Size of the content. */
-	void* content[16];					/**< Any content stored as bytes. */
+	size_t contentSize;	/**< Size of the content. */
+	void* content[MAXCONTENTSIZE]; /**< Any content stored as bytes. */
 } PublishContent;
 
 /**
@@ -76,13 +77,14 @@ typedef struct : public MessageBase {
  * characters (`+`, `#`) nor non-UTF-8 characters. Invalid example: `+/café`. 
  * Valid example: `kitchen/coffee`.
  * @param payload Pointer to the message payload.
+ * @param payloadSize Size of the message payload.
  * @param _logger Pointer to the logger object.
  * @retval `LMQ_ERR_SUCCESS` if the message is successfully published.  
  * @retval `LMQ_ERR_BAD_ESP_CONFIG` if ESP-NOW couldn't be initialized.
  * @retval `LMQ_ERR_INVAL_TOPIC` if the given topic is invalid.
  * @retval `LMQ_ERR_ESP_SEND_FAIL` if the message couldn't be sent.
  */
-LMQErrType publish(uint8_t *mac, char *topic, void *payload, Elog *_logger = disableLogger());
+LMQErrType publish(uint8_t *mac, char *topic, void *payload, size_t payloadSize, Elog *_logger = disableLogger());
 
 /**
  * @brief Subscribes to a topic on the broker.
@@ -143,8 +145,8 @@ bool isLMQMessage(const uint8_t *incomingData);
  * message.
  */
 typedef struct {
-	void* content[16]; /**< Array to hold content. */
 	size_t contentSize; /**< Size of the content. */
+	void* content[MAXCONTENTSIZE]; /**< Array to hold content. */
 } PayloadContent;
 
 /**
