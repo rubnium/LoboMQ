@@ -14,8 +14,8 @@
 
 #include "commons/Includes.h"
 
-#define MAXTOPICLENGTH 10
-#define MAXCONTENTSIZE 16
+#define MAXTOPICLENGTH 24
+#define MAXCONTENTSIZE 30
 
 /**
  * @enum MessageType
