@@ -1,22 +1,22 @@
 {
   "name": "LoboMQ",
-  "version": "0.0.0",
-  "description": "TO BE DONE",
+  "version": "1.0.0",
+  "description": "LoboMQ is a lightweight protocol based on MQTT that runs over ESP-NOW on ESP32 boards.",
   "repository":
   {
     "type": "git",
-	"url": "https://github.com/rubnium/MQTT_for_ESP-NOW.git"
+	"url": "https://github.com/rubnium/LoboMQ.git"
   },
   "authors":
   [
     {
       "name": "Rubén Gómez Villegas",
-      "email": "Ruben.Gomez10@alu.uclm.es",
+      "email": "rubengomezvillegas@gmail.com",
       "url": "https://www.linkedin.com/in/ruben-gomez-villegas/"
     }
   ],
   "_license": "MIT",
-  "homepage": "https://github.com/rubnium/MQTT_for_ESP-NOW",
+  "homepage": "https://github.com/rubnium/LoboMQ",
   "dependencies": {
 		"x385832/Elog": "^1.1.6",
 		"bblanchon/ArduinoJson": "^7.0.4"
@@ -27,7 +27,6 @@
     "lobo", "wolf", "mq", "esp32", "iot", "mqtt", "mosquitto", "queue", "publish", "subscribe", "broker", "esp-now", "now"
   ],
   "exclude": [
-    "platformio.ini",
-    "README.md"
+    "platformio.ini"
   ]
 }

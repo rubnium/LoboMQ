@@ -5,7 +5,8 @@ Este proyecto es el resultado del desarrollo del Trabajo de Fin de Grado para el
 Recursos de interés:
 - Memoria oficial: <insertar>
 - Tablero Trello utilizado para gestionar el proyecto: <https://trello.com/b/tWmPaG2l/lobomq-tfg>
-- Librería: <insertar>
+- Librería: <https://registry.platformio.org/libraries/rubnium/LoboMQ>
+- Manual web: <https://rubnium.github.io/LoboMQ>
 
 A continuación se detalla brevemente la herramienta.
 
