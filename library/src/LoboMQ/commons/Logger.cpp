@@ -8,7 +8,7 @@
 
 #include "Logger.h"
 
-SPIClass spi = SPIClass(VSPI);
+SPIClass spi_logger = SPIClass(VSPI);
 
 Elog *initializeSerialLogger(LoggerClass className, Loglevel level) {
   Elog *logger = new Elog();
@@ -35,7 +35,7 @@ Elog *initializeSDLogger(LoggerClass className, int cs, int sck, int miso, int m
   Elog *logger = new Elog();
 	const char *filepath = "LMQ.log";
 	pinMode(cs, OUTPUT);
-	spi.begin(sck, miso, mosi, cs);
+	spi_logger.begin(sck, miso, mosi, cs);
 
 	if (!SD.begin(cs)) {
 		delete logger;
@@ -43,7 +43,7 @@ Elog *initializeSDLogger(LoggerClass className, int cs, int sck, int miso, int m
 		logger->log(WARNING,
 			"Could not start SD logging, check the SD card pins and the card itself. Logs will be printed to Serial.");
 	} else {
-		logger->configureSd(spi, cs, 2000000);
+		logger->configureSd(spi_logger, cs, 2000000);
 		logger->addSdLogging(filepath, level);
 	}
   return logger;

@@ -1,4 +1,4 @@
-# Herramientas y Metodología
+# Herramientas y metodología
 
 ## Herramientas
 
@@ -10,31 +10,34 @@ El núcleo de este [TFG](#TFG) se basa en la programación de una placa de desar
 
 **Ordenador portátil**: es el componente principal para el desarrollo de este [TFG](#TFG), en el cual se han instalado las herramientas necesarias, se ha escrito el código, se ha accedido a herramientas y recursos en línea, y ha permitido subir el código a la placa. En este caso, el ordenador personal del alumno es un Lenovo Ideapad 3 15ALC6, cuyas características destacadas para este trabajo son:
 
-- Procesador AMD Ryzen 7 5700 U, de 64 bits y lanzado en enero de 2021, que permite ejecutar aplicaciones y servicios aprovechando sus 8 núcleos, su alta frecuencia de 1,8 [GHz](#GHz) hasta 4,3 [GHz](#GHz) y su bajo consumo @Ryzen7Specs.
-- 12 GB de [RAM](#RAM) DDR4, que almacenan la información temporal generada por los programas en ejecución. Su capacidad determina cuántas tareas simultáneas se pueden ejecutar y su velocidad determina la rapidez de ejecución de estas.
-- Almacenamiento interno SSD de 1 [TB](#TB), encargado de almacenar de manera persistente información como el sistema operativo, las herramientas instaladas y los ficheros de código utilizados en el proyecto.
-- 3 puertos USB, que permiten conectar distintos dispositivos simultáneamente al ordenador, como en este trabajo, las placas para subir el código y observar la salida por terminal durante la ejecución.
-- Lector de tarjetas SD, utilizado para acceder al contenido de la tarjeta SD que se conecta a una de las placas (detallado posteriormente).
-- Adaptador de red Bluetooth y Wi-Fi, para poder conectar el ordenador a Internet y acceder a los recursos necesarios para el desarrollo.
+- Procesador AMD Ryzen 7 5700 U, de 64 bits. Lanzado en enero de 2021, con 8 núcleos y una frecuencia de 1,8 [GHz](#GHz) hasta 4,3 [GHz](#GHz) @Ryzen7Specs.
+- 12 GB de [RAM](#RAM) DDR4.
+- Almacenamiento interno SSD de 1 [TB](#TB).
+- 3 puertos USB.
+- Lector de tarjetas SD.
+- Adaptador de red Bluetooth y Wi-Fi.
 
-**Dos placas ESP32 DEVKIT V1**: ambas fueron cedidas por la [UCLM](#UCLM) para el desarrollo de este [TFG](#TFG). Este tipo de placas contienen las mismas características que el SoC ESP32 mencionado en el apartado \ref{02_estado_arte.esp32} /*TODO: comprobar funcionamiento referencia*/.Ambas utilizan el módulo ESP32-WROOM-32.
+![Hardware utilizado. De izquierda a derecha: ESP32 DEVKIT V1, lector de tarjeta microSD, DHT11, potenciómetro y ESP32 CYD (Fuentes: @ESP32_Precio @ModuloSDSF @DHT11_Specs @Pot_TiendaBQ @ESP32CYDAliexpress)\label{hardware:placas}](hardware_placas.png){width=100%}
+
+
+**Dos placas ESP32 DEVKIT V1**: ambas fueron cedidas por la [UCLM](#UCLM) para el desarrollo de este [TFG](#TFG). Este tipo de placas, mostrado en la Figura \ref{hardware:placas}, contienen las mismas características que el SoC ESP32 mencionado en la Subsección [2.3.2](#esp32). Utilizan el módulo ESP32-WROOM-32.
 
 Las placas están distribuidas en una placa de pruebas o breadboard, permitiendo conectar distintos elementos a los pines de las placas mediante jump wires o cables puente, sin necesidad de soldadura ni diseñar circuitos integrados y facilitando la prueba de componentes. En este caso, tienen conectados distintos módulos y sensores que permiten ampliar las funciones de estas:
 
- - **Módulo lector de tarjeta microSD**: compuesto por un socket para insertar tarjetas microSD en un circuito impreso del cuál salen 7 pines para poder utilizar el bus SPI de las tarjetas microSD. El SPI o Serial Peripheral Interface es un estándar que se utiliza para transferir información entre circuitos integrados, como pueden ser la placa ESP32 DEVKIT y el lector de tarjetas. Los pines que tiene este módulo son los siguientes:
+ - **Módulo lector de tarjeta microSD**: observable en la Figura \ref{hardware:placas}, está compuesto por un socket para insertar tarjetas microSD en un circuito impreso del cuál salen 7 pines para poder utilizar el bus SPI de las tarjetas microSD @ModuloSDSF. El SPI o Serial Peripheral Interface es un estándar que se utiliza para transferir información entre circuitos integrados, como pueden ser la placa ESP32 DEVKIT y el lector de tarjetas. Los pines que tiene este módulo son los siguientes @Wiki_Spi:
 	- VCC: entrada de energía, se conecta a una fuente de alimentación para alimentar el lector.
 	- GND: conexión a tierra, se conecta al terminal negativo de la fuente de alimentación.
-	- Data In: también conocido como MOSI o Master Output Slave Input, se utiliza para enviar datos desde la placa ESP32 hasta la tarjeta microSD.
-	- Data Out: también conocido como MISO o Master Input Slave Output, se utiliza para enviar datos desde la tarjeta microSD hasta la placa ESP32.
+	- Data In o Master Output Slave Input: se utiliza para enviar datos desde la placa ESP32 hasta la tarjeta microSD.
+	- Data Out o Master Input Slave Output: se utiliza para enviar datos desde la tarjeta microSD hasta la placa ESP32.
 	- Serial Clock: reloj SPI, se utiliza para sincronizar la transferencia de datos entre las placas.
 	- Chip Select: se utiliza para activar y desactivar la comunicación con el lector.
 	- Card Detect: se utiliza para detectar si hay una tarjeta insertada en el lector.
 
 	Para este trabajo, el lector, cedido por la UCLM, se utiliza para leer y escribir datos en una tarjeta microSD desde la ESP32 DEVKIT V1 que actúe como broker y gestione los registros o logs y las direcciones de los dispositivos suscritos contenidos. 
- - **Sensor DHT11**: sensor digital capaz de medir la temperatura y la humedad, cedido por la [UCLM](#UCLM). Alimentado por 3,3 o 5 voltios, es capaz de leer la humedad en el ambiente entre los rangos 20 y 95% (con un 5% de fallo) y la temperatura entre 0 y 50 [ºC](#ºC) (con 2 [ºC](#ºC) de fallo).
- - **Potenciómetro BQ Zum Kit Advanced**: contenido originalmente en un kit junto a varios sensores y una placa controladora @Pot_TiendaBQ @Pot_KitBQ, este potenciómetro de señal analógica cedido por la [UCLM](#UCLM) es capaz de devolver un valor en función a su rotación, siendo su rotación máxima 300º, al alimentarlo con 3,3 o 5 voltios @Pot_TiendaRobotica.
+ - **Sensor DHT11**: sensor digital capaz de medir la temperatura y la humedad, cedido por la [UCLM](#UCLM). Alimentado por 3,3 o 5 voltios, es capaz de leer la humedad en el ambiente entre los rangos 20 y 95% (con un 5% de fallo) y la temperatura entre 0 y 50 [ºC](#ºC) (con 2 [ºC](#ºC) de fallo) @DHT11_Specs. Está representado en la Figura \ref{hardware:placas}.
+ - **Potenciómetro BQ Zum Kit Advanced**: contenido originalmente en un kit junto a varios sensores y una placa controladora @Pot_TiendaBQ @Pot_KitBQ, este potenciómetro de señal analógica cedido por la [UCLM](#UCLM) es capaz de devolver un valor en función a su rotación, siendo su rotación máxima 300º, al alimentarlo con 3,3 o 5 voltios @Pot_TiendaRobotica. Se muestra en la Figura \ref{hardware:placas}.
 
-**Placa ESP32-2432S028R**: esta placa proporcionada por el autor y popularmente conocida como Cheap-Yellow-Display o CYD para abreviar, se ha utilizado para hacer pruebas del funcionamiento de la herramienta desarrollada, y al igual que las anteriormente mencionadas placas ESP32, está potenciado por un ESP32-WROOM-32. En cuanto a componentes integra:
+**Placa ESP32-2432S028R**: esta placa proporcionada por el autor y popularmente conocida como Cheap-Yellow-Display o CYD para abreviar, se ha utilizado para hacer pruebas del funcionamiento de la herramienta desarrollada, y al igual que las anteriormente mencionadas placas ESP32, está potenciado por un ESP32-WROOM-32 @ESP32_CYD_Git. Se puede observar en la Figura \ref{hardware:placas}. En cuanto a componentes integra @ESP32_CYD_Git:
 
  - Pantalla LCD de 2,8 pulgadas con resolución 320x240 píxeles, y táctil de tipo resistivo.
  - LED multicolor RGB.
@@ -44,68 +47,46 @@ Las placas están distribuidas en una placa de pruebas o breadboard, permitiendo
 
 **Tarjeta microSD**: tarjeta proporcionada por el alumno autor y utilizada por una de las placas con lector de tarjetas para almacenar los registros o logs y las direcciones de los dispositivos suscritos al broker.
 
-**Adaptador de tarjeta microSD a SD**: proporcionada por el autor, permite utilizar una tarjeta microSD en un lector de tarjetas SD normal al adaptar su tamaño y forma. Se ha utilizado para leer, modificar y eliminar contenidos de la tarjeta microSD desde el ordenador portátil, útil para hacer probar el funcionamiento de la herramienta.
-
-{
-	https://www.sparkfun.com/products/544
-	https://es.wikipedia.org/wiki/Serial_Peripheral_Interface
-	https://tienda.bricogeek.com/sensores-temperatura/1574-modulo-sensor-dht11-humedad-y-temperatura.html
-	https://github.com/witnessmenow/ESP32-Cheap-Yellow-Display/
-}
-
 ### Software
 
 Para poder realizar el desarrollo correcto de este [TFG](#TFG), se han requerido las siguientes piezas de software:
 
-**Windows 10**[^herramientasSw:w10]: el sistema operativo es clave para poder hacer funcionar el Trabajo de Fin de Grado. En este caso, el autor ha utilizado la versión más reciente a fecha de la escritura de este documento, 22H2. Este sistema operativo desarrollado por Microsoft se encuentra instalado en el ordenador portátil mencionado en el apartado de hardware /*TODO: mencionar*/, y debido a su alta popularidad tiene una gran compatibilidad con la mayoría de aplicaciones existentes, y en este caso es beneficioso para el resto de software mencionado posteriormente. Además, integra:
-
-- Drivers: Ofrecen compatibilidad y rendimiento con todo el hardware contenido en el ordenador, como procesador, tarjeta gráfica, teclado y ratón, puertos USB, lectores de tarjetas y otros dispositivos externos. En este caso, para poder hacer uso de las placas, se ha necesitado instalar un driver adicional denominado *CH341SER*[^herramientasSw:driver].
-
-La relevancia de usar Windows 10 es mínima, ya que es posible de adaptar el proyecto a un entorno en Linux con pocas o nulas complicaciones. El uso de Windows 10 ha sido decisión del autor por gusto.
+**Windows 10**[^herramientasSw:w10]: el sistema operativo es clave para poder hacer funcionar el [TFG](#TFG). Este sistema operativo de Microsoft se encuentra instalado en el ordenador portátil mencionado en la Subsección [3.1.1](#hardware). El autor ha utilizado la reciente versión 22H2 con el apropiado driver[^herramientasSw:driver] instalado para poder hacer uso de las placas. Pese a que la alta popularidad de Windows asegura una gran compatibilidad con las aplicaciones existentes, es posible de adaptar el proyecto a un entorno en Linux con pocas o nulas complicaciones, haciendo irrelevante la elección del sistema operativo. Su uso ha sido por gusto del autor.
 
 [^herramientasSw:w10]: <https://www.microsoft.com/es-es/software-download/windows10>
 [^herramientasSw:driver]: <https://www.wch-ic.com/downloads/CH341SER_ZIP.html>
 
-**GitHub**[^herramientasSw:gh]: es una plataforma en la nube propiedad de Microsoft que permite a los equipos de desarrolladores almacenar código, colaborar y realizar cambios en proyectos compartidos, alojados en esta plataforma en forma de repositorios de Git.
+**GitHub**[^herramientasSw:gh]: es una plataforma en la nube propiedad de Microsoft que permite a los equipos de desarrolladores almacenar código, colaborar y realizar cambios en proyectos compartidos, alojados en esta plataforma en forma de repositorios de Git @GitAndGitHubDocs @WikiGitHub.
 
-Git es un sistema de control de versiones de código abierto que permite gestionar el código fuente y el historial de cambios mediante comandos ejecutados en una terminal. Tiene la característica de ser distribuido, permitiendo usar ramas para aislar partes del código, como pueden ser nuevas funcionalidades en desarrollo, sin afectar al código final desplegado. Cada parte del equipo puede crear una rama, integrar los cambios necesarios y luego fusionarla con la rama principal para hacer efectivos estos cambios. Esto es útil para desarrollar varias funcionalidades simultáneamente que editen los mismos ficheros, comprobar las diferencias entre estos, aprobarlas y volver a una versión funcional anterior en caso de que errores.
+Git es un sistema de control de versiones de código abierto que permite gestionar el código fuente y el historial de cambios. Tiene la característica de ser distribuido, permitiendo usar ramas para aislar partes del código, como pueden ser nuevas funcionalidades en desarrollo por distintas partes de un mismo equipo. Estos cambios se pueden integrar y luego fusionar las ramas con la principal para hacerlos efectivos, y revertir a una versión funcional en caso de errores @GitAndGitHubDocs @Hostinger_Git.
 
-Los repositorios en GitHub pueden ser públicos o privados, siendo en este último caso que en el repositorio solo pueden interactuar los usuarios agregados y cuya funcionalidad está limitada (a menos que se disponga de licencia de pago). Desde estos se pueden crear y modificar ramas, cargar ficheros, realizar *commits* (la unidad de trabajo que representa un cambio en el repositorio), ver su histórico para hacer un seguimiento de los cambios realizados, obtener las modificaciones realizadas por otros usuarios y hacer *pull requests* (solicitudes de cambios) para integrar estos cambios en el proyecto. GitHub va un paso más allá de alojar proyectos, ya que permite la gestión de proyectos y la interacción del equipo de desarrollo a través de *issues* que retroalimentan el proyecto y ofrecen ideas, asignación de responsabilidades, hitos, etiquetas, discusiones, y gráficos y tableros estilo Kanban que permiten observar fácilmente el trabajo realizado y por hacer. Otras funciones que permite esta plataforma son:
+Los repositorios en GitHub pueden ser públicos o privados, y desde estos se pueden crear y modificar ramas, cargar ficheros, realizar *commits* (la unidad de trabajo que representa un cambio en el repositorio), ver su histórico de cambios, obtener las modificaciones realizadas por otros usuarios y hacer *pull requests* (solicitudes de cambios) para integrar estos cambios en el proyecto @GitHub_Commits. GitHub va un paso más allá de alojar proyectos, ya que permite la gestión de proyectos y la interacción del equipo de desarrollo a través de *issues* que retroalimentan el proyecto y ofrecen ideas, asignación de responsabilidades, hitos, etiquetas, discusiones, y tableros estilo Kanban @GitHub_Issues @GitAndGitHubDocs @WikiGitHub. Otras funciones que permite esta plataforma son @GitAndGitHubDocs @WikiGitHub:
 
-- Documentación de proyectos, mediante la creación de ficheros de texto "readme" o "léeme" en lenguaje Markdown en los directorios del proyecto.
+- Documentación de proyectos con ficheros "readme" o "léeme" en Markdown en los directorios del proyecto.
 - Creación de wikis.
 - Automatización de pruebas, lanzamientos y despliegues con GitHub Actions, especificando los pasos a ejecutar tras una acción específica realizada en el repositorio.
 - Alojamiento de páginas web estáticas con GitHub Pages como parte de un repositorio.
 - Gists o fragmentos de código compartibles.
 - GitHub Codespaces, un [IDE](#IDE) online.
 
-En el caso de este proyecto, se ha utilizado, con el plan gratuito de GitHub, un repositorio privado durante el desarrollo para alojar el código, compartirlo fácilmente con los tutores para enviar dudas e informar del estado del proyecto, y llevar un histórico de los cambios realizados. Posteriormente, se ha modificado la visibilidad del repositorio a público para compartir el proyecto a través de la plataforma de librerías de PlatformIO (mencionado en los siguientes puntos) y aprovechar la funcionalidad de GitHub Pages para incluir una página web estática que documente las distintas funciones que componen el proyecto, ambas funciones automatizadas a través de GitHub Actions /*TODO: realizar*/. Pese a conocer alternativas a la plataforma, como GitLab, se ha decidido utilizar GitHub por la experiencia previa del alumno y la facilidad de uso que ofrece.
+En el caso de este proyecto, se ha utilizado, con el plan gratuito de GitHub, un repositorio privado durante el desarrollo para alojar el código, compartirlo fácilmente con los tutores para enviar dudas e informar del estado del proyecto, y llevar un histórico de los cambios realizados. Posteriormente, se ha modificado la visibilidad del repositorio a público para compartir el proyecto a través de la plataforma de librerías de PlatformIO y aprovechar la funcionalidad de GitHub Pages para incluir una página web estática que documente las distintas funciones que componen el proyecto, ambas funciones automatizadas a través de GitHub Actions. Pese a conocer alternativas a la plataforma, como GitLab, se ha decidido utilizar GitHub por la experiencia previa del alumno y la facilidad de uso que ofrece.
 
-Otra herramienta que ofrece GitHub para no separar la funcionalidad del escritorio local es **GitHub Desktop**[^herramientasSw:ghDesktop], que permite simplificar el flujo de trabajo del desarrollador y centrarse en su trabajo. Proporciona una interfaz gráfica que evita interactuar directamente con Git para clonar proyectos, hacer *commits*, cambiar de rama y ver los cambios y diferencias en los archivos.
+Otra herramienta que ofrece GitHub para no separar la funcionalidad del escritorio local es **GitHub Desktop**[^herramientasSw:ghDesktop], que permite simplificar el flujo de trabajo del desarrollador y centrarse en su trabajo. Proporciona una interfaz gráfica que evita interactuar directamente con Git para clonar proyectos, hacer *commits*, cambiar de rama y ver los cambios y diferencias en los archivos @GHDesktop_Whatis.
 
 [^herramientasSw:gh]: <https://github.com/>
 [^herramientasSw:ghDesktop]: <https://desktop.github.com/>
 
-{
-	https://docs.github.com/es/get-started/start-your-journey/about-github-and-git
-	https://www.hostinger.es/tutoriales/que-es-github
-	https://en.wikipedia.org/wiki/GitHub
-	https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/about-commits
-	https://docs.github.com/es/issues/tracking-your-work-with-issues/about-issues
-	https://desktop.github.com/
-}
-
-**Visual Studio Code**[^herramientasSw:vsc]: es un [IDE](#IDE) ligero, potente, multiplataforma, personalizable y de código abierto, creado por Microsoft. Permite abrir directorios como espacios de trabajo capaces de contener múltiples lenguajes de programación, ofreciendo soporte nativo para JavaScript, TypeScript y Node.js. Visual Studio Code integra funcionalidades clave para incrementar la productividad del desarrollador, tales como el subrayado de sintaxis y errores, la sangría automática, la refactorización, el autocompletado, las sugerencias, la compilación y ejecución mediante clics, el depurador interactivo y la compatibilidad con repositorios Git. Tanto la funcionalidad como la compatibilidad con lenguajes son ampliables mediante extensiones.
+**Visual Studio Code**[^herramientasSw:vsc]: es un [IDE](#IDE) ligero, potente, multiplataforma, personalizable y de código abierto, creado por Microsoft. Permite abrir directorios como espacios de trabajo capaces de contener múltiples lenguajes de programación, ofreciendo soporte nativo para JavaScript, TypeScript y Node.js. Visual Studio Code integra funcionalidades clave para incrementar la productividad del desarrollador, tales como el subrayado de sintaxis y errores, la sangría automática, la refactorización, el autocompletado, las sugerencias, la compilación y ejecución mediante clics, el depurador interactivo y la compatibilidad con repositorios Git. Tanto la funcionalidad como la compatibilidad con lenguajes son ampliables mediante extensiones @WhyVSC @VSC_Wiki.
 
 Este ha sido el [IDE](#IDE) de preferencia para el desarrollo de este trabajo, y se ha complementado con las siguientes extensiones:
 
 - PlatformIO IDE[^herramientasSw:vscPlatformIO]: habilita el desarrollo de software embebido para distintas plataformas y frameworks utilizando el sistema de PlatformIO (explicado posteriormente) @PlatformIO_VSMarketplace. 
-- C/C++ Extension Pack[^herramientasSw:vscCppPack]: facilita el desarrollo de proyectos en C/C++ añadiendo compatibilidad con estos lenguajes.
-- GitHub Copilot[^herramientasSw:vscGHCopilot]: una herramienta de programación basada en inteligencia artificial entrenada a partir de repositorios públicos y que ayuda a escribir código de forma rápida e inteligente @GHCopilot_VSMarketplace. Ofrece sugerencias de código inteligentes mientras se escribe y proporciona un chat para realizar consultas acerca del código, como pedir explicaciones, informarse acerca de conceptos de programación y guiar al usuario para mejorar su código o implementar nuevas funcionalidades @GHCopilot_VSMarketplace @GHCopilot_Overview. El uso de esta herramienta está limitado a los usuarios de pago o a quienes disponen de un GitHub Student Developer Pack @GHEducation, como ocurre en este proyecto.
+- C/C++ Extension Pack[^herramientasSw:vscCppPack]: añade compatibilidad con el desarrollo de proyectos en C/C++.
+- GitHub Copilot[^herramientasSw:vscGHCopilot]: una herramienta de programación basada en inteligencia artificial entrenada a partir de repositorios públicos y que ayuda a escribir código de forma rápida e inteligente, mediante sugerencias y un chat para realizar consultas @GHCopilot_VSMarketplace @GHCopilot_Overview.
 - Better Comments[^herramientasSw:vscBetterComments]: añade diferencias de estilo y enfatizaciones a comentarios en el código destinados a alertar, hacer peticiones, indicar acciones por realizar o TODOs, o remarcar información importante, logrando así comentarios más comprensibles @BetterComments_VSMarketplace.
 - TODO Highlight[^herramientasSw:vscTodoHighlight] y Todo Tree[^herramientasSw:vscTodoTree]: ambas extensiones se utilizan en conjunto para llevar un seguimiento de las tareas que se deben realizar en el código, permitiendo resaltar líneas que contienen el texto "TODO" y "FIXME" @TODOHighlight_VSMarketplace y mostrarlas de manera agrupada en forma de árbol @TodoTree_VSMarketplace.
 - Code Spell Checker[^herramientasSw:vscSpellChecker]: un corrector ortográfico que marca los errores ortográficos detectados en los comentarios y en el código, y que ayuda a solucionarlos a través de sugerencias @SpellChecker_VSMarketplace.
-- Doxygen Documentation Generator[^herramientasSw:vscDoxygenDoc]: permite generar automáticamente en formato Doxygen los comentarios junto a parámetros como las descripciones, los parámetros y los valores retornados para su uso en la documentación. Además, ofrece soporte para autocompletado y sugerencias de comandos Doxygen @DoxygenGenerator_VSMarketplace.
+- Doxygen Documentation Generator[^herramientasSw:vscDoxygenDoc]: permite generar automáticamente en formato Doxygen los comentarios junto a parámetros como las descripciones, los parámetros y los valores retornados para su uso en la documentación @DoxygenGenerator_VSMarketplace.
 
 [^herramientasSw:vsc]: <https://code.visualstudio.com/>
 [^herramientasSw:vscPlatformIO]: <https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide>
@@ -117,44 +98,27 @@ Este ha sido el [IDE](#IDE) de preferencia para el desarrollo de este trabajo, y
 [^herramientasSw:vscSpellChecker]: <https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker>
 [^herramientasSw:vscDoxygenDoc]: <https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen>
 
-{
-	https://code.visualstudio.com/docs/editor/whyvscode
-	https://en.wikipedia.org/wiki/Visual_Studio_Code
-}
+**PlatformIO**[^herramientasSw:platformIO]: es una herramienta de código abierto y multiplataforma, destinada a ingenieros y desarrolladores de software de sistemas embebidos, ya sean aficionados y profesionales, que incluye lo necesario para compilar, ejecutar, subir y escribir el código. Ofrece una amplia compatibilidad, con soporte para más de mil placas embebidas diferentes, más de 40 plataformas de desarrollo y más de 20 marcos de trabajo o frameworks @WhatIsPlatformIO @PlatformIOPlatforms.
 
-**PlatformIO**[^herramientasSw:platformIO]: es una herramienta de código abierto y multiplataforma, destinada a ingenieros y desarrolladores de software de sistemas embebidos, ya sean aficionados y profesionales, que incluye lo necesario para compilar, ejecutar, subir y escribir el código. Ofrece una amplia compatibilidad, con soporte para más de mil placas embebidas diferentes, más de 40 plataformas de desarrollo y más de 20 marcos de trabajo o frameworks.
+PlatformIO aloja uno de los mayores registros de bibliotecas embebidas en PlatformIO Registry[^herramientasSw:platformIOReg], lo que permite explorar e instalar de manera sencilla distintas bibliotecas de código, plataformas y herramientas, listadas junto a ejemplos e instrucciones de uso @PlatformIODependencies @PlatformIORegistry. Junto a esta, una de sus características más importantes es la gestión de dependencias integrada para que los proyectos aprovechen funcionalidades de otras bibliotecas @PlatformIODependencies. Además, contiene un depurador de código, un analizador estático de código, un monitor de puerto serial y soporte para pruebas unitarias @PlatformIO_VSMarketplace. Esta herramienta se pone a disposición del usuario mediante la integración con otros [IDE](#IDE)s o editores de texto a través de extensiones, siendo Visual Studio Code el más recomendado @PlatformIOIdeIntegration.
 
-PlatformIO aloja uno de los mayores registros de bibliotecas embebidas en PlatformIO Registry, lo que permite explorar e instalar de manera sencilla distintas bibliotecas de código, plataformas y herramientas, listadas junto a ejemplos e instrucciones de uso. Este registro se puede utilizar desde la interfaz gráfica de la herramienta, por línea de comandos y desde su página web[^herramientasSw:platformIOReg].
-
-Una de sus características más importantes es la gestión de dependencias integrada. Es común que los proyectos aprovechen funcionalidades ofrecidas en bibliotecas, por lo que, tras ser referenciadas por el desarrollador, PlatformIO se encarga de resolver las dependencias al compilar el código. Además, contiene un depurador de código, un analizador estático de código, un monitor de puerto serial y soporte para pruebas unitarias. Esta herramienta se pone a disposición del usuario mediante la integración con otros [IDE](#IDE)s o editores de texto a través de extensiones, siendo Visual Studio Code el más recomendado.
-
-El código de este proyecto se ha creado con PlatformIO y se ha configurado para utilizar la placa ESP32 DEVKIT V1 con la plataforma Espressif32. En cuanto al framework, se ha utilizado el de Arduino, pese a ser posible también utilizar el de Espressif (ESP-IDF), debido a que cumple las necesidades del desarrollador, a la experiencia previa con placas de desarrollo Arduino por parte del autor y a la facilidad de uso. Las diferencias entre ambos son las siguientes:
+El código de este proyecto se ha creado con PlatformIO y se ha configurado para utilizar la placa ESP32 DEVKIT V1 con la plataforma Espressif32. En cuanto al framework, se ha utilizado el de Arduino, pese a ser posible también utilizar el de Espressif (ESP-IDF), debido a que cumple las necesidades del desarrollador, a la experiencia previa con placas de desarrollo Arduino por parte del autor y a la facilidad de uso. Las diferencias entre ambos son las siguientes @PIOFramework:
 
 - El framework ESP-IDF ofrece un soporte completo de los lenguajes C y C++, permitiendo escribir código eficiente y de alto rendimiento. Por otro lado, Arduino utiliza una implementación simplificada y adaptada a los microcontroladores, limitando la flexibilidad y funcionalidad del código.
 - Las aplicaciones desarrolladas con ESP-IDF están preparadas para hacer uso de los núcleos disponibles en la placa y  su estructura se basa en tareas, mientras que en Arduino por defecto solo se aprovecha de un núcleo y las aplicaciones siguen una estructura en la que se debe declarar una función `setup` y otra `loop`.
-- El framework de Arduino es útil si previamente el desarrollador lo ha utilizado para desarrollar en otras placas, además de ser fácil de usar para quienes no tienen mucha experiencia, y contiene un gran rango de librerías y APIs por defecto que facilitan el desarrollo. En cambio, ESP-IDF se puede utilizar para desarrollar software que requiera controlar funciones avanzadas del hardware, como el consumo de energía y recursos, e incluye un mayor conjunto de herramientas para depurar la placa y gestionar el uso de la memoria.
+- El framework de Arduino es útil si previamente el desarrollador lo ha utilizado para desarrollar en otras placas, además de ser fácil de usar para quienes no tienen mucha experiencia, y contiene un gran rango de librerías y [API](#API)s por defecto que facilitan el desarrollo. En cambio, ESP-IDF se puede utilizar para desarrollar software que requiera controlar funciones avanzadas del hardware, como el consumo de energía y recursos, e incluye un mayor conjunto de herramientas para depurar la placa y gestionar el uso de la memoria.
 - En cuanto a la comunidad, debido a la implementación de Arduino en una gran variedad de placas, es la que mayor comunidad tiene en comparación con ESP-IDF.
 
 [^herramientasSw:platformIO]: <https://platformio.org/>
 [^herramientasSw:platformIOReg]: <https://registry.platformio.org/>
 
-{
-	https://docs.platformio.org/en/latest/what-is-platformio.html
-	https://marketplace.visualstudio.com/items?itemName=platformio.platformio-ide
-	https://docs.platformio.org/en/latest/platforms/index.html
-	https://docs.platformio.org/en/latest/librarymanager/dependencies.html
-	https://docs.platformio.org/en/latest/integration/ide/index.html
-	https://registry.platformio.org/
-	https://www.espboards.dev/blog/esp-idf-vs-arduino-core/
-}
-
-**Trello**[^herramientasSw:trello]: desarrollado por Atlassian, es una aplicación web que facilita la gestión de tareas utilizando tableros visuales al estilo Kanban. Los componentes clave son:
+**Trello**[^herramientasSw:trello]: desarrollado por Atlassian, es una aplicación web que facilita la gestión de tareas utilizando tableros visuales al estilo Kanban, cuyos componentes clave son @Trello_Main @Trello_Tour @Trello_Wiki:
 
 - Listas: columnas que representan las fases de una tarea.
 - Tarjetas: tareas o ideas que se mueven entre listas según su estado. Pueden incluir miembros asignados, fechas de vencimiento, archivos adjuntos, descripciones, comentarios y checklists.
 - Miembros: usuarios con tareas asignadas y permisos en el tablero.
 
-Trello tiene la capacidad de ampliar la funcionalidad gracias a las integraciones con otras aplicaciones, a las automatizaciones sin código para centrarse únicamente en el trabajo, y a los powerups, que actúan como extensiones de la funcionalidad básica de Trello.
+Trello tiene la capacidad de ampliar la funcionalidad gracias a las integraciones con otras aplicaciones, a las automatizaciones sin código para centrarse únicamente en el trabajo, y a los powerups, que actúan como extensiones de la funcionalidad básica de Trello @Trello_Main @Trello_Tour.
 
 Para el proyecto, el alumno ha creado un tablero adaptado a sus necesidades (detallado posteriormente) usando el plan gratuito de Trello. Este tablero permite llevar un seguimiento de todas las tareas, tanto de código como de la memoria, realizadas durante el desarrollo, y ha facilitado las reuniones de seguimiento al poder mostrar a los tutores el estado de las tareas. Utiliza los siguientes *power-ups*:
 
@@ -165,17 +129,7 @@ Para el proyecto, el alumno ha creado un tablero adaptado a sus necesidades (det
 [^herramientasSw:trelloGH]: <https://trello.com/power-ups/55a5d916446f517774210004/github>
 [^herramientasSw:trelloSmartFields]: <https://trello.com/power-ups/5e2212c3ba57415ef2ef9352/smart-fields>
 
-{
-	https://en.wikipedia.org/wiki/Trello
-	https://trello.com/es
-	https://trello.com/es/about
-	https://trello.com/es/tour
-
-}
-	
-**Doxygen**[^herramientasSw:doxygen]: utilizada para la documentación de este trabajo, esta herramienta de código abierto, muy empleada en el desarrollo de software, permite obtener documentación a partir del código de forma sencilla. Posibilita la generación automática de documentación en distintos formatos, como [HTML](#HTML), [PDF](#PDF), Word y [XML](#XML), a partir de los comentarios insertados en el código durante el desarrollo, analizando la información de las distintas clases, funciones y variables. Gracias a esta automatización, se agiliza y estandariza el proceso de documentación de proyectos, lo cual es beneficioso para entender el proyecto y el código que lo compone, además de mejorar la colaboración entre los miembros del equipo de desarrollo y el mantenimiento del propio código.
-
-Soporta C++, C, Python, Java, PHP y otros lenguajes. La documentación se realiza a partir de comentarios, como se muestra en el Listado \ref{herramientasSw:ejemploDoxygen}.
+**Doxygen**[^herramientasSw:doxygen]: utilizada para la documentación de este trabajo, esta herramienta de código abierto, muy empleada en el desarrollo de software, permite obtener documentación a partir del código de forma sencilla. Posibilita la generación automática de documentación en distintos formatos, como [HTML](#HTML), [PDF](#PDF), Word y [XML](#XML), a partir de los comentarios insertados en el código durante el desarrollo, analizando la información de las distintas clases, funciones y variables. Gracias a esta automatización, se agiliza y estandariza el proceso de documentación de proyectos, lo cual es beneficioso para entender el proyecto y el código que lo compone, además de mejorar la colaboración entre los miembros del equipo de desarrollo y el mantenimiento del propio código. Soporta C++, C, Python, Java, PHP y otros lenguajes @Doxygen_Main. La documentación se realiza a partir de comentarios, como se muestra en el Listado \ref{herramientasSw:ejemploDoxygen}.
 
 ```{.cpp #herramientasSw:ejemploDoxygen .numberLines caption="Ejemplo de uso de Doxygen" frame=single}
 /**
@@ -191,115 +145,62 @@ Soporta C++, C, Python, Java, PHP y otros lenguajes. La documentación se realiz
 public int ejemploFuncion(int parametro1, bool parametro2, ...)
 ```
 
-Entre las capacidades adicionales se encuentran las referencias cruzadas entre distintas partes de la documentación, soporte de Markdown en los comentarios, dibujo de diagramas para representar gráficamente clases, herencias y relaciones entre partes del código, personalización de la documentación resultante y configuración mediante un fichero Doxyfile con distintos parámetros establecidos por el usuario.
+Entre las capacidades adicionales se encuentran las referencias cruzadas entre distintas partes de la documentación, soporte de Markdown en los comentarios, dibujo de diagramas para representar gráficamente clases, herencias y relaciones entre partes del código, personalización de la documentación resultante y configuración mediante un fichero Doxyfile con distintos parámetros establecidos por el usuario @Doxygen_Main.
 
-En el caso de este trabajo, se ha generado documentación en formato [HTML](#HTML) para crear una página web con toda la información de las distintas funciones que componen el proyecto, y se ha personalizado con Doxygen Awesome[^herramientasSw:doxygenAwesome], un tema [CSS](#CSS) aplicable a la página para disponer de una página con un aspecto moderno, limpio y compatible con la interfaz móvil.
+En el caso de este trabajo, se ha generado documentación en formato [HTML](#HTML) para crear una página web con toda la información de las distintas funciones que componen el proyecto, y se ha personalizado con Doxygen Awesome[^herramientasSw:doxygenAwesome], un tema [CSS](#CSS) aplicable a la página para disponer de una página con un aspecto moderno, limpio y compatible con la interfaz móvil @DoxyAwesome_Main.
 
 [^herramientasSw:doxygen]: <https://doxygen.nl/>
 [^herramientasSw:doxygenAwesome]: <https://jothepro.github.io/doxygen-awesome-css/>
 
-{
-	https://doxygen.nl/
-	https://en.wikipedia.org/wiki/Doxygen
-	https://jothepro.github.io/doxygen-awesome-css/
-}
-
-**Plantilla de [TFG](#TFG)**[^herramientasSw:plantilla]: fue desarrollada por Félix Albertos Marco, profesor del Grado de Ingeniería Informática de la sede de la [UCLM](#UCLM) de Talavera de la Reina, ofreciendo una alternativa para desarrollar la memoria del Trabajo de Fin de Grado. Esta plantilla, utilizada en este [TFG](#TFG), se caracteriza por emplear Markdown para redactar todos los apartados, evitando las complicaciones del formato del documento (como el interlineado, fuentes, cabeceras y pie de página y saltos de página), además de proporcionar la portabilidad del trabajo, ya que estos ficheros son de marcado ligero y no necesitan editores ni sistemas operativos específicos. El soporte de Markdown también incluye todos los elementos que este lenguaje ofrece, como tablas, listados, fragmentos de código o formateado del texto.
+**Plantilla de [TFG](#TFG)**[^herramientasSw:plantilla]: fue desarrollada por Félix Albertos Marco, profesor del Grado de Ingeniería Informática de la sede de la [UCLM](#UCLM) de Talavera de la Reina, ofreciendo una alternativa para desarrollar la memoria del Trabajo de Fin de Grado. Esta plantilla, utilizada en este [TFG](#TFG), se caracteriza por emplear Markdown para redactar todos los apartados, evitando las complicaciones del formato del documento (como el interlineado, fuentes, cabeceras y pie de página y saltos de página), además de proporcionar la portabilidad del trabajo, ya que estos ficheros son de marcado ligero y no necesitan editores ni sistemas operativos específicos. El soporte de Markdown también incluye todos los elementos que este lenguaje ofrece, como tablas, listados, fragmentos de código o formateado del texto @FelixTemplate.
 
 [^herramientasSw:plantilla]: <https://www.felixalbertos.com/resources/downloads/tfg_template.html>
 
-{
-	https://www.felixalbertos.com/resources/downloads/tfg_template.html
-}
+**Teams**[^herramientasSw:teams]: es una aplicación multiplataforma de colaboración en equipo, disponible de forma gratuita con un plan personal limitado o mediante una licencia Microsoft 365 @MSTeams_Wiki @MSTeams_Buy.
 
-**Teams**[^herramientasSw:teams]: es una aplicación multiplataforma de colaboración en equipo, disponible de forma gratuita con un plan personal limitado o mediante una licencia Microsoft 365.
+Microsoft 365 es una suscripción que incluye las aplicaciones de Microsoft Office (Word, PowerPoint y Excel), almacenamiento en la nube, copias de seguridad y correo electrónico, que habilita el uso en la nube de éstas y permite mantener siempre la última versión con los parches de seguridad correctos mediante un pago mensual o anual @Microsoft365WhatIs. La [UCLM](#UCLM) provee a sus usuarios de cuentas de Microsoft 365 Empresa, la cual se ha aprovechado para este desarrollo.
 
-Microsoft 365 es una suscripción que incluye las aplicaciones de Microsoft Office (Word, PowerPoint y Excel), almacenamiento en la nube, copias de seguridad y correo electrónico, que habilita el uso en la nube de éstas y permite mantener siempre la última versión con los parches de seguridad correctos mediante un pago mensual o anual. La [UCLM](#UCLM) provee a sus usuarios de cuentas de Microsoft 365 Empresa, la cual se ha aprovechado para este desarrollo.
-
-Teams centraliza la comunicación en los equipos al permitir la interacción a través de mensajes instantáneos y reuniones. Su funcionamiento se basa en el concepto de equipos o *teams*, espacios de trabajo compartidos donde se intercambian mensajes, contenido y herramientas entre los miembros. Dentro de los equipos existen los canales, que son áreas para conversaciones sobre temas específicos en los que es posible restringir el acceso únicamente a ciertos miembros del equipo, permitiendo crear subdivisiones en el equipo. Por otro lado, para comunicaciones directas o en grupos pequeños, se pueden utilizar chats normales en lugar de equipos.
-
-Además, Teams dispone de otras funciones, como aplicaciones instalables dentro del propio software para ampliar la funcionalidad, y un calendario con capacidad para programar reuniones.
+Teams centraliza la comunicación en los equipos al permitir la interacción a través de mensajes instantáneos y reuniones. Su funcionamiento se basa en el concepto de equipos o *teams*, espacios de trabajo compartidos donde se intercambian mensajes, contenido y herramientas entre los miembros. Dentro de los equipos existen los canales, que son áreas para conversaciones sobre temas específicos en los que es posible restringir el acceso únicamente a ciertos miembros del equipo, permitiendo crear subdivisiones en el equipo. Por otro lado, para comunicaciones directas o en grupos pequeños, se pueden utilizar chats normales en lugar de equipos. Además, Teams dispone de otras funciones, como aplicaciones instalables dentro del propio software para ampliar la funcionalidad, y un calendario con capacidad para programar reuniones @Teams_Demo @MSTeams_Wiki.
 
 Para este [TFG](#TFG), Microsoft Teams ha permitido mantener un contacto directo entre los tutores y el alumno a través de un equipo organizado por canales destinados a las partes de desarrollo y memoria. Estos han agilizado la consulta de dudas y de disponibilidad y organizado archivos compartidos. Por ejemplo, en el canal destinado a la memoria se alojaron las distintas versiones del documento de la memoria, mientras que en el canal de desarrollo se encuentran enlaces, manuales y códigos de ejemplo. Además, se han programado y celebrado reuniones de seguimiento en esta aplicación, de la cual tanto el alumno como los tutores tenían experiencia de uso.
 
 [^herramientasSw:teams]: <https://www.microsoft.com/es-es/microsoft-teams/group-chat-software/>
 
-{
-	https://teamsdemo.office.com
-	https://en.wikipedia.org/wiki/Microsoft_Teams
-	https://www.microsoft.com/es-es/microsoft-teams/compare-microsoft-teams-business-options
-	https://www.microsoft.com/es-ES/microsoft-365/buy/compare-all-microsoft-365-products
-	}
-
-
-**Visio**[^herramientasSw:visio]: es un programa para crear diagramas y vectores profesionales de manera fácil gracias a su incluida y extensa librería de objetos. Su uso está limitado a los usuarios con licencia de Microsoft 365, servicio mencionado anteriormente y del cual la [UCLM](#UCLM) distribuye la licencia a todos los usuarios de la universidad, como es el caso del autor, quien ha destinado el uso de la aplicación al dibujo de algunos esquemas de la memoria. Este programa facilita la visualización de datos e ideas de manera atractiva, lo cual resulta útil en equipos y en la documentación para asegurar la comprensión sencilla de los conceptos.
+**Visio**[^herramientasSw:visio]: es un programa para crear diagramas y vectores profesionales de manera fácil gracias a su incluida y extensa librería de objetos. Su uso está limitado a los usuarios con licencia de Microsoft 365, servicio mencionado anteriormente y del cual la [UCLM](#UCLM) distribuye la licencia a todos los usuarios de la universidad, como es el caso del autor, quien ha destinado el uso de la aplicación al dibujo de algunos esquemas de la memoria. Este programa facilita la visualización de datos e ideas de manera atractiva, lo cual resulta útil en equipos y en la documentación para asegurar la comprensión sencilla de los conceptos @Visio_Main @Visio_Wiki.
 
 [^herramientasSw:visio]: https://www.microsoft.com/es-es/microsoft-365/visio/flowchart-software/
 
-{
-	https://www.microsoft.com/es-es/microsoft-365/visio/flowchart-software#x68bca46524744e268ea489ad8cc29bbb
-	https://en.wikipedia.org/wiki/Microsoft_Visio
-}
+**Visual Paradigm**[^herramientasSw:visualParadigm]: es una herramienta que soporta los diagramas resultantes de todas las fases del ciclo de vida del desarrollo de software, entre otros, los diagramas de casos de uso, de clases, de secuencia, de flujo y de arquitectura. Este programa facilita al usuario la realización de diagramas que cumplen con el Lenguaje Unificado de Modelado, ya sea de manera manual o a través de ingeniería inversa, es decir, a partir de código. Además, tiene la capacidad de generar código a partir de los diagramas creados, ayudando al desarrollo @VisualParadigm. En este caso, se ha utilizado esta herramienta para ofrecer una comprensión visual de la solución mediante el modelado de una serie de diagramas integrados en esta memoria.
+
+[^herramientasSw:visualParadigm]: <https://www.visual-paradigm.com/>
 
 **Navegador web**, como Firefox[^herramientasSw:firefox] y Microsoft Edge[^herramientasSw:edge]: utilizados en este proyecto para acceder a las herramientas web mencionadas anteriormente y realizar búsquedas de información acerca de partes del código en desarrollo y del contenido de esta memoria.
 
 [^herramientasSw:firefox]: <https://www.mozilla.org/es-ES/firefox/new/>
 [^herramientasSw:edge]: <https://www.microsoft.com/es-es/edge/>
 
-
-/*TODO: poner lo que vaya a utilizar para diagramas*/
-
-
 ### Lenguajes
 
-**C++**: es un lenguaje de programación diseñado en 1979 por Bjarne Stroustrup para extender el ya existente C y añadir mecanismos de manipulación de objetos. Es un lenguaje que requiere una compilación para que el programa pueda ser ejecutado, además de ser multiparadigma, abarcando programación estructurada, orientada a objetos, genérica e imperativa (es decir, las instrucciones indican cómo realizar una tarea y se conoce el estado del programa durante la ejecución).
+**C++**: es un lenguaje de programación diseñado en 1979 para extender el ya existente C con mecanismos de manipulación de objetos. Es un lenguaje que requiere una compilación para que el programa pueda ser ejecutado, además de ser multiparadigma, abarcando programación estructurada, orientada a objetos, genérica e imperativa (es decir, las instrucciones indican cómo realizar una tarea y se conoce el estado del programa durante la ejecución @ProgImperativaDef) @FundamentosCpp @CppAprendiendoArdu. La orientación a objetos permite descomponer los proyectos en distintos archivos con tipos de datos abstractos o clases, asignar propiedades y funciones a un objeto de esa clase y relacionar las propias clases entre sí, por ejemplo, para que una clase pueda heredar de otra @Cpp_Wiki.
 
-La orientación a objetos permite descomponer los proyectos en distintos archivos que contienen tipos de datos abstractos o clases. Estas son estructuras de tipos de datos concretos con un nombre definido. Además, permite asignar propiedades y funciones ejecutables a un objeto de esa clase y relacionar las propias clases con otras, por ejemplo, para que una clase pueda heredar de otra.
+Tanto C++ como su predecesor C requieren que el programador tenga claro qué hacer y cómo hacerlo, ya que permiten al programador expresar lo que quiere hacer sin restringir lo que está permitido. Son lenguajes simples, concisos y rápidos, pero, por otro lado, la compilación no comprueba las conversiones incorrectas de tipos, los índices erróneos de arrays ni el mal uso de punteros. Además, no cuentan con un recolector de basura, por lo que la gestión de la memoria debe realizarse manualmente. Esto convierte a C++ en un lenguaje frágil y exigente en la gestión de recursos @EssentialC @Cpp_Wiki. 
 
-Tanto C++ como su predecesor C son lenguajes que requieren que el programador tenga claro qué hacer y cómo hacerlo, ya que permiten al programador expresar lo que quiere hacer sin restringir lo que está permitido. Son lenguajes simples, concisos y rápidos, pero, por otro lado, la compilación del código no comprueba las conversiones incorrectas de tipos, los índices erróneos de arrays ni el mal uso de punteros. Además, no cuentan con un recolector de basura que gestione la memoria automáticamente, por lo que el programador debe realizarlo manualmente. Esto convierte a C++ en un lenguaje frágil y exigente en la gestión de recursos.
+C++ fue diseñado teniendo en cuenta la programación de sistemas, tanto grandes como embebidos y con recursos limitados, utilizando el rendimiento, la eficiencia y la flexibilidad como puntos clave de diseño. @CppAprendiendoArdu
 
-C++ fue diseñado teniendo en cuenta la programación de sistemas, tanto grandes como embebidos y con recursos limitados, utilizando el rendimiento, la eficiencia y la flexibilidad como puntos clave de diseño.
+En el caso de este trabajo, se utiliza el framework de Arduino, una implementación de C++ que limita las funciones por defecto e incluye algunas propias. Junto a este lenguaje, se han utilizado las siguientes librerías compatibles con la placa ESP32 y que la añaden funcionalidades y mejoran el desarrollo de código:
 
-{
-	https://www2.eii.uva.es/fund_inf/cpp/temas/1_introduccion/introduccion.html
-	https://academia-lab.com/enciclopedia/programacion-imperativa/
-	http://cslibrary.stanford.edu/101/EssentialC.pdf
-	https://aprendiendoarduino.wordpress.com/2015/03/26/lenguaje-de-programacion-c/
-	https://en.wikipedia.org/wiki/C%2B%2B
-}
+ - FreeRTOS[^herramientasSw:freeRtos]: permite utilizar FreeRTOS como un sistema operativo en el proyecto, gestionando el acceso al hardware y las tareas. Es un sistema operativo en tiempo real, centrado en el control preciso del tiempo y destinado a ser utilizado en dispositivos embebidos @Wiki_FreeRTOS @FreeRTOSArduino.
 
-En el caso de este trabajo, se utiliza el framework de Arduino, una implementación de este lenguaje que limita las funciones que C++ trae por defecto y se puede usar, e incluye algunas propias. Junto a este lenguaje, se han utilizado las siguientes librerías compatibles con la placa ESP32 y que la añaden funcionalidades y mejoran el desarrollo de código:
+	FreeRTOS se basa en tareas definidas por el desarrollador, cada una con su frecuencia de ejecución. Estas tareas se ejecutan dependiendo de su estado, los cuales pueden ser: disponible, en ejecución, suspendida o bloqueada. El núcleo de FreeRTOS es el scheduler o planificador, que se encarga de gestionar y ejecutar las tareas. Este distribuye el tiempo de ejecución del procesador entre las tareas y asigna las tareas a los núcleos del procesador disponibles (solo se puede ejecutar una tarea por núcleo), permitiendo la ejecución en paralelo o alternando la ejecución entre varias tareas. Además, es el responsable de cambiar los estados entre las tareas. FreeRTOS también incluye otras funcionalidades y herramientas, como semáforos para sincronizar tareas, colas para compartir datos entre tareas, temporizadores y un bus de notificaciones @FreeRTOSArduino.
 
- - FreeRTOS[^herramientasSw:freeRtos]: esta biblioteca permite utilizar FreeRTOS como un sistema operativo en el proyecto, encargándose del acceso al hardware y de la gestión de las tareas. Es un sistema operativo en tiempo real, centrado en tener un control preciso del tiempo, y está destinado a ser utilizado en dispositivos embebidos.
-
-	FreeRTOS se basa en tareas definidas por el desarrollador, cada una con su frecuencia de ejecución. Estas tareas se ejecutan dependiendo de su estado, los cuales pueden ser: disponible, en ejecución, suspendida o bloqueada. El núcleo de FreeRTOS es el scheduler o planificador, que se encarga de gestionar y ejecutar las tareas. Este distribuye el tiempo de ejecución del procesador entre las tareas y asigna las tareas a los núcleos del procesador disponibles (solo se puede ejecutar una tarea por núcleo), permitiendo la ejecución en paralelo o alternando la ejecución entre varias tareas. Además, es el responsable de cambiar los estados entre las tareas.
-
-	FreeRTOS también ofrece otras funcionalidades y herramientas, como semáforos para sincronizar tareas, colas para compartir datos entre tareas, temporizadores y un bus de notificaciones.
-
-	{
-		https://es.wikipedia.org/wiki/FreeRTOS
-	https://www.luisllamas.es/como-usar-freertos-en-arduino/
-	}
-
- - bblanchon/ArduinoJson[^herramientasSw:arduinoJson]: es capaz de abstraer documentos [JSON](#JSON) y las herramientas para serializarlos y deserializarlos, añadiendo una inexistente compatibilidad de C++ con este formato de datos estructurado. Este proyecto utiliza ArduinoJson 7.0.4 para crear ficheros en los que almacenar propiedades de objetos, como una lista de placa suscriptoras, y almacenarlos en una tarjeta microSD, para poder recuperarlos durante el arranque de la placa ESP32.
- - x385832/Elog[^herramientasSw:elog]: creada para manejar eficientemente los logs o registros sin que impacte en el rendimiento de la ejecución, añade la capacidad de mostrar los registros por terminal serial, agregarlos a un fichero en una tarjeta SD y almacenarlos en la memoria flash. Admite distintos tipos de registros, dependiendo de cómo de crítico sea el mensaje, diferenciar mensajes por clases especificadas y mostrar marcas de tiempo. En el caso de este trabajo, se utiliza en la versión 1.1.5 para añadir mensajes de registro, como avisos o errores, para informar del estado de la ejecución del código, y ofrecer la posibilidad de almacenar los registros en una tarjeta microSD.
+ - bblanchon/ArduinoJson[^herramientasSw:arduinoJson]: es capaz de abstraer documentos [JSON](#JSON) y las herramientas para serializarlos y deserializarlos, añadiendo una inexistente compatibilidad de C++ con este formato de datos estructurado @ArduinoJson_Serialize @ArduinoJson_Tutorial. Este proyecto utiliza ArduinoJson 7.0.4 para crear ficheros en los que almacenar propiedades de objetos, como una lista de placa suscriptoras, y almacenarlos en una tarjeta microSD, para poder recuperarlos durante el arranque de la placa ESP32.
+ - x385832/Elog[^herramientasSw:elog]: creada para manejar eficientemente los logs o registros sin que impacte en el rendimiento de la ejecución, añade la capacidad de mostrar los registros por terminal serial, agregarlos a un fichero en una tarjeta SD y almacenarlos en la memoria flash. Admite distintos tipos de registros, dependiendo de cómo de crítico sea el mensaje, diferenciar mensajes por clases especificadas y mostrar marcas de tiempo @Elog_PIOReg. En el caso de este trabajo, se utiliza en la versión 1.1.6 para añadir mensajes de registro, como avisos o errores, para informar del estado de la ejecución del código, y ofrecer la posibilidad de almacenar los registros en una tarjeta microSD.
 
 [^herramientasSw:freeRtos]: <https://www.freertos.org/>
 [^herramientasSw:arduinoJson]: <https://registry.platformio.org/libraries/bblanchon/ArduinoJson>
 [^herramientasSw:elog]: <https://registry.platformio.org/libraries/x385832/Elog>
 
-{
-	https://arduinojson.org/v7/faq/automatically-serialize-an-object/
-	https://www.luisllamas.es/en/arduino-json/
-	https://registry.platformio.org/libraries/x385832/Elog
-}
-
-**Markdown**: es un lenguaje de marcado ligero utilizado en este [TFG](#TFG) para redactar los distintos apartados de la memoria. Markdown permite escribir en documentos de texto plano, utilizando su propia sintaxis para indicar formatos especiales y el aspecto que debe tener (como negrita, cursiva o títulos), con la característica de mantener una lectura natural del documento en casos en los que no sea posible previsualizar el formato. A pesar de ser un lenguaje ligero, no limita el uso a únicamente texto, ya que permite insertar imágenes, tablas, listados y otros tipos de elementos.
-
-{
-	https://www.markdownguide.org/getting-started/
-}
-
+**Markdown**: es un lenguaje de marcado ligero utilizado en este [TFG](#TFG) para redactar los distintos apartados de la memoria. Markdown permite escribir en documentos de texto plano, utilizando su propia sintaxis para indicar formatos especiales y el aspecto que debe tener (como negrita, cursiva o títulos), con la característica de mantener una lectura natural del documento en casos en los que no sea posible previsualizar el formato. A pesar de ser un lenguaje ligero, no limita el uso a únicamente texto, ya que permite insertar imágenes, tablas, listados y otros tipos de elementos @MD_Description.
 
 ## Metodología
 
@@ -346,10 +247,9 @@ En adición, los principios del Manifiesto Ágil también enfatizan la colaborac
 
 Dentro de este tipo de metodología se pueden encontrar, entre otros:
 
-- Scrum: define de forma flexible roles, eventos, artefactos y reglas que los equipos deben seguir para mejorar la productividad, la calidad del trabajo y la comunicación. Los eventos principales que ocurren son los sprints iterativos e incrementales en los cuales existe un control continuo de la calidad del producto. Debe utilizarse por equipos de menos de 10 personas que sepan autoorganizar su trabajo. En grandes proyectos, el uso de esta metodología puede resultar en una pérdida de la perspectiva general durante el desarrollo. Además, aunque es compatible con todo tipo de proyectos, no es sencillo de integrar en todas las organizaciones @Scrum_Ionos.
-- Kanban: se centra en la mejora del flujo de trabajo, de la productividad y de la calidad a través del uso de un tablero. El tablero muestra las tareas como tarjetas que se van desplazando entre las columnas para representar si están pendientes, en curso o concluidas. Estas columnas admiten priorización y limitación, evitando tener equipos sobrecargados. Las tareas se completan antes de comenzar otras, y ocurren reuniones regulares para obtener retroalimentación. Es una metodología fácil de integrar y que muestra los avances del proyecto de manera sencilla, pero requiere que el trabajo sea divisible en fases y que los miembros se adapten a trabajar en distintas etapas del proceso @Kanban_Ionos.
+- Scrum: define roles, eventos, artefactos y reglas para mejorar la productividad y la comunicación en equipos de menos de 10 personas a través de sprints iterativos, pero puede complicar la visión general en proyectos grandes y no siempre es fácil de integrar en todas las organizaciones @Scrum_Ionos.
+- Kanban: se centra en la mejora del flujo de trabajo, de la productividad y de la calidad a través del uso de un tablero Kanban, con tarjetas que se desplazan entre columnas según el estado de la tarea. Soporta la priorización y limitación de tareas, las cuales se deben completar antes que otras y revisar regularmente. Es una metodología fácil de integrar que muestra los avances del proyecto de manera sencilla, pero requiere que el trabajo sea divisible en fases y que los miembros se adapten a trabajar en distintas etapas del proceso @Kanban_Ionos.
 - Programación Extrema (eXtreme Programming): se basa en un entorno de comunicación constante entre desarrolladores y cliente, y en el cual existe respeto para tratar errores y críticas. Es utilizada en proyectos en los cuales el cliente no tiene una idea clara del producto final, por lo que ocurren procesos iterativos para entregar una versión y revisarla. Sin embargo, requiere una gran inversión de tiempo y disciplina para llevarla a cabo @XtremeProgram_Ionos.
-
 
 ### Scrum
 
@@ -364,8 +264,6 @@ Tanto el sprint como los otros eventos tienen utilidad, ya que se puede visibili
 El proceso de llevar a cabo Scrum se define por sus eventos, roles y artefactos, resumidos en inglés en la Figura \ref{scrum:resumenProceso} y que se detallan a lo largo de este apartado.
 
 ![Esquema de la ejecución de Scrum (Fuente: @Scrum_image)\label{scrum:resumenProceso}](scrum_process.jpg){width=90%}
-
-https://arrizabalagauriarte.com/en/10-principios-clave-metodologias-agile-scrum/
 
 Durante los sprints y en toda la implementación de Scrum, se encuentra una pequeña unidad de personas responsables: el equipo Scrum. Este equipo es multifuncional, y sus miembros poseen las habilidades necesarias para generar valor en cada sprint. Es autogestionado, asignándose internamente las tareas y la forma de realizarlas, y está enfocado en el objetivo del producto. El equipo Scrum es responsable de llevar a cabo todas las actividades relacionadas con el producto (colaboración con interesados, mantenimiento, desarrollo, investigación y otras), además de crear un incremento útil y valioso en cada sprint. No tiene jerarquías ni subequipos, todos sus miembros están al mismo nivel. El tamaño ideal del equipo es de 10 personas o menos, pero no implica que no pueda haber más personas, en dicho caso se organizarán varios equipos Scrum. En el equipo existen tres roles principales:
 
@@ -413,7 +311,7 @@ OpenUP organiza las iteraciones en cuatro fases del ciclo de vida del proyecto, 
 
 ### Implementación en este proyecto
 
-Tras la definición de los conceptos necesarios acerca de las metodologías, esta sección desarrolla la manera en la que se aplicaron Scrum y OpenUP. El desarrollo de este proyecto se ha realizado teniendo OpenUP en mente, mientras que el esfuerzo de este proyecto se ha gestionado utilizando la metodología Scrum. Pese a conocer que la aplicación no es la más adecuada al ser un equipo más pequeño de lo normal y en el que existe un único desarrollador, la aplicación de esta metodología procura ser fiel con todos los elementos esenciales que la componen. Se ha optado por metodologías ágiles debido a que es un proyecto cuyo desarrollo comienza con unos requisitos básicos y atraviesa fases en las que se identifican fallos de rendimiento, posibles mejoras y nuevos requisitos. Una característica importante de estas metodologías es la constante retroalimentación de los interesados, que permiten redirigir el proyecto según transcurría, y la baja formalidad en cuanto a documentación permitía centrar el esfuerzo en el funcionamiento del proyecto. Por otro lado, la elección ha sido influida por la preferencia y la previa experiencia del autor con estas metodologías.
+Tras la definición de los conceptos necesarios acerca de las metodologías, esta sección desarrolla la manera en la que se aplicaron Scrum y OpenUP. El desarrollo de este proyecto se ha realizado teniendo OpenUP en mente, mientras que el esfuerzo de este proyecto se ha gestionado utilizando la metodología Scrum. Pese a conocer que la aplicación no es la más adecuada al ser un equipo más pequeño de lo normal y en el que existe un único desarrollador, la aplicación de esta metodología procura ser fiel con todos los elementos esenciales que la componen. Se ha optado por metodologías ágiles debido a que es un proyecto cuyo desarrollo comienza con unos requisitos básicos y atraviesa fases en las que se identifican fallos de rendimiento, posibles mejoras y nuevos requisitos. Una característica importante es la constante retroalimentación de los interesados, que permitieron redirigir el proyecto según transcurría, y la baja formalidad en cuanto a documentación permitía centrar el esfuerzo en el funcionamiento del proyecto. Por otro lado, la elección ha sido influida por la preferencia y la previa experiencia del autor con estas metodologías.
 
 #### Roles y artefactos
 
@@ -498,9 +396,9 @@ Los eventos definidos en [Scrum](#Scrum) se han realizado mediante Teams, donde 
 
 En este apartado se detalla la forma en la que se ha implementado el control de versiones, una característica beneficiosa en el desarrollo de software, ya que permite a los equipos de desarrollo trabajar en paralelo evitando conflictos en el código. Además, facilita el rastreo y la gestión de los cambios realizados a lo largo del desarrollo, y permite comparar el estado actual del código fuente con versiones previas para resolver errores @ControlVersiones. Para este [TFG](#TFG), se han aprovechado las herramientas que ofrece GitHub, como las ramas, los pull requests y las liberaciones o releases.
 
-![Ilustración de Gitflow (Fuente: @Gitflow_Img)\label{metodologia:gitflow}](gitflow.png){width=75%}
-
 En cuanto a la ramificación del repositorio, se utiliza una adaptación del flujo de trabajo Gitflow, un modelo de creación de ramas publicado en 2010 por Vincent Driessen, útil para proyectos de entrega continua @Gitflow_Atlassian. Según la publicación @Gitflow_Nvie, y para detallar la Figura \ref{metodologia:gitflow}, existen dos ramas principales que perduran a lo largo del tiempo: `master` o `main`, que registra el historial de publicación oficial del proyecto, y `develop`, en la cual se van integrando las funciones para la siguiente liberación del código. Cuando el código de la rama `develop` se encuentra en un punto estable y listo para la liberación, todos los cambios se fusionan hacia la rama `master`, lo que se traduce en una nueva versión del producto que se etiqueta. Junto a estas ramas, se utilizan otras con un tiempo de vida limitado y que en algún momento se eliminarán:
+
+![Ilustración de Gitflow (Fuente: @Gitflow_Img)\label{metodologia:gitflow}](gitflow.png){width=75%}
 
 - Ramas de características o *feature*: se utilizan para desarrollar nuevas características para una futura versión. Se crean a partir de `develop`, existen mientras la característica está en desarrollo, y finalmente se fusionan de nuevo hacia `develop` añadiendo la característica, o se descartan.
 - Ramas de lanzamiento o *release*: nombradas `release-<next-version>`, se utilizan para preparar una nueva versión de producción. Se crea una a partir de `develop` cuando este último refleja las características destinadas a la versión a construir, se le asigna un número de versión, se mantiene la rama para añadir cambios ligeros y metadatos, hasta que finalmente está lista para el lanzamiento y se fusiona en `master`, representando una nueva versión. También se fusiona hacia `develop`, para mantener esos pequeños cambios realizados a esta rama.
@@ -520,8 +418,6 @@ Para etiquetar las versiones se ha utilizado un versionado semántico, que sirve
 La primera versión lanzada al público se define como `1.0.0`, y es posible agregar identificadores y metadatos a versiones prelanzamiento. Por ejemplo, `1.0.0-alpha+001`.
 
 Se ha preferido el versionado semántico sobre otros, como el versionado de calendario (usado por Ubuntu, cuya versión 24.04 muestra que salió en abril de 2024). Por ejemplo, ante el de calendario, es preferible este uso para que la versión no muestre una sensación de obsolescencia al utilizar una versión lanzada hace años ni una falta de madurez al utilizar una versión lanzada recientemente. De manera general, su uso se debe a la facilidad, la comprensión y a la previa experiencia del alumno.
-
-/*TODO: hablar de automatización (RELEASES AUTOMATICAS, GENERACION DE LA WEB, CUANDO SE IMPLEMENTE)*/
 
 ### Criterios de calidad y estilo del código
 
@@ -550,4 +446,4 @@ public int main(int argc, char *argv[]) {
 
 - La ejecución muestra registros o *logs* si el usuario lo desea, los cuales se distribuyen por el código en puntos clave. Estos registros permiten realizar un seguimiento de lo que realiza la ejecución del código del proyecto e identificar fácilmente los fallos.
 
-/*TODO: mencionar test si al final se hacen TENER EN CUENTA LAS MENCIONES A TESTS A LO LARGO DEL APARTADO*/
+También, como parte de la calidad del código, se han establecido pruebas para comprobar el correcto funcionamiento del código, las cuales están detalladas en el Anexo [A](#pruebas).

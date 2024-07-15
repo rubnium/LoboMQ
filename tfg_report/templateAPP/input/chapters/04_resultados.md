@@ -1,8 +1,10 @@
 # Resultados
 
-En este capítulo se describe el avance del desarrollo del proyecto a través de iteraciones o sprints, mencionando los logros y problemas identificados en cada uno. Además, se muestra, mediante diagramas y listados, el funcionamiento de la herramienta desarrollada en su última versión a fecha de redacción de esta memoria. Este proyecto se puede encontrar en el repositorio /*TODO: insertar repo*/
+En este capítulo se describe el avance del desarrollo del proyecto a través de iteraciones o sprints, mencionando los logros y problemas identificados en cada uno. Además, se describe y muestra el funcionamiento de la herramienta desarrollada en su última versión a fecha de redacción de esta memoria. Este proyecto, nombrado "*LoboMQ*" durante el desarrollo, se puede encontrar en el siguiente repositorio:
 
-Las iteraciones se comenzaron el 28 de septiembre de 2023, luego de evaluar la viabilidad del proyecto y de recopilar los requisitos y objetivos del mismo entre los tutores y el alumno, así como de establecer las metodologías y herramientas a utilizar. Estas iteraciones se desarrollaron en orden y se representan en la Figura \ref{resultados:gantt}, mostrada de manera optimizada a partir de febrero de 2024.
+\centerline{\url{https://github.com/rubnium/LoboMQ}}
+
+Las iteraciones se comenzaron el 28 de septiembre de 2023, luego de evaluar la viabilidad del proyecto y de recopilar los requisitos y objetivos del mismo entre los tutores y el alumno, así como de establecer las metodologías y herramientas a utilizar. Estas iteraciones se desarrollaron en orden y se representan en la Figura \ref{resultados:gantt}, mostrada de manera optimizada a partir de febrero de 2024. Además, las iteraciones se han apoyado en la realización de ejemplos y códigos de prueba, localizados en la carpeta `aside_testing` del repositorio.
 
 ```{.plantuml #resultados:gantt caption="Diagrama de Gantt del proyecto desde febrero de 2024" frame=single}
 @startgantt
@@ -31,7 +33,7 @@ Project starts 2024-02-01
 
 Periodo: 28/09/2023 - 18/02/2024 (20,43 semanas). Peso total: 143.
 
-El objetivo principal de este sprint fue la preparación previa al desarrollo y la obtención de conocimientos necesarios. Esta es la iteración más larga y con menor progreso por semana debido a la necesidad de compaginar las asignaturas del grado con este desarrollo y a la lenta pero eficaz captación de conocimientos por parte del alumno.
+El objetivo principal de este sprint fue la preparación previa al desarrollo y la obtención de conocimientos necesarios. Esta es la iteración más larga y con menor progreso por semana debido a la necesidad de compaginar las asignaturas de la formación académica con este desarrollo y a la lenta pero eficaz captación de conocimientos por parte del alumno.
 
 Tareas:
 
@@ -158,8 +160,6 @@ Función loop():
 	subscribe("topic1")
 	Esperar 2 segundos
 ```
-
-/*TODO: preguntar si mencionar los ejemplos que utilicé*/
 
 ## Iteración 2
 
@@ -403,11 +403,11 @@ Función OnDataRecv(uint8_t mac, uint8_t incomingData):
 
 Función fixTopicAndCheckLength(char topic):
   Si topic es null:
-  	Retornar error
+    Retornar error
   Eliminar caracteres / añadidos al principio o al final de topic
   Si topic es demasiado grande:
     Retornar error
-	Retornar éxito
+  Retornar éxito
 
 Función pubTopicCheck(char topic):
   Si fixTopicAndCheckLength(topic) retorna error:
@@ -456,7 +456,7 @@ El objetivo principal de este sprint fue añadir soporte para la desuscripción 
 Tareas:
 
 - Probar publicador/suscriptor [MQTT](#MQTT) con Python (peso: 5). Parecido a la [iteración 0](#iteración-0), trata de desarrollar un código en Python para explorar las capacidades de [MQTT](#MQTT). En concreto, en esta iteración se comprobó que si un usuario se suscribe a dos temas como `cocina/nevera` y `cocina/+`, y se publica un mensaje en `cocina/nevera`, cuántas veces recibe el mensaje el suscriptor. El resultado fue 1.
-- Realizar pruebas de estrés o bullying a la solución actual (peso: 5). La solución desarrollada en la [iteración 3](#iteración-3) presentó una vulnerabilidad revisada al final del sprint anterior. Anteriormente, se creaban tareas cada vez que se recibía un mensaje, lo que significaba que un nodo malicioso que publicara o se suscribiera constantemente al broker podría realizar ataques de denegación de servicio, provocando sobrecargas en la memoria o tareas mal ejecutadas. La tarea consistió en desarrollar un publicador malicioso que enviara mensajes constantemente a un broker desplegado y modificado para que las tareas demoren más tiempo, generando tres tipos de errores:
+- Realizar pruebas de estrés a la solución actual (peso: 5). La solución desarrollada en la [iteración 3](#iteración-3) presentó una vulnerabilidad revisada al final del sprint anterior. Anteriormente, se creaban tareas cada vez que se recibía un mensaje, lo que significaba que un nodo malicioso que publicara o se suscribiera constantemente al broker podría realizar ataques de denegación de servicio, provocando sobrecargas en la memoria o tareas mal ejecutadas. La tarea consistió en desarrollar un publicador malicioso que enviara mensajes constantemente a un broker desplegado y modificado para que las tareas demoren más tiempo, generando tres tipos de errores:
 
 	- El broker no podía crear tareas, posiblemente debido a que la memoria de la placa estaba saturada con demasiadas tareas encoladas.
 	- Error de "núcleo entró en pánico" y "carga prohibida".
@@ -651,7 +651,7 @@ El objetivo principal de este sprint fue la integración del broker en el códig
 
 Tareas:
 
-- Tomar inspiración de otras memorias de [TFG](#TFG) (peso: 5).
+- Planificar el contenido de la memoria (peso: 5). Diseñar una estructura inicial con los distintos temas que se detallan en la memoria.
 - Crear ejemplos con las funciones integradas de log y la librería Elog (peso: 13). Dos ejemplos sencillos probando el registro o log en diferentes niveles y en la tarjeta SD, con el fin de comparar las capacidades de cada uno y decidir cuál es considerado más adecuado para las necesidades del alumno. Se descubrió poca libertad de uso con las funciones integradas, ya que requieren una configuración del proyecto que vaya a utilizarlas, traduciéndose negativamente en trabajo adicional para el usuario final.
 - Mover el código fuente del broker a la librería (peso: 13). Al igual que lo realizado previamente con las funciones de publicar, suscribir y desuscribir, tras haberse probado en profundidad el funcionamiento del código del broker, se movió al código final de la librería, resultando en la función `setupBroker()`.
 - Probar librería refactorizada (peso: 5). El proyecto pasó por una refactorización, incluyendo una jerarquía de ficheros, variables y definiciones organizadas, y la modificación y creación de cabeceras apropiadas para los usuarios finales que únicamente requieran de las funciones de cliente, solo las del broker, o ambas simultáneamente. La prueba implementó la librería y confirmó su correcto funcionamiento.
@@ -740,7 +740,7 @@ Tareas:
 
 - Añadir persistencia al broker para los temas y suscriptores (peso: 20). La persistencia permite almacenar en la tarjeta SD los temas y suscriptores que se están utilizando al momento de la ejecución del broker, permitiendo que el sistema se pueda reiniciar y continuar funcionando sin perder información. A partir de la estructura y las pruebas de la [iteración 8](#iteración-8), se ha implementado en el código del broker, comenzando por ofrecer la opción al usuario mediante los parámetros de `setupBroker(Elog logger = initializeSerialLogger(BROKER), bool persistence = false, int csSdPin = -1)`. Si el usuario activa la persistencia, se almacena el pin CS de la tarjeta SD y se inicializa un semáforo mutex, que controla los accesos a la tarjeta. El broker lee los ficheros almacenados al iniciarse y escribe el fichero correspondiente al topic cada vez que ocurre una suscripción o desuscripción, gracias a las funciones probadas en la iteración, incluidas en los ficheros `BrokerSDUtils` y recopiladas en el Listado \ref{resultados:brokerSdUtils}. Para evitar la constante conversión del topic al nombre de fichero compatible, se ha creado un atributo `filename` en la clase `BrokerTopic`.
 - Redactar Estado del arte (peso: 40). Primera redacción de la memoria.
-- Implementar códigos de error en las funciones (peso: 5). Con la intención de ofrecer al usuario herramientas para conocer el estado de su código, se han modificado las funciones para que retornen información sobre la ejecución, ya sea que esta fue correcta o que ocurrió algún error, mediante los siguientes códigos definidos:
+- Implementar códigos de error en las funciones (peso: 5). Con la intención de ofrecer al usuario informado acerca del resultado de la ejecución de las funciones, se han modificado para que retornen si esta fue correcta u ocurrió algún error, mediante los siguientes códigos definidos:
 
 	- `LMQ_ERR_SUCCESS`: ejecución correcta, sin errores.
 	- `LMQ_ERR_INVAL_TOPIC`: el tema utilizado para publicar, suscribirse o desuscribirse no cumple con los requisitos de formato.
@@ -814,7 +814,7 @@ El objetivo principal de este sprint fue añadir una capa de seguridad adicional
 Tareas:
 
 - Crear clase para almacenar una lista de direcciones MAC (peso: 20). La creación de la nueva clase `MACAddrList` facilita al usuario la creación de listas de direcciones MAC. Esta clase hereda de la clase `vector` y añade funciones para verificar si una dirección MAC ya está incluida, para añadir una o varias direcciones a la vez (pasándolas como un string o un `uint8_t[6]`), para eliminarlas y para limpiar la lista.
-- Añadir autenticación mediante una whitelist de MACs (peso: 20). A partir de la clase `MACAddrList` creada recientemente , el usuario puede crear una lista de direcciones al iniciar el broker, la cuál que será utilizada para comprobar quién tiene acceso. Esta lista es pasada a la función principal del broker, mostrada en el Listado \ref{resultados:finalBrokerH}. Por defecto, la whitelist es un puntero nulo, utilizado para indicar que no se ha especificado ninguna. En caso de estar especificada la whitelist, el broker, al recibir mensajes, primero verifica si el emisor se encuentra en dicha lista, y si no es así no procesa el mensaje.
+- Añadir autenticación mediante una whitelist de MACs (peso: 20). A partir de la clase `MACAddrList` creada recientemente, el usuario puede crear una lista de direcciones al iniciar el broker, la cuál que será utilizada para comprobar quién tiene acceso. Esta lista es pasada a la función principal del broker, mostrada en el Listado \ref{resultados:finalBrokerH}. Por defecto, la whitelist es un puntero nulo, utilizado para indicar que no se ha especificado ninguna. En caso de estar especificada la whitelist, el broker, al recibir mensajes, primero verifica si el emisor se encuentra en dicha lista, y si no es así no procesa el mensaje.
 
 ```{.md #resultados:finalBrokerH .numberLines caption="Versión final del pseudocódigo de la declaración de funciones del broker" frame=single}
 #definir BRO_DEFAULT_WHITELIST = nullptr
@@ -843,7 +843,6 @@ Tareas:
 - Migrar la librería al nuevo nombre (peso: 8). Finalmente, se decidió por el nombre "LoboMQ", por lo que se reemplazaron todos los nombres provisionales de los ficheros, las variables y cualquier otra referencia a la herramienta.
 - Configurar Doxygen y Doxygen Awesome (peso: 13). Establecer las propiedades necesarias en el fichero Doxyfile y descargar las hojas de estilo Doxygen Awesome para generar un HTML que muestre la documentación del proyecto.
 
-
 ## Iteración 12
 
 Periodo: 08/06/2024 - 21/06/2024 (2 semanas). Peso total: 100.
@@ -853,4 +852,59 @@ El objetivo principal de este sprint fue redactar la memoria y arreglar Doxygen.
 Tareas:
 
 - Redactar Estado del arte (peso: 40) y Herramientas y metodología (peso: 40).
-- Corregir los comentarios y la generación de Doxygen (peso: 20).
+- Corregir los comentarios y la generación de Doxygen (peso: 20). Realizado con el fin de mostrar la documentación de forma correcta.
+
+## Iteración 13
+
+Periodo: 22/06/2024 - 05/07/2024 (2 semanas). Peso total: 116.
+
+El objetivo principal de este sprint fue redactar la memoria, realizar pequeñas correcciones, personalizar la herramienta y crear un test para probar el funcionamiento de los clientes.
+
+Tareas:
+
+- Añadir comprobación ASCII del topic al publicar (peso: 5). Arreglar esta opción ya existente en el caso de la suscripción.
+- Eliminar el parámetro `csPin` no utilizado al recuperar objetos `BrokerTopic` de la tarjeta SD (peso: 5). Mejorar el código evitando la asignación innecesaria de parámetros.
+- Actualizar y probar la librería Elog (peso: 8). Hasta el momento, en el desarrollo se ha utilizado la versión 1.1.4. Para asegurar que el uso de la librería siga siendo correcto, se realizan pruebas con la reciente versión 1.1.6.
+- Añadir readme y un logo (peso: 5). Mejorar la documentación del proyecto mediante un fichero que lo describa, y crear un logo que añada identidad a la herramienta.
+- Mejorar la generación de la documentación Doxygen y añadir comentarios (peso: 8).
+- Crear test de publicador y suscriptor (peso: 13). Asegurar que las funciones de crear mensaje, extraer contenido y comprobar el topic funcionan correctamente, siendo además útil para comprobar estas funciones luego de que surja alguna modificación.
+- Redactar Resultados (peso: 40), Estado del arte y Herramientas y metodología (peso: 40).
+
+## Iteración 14
+
+Periodo: 06/07/2024 - 12/07/2024 (1 semana). Peso total: 88.
+
+El objetivo principal de este sprint fue arreglar algunos fallos, ampliar el tamaño de los mensajes y los topics, y finalizar el proyecto.
+
+Tareas:
+
+- Cambiar el nombre del repositorio (peso: 3). Renombrar el repositorio a "LoboMQ", completando así el traspaso de la librería a dicho nombre.
+- Añadir tamaño como parámetro de `publish` (peso: 3). Tras descubrirse un fallo en el procesamiento de los mensajes, debido a que siempre se publicaban mensajes de 4 bytes, se identificó que la causa residía en el empaquetado, el cual tenía la capacidad de obtener el tamaño del parámetro `void *payload`. La solución consistió en añadir el nuevo parámetro `size_t payloadSize` y asignarlo correctamente.
+- Ampliar el tamaño de `topic` y `payload` (peso: 8). Hasta el momento, el tamaño de ambos era de 10 y 64 bytes respectivamente, lo cual no aprovechaba el espacio disponible en un mensaje ESP-NOW. Ambos fueron ampliados hasta 24 y 120 bytes.
+- Crear ejemplo básico publicador-suscriptor (peso: 8). El resultado de esta tarea se encuentra en el Anexo [C](#manual-de-uso-y-ejemplo-simple).
+- Preparar código de demostración (peso: 13). Preparar demostración con publicación y suscripción de lecturas de sensores para la presentación.
+- Configurar GitHub Actions para desplegar la página Doxygen y publicar la librería en el registro de PlatformIO (peso: 13). Automatizar estos procesos permitirá trabajar en el repositorio en el futuro sin preocuparse de dichas tareas.
+- Finalizar memoria (peso: 40).
+
+## Diseño final del protocolo
+
+Una vez finalizado el desarrollo, los artefactos del protocolo quedan definidos. En LoboMQ existen dos tipos de nodos: el broker y los clientes, que interactúan con el sistema según se muestra en el diagrama de casos de uso de la Figura \ref{resultados:casoUso}. El broker gestiona las suscripciones y actúa como un centro de mensajería, redirigiendo las publicaciones a los suscriptores interesados en el mismo tema. Los clientes, por su parte, publican mensajes en temas y se suscriben o desuscriben de estos. Tanto la publicación como la suscripción o desuscripción se transmiten de forma asíncrona, permitiendo la ejecución de tareas sin estar bloqueados esperando una respuesta.
+
+![Diagrama de casos de uso de LoboMQ\label{resultados:casoUso}](caso_uso.png){width=82%}
+
+Se identifican tres tipos de mensajes: SubscribeAnnouncement, UnsubscribeAnnouncement y PublishContent, cuyos campos se muestran en la Figura \ref{resultados:trama}. Estos mensajes tienen en común los campos `type`, que identifica el tipo de mensaje, y `topic`, el tema al cual se relaciona el mensaje. El topic, al igual que en [MQTT](#MQTT), admite el uso de wildcards, pero en este caso está limitado a 24 caracteres. Además, el contenido a publicar no puede superar los 120 bytes, ya que se ha ideado que el mensaje ocupe 152 bytes para no sobrecargar la memoria del microcontrolador. La estructura de este contenido debe ser conocida tanto por el publicador como por el suscriptor para poder procesarla correctamente.
+
+![Formato de mensajes LoboMQ\label{resultados:trama}](LoboMQ_packets.png){width=80%}
+
+Los diagramas de secuencia mostrados en las Figuras \ref{resultados:secuencia1} y \ref{resultados:secuencia2} demuestran el procesamiento de los mensajes en este protocolo de la siguiente manera:
+
+- Se comprueba si el emisor del mensaje tiene acceso. Si es así, el mensaje se procesa.
+- Con cada suscripción a un tema, el broker registra dicho tema en caso de no existir, y le asocia el suscriptor. En la librería LoboMQ, se utiliza la clase `BrokerTopic` para representar un tema.
+- Con cada desuscripción de un tema, el broker desasocia el suscriptor del tema y, en el caso de estar vacío, elimina el tema del registro.
+- Con cada publicación a un tema, se comprueba si dicho tema es compatible con cada tema del registro. Por cada uno que sí lo sea, se les envía la publicación a sus suscriptores.
+
+![Diagrama de secuencia de LoboMQ, con suscripción y publicación a un tema\label{resultados:secuencia1}](secuencia1.png){width=80%}
+
+![Diagrama de secuencia de LoboMQ, con varios suscriptores y temas\label{resultados:secuencia2}](secuencia2.png){width=100%}
+
+La implementación de este protocolo se realiza mediante la creación de código en C++ que utiliza la homónima librería LoboMQ, la cual está disponible tanto en el anteriormente mencionado repositorio como en el registro de PlatformIO \url{https://registry.platformio.org/libraries/rubnium/LoboMQ}. El manual de uso de la librería está disponible en el Anexo [C](#manual-de-uso-y-ejemplo-simple), y el diagrama de clases completo se encuentra en el Anexo [B](#diagrama-de-clases). Por otro lado, la documentación completa de la librería está disponible en la página \url{https://rubnium.github.io/LoboMQ}.

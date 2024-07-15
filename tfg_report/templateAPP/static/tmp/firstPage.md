@@ -44,7 +44,7 @@ Cotutor Académico:  \Cotutor
 
 \vspace*{\fill}
 
-\Month , \Year
+\Month, \Year
 
 \endgroup
 

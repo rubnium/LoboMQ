@@ -3,9 +3,10 @@
 Este proyecto es el resultado del desarrollo del Trabajo de Fin de Grado para el Grado de Ingeniería Informática de la <a href="https://www.uclm.es/es/toledo/fcsociales/grado-informatica"><img src="https://esi.uclm.es/assets/uploads/2022/03/logo_uclm.png" alt="Universidad de Castilla-La Mancha" height="25em"/></a> en Talavera de la Reina. Realizado en julio de 2024 por Rubén Gomez Villegas, con la supervisión de los tutores Rubén Cantarero Navarro y Ana Rubio Ruiz, el proyecto se centra en el desarrollo de un protocolo de mensajería ligera para placas ESP32 basado en MQTT y utilizando ESP-NOW, culminando en una librería publicada en el registro de PlatformIO.
 
 Recursos de interés:
-- Memoria oficial: <insertar>
+- [Memoria oficial](/tfg_report/TFG_GomezRuben_ProtocoloESPNOWMQTT.pdf)
 - Tablero Trello utilizado para gestionar el proyecto: <https://trello.com/b/tWmPaG2l/lobomq-tfg>
-- Librería: <insertar>
+- Librería: <https://registry.platformio.org/libraries/rubnium/LoboMQ>
+- Manual web: <https://rubnium.github.io/LoboMQ>
 
 A continuación se detalla brevemente la herramienta.
 
@@ -13,8 +14,10 @@ A continuación se detalla brevemente la herramienta.
 # LoboMQ
 
 <p align="center">
-	<img src="other_resources/LoboMQ_icon.png" width="90"/>
+	<img src="https://rubnium.github.io/LoboMQ/LoboMQ_icon.png" width="90"/>
 </p>
+
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/rubnium/library/LoboMQ.svg)](https://registry.platformio.org/libraries/rubnium/LoboMQ)
 
 LoboMQ is a lightweight protocol based on [MQTT](https://mqtt.org/) that runs over ESP-NOW on ESP32 boards, without the need for an Internet connection! 
 It allows the creation of topic-based message queues where messages are posted to a broker and subscribers receive them.
@@ -37,6 +40,21 @@ You should see the examples to get a better idea of how to use it.
 - Detailed log messages.
 - Log filtering according to log level and log storage on SD card.
 - Ability to persist topics and subscribers of the broker on SD card. 
+
+## Message types and formats
+
+There are 3 types of messages exchanged depending on the action performed: SubscribeAnnouncement, UnsubscribeAnnouncement and PublishContent.
+
+<p align="center">
+	<img src="https://rubnium.github.io/LoboMQ/LoboMQ_packets.png" width="600"/>
+</p>
+
+- `type`: the type of message.
+- `topic`: the topic, limited to 24 characters.
+- `contentSize`: the size of the content.
+- `content`: the content, limited to 120 bytes.
+
+These messages are created and transmitted automatically with the `publish`, `subscribe` and `unsubscribe` functions.
 
 ## Why "Lobo"?
 A lobo or wolf is an animal known for its ability to communicate effectively with its pack, such as this protocol, that can convey messages quickly to multiple "canine" companions located at far distances.

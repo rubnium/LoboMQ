@@ -9,7 +9,7 @@ header-includes: |
   \usepackage{fontspec}
   \setmainfont{Times New Roman}
   \usepackage[top=1in,bottom=1in,left=3.25cm,right=3.5cm]{geometry}
-  \renewcommand{\baselinestretch}{1.5}
+  \renewcommand{\baselinestretch}{1.25}
   \usepackage{lipsum}
   \usepackage{graphicx}
   \usepackage{fancyhdr}
@@ -43,7 +43,7 @@ header-includes: |
   \renewcommand{\lstlistlistingname}{Índice de Listados}
   }
   \lstset{
-    basicstyle=\ttfamily\fontsize{10.5}{11.5}\selectfont,
+    basicstyle=\ttfamily\fontsize{10.4}{12.0}\selectfont,
     columns=fullflexible,
     frame=single,
     breaklines=true,
