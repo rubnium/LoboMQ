@@ -33,7 +33,7 @@ GRADO EN INGENIERÍA INFORMÁTICA
 
 \vspace*{\fill}
 
-\Month , \Year
+\Month, \Year
 
 
 \end{center}

@@ -33,7 +33,7 @@ TRABAJO FIN DE GRADO
 
 \vspace*{\fill}
 
-\Month , \Year
+\Month, \Year
 
 
 \end{center}

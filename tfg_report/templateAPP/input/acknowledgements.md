@@ -1,1 +1,5 @@
-\lipsum[2]
+Agradezco a todo aquel que me ha acompañado durante este camino con baches y flores que ha sido el grado, a mis amigos, a mi pareja con quien he podido compartir cientos de momentos y depositar total confianza, y a mi familia, como a mi padre y a mi abuela, que pese a no entender ni un pijo de lo que hago, están ahí y me preguntan de vez en cuando que de qué va lo que estudio.
+
+Quiero también agradecer a todos los profesores con los que me he cruzado durante esta formación académica. En especial, a mis tutores Rubén y Ana, por ayudarme y apoyarme en esta última etapa, por haber sido demasiado pacientes conmigo y por haber confiado en mí hasta el último momento (o eso quiero pensar).
+
+Por último y no menos importante, estoy agradecido con mi yo del pasado, por todo el esfuerzo que ha hecho y todas esas malas decisiones que han hecho llegar a un ámbito en el que me considero cómodo, y con mi yo del futuro, que espero que eche la vista hacia atrás y diga "las noches en vela merecieron la pena".

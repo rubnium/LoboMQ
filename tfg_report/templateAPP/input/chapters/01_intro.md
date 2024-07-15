@@ -12,7 +12,13 @@ Uno de los dispositivos más populares en el ámbito del [IoT](#IoT) son los mic
 
 Las placas de Espressif integran, junto con Wi-Fi, un protocolo de comunicación inalámbrica denominado ESP-NOW cuyo uso no requiere redes de Internet. Hasta donde alcanza el conocimiento del autor y los tutores de este [TFG](#TFG), el uso de ESP-NOW se ha limitado a que el desarrollador diseñe una manera propia de transmitir datos para cada proyecto, y no existe de forma pública ninguna solución que permita implementar un sistema publicación-suscripción aprovechando esta forma de comunicación. Esta es la oportunidad que el proyecto pretende explotar. Se busca aportar a la comunidad del Internet de las Cosas un protocolo utilizable en entornos restringidos por la red y el consumo energético, que combine tanto los beneficios de [MQTT](#MQTT) como los de ESP-NOW en placas ESP32.
 
-## Desafíos durante la Realización
+Con el objetivo de ilustrar el estado actual de un sistema [IoT](#IoT) con [MQTT](#MQTT), se muestra el siguiente ejemplo en la Figura \ref{intro:ejemploRiegoIoT}. Este ejemplo muestra, de manera abstracta, un sistema de riego por aspersión inteligente en un jardín. El jardín está dividido en zonas, cada una con un dispositivo compuesto por sensores de temperatura y humedad y actuadores que activan y desactivan los aspersores que riegan la vegetación. Estos dispositivos están conectados y se comunican con un único gateway o puerta de enlace, encargado de recibir la información de los dispositivos y mandarles órdenes. El gateway está comunicado a través de Internet con un servidor compuesto por una base de datos, donde se almacenan los datos históricos y registros, y un servicio que le permite ser controlado desde otro dispositivo conectado a Internet en cualquier sitio y momento. Este último dispositivo, denominado cliente, puede ser un teléfono móvil o un ordenador, y se utiliza para ver el estado del jardín y controlar los dispositivos manualmente desde una interfaz. Este sistema puede permitir, por ejemplo, comprobar el estado del jardín y activar los aspersores, enviando los mensajes desde el cliente hasta los sensores y actuadores y viceversa.
+
+Actualmente, en el caso de querer implementar un sistema parecido, los dispositivos del jardín pueden ser placas de bajo consumo, como las ESP32, mientras que el gateway deberá ser un componente de mayor de potencia capaz de desplegar el broker [MQTT](#MQTT), como puede ser un ordenador portátil o un single board computer como una placa Raspberry Pi. Además, se necesita el despliegue de una red de Internet que alcance a los dispositivos y al gateway. Gracias a la solución propuesta, que se centra en la conexión entre los dispositivos y el gateway, se espera añadir la posibilidad de implementar este sistema utilizando placas ESP32 en ambos roles, sin necesidad de redes de Internet ni dispositivos de gran consumo.
+
+![Esquema de un sistema de riego por aspersión utilizando dispositivos [IoT](#IoT)\label{intro:ejemploRiegoIoT}](iot_example.png){width=75%}
+
+## Desafíos durante la realización
 
 El desarrollo de la solución implica abordar una serie de desafíos, descritos a continuación.
 
@@ -26,11 +32,11 @@ Finalmente, PlatformIO, a parte de permitir el desarrollo en las mencionadas pla
 
 En este apartado se detallan el objetivo general y los subobjetivos específicos del proyecto, utilizados para guiar su desarrollo y evaluar la adecuación de los resultados obtenidos.
 
-### Objetivo General
+### Objetivo general
 
 El objetivo general del proyecto es el diseño y la implementación en forma de librerías de un protocolo de mensajería publicador-subscriptor inspirado en [MQTT](#MQTT) y que haga uso del protocolo de comunicación inalámbrica ESP-NOW.
 
-### Objetivos Específicos
+### Objetivos específicos
 
 La consecución del objetivo general se descompone en una serie de objetivos específicos esenciales descritos a continuación.
 
@@ -40,7 +46,7 @@ b. **Implementar librerías de software que permitan a los desarrolladores integ
 
 c. **Presentar demostraciones o casos de uso que ilustren la utilidad y aplicabilidad del protocolo en contextos reales del Internet de las Cosas**. Como parte final del proyecto, demostrar su funcionamiento y relevancia a través de ejemplos prácticos y proveer instrucciones detalladas para utilizar la librería resultante es esencial.
 
-## Estructura del Documento
+## Estructura del documento
 
 El resto del contenido de esta memoria se estructura de la siguiente manera:
 
